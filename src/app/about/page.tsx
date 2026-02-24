@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "I'm Jonny Martin — a product manager who builds. From founding products to shipping code, I bring ideas to life across web and mobile.",
+    "From Zynga to founding my own products — the story of a PM who learned that the best way to understand engineering tradeoffs is to make them yourself.",
 };
 
 export default function AboutPage() {
@@ -17,27 +17,39 @@ export default function AboutPage() {
 
       <div className="space-y-6 leading-relaxed text-zinc-600 dark:text-zinc-400">
         <p>
-          I&apos;m Jonny Martin — a product manager who builds. While most PMs
-          communicate through slide decks and specs, I communicate through
-          shipped products. I&apos;ve founded, designed, built, and shipped
-          multiple products across web and mobile, from concept to deployed
-          application.
+          I started my career at Zynga in 2009, when social gaming was inventing
+          itself in real time. I shipped features on FarmVille, built Mafia
+          Wars&apos; first mobile raiding feature, and learned that great
+          products come from obsessing over player behavior, not roadmap
+          checkboxes.
         </p>
 
         <p>
-          My background as a founder means I think about products holistically —
-          not just features and user stories, but business models, go-to-market,
-          analytics, and the technical architecture that makes it all work. When
-          I say I understand engineering tradeoffs, it&apos;s because I&apos;ve
-          made them myself.
+          Over the next decade I carried that lesson through Jam City (scaling a
+          game to 1M+ DAU and $50M in revenue), Bandai Namco (10M+ weekly
+          installs on PAC-MAN), AAA (a mobile app reaching 6M members and saving
+          $2M in call center costs), and Genies (first PM hire — launched a
+          creator ecosystem that helped secure $150M in funding). At Mythical
+          Games I led game services across multiple titles. At Treasure DAO I
+          shipped a quest system, a marketplace, and a new blockchain that
+          expanded the user base by 20%.
         </p>
 
         <p>
-          I work primarily with modern tooling: React, Next.js, React Native,
-          Supabase, Stripe, and TailwindCSS. I&apos;m fluent in TypeScript and
-          comfortable across the full stack. But more importantly, I know when
-          to build and when to use an off-the-shelf solution — a critical PM
-          skill that only comes from actually shipping.
+          Along the way I noticed a pattern: the best product decisions I made
+          were the ones where I understood the engineering cost firsthand. Not
+          from a sprint planning estimate — from actually knowing what it takes
+          to build the thing. So I started building.
+        </p>
+
+        <p>
+          I taught myself React Native, Next.js, Supabase, and the modern web
+          stack. Then I built four complete product ecosystems from scratch — a
+          community platform with a mobile app, stories, payments, and a
+          gamification engine; a 5-product hiring platform; a cross-platform
+          travel agency with referral tracking; and an AI-powered health
+          dashboard that pulls from Strava, DEXA scans, and COROS devices. Not
+          prototypes. Real products with real backends, real auth, real payments.
         </p>
 
         <h2 className="pt-4 text-xl font-bold text-zinc-900 dark:text-zinc-100">
@@ -45,18 +57,20 @@ export default function AboutPage() {
         </h2>
 
         <p>
-          I believe the best products come from tight feedback loops. I sketch
-          ideas, prototype fast, get them in front of users, and iterate. I
-          don&apos;t wait for perfect specs — I ship an MVP and learn from real
-          usage.
+          I&apos;ve led cross-functional teams of engineers, designers, data
+          analysts, and marketers at companies ranging from 15-person startups to
+          organizations with 60M+ members. I know how to write a PRD that
+          engineers actually want to read, how to run a sprint without
+          micromanaging, and how to say no to features that don&apos;t move the
+          metric that matters.
         </p>
 
         <p>
-          As a PM, I bring this builder mindset to every team. I can speak
-          engineering&apos;s language because it&apos;s my language too. I can
-          unblock conversations about feasibility because I&apos;ve built
-          similar things. And I can make better prioritization decisions because
-          I understand the real cost of complexity.
+          My builder background means I can unblock technical conversations
+          faster than most PMs. I don&apos;t need to schedule a meeting to
+          understand why a migration is risky or why an API design decision
+          matters. I&apos;ve made those decisions myself, and that shared
+          vocabulary earns trust with engineering teams quickly.
         </p>
 
         <h2 className="pt-4 text-xl font-bold text-zinc-900 dark:text-zinc-100">
@@ -64,20 +78,28 @@ export default function AboutPage() {
         </h2>
 
         <p>
-          I&apos;m looking for a product management role where my ability to
-          build is seen as a superpower, not an oddity. Ideally at a company
-          where product and engineering work closely together, where shipping
-          fast matters, and where there&apos;s real ownership over outcomes.
+          I&apos;m targeting Senior PM roles at seed-to-Series B startups or
+          growth-stage companies in SaaS, developer tools, AI/ML, or consumer
+          platforms. I want to be close to the product — not three layers of
+          process away from it. The right fit is a team that ships weekly, values
+          technical depth in their PMs, and cares more about outcomes than
+          outputs. I&apos;m based in the Bay Area and open to remote.
         </p>
       </div>
 
-      <div className="mt-12">
+      <div className="mt-12 flex flex-col gap-3 sm:flex-row">
         <Link
-          href="/projects"
-          className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          href="/work"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
         >
           See my work
           <ArrowRight size={16} />
+        </Link>
+        <Link
+          href="/experience"
+          className="inline-flex items-center justify-center rounded-lg border border-zinc-200 px-5 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800/50"
+        >
+          View experience
         </Link>
       </div>
     </div>

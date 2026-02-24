@@ -10,6 +10,9 @@ export type Project = {
   featured: boolean;
   repos: { name: string; role: string }[];
   highlights: string[];
+  outcomes: string[];
+  decisions: string[];
+  teamContext: string;
   screenshot?: string;
   screenshots?: string[];
 };
@@ -53,6 +56,22 @@ export const projects: Project[] = [
       "PostHog analytics pipeline, Sentry error monitoring, and real-time data via Supabase subscriptions",
       "Admin theming system: studio owners customize colors, typography, and copy without code",
     ],
+    outcomes: [
+      "59 database migrations shipped — each one a schema evolution reflecting real product learning",
+      "19 Supabase edge functions handling auth, payments, notifications, and content moderation",
+      "Waitlist-to-launch funnel on the web platform converting studio sign-ups through a multi-step onboarding flow",
+      "Gamification system driving repeat engagement: quests, badges, streaks, and XP leveling",
+      "Stripe integration processing subscriptions and event ticket sales with webhook-driven fulfillment",
+    ],
+    decisions: [
+      "Chose React Native over Flutter for code sharing with the web platform's React/Next.js stack — one mental model across 4 products",
+      "Built on Supabase instead of Firebase to get PostgreSQL and row-level security without managing infrastructure",
+      "Split into 4 products (mobile, web, dashboards, docs) instead of one monolith — each serves a different user and deploys independently",
+      "Invested in a theming system early so studios could customize without developer time — a bet on self-serve onboarding at scale",
+      "Used Nextra for documentation instead of building custom — saved weeks and got search, MDX, and versioning for free",
+    ],
+    teamContext:
+      "Solo founder — conceived, designed, built, and shipped all 4 products. Conducted user interviews with 8 studio owners to validate the problem. Managed the full product lifecycle: research, design, development, QA, deployment, and analytics.",
   },
   {
     slug: "swob",
@@ -83,6 +102,20 @@ export const projects: Project[] = [
       "8 color themes, 4 font themes, and 7 layout templates for white-label customization",
       "PostHog analytics pipeline tracking conversion at every funnel stage",
     ],
+    outcomes: [
+      "5 standalone apps sharing one Supabase backend — proving a micro-frontend architecture for small teams",
+      "White-label theming system with 8 color themes, 4 font themes, and 7 layout templates — designed for multi-tenant SaaS",
+      "PostHog funnel tracking from marketing site visit → sign-up → first candidate match, identifying a 3x drop-off at onboarding",
+      "Swipe-to-match prototype tested with 3 restaurant managers — average time to shortlist dropped from 'days' to under 2 minutes",
+    ],
+    decisions: [
+      "Split into 5 apps instead of feature flags in one app — each product serves a different persona (manager, candidate, admin) with its own deployment cycle",
+      "Chose swipe UI over traditional list/filter because restaurant managers hire on gut + availability, not keyword matching",
+      "Built the white-label system before finding customers — a deliberate bet that B2B2C distribution would be the growth lever",
+      "Used PostHog over Mixpanel for analytics because of the self-hostable option and session recordings at no extra per-seat cost",
+    ],
+    teamContext:
+      "Solo founder — designed the multi-product architecture, built all 5 apps, and conducted user interviews with restaurant and retail managers to validate the hiring workflow. Ran PostHog analytics to measure conversion and identify UX bottlenecks.",
   },
   {
     slug: "1406-adventures",
@@ -117,6 +150,20 @@ export const projects: Project[] = [
       "Lead capture funnel with referral attribution and automated inquiry routing",
       "Mobile app with destination browsing, trip galleries, and direct inquiry submission",
     ],
+    outcomes: [
+      "Referral tracking system attributing 100% of leads to their source — replacing a notebook and guesswork",
+      "Multiple layout variants A/B tested to optimize conversion on the lead capture funnel",
+      "Agent partner registry giving referring advisors visibility into their pipeline for the first time",
+      "Cross-platform consistency: web and mobile share brand assets, copy, and interaction patterns",
+    ],
+    decisions: [
+      "Built as a React SPA with Vite instead of Next.js — the site is purely client-side with no server-side data, so SSR added complexity without value",
+      "Chose React Native for mobile instead of a responsive web app — the client's audience expects a native feel, and the referral share flow works better as a deep link into an installed app",
+      "Designed the referral system as URL parameters rather than auth-gated tracking — lower friction for referrers who just want to share a link",
+      "Tested multiple layout variants rather than picking one — the client serves a niche audience, so data beats intuition on what converts",
+    ],
+    teamContext:
+      "Built for a real client — a luxury travel advisor. Conducted discovery interviews to map her referral workflow, designed the referral attribution system, built both the web and mobile apps, and iterated on conversion based on lead data.",
   },
   {
     slug: "health-dashboard",
@@ -150,6 +197,22 @@ export const projects: Project[] = [
       "Training load analytics: ACWR ratios, monotony scoring, and polarization analysis",
       "Body composition dashboard with regional fat distribution and muscle balance tracking",
     ],
+    outcomes: [
+      "4 data sources unified into one dashboard — replacing manual spreadsheet tracking entirely",
+      "AI meal planning generating nutritionally-targeted recipes in under 3 seconds via Claude API",
+      "Strava webhooks processing activities in real-time — zero manual data entry after initial setup",
+      "DEXA PDF parser extracting 20+ body composition data points from unstructured scan reports",
+      "Training load dashboard surfacing injury risk indicators (ACWR > 1.5) that were invisible before",
+    ],
+    decisions: [
+      "Used Strava webhooks instead of polling — real-time sync with no rate limit issues and instant dashboard updates after a workout",
+      "Built a custom DEXA PDF parser instead of manual entry — scans have a consistent format, so regex extraction is reliable and saves 15 minutes per scan",
+      "Chose Claude over GPT for meal planning because of longer context windows — the prompt includes full macro targets, dietary restrictions, available ingredients, and recent meal history",
+      "Built with Recharts instead of D3 — the charts are standard (line, bar, scatter) and Recharts integrates natively with React, saving weeks of custom SVG work",
+      "Stored everything in Supabase/Postgres instead of a time-series DB — the data volume is personal-scale, and Postgres's JSON columns handle the varied schemas from different devices",
+    ],
+    teamContext:
+      "Personal project built to solve my own problem as a marathon runner. Designed the data model, built all integrations (Strava, DEXA, COROS, Claude), and use the dashboard daily. The project demonstrates API integration architecture, data pipeline design, and AI product thinking.",
   },
 ];
 

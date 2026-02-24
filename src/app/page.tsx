@@ -1,14 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/ProjectCard";
 import { getFeaturedProjects } from "@/lib/projects";
-
-const skills = [
-  { category: "Product", items: ["Product Strategy", "User Research", "Roadmapping", "PRDs", "A/B Testing"] },
-  { category: "Frontend", items: ["React", "Next.js", "React Native", "TypeScript", "TailwindCSS"] },
-  { category: "Backend", items: ["Supabase", "PostgreSQL", "REST APIs", "Stripe", "Auth"] },
-  { category: "Tools", items: ["Figma", "PostHog", "Sentry", "Vercel", "Git"] },
-];
+import { metrics, companies } from "@/lib/experience";
+import {
+  fadeIn,
+  slideUp,
+  staggerContainer,
+  staggerItem,
+} from "@/lib/animations";
 
 export default function Home() {
   const featured = getFeaturedProjects();
@@ -17,104 +20,162 @@ export default function Home() {
     <div className="mx-auto max-w-5xl px-6">
       {/* Hero */}
       <section className="py-20 sm:py-28">
-        <p className="mb-4 text-sm font-medium tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
-          Product Manager & Builder
-        </p>
-        <h1 className="mb-6 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-100">
-          I build products from
-          <br />
-          zero to one.
-        </h1>
-        <p className="mb-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-          I&apos;m a product manager who doesn&apos;t just write PRDs — I ship real
-          products. From concept to deployed application, I design, build, and
-          iterate across web and mobile.
-        </p>
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <Link
-            href="/projects"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+        <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
+          <motion.p
+            variants={staggerItem}
+            className="mb-4 text-sm font-medium tracking-wide text-zinc-500 uppercase dark:text-zinc-400"
           >
-            View my work
-            <ArrowRight size={16} />
-          </Link>
-          <Link
-            href="/about"
-            className="inline-flex items-center justify-center rounded-lg border border-zinc-200 px-5 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800/50"
+            Senior Product Manager
+          </motion.p>
+          <motion.h1
+            variants={staggerItem}
+            className="mb-6 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-100"
           >
-            About me
-          </Link>
-        </div>
+            15 years shipping products.
+            <br />
+            <span className="text-zinc-400 dark:text-zinc-500">
+              Now I build them too.
+            </span>
+          </motion.h1>
+          <motion.p
+            variants={staggerItem}
+            className="mb-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
+          >
+            From FarmVille at Zynga to founding my own product ecosystems — I&apos;ve
+            managed products with 1M+ DAU, launched apps reaching 6M members, and
+            built 4 multi-product platforms from scratch.
+          </motion.p>
+          <motion.div
+            variants={staggerItem}
+            className="flex flex-col gap-3 sm:flex-row"
+          >
+            <Link
+              href="/work"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            >
+              See my work
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-lg border border-zinc-200 px-5 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800/50"
+            >
+              Get in touch
+            </Link>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* Featured Projects */}
-      <section className="pb-20">
-        <div className="mb-8 flex items-end justify-between">
+      {/* Company Logos */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={slideUp}
+        className="pb-16"
+      >
+        <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+          Where I&apos;ve shipped
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {companies.map((company) => (
+            <span
+              key={company}
+              className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400"
+            >
+              {company}
+            </span>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Key Metrics */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="pb-20"
+      >
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {metrics.map((metric) => (
+            <motion.div
+              key={metric.label}
+              variants={staggerItem}
+              className="rounded-xl border border-zinc-200 bg-white p-4 text-center dark:border-zinc-800 dark:bg-zinc-900/50"
+            >
+              <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+                {metric.value}
+              </p>
+              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                {metric.label}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Featured Work */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="pb-20"
+      >
+        <motion.div variants={staggerItem} className="mb-8 flex items-end justify-between">
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-              Featured Projects
+              Featured Work
             </h2>
             <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-              Products I designed, built, and shipped end-to-end
+              Products I conceived, designed, and shipped — each one a case study in product thinking
             </p>
           </div>
           <Link
-            href="/projects"
+            href="/work"
             className="hidden text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900 sm:block dark:text-zinc-400 dark:hover:text-zinc-100"
           >
             View all &rarr;
           </Link>
-        </div>
+        </motion.div>
         <div className="grid gap-4 sm:grid-cols-2">
           {featured.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+            <motion.div key={project.slug} variants={staggerItem}>
+              <ProjectCard project={project} />
+            </motion.div>
           ))}
         </div>
-      </section>
-
-      {/* Skills */}
-      <section className="pb-20">
-        <h2 className="mb-8 text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-          What I Work With
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {skills.map((group) => (
-            <div key={group.category}>
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                {group.category}
-              </h3>
-              <ul className="space-y-1.5">
-                {group.items.map((item) => (
-                  <li
-                    key={item}
-                    className="text-sm text-zinc-700 dark:text-zinc-300"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
+      </motion.section>
 
       {/* CTA */}
-      <section className="pb-20">
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeIn}
+        className="pb-20"
+      >
         <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-8 text-center dark:border-zinc-800 dark:bg-zinc-900">
+          <span className="mb-3 inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
+            Open to opportunities
+          </span>
           <h2 className="mb-2 text-xl font-bold text-zinc-900 dark:text-zinc-100">
             Looking for a PM who ships?
           </h2>
-          <p className="mb-6 text-sm text-zinc-600 dark:text-zinc-400">
-            I&apos;m currently exploring new opportunities as a Product Manager.
+          <p className="mx-auto mb-6 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
+            15+ years in games, blockchain, and tech. I bring product strategy, live ops expertise,
+            and the ability to actually build what I spec.
           </p>
           <Link
-            href="mailto:hello@jonnymartin.blog"
-            className="inline-flex items-center justify-center rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            href="/contact"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
           >
-            Get in touch
+            Let&apos;s connect
+            <ArrowRight size={16} />
           </Link>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }
