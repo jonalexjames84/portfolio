@@ -13,7 +13,6 @@ import {
   staggerContainer,
   staggerItem,
 } from "@/lib/animations";
-import { HeroCanvas } from "@/components/HeroCanvas";
 
 // TODO: Replace with real testimonials from studio owners, restaurant managers, the travel advisor, and former colleagues
 const testimonials = [
@@ -44,7 +43,6 @@ export function HomePage() {
     <div className="mx-auto max-w-5xl px-6">
       {/* Hero */}
       <section className="relative py-20 sm:py-28">
-        <HeroCanvas />
         <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
           <motion.p
             variants={staggerItem}
