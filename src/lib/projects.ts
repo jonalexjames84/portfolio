@@ -26,6 +26,7 @@ export const projects: Project[] = [
     title: "Pottery Friends",
     subtitle: "Community Platform Ecosystem",
     screenshot: "/screenshots/potteryfriends-home.png",
+    screenshots: ["/screenshots/potteryfriends-home.png", "/screenshots/potteryfriends-admin.png"],
     description:
       "Pottery studios run on group chats, paper sign-up sheets, and word of mouth. Members don't know when the next raku firing is, studio owners can't track who's paid, and the community that makes pottery special gets buried in noise. Pottery Friends replaces that chaos with a purpose-built platform — a native mobile app for members, a marketing site for studios, analytics dashboards for owners, and documentation for onboarding. It's the operating system for the studio experience.",
     pitch:
@@ -215,7 +216,7 @@ export const projects: Project[] = [
     title: "Health Dashboard",
     subtitle: "AI-Powered Fitness & Nutrition Analytics",
     screenshot: "/screenshots/health-home.png",
-    screenshots: ["/screenshots/health-home.png", "/screenshots/health-meals.png"],
+    screenshots: ["/screenshots/health-home.png", "/screenshots/health-meals.png", "/screenshots/health-training.png"],
     description:
       "Fitness data is scattered across apps that don't talk to each other. Strava tracks your runs, COROS logs your heart rate, a DEXA scan lives in a PDF, and your meals are in a spreadsheet. Health Dashboard pulls it all into one place and makes it actionable. Strava webhooks stream activity data in real-time. DEXA PDFs get parsed into body composition trends. COROS .FIT files are decoded into training load metrics. And Claude generates personalized meal plans based on your macros, goals, and what's in your fridge. It's the single pane of glass for everything about your body.",
     pitch:

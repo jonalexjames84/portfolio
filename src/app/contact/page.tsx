@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Mail, Linkedin, Github, Send, Calendar } from "lucide-react";
+import { Mail, Linkedin, Github, Send, Calendar, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
 
@@ -27,6 +27,13 @@ const socials = [
     detail: "github.com/jonalexjames84",
     description: "See my code",
   },
+  {
+    label: "Substack",
+    href: "https://jonnymartin.substack.com",
+    icon: BookOpen,
+    detail: "jonnymartin.substack.com",
+    description: "Read my writing",
+  },
 ];
 
 export default function ContactPage() {
@@ -46,9 +53,10 @@ export default function ContactPage() {
           Let&apos;s Connect
         </h1>
         <p className="mx-auto max-w-xl text-lg text-zinc-600 dark:text-zinc-400">
-          I&apos;m looking for my next Product Manager role. Whether you have an
-          opportunity, want to chat about product, or just want to say hi — I&apos;d
-          love to hear from you.
+          I&apos;ve spent 15 years shipping products at scale and the last year
+          building them from scratch. Whether you have an opportunity, want to
+          chat about product, or just want to say hi — I&apos;d love to hear
+          from you.
         </p>
       </motion.div>
 
@@ -60,19 +68,8 @@ export default function ContactPage() {
           variants={fadeIn}
         >
           <form
-            action="https://formspree.io/f/placeholder"
+            action="https://formspree.io/f/xojnywrp"
             method="POST"
-            onSubmit={(e) => {
-              // Fallback to mailto if Formspree is not configured
-              const form = e.currentTarget;
-              if (form.action.includes("placeholder")) {
-                e.preventDefault();
-                const name = (form.elements.namedItem("name") as HTMLInputElement).value;
-                const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-                const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value;
-                window.location.href = `mailto:hello@jonnymartin.blog?subject=Portfolio inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(`From: ${name} (${email})\n\n${message}`)}`;
-              }
-            }}
             className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50"
           >
             <h2 className="mb-5 text-lg font-semibold text-zinc-900 dark:text-zinc-100">

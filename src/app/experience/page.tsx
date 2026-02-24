@@ -73,25 +73,32 @@ function TimelineRole({
           ))}
         </div>
 
-        {/* Expandable highlights */}
+        {/* Expandable context + highlights */}
         {expanded && (
-          <motion.ul
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="mt-4 space-y-2 border-t border-zinc-100 pt-4 dark:border-zinc-800"
+            className="mt-4 border-t border-zinc-100 pt-4 dark:border-zinc-800"
           >
-            {role.highlights.map((h) => (
-              <li
-                key={h}
-                className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400"
-              >
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-300 dark:bg-zinc-600" />
-                {h}
-              </li>
-            ))}
-          </motion.ul>
+            {role.context && (
+              <p className="mb-3 text-sm italic text-zinc-500 dark:text-zinc-400">
+                {role.context}
+              </p>
+            )}
+            <ul className="space-y-2">
+              {role.highlights.map((h) => (
+                <li
+                  key={h}
+                  className="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400"
+                >
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-300 dark:bg-zinc-600" />
+                  {h}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         )}
       </div>
     </motion.div>
@@ -113,7 +120,9 @@ export default function ExperiencePage() {
             Experience
           </h1>
           <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-            15+ years shipping games, platforms, and products at scale
+            Every role taught me something the previous one couldn&apos;t — from
+            contributor to owner, from games to enterprise, from employee to
+            founder.
           </p>
         </div>
         <Link
@@ -134,10 +143,10 @@ export default function ExperiencePage() {
       >
         {companies.map((company) => (
           <span
-            key={company}
+            key={company.name}
             className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-sm font-medium text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"
           >
-            {company}
+            {company.name}
           </span>
         ))}
       </motion.div>
@@ -235,9 +244,11 @@ export default function ExperiencePage() {
           What I&apos;m Building Now
         </h2>
         <p className="mb-4 text-zinc-600 dark:text-zinc-400">
-          Between roles, I&apos;ve been shipping indie products across web and
-          mobile — proving that my product skills extend from strategy to
-          execution. 4 products shipped, 15+ repos, full-stack TypeScript.
+          After getting laid off in November 2024, I didn&apos;t send a single
+          application for three months. Instead, I built four complete product
+          ecosystems from scratch — proving that fifteen years of product
+          instincts translate directly into shipping real software. 15+ repos,
+          59 database migrations, full-stack TypeScript.
         </p>
         <Link
           href="/work"

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -12,6 +13,7 @@ import {
   staggerContainer,
   staggerItem,
 } from "@/lib/animations";
+import { HeroCanvas } from "@/components/HeroCanvas";
 
 // TODO: Replace with real testimonials from studio owners, restaurant managers, the travel advisor, and former colleagues
 const testimonials = [
@@ -41,7 +43,8 @@ export function HomePage() {
   return (
     <div className="mx-auto max-w-5xl px-6">
       {/* Hero */}
-      <section className="py-20 sm:py-28">
+      <section className="relative py-20 sm:py-28">
+        <HeroCanvas />
         <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
           <motion.p
             variants={staggerItem}
@@ -63,9 +66,11 @@ export function HomePage() {
             variants={staggerItem}
             className="mb-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
           >
-            From FarmVille at Zynga to founding my own product ecosystems — I&apos;ve
-            managed products with 1M+ DAU, launched apps reaching 6M members, and
-            built 4 multi-product platforms from scratch.
+            I spent 15 years shipping products at Zynga, Jam City, Bandai Namco,
+            AAA, and Genies — scaling games to millions of users and helping
+            secure $150M in funding. Then I got laid off and built four products
+            myself. Turns out, the best product instincts come from knowing what
+            it takes to build the thing.
           </motion.p>
           <motion.div
             variants={staggerItem}
@@ -99,14 +104,25 @@ export function HomePage() {
         <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
           Where I&apos;ve shipped
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-4">
           {companies.map((company) => (
-            <span
-              key={company}
-              className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400"
+            <div
+              key={company.name}
+              className="flex items-center gap-2.5 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 dark:border-zinc-800 dark:bg-zinc-900"
             >
-              {company}
-            </span>
+              <Image
+                src={company.logo}
+                alt={`${company.name} logo`}
+                width={24}
+                height={24}
+                className={`h-6 w-6 object-contain ${
+                  company.invertInLight ? "invert dark:invert-0" : ""
+                } ${company.invertInDark ? "dark:invert" : ""}`}
+              />
+              <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                {company.name}
+              </span>
+            </div>
           ))}
         </div>
       </motion.section>
@@ -223,7 +239,8 @@ export function HomePage() {
             Looking for a PM who ships?
           </h2>
           <p className="mx-auto mb-6 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
-            15+ years in games, blockchain, and tech. I bring product strategy, live ops expertise,
+            I&apos;ve spent 15 years shipping products at scale and the last year
+            building them from scratch. I bring product strategy, technical depth,
             and the ability to actually build what I spec.
           </p>
           <Link

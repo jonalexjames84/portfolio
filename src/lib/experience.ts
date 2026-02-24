@@ -3,6 +3,7 @@ export type Role = {
   title: string;
   period: string;
   startYear: number;
+  context?: string;
   highlights: string[];
   tags: string[];
 };
@@ -13,6 +14,7 @@ export const career: Role[] = [
     title: "Founder / PM / Dev",
     period: "Nov 2024 – Present",
     startYear: 2024,
+    context: "Laid off in November 2024. Instead of jumping back into the job market, I spent three months decompressing — then started building. Four products later, I proved that fifteen years of product instincts translate directly into shipping real software.",
     highlights: [
       "Shipped 4 complete product ecosystems across web and mobile — community platform, hiring platform, travel agency, and AI health dashboard",
       "15+ repositories, 59 database migrations, 19 edge functions — production-grade apps, not prototypes",
@@ -26,6 +28,7 @@ export const career: Role[] = [
     title: "Senior PM",
     period: "Apr 2024 – Nov 2024",
     startYear: 2024,
+    context: "Went deeper into web3 to own the full stack — marketplace, quest system, and a new blockchain from scratch.",
     highlights: [
       "Launched Quest v2 and Verified Actions, increasing user engagement by 30% and reducing data integration time by 40%",
       "Developed 2024 roadmap and strategy, improving project completion efficiency by 25%",
@@ -39,6 +42,7 @@ export const career: Role[] = [
     title: "Senior Technical PM",
     period: "May 2022 – Dec 2023",
     startYear: 2022,
+    context: "Blockchain gaming felt like the next frontier. Wanted to be at the intersection of the two industries I knew best.",
     highlights: [
       "Developed and launched a game services platform, enhancing functionality, engagement, and monetization across multiple titles",
       "Led cross-functional team to deliver game service features on time and under budget, increasing player retention by 20% and revenue by 15%",
@@ -52,6 +56,7 @@ export const career: Role[] = [
     title: "Founding Product Manager",
     period: "Feb 2021 – May 2022",
     startYear: 2021,
+    context: "First PM hire at a 15-person startup. No product infrastructure, celebrity partnerships to manage, everything to prove. The closest I'd come to founder energy — and it changed what I wanted next.",
     highlights: [
       "Launched mobile app with GIPHY, scaling to 3K early users; built e-commerce storefront generating $100K in weekly sales",
       "Led the Genies Creator Ecosystem from concept to launch, securing $150M in funding with partners like Gucci and GIPHY",
@@ -65,6 +70,7 @@ export const career: Role[] = [
     title: "Digital Product Manager",
     period: "Mar 2018 – Aug 2020",
     startYear: 2018,
+    context: "Could my PM instincts transfer outside of gaming entirely? AAA proved the skills were portable — different domain, same core muscle.",
     highlights: [
       "Developed and launched a mobile app strategy, providing weekly updates to C-Suite and VP stakeholders",
       "Launched a tech-forward API-driven app with real-time vehicle tracking, reaching 6M members and saving $2M in call center costs",
@@ -77,6 +83,7 @@ export const career: Role[] = [
     title: "Product Manager",
     period: "Mar 2017 – Oct 2017",
     startYear: 2017,
+    context: "Wanted to deepen my analytics and monetization craft. Built a data pipeline from scratch and learned how rigorous testing drives engagement.",
     highlights: [
       "Created and executed roadmap, go-to-market, and launch strategy for a casino mobile game",
       "Developed analytics from scratch, integrating ETLs and creating custom Tableau reports",
@@ -89,6 +96,7 @@ export const career: Role[] = [
     title: "Product Manager",
     period: "Aug 2016 – Mar 2017",
     startYear: 2016,
+    context: "After scaling one game, I wanted to see what product work looked like at franchise scale — where every decision reaches millions of people.",
     highlights: [
       "Managed mobile game operations for the PAC-MAN franchise, overseeing a global launch with 10M+ weekly installs and 1M+ MAU",
       "Conducted marketing acquisition analysis, pivoting towards a paid strategy and improving retention rate by 20%",
@@ -101,6 +109,7 @@ export const career: Role[] = [
     title: "Director of Product",
     period: "Nov 2015 – Aug 2016",
     startYear: 2015,
+    context: "First leadership title. Wanted to prove I could own product strategy for an entire suite, not just execute on a single game.",
     highlights: [
       "Charted roadmap and strategic plan for a suite of mobile games",
       "Optimized content and monetization, leading to consistent revenue growth for 8 months",
@@ -113,6 +122,7 @@ export const career: Role[] = [
     title: "Product Manager",
     period: "Mar 2015 – Sep 2015",
     startYear: 2015,
+    context: "Took a bet on frontier tech — VR and MMO gaming were nascent and I wanted in early. The company was later acquired by Zynga.",
     highlights: [
       "Conducted research on a pre-production VR game, guiding design through competitive research for VR, open world, and MMO gaming",
       "Facilitated brainstorming sessions with industry veterans, resulting in comprehensive insights",
@@ -125,6 +135,7 @@ export const career: Role[] = [
     title: "Product Manager",
     period: "Aug 2013 – Mar 2015",
     startYear: 2013,
+    context: "After four years as a content manager at Zynga, I wanted to own a product — not just feed content into someone else's. Jam City gave me that ownership.",
     highlights: [
       "Launched and scaled product to 1M+ DAU through effective marketing and retention strategies",
       "Developed a $50M product by refining content, design, and monetization",
@@ -137,6 +148,7 @@ export const career: Role[] = [
     title: "Content Manager",
     period: "Jun 2009 – Apr 2013",
     startYear: 2009,
+    context: "Where it all started. Social gaming was inventing itself in real time, and I learned the lesson that defined the next fifteen years: obsess over what players actually do, not what the roadmap says they should do.",
     highlights: [
       "Managed evergreen feature integration for the FarmVille franchise",
       "Integrated digital assets for FrontierVille and Treasure Isle",
@@ -156,15 +168,22 @@ export const metrics = [
   { value: "1M+", label: "DAU at Scale" },
 ];
 
-export const companies = [
-  "Zynga",
-  "Jam City",
-  "Bandai Namco",
-  "Big Fish Games",
-  "AAA",
-  "Genies",
-  "Mythical Games",
-  "Treasure DAO",
+export type Company = {
+  name: string;
+  logo: string;
+  invertInLight?: boolean;
+  invertInDark?: boolean;
+};
+
+export const companies: Company[] = [
+  { name: "Zynga", logo: "/logos/zynga.png" },
+  { name: "Jam City", logo: "/logos/jamcity.png" },
+  { name: "Bandai Namco", logo: "/logos/bandainamcoent.png" },
+  { name: "Big Fish Games", logo: "/logos/bigfishgames.png" },
+  { name: "AAA", logo: "/logos/aaa.png" },
+  { name: "Genies", logo: "/logos/genies.png", invertInLight: true },
+  { name: "Mythical Games", logo: "/logos/mythicalgames.png", invertInDark: true },
+  { name: "Treasure DAO", logo: "/logos/treasure.png" },
 ];
 
 export const skillCategories = [

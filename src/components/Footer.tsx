@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, BookOpen } from "lucide-react";
 
 export function Footer() {
   return (
@@ -33,6 +33,15 @@ export function Footer() {
             aria-label="Email"
           >
             <Mail size={18} />
+          </Link>
+          <Link
+            href="https://jonnymartin.substack.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-400 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+            aria-label="Substack"
+          >
+            <BookOpen size={18} />
           </Link>
         </div>
       </div>
