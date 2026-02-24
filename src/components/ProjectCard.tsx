@@ -6,7 +6,7 @@ import type { Project } from "@/lib/projects";
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
-      href={`/projects/${project.slug}`}
+      href={`/work/${project.slug}`}
       className="group block overflow-hidden rounded-xl border border-zinc-200 transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:hover:border-zinc-700"
     >
       {project.screenshot && (

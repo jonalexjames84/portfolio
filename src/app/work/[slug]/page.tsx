@@ -113,6 +113,26 @@ export default async function ProjectPage({
         </p>
       </section>
 
+      {/* User Research & Discovery */}
+      {project.userResearch.length > 0 && (
+        <section className="mb-12">
+          <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            What I Learned from Users
+          </h2>
+          <ul className="space-y-2">
+            {project.userResearch.map((insight) => (
+              <li
+                key={insight}
+                className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
+              >
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+                {insight}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* Why I Built This */}
       <section className="mb-12">
         <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
@@ -122,6 +142,18 @@ export default async function ProjectPage({
           {project.pitch}
         </p>
       </section>
+
+      {/* Strategy */}
+      {project.strategy && (
+        <section className="mb-12">
+          <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            Strategy
+          </h2>
+          <p className="leading-relaxed text-zinc-600 dark:text-zinc-400">
+            {project.strategy}
+          </p>
+        </section>
+      )}
 
       {/* Overview */}
       <section className="mb-12">
@@ -168,6 +200,26 @@ export default async function ProjectPage({
           ))}
         </ul>
       </section>
+
+      {/* What Didn't Work */}
+      {project.failures.length > 0 && (
+        <section className="mb-12">
+          <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            What Didn&apos;t Work (And What I Changed)
+          </h2>
+          <ul className="space-y-2">
+            {project.failures.map((f) => (
+              <li
+                key={f}
+                className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
+              >
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Key Highlights */}
       <section className="mb-12">

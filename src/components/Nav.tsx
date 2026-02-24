@@ -8,10 +8,11 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
+  { href: "/work", label: "Work" },
+  { href: "/experience", label: "Experience" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
-  { href: "/resume", label: "Resume" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Nav() {
