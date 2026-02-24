@@ -93,6 +93,16 @@ export default async function ProjectPage({
         </div>
       )}
 
+      {/* Problem */}
+      <section className="mb-12">
+        <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+          The Problem
+        </h2>
+        <p className="leading-relaxed text-zinc-600 dark:text-zinc-400">
+          {project.problem}
+        </p>
+      </section>
+
       {/* Overview */}
       <section className="mb-12">
         <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
@@ -100,6 +110,16 @@ export default async function ProjectPage({
         </h2>
         <p className="leading-relaxed text-zinc-600 dark:text-zinc-400">
           {project.description}
+        </p>
+      </section>
+
+      {/* Why I Built This */}
+      <section className="mb-12">
+        <h2 className="mb-3 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+          Why I Built This
+        </h2>
+        <p className="leading-relaxed text-zinc-600 dark:text-zinc-400">
+          {project.pitch}
         </p>
       </section>
 
@@ -166,13 +186,6 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      {/* Placeholder for full case study content */}
-      <section className="rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-8 text-center dark:border-zinc-700 dark:bg-zinc-900">
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          Full case study coming soon — Problem, Discovery, Decisions,
-          Outcomes, and Reflections.
-        </p>
-      </section>
     </div>
   );
 }
