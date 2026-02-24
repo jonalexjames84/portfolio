@@ -10,7 +10,7 @@ export function Footer() {
         </p>
         <div className="flex items-center gap-4">
           <Link
-            href="https://github.com/jonnymartin"
+            href="https://github.com/jonalexjames84"
             target="_blank"
             rel="noopener noreferrer"
             className="text-zinc-400 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
@@ -19,7 +19,7 @@ export function Footer() {
             <Github size={18} />
           </Link>
           <Link
-            href="https://linkedin.com/in/jonnymartin"
+            href="https://www.linkedin.com/in/jon-martin-0b739316/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-zinc-400 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"

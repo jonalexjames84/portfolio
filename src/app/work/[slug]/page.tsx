@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft, ExternalLink, ArrowRight } from "lucide-react";
 import { getProject, projects } from "@/lib/projects";
 
 export function generateStaticParams() {
@@ -282,6 +282,20 @@ export default async function ProjectPage({
             </div>
           ))}
         </div>
+      </section>
+
+      {/* CTA */}
+      <section className="rounded-xl border border-zinc-200 bg-zinc-50 p-6 text-center dark:border-zinc-800 dark:bg-zinc-900">
+        <p className="mb-3 text-sm text-zinc-600 dark:text-zinc-400">
+          Want to discuss how I approach product problems like this?
+        </p>
+        <Link
+          href="/contact"
+          className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+        >
+          Let&apos;s connect
+          <ArrowRight size={16} />
+        </Link>
       </section>
     </div>
   );

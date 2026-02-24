@@ -9,6 +9,19 @@ export type Role = {
 
 export const career: Role[] = [
   {
+    company: "Indie Builder",
+    title: "Founder / PM / Dev",
+    period: "Nov 2024 – Present",
+    startYear: 2024,
+    highlights: [
+      "Shipped 4 complete product ecosystems across web and mobile — community platform, hiring platform, travel agency, and AI health dashboard",
+      "15+ repositories, 59 database migrations, 19 edge functions — production-grade apps, not prototypes",
+      "Full-stack TypeScript: React Native, Next.js, Supabase, Stripe, PostHog, Claude API",
+      "Conducted user research with 20+ users across all projects to validate problems and iterate on solutions",
+    ],
+    tags: ["Full-Stack", "4 Products Shipped", "React Native + Next.js"],
+  },
+  {
     company: "Treasure DAO",
     title: "Senior PM",
     period: "Apr 2024 – Nov 2024",

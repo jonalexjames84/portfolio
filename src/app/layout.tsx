@@ -33,6 +33,12 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jonny Martin — Senior Product Manager",
+    description:
+      "Senior Product Manager with 15+ years shipping games and products at Zynga, Jam City, Genies, Mythical Games, and more.",
+  },
 };
 
 export default function RootLayout({

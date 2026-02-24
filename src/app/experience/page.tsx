@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Download, Briefcase, ChevronDown, ChevronUp } from "lucide-react";
+import { Download, Briefcase, ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -229,7 +229,7 @@ export default function ExperiencePage() {
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeIn}
-        className="rounded-xl border border-zinc-200 bg-zinc-50 p-8 dark:border-zinc-800 dark:bg-zinc-900/50"
+        className="mb-16 rounded-xl border border-zinc-200 bg-zinc-50 p-8 dark:border-zinc-800 dark:bg-zinc-900/50"
       >
         <h2 className="mb-3 text-xl font-bold text-zinc-900 dark:text-zinc-100">
           What I&apos;m Building Now
@@ -244,6 +244,33 @@ export default function ExperiencePage() {
           className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
         >
           See my work
+        </Link>
+      </motion.div>
+
+      {/* CTA */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeIn}
+        className="rounded-xl border border-zinc-200 bg-white p-8 text-center dark:border-zinc-800 dark:bg-zinc-900"
+      >
+        <span className="mb-3 inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
+          Open to opportunities
+        </span>
+        <h2 className="mb-2 text-xl font-bold text-zinc-900 dark:text-zinc-100">
+          Interested in working together?
+        </h2>
+        <p className="mx-auto mb-6 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
+          I&apos;m looking for my next Senior PM role. Let&apos;s talk about how
+          my experience can help your team ship.
+        </p>
+        <Link
+          href="/contact"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+        >
+          Let&apos;s connect
+          <ArrowRight size={16} />
         </Link>
       </motion.div>
     </div>

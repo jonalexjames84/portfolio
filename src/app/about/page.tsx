@@ -74,6 +74,33 @@ export default function AboutPage() {
         </p>
 
         <h2 className="pt-4 text-xl font-bold text-zinc-900 dark:text-zinc-100">
+          How I Think About Product
+        </h2>
+
+        <p>
+          I prioritize by asking one question: <em>what&apos;s the fastest path
+          to learning something we don&apos;t know?</em> That usually means
+          shipping a small version to real users before building the full
+          vision. At Jam City, this meant running currency optimizations weekly
+          instead of quarterly — 20% MoM revenue growth came from speed of
+          iteration, not a single brilliant idea. In my own projects, I cut
+          Pottery Friends&apos; marketplace feature after user interviews
+          revealed it would cannibalize studio retail — that&apos;s a decision
+          that only comes from talking to users before committing to a roadmap.
+        </p>
+
+        <p>
+          I believe discovery and delivery aren&apos;t separate phases —
+          they&apos;re parallel tracks. You should be learning from what you
+          shipped last week while building what ships next week. I define
+          product success by behavior change, not feature completion. A shipped
+          feature that nobody uses is worse than a feature that was cut because
+          the data said no. The metrics I care about are the ones that reflect
+          whether the product actually changed how someone works, plays, or
+          makes decisions.
+        </p>
+
+        <h2 className="pt-4 text-xl font-bold text-zinc-900 dark:text-zinc-100">
           What I&apos;m Looking For
         </h2>
 

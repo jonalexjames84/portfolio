@@ -15,16 +15,16 @@ const socials = [
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/jonnymartin",
+    href: "https://www.linkedin.com/in/jon-martin-0b739316/",
     icon: Linkedin,
-    detail: "linkedin.com/in/jonnymartin",
+    detail: "linkedin.com/in/jon-martin-0b739316",
     description: "Connect professionally",
   },
   {
     label: "GitHub",
-    href: "https://github.com/jonnymartin",
+    href: "https://github.com/jonalexjames84",
     icon: Github,
-    detail: "github.com/jonnymartin",
+    detail: "github.com/jonalexjames84",
     description: "See my code",
   },
 ];
@@ -62,6 +62,17 @@ export default function ContactPage() {
           <form
             action="https://formspree.io/f/placeholder"
             method="POST"
+            onSubmit={(e) => {
+              // Fallback to mailto if Formspree is not configured
+              const form = e.currentTarget;
+              if (form.action.includes("placeholder")) {
+                e.preventDefault();
+                const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+                const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+                const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value;
+                window.location.href = `mailto:hello@jonnymartin.blog?subject=Portfolio inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(`From: ${name} (${email})\n\n${message}`)}`;
+              }
+            }}
             className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50"
           >
             <h2 className="mb-5 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
