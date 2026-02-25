@@ -91,7 +91,7 @@ const s = StyleSheet.create({
   page: {
     fontFamily: "Helvetica",
     backgroundColor: c.white,
-    paddingTop: 0,
+    paddingTop: 24,
     paddingBottom: 36,
     paddingHorizontal: 36,
     fontSize: 9,
@@ -122,7 +122,6 @@ const s = StyleSheet.create({
   },
   // Header
   header: {
-    paddingTop: 20,
     marginBottom: 12,
   },
   nameRow: {
