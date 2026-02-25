@@ -42,7 +42,7 @@ const sections = [
     title: "Betting on Myself",
     gradient: "from-rose-500 to-pink-500",
     content: [
-      "When Genies hired me as their first PM, I knew the risk. A 15-person startup with no product infrastructure, celebrity partnerships to manage (Gucci, GIPHY), and everything to prove. I built their creator ecosystem from concept to launch, an e-commerce storefront doing $100K in weekly sales, and helped position the company to close $150M in funding. It was the closest I'd come to founder energy — and it changed what I wanted next.",
+      "When Genies hired me as their first PM, I knew the risk. An 85-person startup with no product infrastructure, celebrity partnerships to manage (Gucci, GIPHY), and everything to prove. I built their creator ecosystem from concept to launch, an e-commerce storefront doing $100K in weekly sales, and helped position the company to close $150M in funding. It was the closest I'd come to founder energy — and it changed what I wanted next.",
       "Mythical Games and Treasure DAO took me deeper into blockchain gaming. At Mythical, I led game services across multiple titles, improving retention by 20% and revenue by 15%. At Treasure, I shipped a quest system, a marketplace, and a new blockchain on Arbitrum that expanded the user base by 20%. Then, in November 2024, I was laid off.",
     ],
   },
@@ -70,7 +70,7 @@ const sections = [
     title: "How I Work",
     gradient: "from-fuchsia-500 to-pink-500",
     content: [
-      "I've led cross-functional teams at companies ranging from 15-person startups to organizations with 60M+ members. I write PRDs that engineers actually want to read, run sprints without micromanaging, and say no to features that don't move the metric that matters. My builder background means I can unblock technical conversations faster than most PMs — I don't need a meeting to understand why a migration is risky or an API design decision matters. That shared vocabulary earns trust with engineering teams quickly.",
+      "I've led cross-functional teams at companies ranging from 85-person startups to organizations with 60M+ members. I write PRDs that engineers actually want to read, run sprints without micromanaging, and say no to features that don't move the metric that matters. My builder background means I can unblock technical conversations faster than most PMs — I don't need a meeting to understand why a migration is risky or an API design decision matters. That shared vocabulary earns trust with engineering teams quickly.",
       "I prioritize by asking one question: what's the fastest path to learning something we don't know? Discovery and delivery aren't separate phases — they're parallel tracks. I define product success by behavior change, not feature completion. A shipped feature nobody uses is worse than one that was cut because the data said no.",
     ],
   },

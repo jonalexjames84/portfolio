@@ -70,7 +70,7 @@ export const career: Role[] = [
     title: "Founding Product Manager",
     period: "Feb 2021 – May 2022",
     startYear: 2021,
-    context: "First PM hire at a 15-person startup. No product infrastructure, celebrity partnerships to manage, everything to prove. The closest I'd come to founder energy — and it changed what I wanted next.",
+    context: "First PM hire at an 85-person startup. No product infrastructure, celebrity partnerships to manage, everything to prove. The closest I'd come to founder energy — and it changed what I wanted next.",
     highlights: [
       "Launched mobile app with GIPHY, scaling to 3K early users; built e-commerce storefront generating $100K in weekly sales",
       "Led the Genies Creator Ecosystem from concept to launch, securing $150M in funding with partners like Gucci and GIPHY",
