@@ -201,7 +201,7 @@ export default async function ProjectPage({
           {project.features ? (
             <PhoneFrame src={project.screenshot} alt={project.title} />
           ) : (
-            <>
+            <div className="relative">
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-indigo-500/20 via-violet-500/20 to-purple-500/20 blur-sm dark:from-indigo-500/10 dark:via-violet-500/10 dark:to-purple-500/10" />
               <div className="relative">
                 <BrowserFrame
@@ -209,7 +209,7 @@ export default async function ProjectPage({
                   alt={project.title}
                 />
               </div>
-            </>
+            </div>
           )}
         </AnimatedSection>
       )}

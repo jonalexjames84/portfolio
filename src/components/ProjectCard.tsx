@@ -5,21 +5,36 @@ import type { Project } from "@/lib/projects";
 import { getTagColor } from "@/lib/tagColors";
 
 export function ProjectCard({ project, hero }: { project: Project; hero?: boolean }) {
+  const cardSrc = project.cardImage || project.screenshot;
+  const isLogo = !!project.cardImage;
+
   if (hero) {
     return (
       <Link
         href={`/work/${project.slug}`}
         className="group block overflow-hidden rounded-xl border border-zinc-200 transition-all hover:border-zinc-300 hover:shadow-lg dark:border-zinc-800 dark:hover:border-zinc-700"
       >
-        {project.screenshot && (
-          <div className="relative h-64 w-full overflow-hidden bg-zinc-100 sm:h-80 dark:bg-zinc-800">
-            <Image
-              src={project.screenshot}
-              alt={`${project.title} screenshot`}
-              fill
-              className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        {cardSrc && (
+          <div className={`relative h-64 w-full overflow-hidden sm:h-80 ${isLogo ? "flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-100 dark:from-pink-950/30 dark:to-rose-950/30" : "bg-zinc-100 dark:bg-zinc-800"}`}>
+            {isLogo ? (
+              <Image
+                src={cardSrc}
+                alt={`${project.title} logo`}
+                width={160}
+                height={160}
+                className="rounded-3xl shadow-xl transition-transform duration-500 group-hover:scale-110"
+              />
+            ) : (
+              <>
+                <Image
+                  src={cardSrc}
+                  alt={`${project.title} screenshot`}
+                  fill
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              </>
+            )}
           </div>
         )}
         <div className="p-6 sm:p-8">

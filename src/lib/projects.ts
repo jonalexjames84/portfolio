@@ -20,6 +20,7 @@ export type Project = {
   failures: string[];
   strategy: string;
   screenshot?: string;
+  cardImage?: string;
   screenshots?: string[];
   callout?: string;
   metrics?: { value: string; label: string }[];
@@ -38,6 +39,7 @@ export const projects: Project[] = [
     subtitle: "Community Platform Ecosystem",
     screenshot:
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/feed.png",
+    cardImage: "/screenshots/potteryfriends-logo.png",
     screenshots: [
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/feed.png",
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/new-post.png",
