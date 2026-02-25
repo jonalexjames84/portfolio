@@ -6,6 +6,7 @@ import { ArrowLeft, ExternalLink, ArrowRight, Users, Lightbulb, Target, Wrench, 
 import { getProject, projects } from "@/lib/projects";
 import { getTagColor } from "@/lib/tagColors";
 import { BrowserFrame } from "@/components/BrowserFrame";
+import { PhoneFrame } from "@/components/PhoneFrame";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -127,13 +128,19 @@ export default async function ProjectPage({
       {/* Hero screenshot */}
       {project.screenshot && (
         <div className="relative mb-12">
-          <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-indigo-500/20 via-violet-500/20 to-purple-500/20 blur-sm dark:from-indigo-500/10 dark:via-violet-500/10 dark:to-purple-500/10" />
-          <div className="relative">
-            <BrowserFrame
-              src={project.screenshot}
-              alt={project.title}
-            />
-          </div>
+          {project.features ? (
+            <PhoneFrame src={project.screenshot} alt={project.title} />
+          ) : (
+            <>
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-indigo-500/20 via-violet-500/20 to-purple-500/20 blur-sm dark:from-indigo-500/10 dark:via-violet-500/10 dark:to-purple-500/10" />
+              <div className="relative">
+                <BrowserFrame
+                  src={project.screenshot}
+                  alt={project.title}
+                />
+              </div>
+            </>
+          )}
         </div>
       )}
 
