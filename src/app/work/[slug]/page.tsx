@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { ArrowLeft, ExternalLink, ArrowRight, Users, Lightbulb, Target, Wrench, GitBranch, BarChart3, AlertTriangle, Cpu, Package, Globe, Palette, Layers } from "lucide-react";
+import { ArrowLeft, Users, Lightbulb, Target, Wrench, GitBranch, BarChart3, AlertTriangle, Cpu, Package, Globe, Palette, Layers } from "lucide-react";
 import { getProject, projects } from "@/lib/projects";
 import { getTagColor } from "@/lib/tagColors";
 import { BrowserFrame } from "@/components/BrowserFrame";
@@ -321,7 +321,7 @@ export default async function ProjectPage({
             {project.repos.map((repo) => (
               <div
                 key={repo.name}
-                className="group flex items-center justify-between rounded-lg border border-zinc-200 px-4 py-3 transition-all hover:border-zinc-300 hover:shadow-sm dark:border-zinc-800 dark:hover:border-zinc-700"
+                className="flex items-center gap-3 rounded-lg border border-zinc-200 px-4 py-3 dark:border-zinc-800"
               >
                 <div>
                   <p className="font-medium text-zinc-900 dark:text-zinc-100">
@@ -331,35 +331,11 @@ export default async function ProjectPage({
                     {repo.role}
                   </p>
                 </div>
-                <ExternalLink
-                  size={16}
-                  className="text-zinc-400 transition-colors group-hover:text-indigo-500 dark:text-zinc-500 dark:group-hover:text-indigo-400"
-                />
               </div>
             ))}
           </div>
         </section>
       )}
-
-      {/* CTA */}
-      <section className="relative overflow-hidden rounded-xl p-6 text-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30" />
-        <div className="absolute inset-0 rounded-xl border border-indigo-200/50 dark:border-indigo-800/30" />
-        <div className="relative">
-          <p className="mb-3 text-sm text-zinc-600 dark:text-zinc-400">
-            {isDesign
-              ? "Need a brand identity or website for your creative practice?"
-              : "Want to discuss how I approach product problems like this?"}
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
-          >
-            Let&apos;s connect
-            <ArrowRight size={16} />
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }
