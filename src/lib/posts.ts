@@ -674,6 +674,7 @@ export const posts: Post[] = [
       "The playbook for pivoting an incumbent product to AI-first, from the people who actually did it.",
     date: "2024-12-02",
     tags: ["AI Strategy", "Product Management", "Case Study"],
+    image: "/blog/intercom-restart.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "At the Berkeley Haas AI Conference, I sat in on a panel with go-to-market leaders from Intercom, Perplexity, and OpenAI. The Intercom story stood out as one of the most dramatic examples of a company pivoting to AI-first — not over months of deliberation, but in a single weekend.",
@@ -726,6 +727,7 @@ export const posts: Post[] = [
       "GitHub Next's thesis on why chatbots are a transitional form, not the destination.",
     date: "2024-12-09",
     tags: ["AI Products", "UX Design", "Product Thinking"],
+    image: "/blog/chat-radio-drama.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "One of the most thought-provoking talks at the Berkeley Haas AI Conference came from Idan Gazit, Senior Director of Research at GitHub Next — GitHub's internal R&D innovation lab within Microsoft. His central argument challenged an assumption most of us have internalized without questioning: that chat interfaces are the natural way to interact with AI.",
@@ -788,6 +790,7 @@ export const posts: Post[] = [
       "Snowflake's three-pillar framework for deciding when and how to apply AI in any organization.",
     date: "2024-12-16",
     tags: ["AI Strategy", "Frameworks", "Enterprise"],
+    image: "/blog/automate-augment.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "At the Berkeley Haas AI Conference, I heard dozens of takes on AI adoption. Most were either breathlessly optimistic or cautiously vague. The most useful framework came from a VP at Snowflake, who shared the three-pillar model they use internally to decide when and how to apply AI across a 9,000+ person organization.",
@@ -853,6 +856,7 @@ export const posts: Post[] = [
       "How a flat org, relentless experimentation, and hiring for dopamine are beating Google at search.",
     date: "2024-12-23",
     tags: ["Growth", "AI Products", "Startups"],
+    image: "/blog/speed-strategy.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "Perplexity is doing something most people thought was impossible: competing with Google in search. At the Berkeley Haas AI Conference, their VP of Growth and Product, Rohan, laid out how they're doing it. The answer isn't a better algorithm or more data. It's speed.",
@@ -909,6 +913,7 @@ export const posts: Post[] = [
       "How AI product teams actually plan when your January roadmap is obsolete by March.",
     date: "2024-12-30",
     tags: ["Product Management", "AI Strategy", "Planning"],
+    image: "/blog/death-of-roadmap.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "One of the clearest signals from the Berkeley Haas AI Conference was that traditional product planning is dead. Not dying — dead. Across three separate panels, product leaders from Adobe, YouTube, Intercom, Perplexity, and GitHub Next all said some version of the same thing: if you're building a 3-5 year roadmap in AI, you're wasting your time.",
@@ -961,6 +966,7 @@ export const posts: Post[] = [
       "Box's CTO on the shift from doing work to managing AI that does work — and why it changes everything.",
     date: "2025-01-06",
     tags: ["AI Agents", "Career", "Future of Work"],
+    image: "/blog/managing-agents.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "The most jarring moment at the Berkeley Haas AI Conference came from Ben Kus, CTO of Box. He described how cutting-edge programmers work today, and it sounds nothing like what most people imagine.",
@@ -1017,6 +1023,7 @@ export const posts: Post[] = [
       "How AI answer engines are disrupting traditional discovery and what it means for every product builder.",
     date: "2025-01-13",
     tags: ["Distribution", "AI Products", "Growth"],
+    image: "/blog/answer-engine.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "The most forward-looking insight from the Berkeley Haas AI Conference didn't come from an AI company. It came from Rachel Wolin, CPO of Webflow, talking about how websites get discovered.",
@@ -1069,6 +1076,7 @@ export const posts: Post[] = [
       "Why every leader at the conference said the same thing: the best career move is to ship something.",
     date: "2025-01-20",
     tags: ["Career", "Building", "Product Management"],
+    image: "/blog/build-first.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "I went to the Berkeley Haas AI Conference expecting to hear about AI strategy and go-to-market motions. I got that. But the through-line across every single session — from Adobe to Perplexity, from Box to Webflow — was something simpler: build things.",
@@ -1129,6 +1137,7 @@ export const posts: Post[] = [
       "A deceptively simple mental model for understanding what users actually want.",
     date: "2025-01-27",
     tags: ["Frameworks", "Product Thinking", "Creator Economy"],
+    image: "/blog/fame-fortune-fun.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "Most product frameworks sound smart in a meeting and useless in practice. The one that stuck with me from the Berkeley Haas AI Conference is from YouTube — and it's so simple it almost seems too obvious. Until you start applying it and realize how many product decisions it clarifies.",
@@ -1187,6 +1196,7 @@ export const posts: Post[] = [
       "The case for being a jack of all trades — and why 'master of none' is no longer the ending.",
     date: "2025-02-03",
     tags: ["Career", "AI Products", "Product Management"],
+    image: "/blog/hybrids-win.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "\"Everybody remembers the first half of the jack-of-all-trades video. Everybody know the second half? And master? No, that's right.\" Idan Gazit from GitHub Next dropped this line at the Berkeley Haas AI Conference, and it crystallized something I've been thinking about for a while.",
@@ -1247,6 +1257,7 @@ export const posts: Post[] = [
       "Using AI to speed-run domain expertise — and landing a major UCSF partnership in the process.",
     date: "2025-02-10",
     tags: ["AI Tools", "Career", "Go-to-Market"],
+    image: "/blog/openai-healthcare.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "One of the most practical stories from the Berkeley Haas AI Conference came from Maggie, who leads go-to-market at OpenAI. She shared how she used ChatGPT's study mode to learn an entire industry from scratch in four months — and the result was one of OpenAI's biggest enterprise partnerships.",
@@ -1301,6 +1312,7 @@ export const posts: Post[] = [
       "GitHub Next's hard-won lessons on why prototypes die when they leave the lab — and how to prevent it.",
     date: "2025-02-17",
     tags: ["Innovation", "Product Management", "Enterprise"],
+    image: "/blog/hand-off-problem.jpg",
     source: "Berkeley Haas AI Conference, November 2024",
     content: [
       "\"No word makes me sweat at night more than that word.\" Idan Gazit, who leads GitHub Next — GitHub's innovation lab inside Microsoft — was talking about the hand-off. The moment when a successful prototype leaves the lab and enters the main engineering organization for production development.",
