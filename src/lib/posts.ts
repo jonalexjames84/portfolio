@@ -11,20 +11,6 @@ export type Post = {
 
 export const posts: Post[] = [
   {
-    slug: "im-moving-my-blog",
-    title: "I\u2019m Moving My Blog",
-    subtitle:
-      "Why I\u2019m taking my writing to Substack \u2014 and what comes next.",
-    date: "2025-07-30",
-    tags: ["Personal", "Writing"],
-    content: [
-      "I know! It\u2019s sad, but hear me out. As you know, I\u2019m not posting on Instagram, Facebook, or any other social platform right now only on Bluesky because of everything going on. I need to focus my energy on one place, and honestly, there aren\u2019t many good options left.",
-      "The blog means a lot to me, and it seems like you all really enjoy it too, so I\u2019m moving it over to **Substack**! This will make things so much easier since there\u2019s a bigger community there, and it aligns with my values around free speech and open conversations (don\u2019t worry, I won\u2019t go on too many rants... even though I\u2019m tempted).",
-      "If you want to keep following me and my work, check out my new space on Substack.",
-      "I\u2019ll be sharing more about websites and design for painters and ceramic artists since that\u2019s been my focus lately but all my other random, obscure content isn\u2019t going anywhere.",
-    ],
-  },
-  {
     slug: "speed-bumps-paint-brushes-and-resilience",
     image: "/blog/speed-bumps.jpg",
     title: "Speed Bumps, Paint Brushes, and Resilience",

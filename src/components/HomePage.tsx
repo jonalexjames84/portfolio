@@ -51,10 +51,10 @@ export function HomePage() {
   const featured = getFeaturedProjects();
 
   return (
-    <div className="mx-auto max-w-5xl px-6">
-      {/* Hero */}
+    <>
+      {/* Hero — full bleed */}
       <section className="hero-grain relative py-24 sm:py-32">
-        {/* Mesh gradient background */}
+        {/* Mesh gradient background — edge to edge */}
         <div
           className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center dark:hidden"
           style={{ backgroundImage: "url('/hero-mesh-light.svg')" }}
@@ -64,74 +64,89 @@ export function HomePage() {
           style={{ backgroundImage: "url('/hero-mesh-dark.svg')" }}
         />
 
-        <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="relative z-10 flex flex-col items-start gap-10 sm:flex-row sm:items-center sm:gap-12">
-          {/* Text */}
-          <div className="flex-1">
-            <motion.p
-              variants={staggerItem}
-              className="mb-4 inline-block rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-medium tracking-wide text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400"
-            >
-              Senior Product Manager
-            </motion.p>
-            <motion.h1
-              variants={staggerItem}
-              className="mb-6 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-100"
-            >
-              15 years shipping products.
-              <br />
-              <span className="gradient-text">
-                Now I build them too.
-              </span>
-            </motion.h1>
-            <motion.p
-              variants={staggerItem}
-              className="mb-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
-            >
-              I spent 15 years shipping products at Zynga, Jam City, Bandai Namco,
-              AAA, and Genies — scaling games to millions of users and helping
-              secure $150M in funding. Then I went indie — built four products
-              from scratch and co-founded Frame Story, a collaborative game
-              studio. Turns out, the best product instincts come from knowing
-              what it takes to build the thing.
-            </motion.p>
+        <div className="mx-auto max-w-5xl px-6">
+          <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="relative z-10 flex flex-col items-start gap-8 sm:flex-row sm:items-center sm:gap-12">
+            {/* Text */}
+            <div className="flex-1">
+              {/* Photo — mobile only, centered */}
+              <motion.div variants={staggerItem} className="mb-6 sm:hidden">
+                <div className="relative mx-auto h-28 w-28 overflow-hidden rounded-full border-2 border-zinc-200 shadow-lg dark:border-zinc-700">
+                  <Image
+                    src="/jonny-headshot.jpg"
+                    alt="Jonny Martin"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </motion.div>
+              <motion.p
+                variants={staggerItem}
+                className="mb-4 inline-block rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-medium tracking-wide text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400"
+              >
+                Senior Product Manager
+              </motion.p>
+              <motion.h1
+                variants={staggerItem}
+                className="mb-6 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-100"
+              >
+                15 years shipping products.
+                <br />
+                <span className="gradient-text">
+                  Now I build them too.
+                </span>
+              </motion.h1>
+              <motion.p
+                variants={staggerItem}
+                className="mb-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
+              >
+                I spent 15 years shipping products at Zynga, Jam City, Bandai Namco,
+                AAA, and Genies — scaling games to millions of users and helping
+                secure $150M in funding. Then I went indie — built four products
+                from scratch and co-founded Frame Story, a collaborative game
+                studio. Turns out, the best product instincts come from knowing
+                what it takes to build the thing.
+              </motion.p>
+              <motion.div
+                variants={staggerItem}
+                className="flex flex-col gap-3 sm:flex-row"
+              >
+                <Link
+                  href="/work"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
+                >
+                  See my work
+                  <ArrowRight size={16} />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-lg border border-zinc-200 px-5 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800/50"
+                >
+                  Get in touch
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Photo */}
             <motion.div
               variants={staggerItem}
-              className="flex flex-col gap-3 sm:flex-row"
+              className="hidden shrink-0 sm:block"
             >
-              <Link
-                href="/work"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
-              >
-                See my work
-                <ArrowRight size={16} />
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-lg border border-zinc-200 px-5 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800/50"
-              >
-                Get in touch
-              </Link>
+              <div className="relative h-56 w-56 overflow-hidden rounded-2xl border-2 border-zinc-200 shadow-lg dark:border-zinc-700">
+                <Image
+                  src="/jonny-headshot.jpg"
+                  alt="Jonny Martin"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
             </motion.div>
-          </div>
-
-          {/* Photo */}
-          <motion.div
-            variants={staggerItem}
-            className="hidden shrink-0 sm:block"
-          >
-            <div className="relative h-56 w-56 overflow-hidden rounded-2xl border-2 border-zinc-200 shadow-lg dark:border-zinc-700">
-              <Image
-                src="/jonny-headshot.jpg"
-                alt="Jonny Martin"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
 
+    <div className="mx-auto max-w-5xl px-6">
       {/* Section divider */}
       <div className="mx-auto mb-8 h-px w-2/3 bg-gradient-to-r from-transparent via-indigo-300/40 to-transparent dark:via-indigo-700/20" />
 
@@ -146,11 +161,11 @@ export function HomePage() {
         <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
           Where I&apos;ve shipped
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
           {companies.map((company) => (
             <div
               key={company.name}
-              className="flex items-center gap-2.5 rounded-lg border border-zinc-200 bg-white px-4 py-2.5 transition-all hover:border-indigo-200 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-indigo-800/50"
+              className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 sm:gap-2.5 sm:px-4 sm:py-2.5 transition-all hover:border-indigo-200 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-indigo-800/50"
             >
               <Image
                 src={company.logo}
@@ -306,5 +321,6 @@ export function HomePage() {
         </div>
       </motion.section>
     </div>
+    </>
   );
 }
