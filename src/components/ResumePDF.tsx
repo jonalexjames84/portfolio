@@ -91,8 +91,8 @@ const s = StyleSheet.create({
   page: {
     fontFamily: "Helvetica",
     backgroundColor: c.white,
-    paddingTop: 24,
-    paddingBottom: 36,
+    paddingTop: 32,
+    paddingBottom: 32,
     paddingHorizontal: 36,
     fontSize: 9,
     color: c.zinc700,
@@ -122,7 +122,7 @@ const s = StyleSheet.create({
   },
   // Header
   header: {
-    marginBottom: 12,
+    marginBottom: 8,
   },
   nameRow: {
     flexDirection: "row",
@@ -166,13 +166,13 @@ const s = StyleSheet.create({
   divider: {
     height: 0.5,
     backgroundColor: c.zinc200,
-    marginVertical: 10,
+    marginVertical: 6,
   },
   // Metrics
   metricsRow: {
     flexDirection: "row",
     gap: 6,
-    marginBottom: 16,
+    marginBottom: 10,
   },
   metricBox: {
     flex: 1,
@@ -180,7 +180,7 @@ const s = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 0.5,
     borderColor: c.zinc200,
-    paddingVertical: 6,
+    paddingVertical: 5,
     paddingHorizontal: 4,
     alignItems: "center",
   },
@@ -199,8 +199,8 @@ const s = StyleSheet.create({
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
-    marginTop: 4,
+    marginBottom: 6,
+    marginTop: 2,
     gap: 6,
   },
   sectionAccent: {
@@ -217,7 +217,7 @@ const s = StyleSheet.create({
   },
   // Role entries
   role: {
-    marginBottom: 10,
+    marginBottom: 7,
     paddingLeft: 10,
     borderLeftWidth: 1.5,
     borderLeftColor: c.zinc200,
@@ -252,8 +252,8 @@ const s = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 3,
-    marginTop: 3,
-    marginBottom: 4,
+    marginTop: 2,
+    marginBottom: 3,
   },
   tag: {
     fontSize: 6.5,
@@ -263,7 +263,7 @@ const s = StyleSheet.create({
   },
   bullet: {
     flexDirection: "row",
-    marginBottom: 2.5,
+    marginBottom: 2,
   },
   bulletDot: {
     width: 3,
@@ -283,12 +283,12 @@ const s = StyleSheet.create({
   skillsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 10,
+    gap: 6,
   },
   skillCard: {
     width: "48%",
-    marginBottom: 6,
-    padding: 8,
+    marginBottom: 4,
+    padding: 6,
     backgroundColor: c.zinc50,
     borderRadius: 4,
     borderWidth: 0.5,
@@ -297,7 +297,7 @@ const s = StyleSheet.create({
   skillAccentBar: {
     height: 2,
     borderRadius: 1,
-    marginBottom: 6,
+    marginBottom: 4,
   },
   skillCatName: {
     fontSize: 8,
@@ -305,7 +305,7 @@ const s = StyleSheet.create({
     color: c.zinc500,
     textTransform: "uppercase",
     letterSpacing: 1,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   skillItem: {
     flexDirection: "row",
