@@ -8,7 +8,10 @@ export type Project = {
   tags: string[];
   stack: string[];
   featured: boolean;
-  repos: { name: string; role: string }[];
+  category: "software" | "design";
+  liveUrl?: string;
+  deliverables?: string[];
+  repos?: { name: string; role: string }[];
   highlights: string[];
   outcomes: string[];
   decisions: string[];
@@ -46,6 +49,7 @@ export const projects: Project[] = [
       "Recharts",
     ],
     featured: true,
+    category: "software",
     repos: [
       { name: "red-ox-mobile", role: "Mobile app (iOS/Android)" },
       { name: "potteryfriends-web", role: "Marketing & web app" },
@@ -105,6 +109,7 @@ export const projects: Project[] = [
     tags: ["SaaS", "Multi-Product", "Hiring", "Workflow"],
     stack: ["Next.js", "TypeScript", "TailwindCSS", "Supabase", "PostHog"],
     featured: true,
+    category: "software",
     repos: [
       { name: "swob-app", role: "Core application" },
       { name: "swob-candidate-dashboard", role: "Candidate-facing dashboard" },
@@ -170,6 +175,7 @@ export const projects: Project[] = [
       "React Navigation",
     ],
     featured: true,
+    category: "software",
     repos: [
       { name: "1406-adventures", role: "Web app (React + Vite)" },
       { name: "1406-adventures-mobile", role: "Native mobile app (iOS/Android)" },
@@ -233,6 +239,7 @@ export const projects: Project[] = [
       "TailwindCSS",
     ],
     featured: true,
+    category: "software",
     repos: [{ name: "health", role: "Full health analytics dashboard" }],
     highlights: [
       "Claude-powered meal planning: generates recipes based on macros, goals, and available ingredients",
@@ -272,6 +279,342 @@ export const projects: Project[] = [
     strategy:
       "Target customer: People pursuing body recomposition — fat reduction and muscle increase — who track data across multiple devices and want actionable insights, not just more charts. Competitive landscape: Strava is social but not analytical. TrainingPeaks has deep analytics but no nutrition or body composition. MyFitnessPal tracks food but is disconnected from training. No product unifies all three. Product thesis: The value isn't in collecting data — it's in connecting data across sources to surface insights no single app can provide. The AI meal planner is the differentiator — nutrition matched to your specific body composition goals is the hardest problem to solve and the one most people give up on. Current status: Testing with Everfit Motion gym community after proving the system on myself with 6 months of results.",
   },
+  {
+    slug: "krysta-mae-ceramics",
+    title: "Krysta Mae Ceramics",
+    subtitle: "Brand Identity & E-Commerce Website",
+    category: "design",
+    liveUrl: "https://krystamae.com",
+    screenshot: "/screenshots/krysta-mae-home.png",
+    description:
+      "Complete brand identity and Squarespace e-commerce build for Krysta Mae, a ceramic artist creating handcrafted work inspired by travel, home, and California landscapes. I designed the logo, developed the brand system, built the website from scratch, shot all product and lifestyle photography, and wrote every line of copy. The site is organized around narrative-driven collections rather than traditional product filtering — storytelling as the architecture.",
+    pitch:
+      "Krysta had beautiful work but no cohesive visual system to present it. I wanted to create a brand universe that felt like an extension of her studio — quiet, intentional, and grounded. Instead of a typical e-commerce grid, I organized the shop around seasonal and mood-based collections with narrative intros. The goal was to make browsing feel like discovering, not shopping.",
+    problem:
+      "Krysta's ceramics spoke for themselves in person, but online she had no visual identity — no logo, no consistent photography, no brand voice. Her work needed a digital home that could convey the same warmth and tactile quality that makes handmade ceramics special.",
+    tags: ["Branding", "E-Commerce", "Photography"],
+    stack: ["Squarespace", "Custom CSS"],
+    featured: false,
+    deliverables: [
+      "Brand Identity & Logo",
+      "Squarespace Website Build",
+      "Product & Lifestyle Photography",
+      "Copywriting & Brand Voice",
+    ],
+    highlights: [
+      "Complete brand identity: logo, color palette, typography, and brand guidelines",
+      "Narrative-driven e-commerce organized by seasonal collections rather than product categories",
+      "Full product and lifestyle photography shoot — soft natural light highlighting ceramic textures and glaze details",
+      "Custom copywriting in a poetic, story-led voice guiding discovery through each collection",
+      "Mobile-first responsive design with custom CSS grid layouts",
+      "Integrated e-commerce with streamlined checkout and inventory management",
+    ],
+    outcomes: [
+      "Delivered a complete brand asset library usable across print, digital, and packaging",
+      "Photography library spanning product shots, lifestyle imagery, and studio behind-the-scenes",
+      "Narrative-organized shop enabling intuitive product discovery without traditional filtering",
+      "Performant, accessible website functioning as both commerce platform and artistic portfolio",
+    ],
+    decisions: [
+      "Organized shop by mood-based collections instead of product type — prioritized storytelling over conventional e-commerce to match how the artist thinks about her work",
+      "Chose earth-tone palette with quiet neutral accents — the brand needed to support the ceramics, not compete with them",
+      "Shot all photography in natural light to highlight ceramic textures and glaze details — studio lighting would have flattened the handmade quality",
+      "Wrote all copy in a poetic voice rather than commercial tone — the audience values craft and intention over sales mechanics",
+    ],
+    teamContext:
+      "Solo designer and creative director — I handled brand strategy, logo design, web development, art direction, photography, and copywriting. This was a full-scope engagement where I owned every creative decision from initial concept through final delivery.",
+    userResearch: [
+      "Spent time in Krysta's studio understanding her process, influences, and how she talks about her own work — the brand voice needed to sound like her, not like a marketing agency",
+      "Studied how her existing customers discovered and purchased her work — most came through Instagram and studio shows, meaning the website needed to convert warm referrals, not cold traffic",
+      "Analyzed competitor ceramic artist sites and found most defaulted to generic gallery templates — the opportunity was in creating something that felt as intentional as the work itself",
+    ],
+    failures: [
+      "Initial logo concepts were too decorative — they competed with the ceramics in product photography. Simplified to a clean wordmark that recedes behind the work",
+      "First site structure had separate pages per collection. Realized visitors wanted to browse across collections fluidly, not click through multiple pages. Consolidated to a scroll-based gallery approach",
+    ],
+    strategy:
+      "The website needed to serve two audiences: existing followers from Instagram who wanted to purchase, and galleries or press who needed to evaluate the work at a glance. The narrative collection structure handles both — casual browsers get drawn into the story, while professionals can quickly scan the range and quality of work.",
+  },
+  {
+    slug: "joan-pinto-ceramics",
+    title: "Joan Pinto Ceramics",
+    subtitle: "Website Migration & E-Commerce Redesign",
+    category: "design",
+    liveUrl: "https://www.joanpintoceramics.com",
+    screenshot: "/screenshots/joan-pinto-home.png",
+    description:
+      "Migrated and rebuilt Joan Pinto's ceramic art website from Wix to Squarespace. Joan creates handbuilt ceramics — botanical studies, textured vessels, and sculptural wall pieces. The redesign introduced a gallery-like browsing experience with proper shop organization across five product categories, full SEO optimization, and a backend structure Joan could manage independently.",
+    pitch:
+      "Joan's Wix site was becoming limiting as her collection grew — the layout couldn't accommodate new categories, the shop was disorganized, and the overall feel didn't match the quality of her work. I rebuilt everything on Squarespace with a design philosophy centered on visual restraint: generous white space, soft tones, and minimal styling so the ceramics became the focal point. The layout rhythm was designed to encourage slow, contemplative browsing — like walking through a gallery.",
+    problem:
+      "Joan's existing Wix site was outgrowing her practice. Adding new products was cumbersome, the shop lacked proper categorization, and the site's generic template didn't reflect the intentional, handmade quality of her ceramics. She needed a platform she could manage herself without sacrificing design quality.",
+    tags: ["E-Commerce", "Migration", "Design"],
+    stack: ["Squarespace", "Custom CSS", "SEO"],
+    featured: false,
+    deliverables: [
+      "Wix to Squarespace Migration",
+      "Website Redesign & Build",
+      "Shop Organization & Product Setup",
+      "SEO Optimization",
+    ],
+    highlights: [
+      "Full platform migration from Wix to Squarespace preserving brand continuity and existing content",
+      "Shop organized into five curated categories: Plates, Bowls, Vases, Wall Pieces, and Sculptures",
+      "Complete SEO setup: titles, descriptions, slugs, and alt text across every page and product",
+      "Gallery-paced layout designed for contemplative browsing with generous whitespace",
+      "Backend structured for easy self-service updates — Joan manages content independently",
+      "Inventory tracking, pricing, and sold-out states configured across all products",
+    ],
+    outcomes: [
+      "Seamless migration with zero content loss — fonts, layout patterns, and brand voice preserved",
+      "Organized product catalog enabling collectors to browse by category for the first time",
+      "Clean, readable URLs and complete SEO metadata improving search discoverability",
+      "Self-manageable backend allowing Joan to add products and update content without developer help",
+    ],
+    decisions: [
+      "Preserved the original site's brand feel during migration rather than starting fresh — continuity mattered more than novelty for her existing collector audience",
+      "Chose photography-led design over decorative elements — Joan's natural light imagery was strong enough to carry the aesthetic without embellishment",
+      "Simplified navigation to four core sections rather than exposing every category in the menu — reduced cognitive load for first-time visitors",
+      "Configured sold-out states to keep items visible rather than hiding them — collectors want to see the full range even when pieces are unavailable",
+    ],
+    teamContext:
+      "Solo designer handling the full migration: auditing the existing Wix site, mapping content to the new structure, designing the Squarespace build, configuring the shop and SEO, and training Joan on self-service management.",
+    userResearch: [
+      "Audited Joan's Wix site and cataloged every page, product, and content block to ensure nothing was lost in migration",
+      "Joan described her ideal browsing experience as 'walking through a quiet gallery' — that became the design north star for spacing, pacing, and visual hierarchy",
+      "Talked to several of her collectors who said they often revisited the site to check for new pieces — the new layout prioritized 'what's new' visibility",
+    ],
+    failures: [
+      "Initially designed the homepage with a large hero video. Joan preferred a static, image-forward approach that loaded faster and felt more aligned with her quiet aesthetic. Replaced with a curated image grid",
+      "First product page layout showed all details upfront — dimensions, materials, price, description. Collectors found it overwhelming. Streamlined to essentials with expandable sections for details",
+    ],
+    strategy:
+      "Joan's website serves a specific audience: collectors and gallery visitors who already appreciate handmade ceramics. The design strategy prioritized artistic integrity over commercial pressure — no popups, no urgency tactics, no aggressive CTAs. The calm, gallery-like experience reflects the values of both the artist and her audience.",
+  },
+  {
+    slug: "fergus-folan-ceramics",
+    title: "Fergus Folan",
+    subtitle: "Brand Identity & E-Commerce for Ceramic Guitar Slides",
+    category: "design",
+    liveUrl: "https://ceramicslides.com",
+    screenshot: "/screenshots/ceramicslides-home.png",
+    description:
+      "Full brand identity and e-commerce website for Fergus Folan, a blues guitarist who handcrafts ceramic guitar slides. This project required building a brand that bridged two worlds — music and ceramics. I designed the logo, built the Wix e-commerce site, organized approximately 100 one-of-a-kind slides with individual product names and photography, and produced video content showing the craft process. The brand needed to speak to guitarists while honoring the artisanal quality of each piece.",
+    pitch:
+      "Fergus doesn't sell generic guitar accessories — each slide is a one-of-a-kind ceramic piece thrown on a wheel and finished with unique glazes. The brand needed to convey that these are handmade instruments, not factory products. I designed a custom monogram combining guitar headstock aesthetics with musical symbolism, established an earthy, music-forward visual system, and built a shop that could handle ~100 individually named products while keeping the browsing experience manageable.",
+    problem:
+      "Fergus had a growing collection of handmade ceramic guitar slides but no way to sell them online. Each piece is unique — different glazes, dimensions, and tonal qualities — so a traditional product grid wouldn't work. He needed a brand identity that positioned his slides as artisanal instruments, not cheap accessories, and an e-commerce experience that could showcase ~100 one-of-a-kind items.",
+    tags: ["Branding", "E-Commerce", "Video"],
+    stack: ["Wix", "Custom CSS"],
+    featured: false,
+    deliverables: [
+      "Brand Identity & Custom Monogram",
+      "Wix E-Commerce Website",
+      "Product Photography",
+      "Video Production",
+    ],
+    highlights: [
+      "Custom 'ff' monogram combining guitar headstock aesthetics with musical infinity symbolism",
+      "E-commerce setup organizing ~100 one-of-a-kind slides with individual names, dimensions, and photography",
+      "Professional product photography with consistent lighting across the full catalog",
+      "Short-form video content showing the throwing and glazing process",
+      "Category organization with sold-out state management for unique pieces",
+      "Earthy, music-forward visual system inspired by ceramic glazes and blues culture",
+    ],
+    outcomes: [
+      "Fully branded online store converting Fergus from word-of-mouth sales to a scalable e-commerce operation",
+      "Complete product catalog with individual photography, naming, and descriptions for ~100 slides",
+      "Video content library connecting customers to the craft process behind each piece",
+      "Manageable backend system allowing Fergus to add new slides as he produces them",
+    ],
+    decisions: [
+      "Built on Wix instead of Squarespace — Fergus needed a platform he could update himself, and Wix's product management UX was more intuitive for someone managing 100+ unique items",
+      "Designed a custom monogram rather than a wordmark — the 'ff' symbol works at small sizes on packaging and product labels where a full logo wouldn't",
+      "Invested in video content early — guitarists want to hear and see a slide before buying, so demonstration videos became the primary conversion driver",
+      "Named each slide individually rather than using generic SKUs — treating each piece as named art reinforced the handmade positioning",
+    ],
+    teamContext:
+      "Solo creative lead handling brand strategy, logo design, web development, art direction, product photography, and video production. This project required bridging two distinct communities — ceramic artists and blues musicians — into one coherent brand.",
+    userResearch: [
+      "Spent time with Fergus in his studio understanding the relationship between clay, glaze, and tonal quality — each slide sounds different based on its material and shape, which informed how I wrote product descriptions",
+      "Researched the guitar slide market and found that most competitors sell mass-produced glass or metal slides — Fergus's handmade ceramic slides occupied a completely uncontested niche",
+      "Talked to blues guitarists about how they shop for gear — they trust video demonstrations and word-of-mouth from other players over product descriptions",
+    ],
+    failures: [
+      "First version of the shop displayed all ~100 slides in a single grid. Overwhelming. Added category organization by glaze type and size range, which matched how guitarists actually browse for tone",
+      "Initially shot product photography on a white background. The slides looked generic and lost their handmade character. Switched to a warm, textured background that reinforced the craft aesthetic",
+    ],
+    strategy:
+      "Fergus's audience is niche but passionate — blues and slide guitar players who care about tone and craftsmanship. The brand leans into authenticity over polish. The video content strategy was deliberate: a 30-second clip of someone playing a ceramic slide converts better than any product description. The e-commerce platform enables Fergus to scale beyond local sales and guitar shows to reach players worldwide.",
+  },
+  {
+    slug: "wendy-friedman-ceramics",
+    title: "Wendy Friedman Ceramics",
+    subtitle: "Brand Identity & Portfolio Website",
+    category: "design",
+    liveUrl: "https://wendyfriedmanceramics.com",
+    screenshot: "/screenshots/wendy-friedman-home.png",
+    description:
+      "Brand identity and Squarespace website for ceramic artist Wendy Friedman. Unlike the other ceramic artist projects, Wendy's site isn't a traditional e-commerce store — it's an inquiry-based experience where visitors browse the work and reach out directly for custom commissions. I designed the logo, built the site, shot all product photography, and crafted copy that reflected Wendy's quiet, intentional approach to hand-thrown ceramics.",
+    pitch:
+      "Wendy didn't want a shop — she wanted a digital extension of her studio. Every design element was chosen to echo her handmade practice: neutral palette, soft typography, generous whitespace. The site uses an inquiry-based flow instead of an add-to-cart model because Wendy's work is personal and she prefers conversation over transactions. The contact forms are warm and inviting, encouraging dialogue rather than orders.",
+    problem:
+      "Wendy needed an online presence that reflected the spirit of her hand-thrown ceramics without turning her practice into a transactional experience. Standard e-commerce templates felt wrong for work that's personal and process-driven. She needed a space that was simple, personal, and beautiful — a portrait of her practice, not a storefront.",
+    tags: ["Branding", "Photography", "Design"],
+    stack: ["Squarespace", "Custom CSS"],
+    featured: false,
+    deliverables: [
+      "Brand Identity & Logo",
+      "Squarespace Website Build",
+      "Product & Studio Photography",
+      "Copywriting",
+    ],
+    highlights: [
+      "Clean, grounded logo reflecting warmth and restraint — designed for print, digital, and packaging",
+      "Inquiry-based shop flow replacing traditional e-commerce with warm contact forms encouraging personal conversation",
+      "Custom studio photography emphasizing natural textures, glazes, and behind-the-scenes process",
+      "Poetic copy reflecting Wendy's voice and rhythm throughout the site",
+      "Mobile-optimized gallery layouts with calm, gallery-like browsing experience",
+      "Three-section architecture — Work, Inquire, About — keeping navigation intentionally simple",
+    ],
+    outcomes: [
+      "Complete visual identity system with logo, color palette, and brand guidelines",
+      "Professional photo library of 13+ product images and studio portraits",
+      "Conversion-friendly design supporting custom orders through inquiry rather than cart",
+      "Authentic digital representation described as 'a portrait in digital form'",
+    ],
+    decisions: [
+      "Chose inquiry-based flow over traditional e-commerce — Wendy's work is custom and personal, and she values the conversation that leads to a commission more than transactional efficiency",
+      "Limited the site to three sections (Work, Inquire, About) instead of expanding with a blog or events page — restraint in navigation mirrors the restraint in her ceramics",
+      "Shot portraits of Wendy at work alongside product photos — the artist and the process are inseparable from the work, and collectors want to know who made their piece",
+      "Used neutral palette with generous whitespace throughout — the design recedes so the ceramics are always the focal point",
+    ],
+    teamContext:
+      "Solo designer and creative director — brand strategy, logo design, web development, art direction, photography, and copywriting. This was a deeply collaborative engagement where every decision was grounded in understanding Wendy's artistic values and practice.",
+    userResearch: [
+      "Visited Wendy's studio multiple times to understand her process — the meditative quality of her throwing practice directly informed the calm, unhurried feel of the website",
+      "Wendy described her ideal customer interaction as 'a conversation over tea, not a transaction at a register' — this framed the entire inquiry-based approach",
+      "Studied how other ceramic artists with inquiry-based models presented their work — most buried the contact form, creating friction. I made inquiry the second most prominent section after the work itself",
+    ],
+    failures: [
+      "First design draft had too many decorative elements — custom borders, textured backgrounds, illustrated accents. Wendy's feedback was that it felt 'busy.' Stripped it back to pure whitespace and typography, which was exactly right",
+      "Initially organized the Work section chronologically. Wendy preferred to curate by mood and form rather than timeline. Reorganized to let her arrange pieces as she would arrange a gallery wall",
+    ],
+    strategy:
+      "Wendy's website isn't trying to maximize sales — it's trying to attract the right customer. Someone who discovers her work online and takes the time to write a personal inquiry is exactly the type of collector she wants. The inquiry-based model acts as a natural filter: people who value handmade, personal objects self-select through the process.",
+  },
+  {
+    slug: "nancy-takaichi",
+    title: "Nancy Takaichi",
+    subtitle: "Brand Identity & Portfolio for Plein Air Painter",
+    category: "design",
+    liveUrl: "https://www.nancytakaichi.com",
+    screenshot: "/screenshots/nancy-takaichi-home.png",
+    description:
+      "Brand identity and Squarespace website for Nancy Takaichi, a plein air oil painter specializing in California landscapes, florals, and urban scenes. This was the only non-ceramics project in my design portfolio — Nancy paints outdoors, capturing light and place in oil. I organized her work into six thematic collections, designed a calm typographic brand system, shot environmental portraits of her painting outdoors, and built a site that functions as both a gallery and a commerce platform for collectors.",
+    pitch:
+      "Nancy's paintings are about light, pattern, and the specific feeling of a place — coastal fog, Sierra granite, the geometry of an urban street. The website needed to honor that sense of place by organizing work into thematic collections rather than a generic gallery. Each collection opens with a narrative introduction framing the emotional and visual essence of the work. The brand system is calm and elegant — soft whites and earthy tones that mirror her painted color range.",
+    problem:
+      "Nancy had a growing body of plein air work spanning years and multiple geographies but no organized way to present it. Her paintings were scattered across social media and local gallery shows. Collectors had no way to browse her full range, and galleries evaluating her work had to piece it together from fragmented sources.",
+    tags: ["Branding", "Gallery", "Design"],
+    stack: ["Squarespace", "Custom CSS"],
+    featured: false,
+    deliverables: [
+      "Brand Identity & Logo",
+      "Squarespace Website Build",
+      "Environmental Portrait Photography",
+      "Collection Curation & Copywriting",
+    ],
+    highlights: [
+      "Six thematic collections: Coastal, Country, Floral, The Sierras, Urban, and Still Life — plus a Sold Work archive",
+      "Calm, elegant logo and typography system matching her refined plein air aesthetic",
+      "Environmental portraits capturing Nancy painting outdoors in her natural setting",
+      "Narrative collection introductions framing the emotional context of each body of work",
+      "Clean grids with generous spacing designed for calm, gallery-like browsing",
+      "Product pages with medium, size, and narrative context connecting buyers to individual pieces",
+    ],
+    outcomes: [
+      "Refined visual identity amplifying her plein air methodology and artistic voice",
+      "Discoverable, theme-based galleries making it easy for collectors to explore by interest",
+      "Warm, storytelling approach elevating both art and artist beyond a simple portfolio",
+      "Sustainable, maintainable site structure Nancy can update as she completes new work",
+    ],
+    decisions: [
+      "Organized by theme (Coastal, Sierras, Urban) instead of chronology or medium — collectors browse by what resonates emotionally, not by when it was painted",
+      "Kept sold work visible in a dedicated archive — it demonstrates range and provides social proof for new collectors, even when pieces are unavailable",
+      "Shot environmental portraits of Nancy working outdoors rather than posed studio shots — her practice is defined by being in the landscape, and the photography needed to reflect that",
+      "Used neutral palette with soft whites and earthy tones — the brand colors were derived from her paintings so the website feels like a natural extension of the work",
+    ],
+    teamContext:
+      "Solo designer handling brand strategy, logo design, web development, art direction, environmental photography, and collection copywriting. This was my first project outside ceramics, applying the same design philosophy — restraint, storytelling, artist-centered decisions — to a different medium.",
+    userResearch: [
+      "Spent time with Nancy at a plein air painting session to understand her process — she sets up at a location and paints what she sees in a single session, which informed the 'sense of place' narrative throughout the site",
+      "Nancy's existing audience came from local gallery shows and plein air painting events — the website needed to extend those in-person encounters, not replace them",
+      "Talked to gallery owners who carry Nancy's work — they wanted a clean online portfolio they could share with collectors, confirming the need for a professional, curated presentation",
+    ],
+    failures: [
+      "Initially designed the site with a single scrolling gallery of all paintings. With 50+ works it was overwhelming and offered no structure for discovery. The six thematic collections solved this by creating natural browsing paths",
+      "First brand direction was too formal and gallery-corporate. Nancy's personality is warm and approachable. Softened the typography and added personal touches to the copy to match her voice",
+    ],
+    strategy:
+      "Nancy's website serves three audiences: collectors who discover her at shows and want to see more, galleries evaluating her for representation, and fellow plein air painters who follow her work. The thematic collection structure serves all three — collectors browse by interest, galleries assess range and consistency, and fellow artists appreciate the dedication to specific subjects and locations.",
+  },
+  {
+    slug: "anu-gandhi-ceramics",
+    title: "Anu Gandhi Ceramics",
+    subtitle: "E-Commerce Website for Handcrafted Pottery",
+    category: "design",
+    liveUrl: "https://www.anugandhiceramics.com",
+    screenshot: "/screenshots/anu-gandhi-home.png",
+    description:
+      "Full e-commerce Squarespace website for Anu Gandhi, a ceramic artist based in Walnut Creek, California. Anu's pottery is inspired by the places she's lived — Kerala, North Carolina, and California — and the site needed to convey that sense of place and memory. I built a clean, minimalist storefront with a product shop, artist gallery, FAQ section, and newsletter integration, all designed around Anu's tagline: 'Pottery Inspired By The Places We Live And Love.'",
+    pitch:
+      "Anu's work carries stories from three very different places — Kerala, North Carolina, and California. The website needed to feel like a bridge between those worlds. I built a Squarespace site that leads with storytelling: the homepage introduces Anu and her influences before showing a single product. The shop is clean and functional, but the real design work was in the pacing — making sure visitors understood the 'why' behind the pottery before they saw the 'what.'",
+    problem:
+      "Anu had a growing body of ceramic work and an active local following but no online presence to reach customers beyond markets and studio shows. She needed an e-commerce site that could handle shipping, inventory, and payments while still feeling personal and handmade — not like a generic online store.",
+    tags: ["E-Commerce", "Design", "Branding"],
+    stack: ["Squarespace", "Custom CSS"],
+    featured: false,
+    deliverables: [
+      "Squarespace E-Commerce Website",
+      "Shop Setup & Product Configuration",
+      "Brand Styling & Visual Direction",
+      "Newsletter Integration",
+    ],
+    highlights: [
+      "Storytelling-first homepage introducing the artist's background and influences before showcasing products",
+      "Full e-commerce setup with product catalog, shopping cart, and shipping configuration",
+      "Free shipping promotion system with discount code integration (SHIP100 for orders over $100)",
+      "Clean, minimalist design with generous whitespace and grid-based responsive layouts",
+      "Newsletter signup integration for ongoing customer engagement",
+      "Wave and jagged decorative highlights on key headings adding handmade personality to the typography",
+    ],
+    outcomes: [
+      "Fully operational e-commerce site enabling Anu to sell pottery beyond local markets for the first time",
+      "Shipping, returns, and payment policies professionally configured and clearly communicated",
+      "Mobile-responsive design ensuring a smooth browsing and purchasing experience across devices",
+      "Self-manageable platform allowing Anu to add new products and update inventory independently",
+    ],
+    decisions: [
+      "Led with the artist's story on the homepage instead of products — Anu's pottery is deeply personal, and customers who understand the inspiration behind the work become loyal repeat buyers",
+      "Added decorative wave elements to headings — a subtle visual nod to the handmade nature of the work that breaks the rigidity of a typical grid layout",
+      "Configured a free shipping threshold ($100) rather than flat-rate free shipping — encourages larger orders while keeping margins sustainable for a solo artist",
+      "Kept the navigation simple: Shop, About, Gallery, FAQs, Contact — every page earns its place, no filler sections",
+    ],
+    teamContext:
+      "Solo designer and developer — built the complete Squarespace site from scratch, configured the e-commerce backend, established the visual direction, and set up all shipping and payment policies. Anu and I are connected through the pottery studio community.",
+    userResearch: [
+      "Anu described her ideal customer as someone who 'treasures handmade objects and wants to know the story behind them' — this framed the storytelling-first approach to the homepage",
+      "Observed that Anu's strongest sales channel was in-person markets where she could tell her story — the website needed to replicate that personal connection digitally",
+      "Reviewed other ceramic artist e-commerce sites and found that most jumped straight to products — leading with the artist's story and sense of place was a clear differentiator",
+    ],
+    failures: [
+      "First homepage design was product-forward with a grid of ceramics above the fold. Felt impersonal and interchangeable with any pottery site. Restructured to lead with Anu's story and influences, with products introduced further down the page",
+      "Initially set up the shop with detailed pottery-specific categorization (by technique, clay type, firing method). Anu's customers don't shop that way — they browse by what looks beautiful. Simplified to a visual browsing experience",
+    ],
+    strategy:
+      "Anu's ceramics business is built on personal connection — people buy because they know her story and feel connected to the places that inspire her work. The website extends that personal brand from markets and studio shows to an always-available online storefront. The free shipping threshold encourages larger orders while the newsletter captures visitors who aren't ready to buy yet but want to stay connected.",
+  },
 ];
 
 export function getProject(slug: string): Project | undefined {
@@ -280,4 +623,8 @@ export function getProject(slug: string): Project | undefined {
 
 export function getFeaturedProjects(): Project[] {
   return projects.filter((p) => p.featured);
+}
+
+export function getDesignProjects(): Project[] {
+  return projects.filter((p) => p.category === "design");
 }

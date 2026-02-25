@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, BookOpen } from "lucide-react";
 import { posts } from "@/lib/posts";
+import { getTagColor } from "@/lib/tagColors";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -11,50 +12,63 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="mb-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-        Blog
-      </h1>
-      <p className="mb-10 text-zinc-600 dark:text-zinc-400">
-        Takeaways from conferences, reflections on building, and lessons from
-        the AI product landscape.
-      </p>
+      {/* Header */}
+      <div className="relative mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 p-8 sm:p-10 dark:from-violet-950/30 dark:via-purple-950/20 dark:to-fuchsia-950/30">
+        <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10" />
+        <div className="flex items-center gap-3 mb-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 shadow-lg">
+            <BookOpen className="h-5 w-5 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            Blog
+          </h1>
+        </div>
+        <p className="text-zinc-600 dark:text-zinc-400">
+          Takeaways from conferences, reflections on building, and lessons from
+          the AI product landscape.
+        </p>
+      </div>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {posts.map((post) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
-            className="group block rounded-xl border border-zinc-200 p-6 transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:hover:border-zinc-700"
+            className="group block overflow-hidden rounded-xl border border-zinc-200 transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:hover:border-zinc-700"
           >
-            <div className="mb-3 flex items-start justify-between">
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
-                  >
-                    {tag}
-                  </span>
-                ))}
+            {/* Gradient top border */}
+            <div className="h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 opacity-60 transition-opacity group-hover:opacity-100" />
+            <div className="p-6">
+              <div className="mb-3 flex items-start justify-between">
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${getTagColor(tag)}`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <ArrowUpRight
+                  size={18}
+                  className="shrink-0 text-zinc-400 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-violet-500 dark:group-hover:text-violet-400"
+                />
               </div>
-              <ArrowUpRight
-                size={18}
-                className="shrink-0 text-zinc-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-zinc-600 dark:group-hover:text-zinc-300"
-              />
+              <h2 className="mb-1 text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+                {post.title}
+              </h2>
+              <p className="mb-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                {post.subtitle}
+              </p>
+              <time className="text-xs text-zinc-400 dark:text-zinc-500">
+                {new Date(post.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
             </div>
-            <h2 className="mb-1 text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-              {post.title}
-            </h2>
-            <p className="mb-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              {post.subtitle}
-            </p>
-            <time className="text-xs text-zinc-400 dark:text-zinc-500">
-              {new Date(post.date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
           </Link>
         ))}
       </div>

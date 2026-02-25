@@ -4,21 +4,36 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
 import { motion } from "framer-motion";
 import { staggerContainer, staggerItem, fadeIn } from "@/lib/animations";
+import { Layers } from "lucide-react";
 
 export default function WorkPage() {
-  const featured = projects.filter((p) => p.featured);
-  const other = projects.filter((p) => !p.featured);
+  const featured = projects.filter(
+    (p) => p.featured && p.category === "software"
+  );
+  const design = projects.filter((p) => p.category === "design");
+  const other = projects.filter(
+    (p) => !p.featured && p.category === "software"
+  );
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <motion.div initial="hidden" animate="visible" variants={fadeIn}>
-        <h1 className="mb-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-          Work
-        </h1>
-        <p className="mb-10 text-zinc-600 dark:text-zinc-400">
-          Products I conceived, designed, built, and shipped — each one a case
-          study in product thinking.
-        </p>
+        {/* Header */}
+        <div className="relative mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
+          <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10" />
+          <div className="flex items-center gap-3 mb-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg">
+              <Layers className="h-5 w-5 text-white" />
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+              Work
+            </h1>
+          </div>
+          <p className="text-zinc-600 dark:text-zinc-400">
+            Products I conceived, designed, built, and shipped — from full-stack
+            platforms to brand identities.
+          </p>
+        </div>
       </motion.div>
 
       <motion.div
@@ -29,7 +44,7 @@ export default function WorkPage() {
       >
         <motion.h2
           variants={staggerItem}
-          className="mb-4 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400"
+          className="mb-4 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400"
         >
           Featured
         </motion.h2>
@@ -42,6 +57,36 @@ export default function WorkPage() {
         </div>
       </motion.div>
 
+      {design.length > 0 && (
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+        >
+          <motion.h2
+            variants={staggerItem}
+            className="mb-4 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400"
+          >
+            Design &amp; Branding
+          </motion.h2>
+          <motion.p
+            variants={staggerItem}
+            className="mb-6 text-sm text-zinc-500 dark:text-zinc-400"
+          >
+            Brand identities, websites, photography, and creative direction for
+            artists and small businesses.
+          </motion.p>
+          <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {design.map((project) => (
+              <motion.div key={project.slug} variants={staggerItem}>
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
       {other.length > 0 && (
         <motion.div
           initial="hidden"
@@ -51,7 +96,7 @@ export default function WorkPage() {
         >
           <motion.h2
             variants={staggerItem}
-            className="mb-4 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400"
+            className="mb-4 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400"
           >
             Other Work
           </motion.h2>

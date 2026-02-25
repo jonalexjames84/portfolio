@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { getPost, posts } from "@/lib/posts";
+import { getTagColor } from "@/lib/tagColors";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
@@ -65,7 +66,7 @@ function renderBlock(block: string, index: number) {
               key={i}
               className="flex items-start gap-2 text-zinc-600 dark:text-zinc-400"
             >
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-violet-500 to-purple-500" />
               <span
                 dangerouslySetInnerHTML={{
                   __html: item
@@ -101,7 +102,7 @@ function renderBlock(block: string, index: number) {
     return (
       <blockquote
         key={index}
-        className="my-6 border-l-2 border-zinc-300 pl-4 italic text-zinc-500 dark:border-zinc-700 dark:text-zinc-400"
+        className="my-6 border-l-2 border-violet-300 pl-4 italic text-zinc-500 dark:border-violet-700 dark:text-zinc-400"
         dangerouslySetInnerHTML={{ __html: formatted }}
       />
     );
@@ -129,43 +130,49 @@ export default async function BlogPostPage({
     <div className="mx-auto max-w-3xl px-6 py-16">
       <Link
         href="/blog"
-        className="mb-8 inline-flex items-center gap-1.5 text-sm text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+        className="mb-8 inline-flex items-center gap-1.5 text-sm text-zinc-500 transition-colors hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400"
       >
         <ArrowLeft size={14} />
         All posts
       </Link>
 
-      <div className="mb-4 flex flex-wrap gap-2">
-        {post.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
+      {/* Visual header area */}
+      <div className="relative mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 p-6 sm:p-8 dark:from-violet-950/30 dark:via-purple-950/20 dark:to-fuchsia-950/30">
+        <div className="pointer-events-none absolute -top-12 -right-12 h-24 w-24 rounded-full bg-violet-400/20 blur-2xl dark:bg-violet-600/10" />
+        <div className="relative">
+          <div className="mb-3 flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${getTagColor(tag)}`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
 
-      <h1 className="mb-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-        {post.title}
-      </h1>
-      <p className="mb-3 text-lg text-zinc-500 dark:text-zinc-400">
-        {post.subtitle}
-      </p>
-      <div className="mb-10 flex items-center gap-3 text-sm text-zinc-400 dark:text-zinc-500">
-        <time>
-          {new Date(post.date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </time>
-        {post.source && (
-          <>
-            <span>&middot;</span>
-            <span>{post.source}</span>
-          </>
-        )}
+          <h1 className="mb-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            {post.title}
+          </h1>
+          <p className="mb-3 text-lg text-zinc-600 dark:text-zinc-400">
+            {post.subtitle}
+          </p>
+          <div className="flex items-center gap-3 text-sm text-zinc-400 dark:text-zinc-500">
+            <time>
+              {new Date(post.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+            {post.source && (
+              <>
+                <span>&middot;</span>
+                <span>{post.source}</span>
+              </>
+            )}
+          </div>
+        </div>
       </div>
 
       <article>{post.content.map((block, i) => renderBlock(block, i))}</article>
