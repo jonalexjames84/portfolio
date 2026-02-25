@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Sparkles } from "lucide-react";
 
@@ -90,15 +91,27 @@ export default function AboutPage() {
       <div className="relative mb-12 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-12 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
         <div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
         <div className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10" />
-        <div className="relative">
-          <h1 className="mb-4 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            About Me
-          </h1>
-          <p className="text-lg leading-relaxed text-zinc-700 dark:text-zinc-300">
-            Most product managers talk about what their teams shipped. I can show
-            you what <em className="text-indigo-600 not-italic font-medium dark:text-indigo-400">I</em> shipped — the products, the code, the databases,
-            the user research. But the more interesting story is how I got here.
-          </p>
+        <div className="relative flex flex-col items-center gap-8 sm:flex-row">
+          <div className="shrink-0">
+            <Image
+              src="/jonny-headshot.jpg"
+              alt="Jon Martin"
+              width={160}
+              height={160}
+              className="h-32 w-32 rounded-2xl object-cover shadow-lg ring-4 ring-white/80 sm:h-40 sm:w-40 dark:ring-zinc-800/80"
+              priority
+            />
+          </div>
+          <div>
+            <h1 className="mb-4 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+              About Me
+            </h1>
+            <p className="text-lg leading-relaxed text-zinc-700 dark:text-zinc-300">
+              Most product managers talk about what their teams shipped. I can show
+              you what <em className="text-indigo-600 not-italic font-medium dark:text-indigo-400">I</em> shipped — the products, the code, the databases,
+              the user research. But the more interesting story is how I got here.
+            </p>
+          </div>
         </div>
       </div>
 
@@ -147,7 +160,40 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="mt-12 flex flex-col gap-3 sm:flex-row">
+      {/* Lifestyle photos */}
+      <div className="mt-14 mb-12">
+        <div className="grid grid-cols-3 gap-3">
+          <div className="aspect-[3/4] overflow-hidden rounded-xl">
+            <Image
+              src="/jonny-pottery-studio.jpg"
+              alt="Jon at the pottery studio"
+              width={400}
+              height={533}
+              className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </div>
+          <div className="aspect-[3/4] overflow-hidden rounded-xl">
+            <Image
+              src="/jonny-hiking.jpg"
+              alt="Jon hiking with dogs"
+              width={400}
+              height={533}
+              className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </div>
+          <div className="aspect-[3/4] overflow-hidden rounded-xl">
+            <Image
+              src="/jonny-couple.jpg"
+              alt="Jon and his wife"
+              width={400}
+              height={533}
+              className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row">
         <Link
           href="/work"
           className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"

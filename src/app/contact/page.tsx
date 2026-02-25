@@ -1,25 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { Mail, Linkedin, Github, Send, Calendar, BookOpen } from "lucide-react";
+import { Linkedin, Github, Send, Calendar, BookOpen, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
 import { CalendlyEmbed } from "@/components/CalendlyEmbed";
 
 const socials = [
   {
-    label: "Email",
-    href: "mailto:hello@jonnymartin.blog",
-    icon: Mail,
-    detail: "hello@jonnymartin.blog",
-    description: "Best for initial outreach",
-    gradient: "from-amber-500 to-orange-500",
-  },
-  {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/jon-martin-0b739316/",
     icon: Linkedin,
-    detail: "linkedin.com/in/jon-martin-0b739316",
     description: "Connect professionally",
     gradient: "from-sky-500 to-blue-500",
   },
@@ -27,7 +18,6 @@ const socials = [
     label: "GitHub",
     href: "https://github.com/jonalexjames84",
     icon: Github,
-    detail: "github.com/jonalexjames84",
     description: "See my code",
     gradient: "from-zinc-600 to-zinc-800",
   },
@@ -35,7 +25,6 @@ const socials = [
     label: "Substack",
     href: "https://jonnymartin.substack.com",
     icon: BookOpen,
-    detail: "jonnymartin.substack.com",
     description: "Read my writing",
     gradient: "from-orange-500 to-rose-500",
   },
@@ -154,24 +143,22 @@ export default function ContactPage() {
             <motion.div key={s.label} variants={staggerItem}>
               <Link
                 href={s.href}
-                target={s.href.startsWith("mailto") ? undefined : "_blank"}
-                rel={s.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                className="group flex items-start gap-4 rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700"
               >
                 <div className={`rounded-lg bg-gradient-to-br ${s.gradient} p-2.5 shadow-lg transition-transform group-hover:scale-110`}>
                   <s.icon size={20} className="text-white" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <p className="font-semibold text-zinc-900 dark:text-zinc-100">
                     {s.label}
                   </p>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                    {s.detail}
-                  </p>
-                  <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
+                  <p className="text-sm text-zinc-400 dark:text-zinc-500">
                     {s.description}
                   </p>
                 </div>
+                <ExternalLink size={16} className="mt-1 text-zinc-300 transition-colors group-hover:text-zinc-500 dark:text-zinc-600 dark:group-hover:text-zinc-400" />
               </Link>
             </motion.div>
           ))}
