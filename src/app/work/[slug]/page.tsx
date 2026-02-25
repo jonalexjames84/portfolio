@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { ArrowLeft, ExternalLink, ArrowRight, Users, Lightbulb, Target, Wrench, GitBranch, BarChart3, AlertTriangle, Cpu, Package, Globe, Palette } from "lucide-react";
+import { ArrowLeft, ExternalLink, ArrowRight, Users, Lightbulb, Target, Wrench, GitBranch, BarChart3, AlertTriangle, Cpu, Package, Globe, Palette, Layers } from "lucide-react";
 import { getProject, projects } from "@/lib/projects";
 import { getTagColor } from "@/lib/tagColors";
 import { BrowserFrame } from "@/components/BrowserFrame";
@@ -124,7 +124,7 @@ export default async function ProjectPage({
         </div>
       </div>
 
-      {/* Screenshot with browser frame */}
+      {/* Hero screenshot */}
       {project.screenshot && (
         <div className="relative mb-12">
           <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-indigo-500/20 via-violet-500/20 to-purple-500/20 blur-sm dark:from-indigo-500/10 dark:via-violet-500/10 dark:to-purple-500/10" />
@@ -137,8 +137,8 @@ export default async function ProjectPage({
         </div>
       )}
 
-      {/* Additional screenshots */}
-      {project.screenshots && project.screenshots.length > 1 && (
+      {/* Legacy screenshot grid for projects without features */}
+      {!project.features && project.screenshots && project.screenshots.length > 1 && (
         <div className="mb-12 grid gap-4 sm:grid-cols-2">
           {project.screenshots.slice(1).map((src) => (
             <div key={src} className="transition-transform hover:scale-[1.02]">
@@ -206,6 +206,45 @@ export default async function ProjectPage({
           {project.description}
         </p>
       </section>
+
+      {/* Feature Showcases */}
+      {project.features && project.features.length > 0 && (
+        <section className="mb-12">
+          <SectionHeader icon={Layers} title="Feature Showcase" gradient="from-indigo-500 to-cyan-500" />
+          <div className="space-y-10">
+            {project.features.map((feature) => (
+              <div
+                key={feature.title}
+                className="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800"
+              >
+                <div className="p-5">
+                  <h3 className="mb-2 text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    {feature.description}
+                  </p>
+                </div>
+                <div className="border-t border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/50">
+                  <div className={`grid gap-3 ${feature.screenshots.length === 1 ? "grid-cols-1 max-w-[220px] mx-auto" : feature.screenshots.length === 2 ? "grid-cols-2 max-w-[440px] mx-auto" : "grid-cols-3"}`}>
+                    {feature.screenshots.map((src) => (
+                      <div key={src} className="overflow-hidden rounded-lg border border-zinc-200 shadow-sm dark:border-zinc-700">
+                        <Image
+                          src={src}
+                          alt={feature.title}
+                          width={390}
+                          height={844}
+                          className="w-full"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Key Decisions & Tradeoffs */}
       <section className="mb-12">

@@ -22,6 +22,11 @@ export type Project = {
   screenshot?: string;
   screenshots?: string[];
   callout?: string;
+  features?: {
+    title: string;
+    description: string;
+    screenshots: string[];
+  }[];
 };
 
 export const projects: Project[] = [
@@ -136,6 +141,86 @@ export const projects: Project[] = [
     ],
     strategy:
       "Target customer: Independent pottery studios with 30-200 members — large enough to need digital tools but too small for enterprise solutions. These studios have a passionate community but no purpose-built software. Competitive landscape: Mindbody and Glofox dominate fitness booking but don't serve craft communities. Mighty Networks and Circle are too generic. No one owns the pottery/ceramics vertical. Go-to-market: Land with a free analytics dashboard (the feature owners asked for most), then expand to the full platform once studios see engagement data. The documentation site doubles as onboarding — studios self-serve setup without a sales call. Business model: Freemium with studio-level subscriptions. Free tier gives basic events and messaging. Paid tier unlocks analytics, payments, gamification, and custom theming. Vision: Start with pottery, then expand to other craft communities (woodworking, glassblowing, printmaking) that share the same studio-and-membership model.",
+    features: [
+      {
+        title: "Social Feed & Content Creation",
+        description:
+          "The feed is the heartbeat of the app — it's where members share their latest work, celebrate firings, and stay inspired. I built Instagram-style photo editing (filters, adjustments, cropping) and video support because potters are visual creators who want to showcase their craft without leaving the app.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/feed.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/new-post.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/photo-filters.png",
+        ],
+      },
+      {
+        title: "Community Forums",
+        description:
+          "Studios have tribal knowledge — glaze recipes, firing schedules, technique tips — that dies in group chat noise. The forum gives it a permanent, searchable home. Channels are organized by topic (Glazes & Firing, Techniques, Show & Tell) because every studio conversation I observed fell into the same natural categories.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/forum.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/new-thread.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/create-menu.png",
+        ],
+      },
+      {
+        title: "Events & Workshops",
+        description:
+          "Missing events was the #1 complaint from members. The 6-step event creation flow was designed to be fast enough that even the most tech-averse studio owner could publish a workshop in under 2 minutes. RSVP tracking replaced the paper sign-up sheets that were getting lost every week.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/event-detail.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/event-date.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/event-style.png",
+        ],
+      },
+      {
+        title: "Glaze Library",
+        description:
+          "When I asked members what feature they wanted most, the answer was always 'What glaze should I try next?' The glaze library tracks every glaze in the studio with firing info and cone temperature, so members can browse before they even get to the studio. This replaced the handwritten notes taped to the glaze cabinet.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/glaze-library.png",
+        ],
+      },
+      {
+        title: "Member Experience",
+        description:
+          "Granular notification controls, direct messaging, and privacy settings aren't glamorous — but they're what makes users trust an app with their community. Notification types (likes, comments, mentions, DMs, event reminders) prevent the fatigue that made group texts fail for studios in the first place. The welcome banner spotlights new members to drive early engagement.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/welcome-members.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/messages.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/notifications.png",
+        ],
+      },
+      {
+        title: "Marketing Site & Growth",
+        description:
+          "The marketing site isn't just a landing page — it's a growth engine. The beta signup flow tracks conversion by platform (iOS vs Android), and the site admin panel lets me toggle between teaser, waitlist, and launch modes without redeploying. Real beta tester reviews from Red Ox build social proof.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/landing-hero.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/landing-reviews.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/site-admin.png",
+        ],
+      },
+      {
+        title: "Analytics Dashboards",
+        description:
+          "Studio owners don't need vanity metrics — they need to know if the platform is retaining members. The weekly review surfaces the one metric that matters (weekly active members) and the activation funnel shows exactly where new members drop off. I built this because I needed the same data to make product decisions.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/dashboard-weekly.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/dashboard-funnel.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/dashboard-dau.png",
+        ],
+      },
+      {
+        title: "Studio Owner Admin",
+        description:
+          "The owner app is a separate experience with its own navigation — because studio owners have fundamentally different needs than members. Role-based access (Owner, Admin, Student, Guest) controls what each member sees, and the content moderation system keeps the community safe without constant manual review.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/admin-home.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/manage-team.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/change-role.png",
+        ],
+      },
+    ],
   },
   {
     slug: "swob",
@@ -345,6 +430,58 @@ export const projects: Project[] = [
     ],
     strategy:
       "Target customer: People pursuing body recomposition — fat reduction and muscle increase — who track data across multiple devices and want actionable insights, not just more charts. Competitive landscape: Strava is social but not analytical. TrainingPeaks has deep analytics but no nutrition or body composition. MyFitnessPal tracks food but is disconnected from training. No product unifies all three. Product thesis: The value isn't in collecting data — it's in connecting data across sources to surface insights no single app can provide. The AI meal planner is the differentiator — nutrition matched to your specific body composition goals is the hardest problem to solve and the one most people give up on. Current status: Testing with Everfit Motion gym community after proving the system on myself with 6 months of results.",
+    features: [
+      {
+        title: "AI Meal Planning Engine",
+        description:
+          "Nutrition is where most recomposition programs fail — people know they need to hit their macros but don't know what to cook. The AI planner takes your exact macro targets, dietary restrictions, and available ingredients, then generates recipes that actually fit. Three modes (Quick Meal, Meal Prep, Pantry Raid) because users have different needs on Tuesday night vs. Sunday afternoon.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/meal-engine.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/build-meal.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/mode-selection.png",
+        ],
+      },
+      {
+        title: "Meal Prep & Shopping",
+        description:
+          "Meal prep is the bridge between planning and execution. The planner lets you set meals per day, servings per recipe, and max prep time — then generates a full week of meals with a consolidated shopping list. Items are grouped by recipe so you know exactly why each ingredient is on the list.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/meal-plan-settings.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/pantry.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/shopping-list.png",
+        ],
+      },
+      {
+        title: "Body Composition Tracking",
+        description:
+          "Most fitness apps track weight, but weight alone is misleading during recomposition — you can gain muscle and lose fat while the scale barely moves. The progress dashboard shows body fat percentage, lean mass gained, and fat lost separately. The scan summary calculates net recomposition and weekly fat loss rate so you can see if your nutrition strategy is actually working.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/progress.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/scan-summary.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/body-composition.png",
+        ],
+      },
+      {
+        title: "Data Source Integrations",
+        description:
+          "Fitness data lives in silos — Strava knows your cardio, MacroFactor knows your nutrition, BodySpec has your DEXA scans. I built integrations for all three so everything feeds into one dashboard. Strava syncs automatically via webhooks, MacroFactor imports via CSV, and DEXA scans are parsed directly from PDF. Zero manual entry after initial setup.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/strava-integration.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/data-sources.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/dexa-integration.png",
+        ],
+      },
+      {
+        title: "Personalization & Preferences",
+        description:
+          "Generic meal plans fail because everyone has different constraints. The preference system captures dietary restrictions, cuisine preferences, spice tolerance, preferred proteins, food dislikes, cooking skill, and health goals — all fed into the AI prompt so every recipe is personalized. Macro targets are fully editable so the app grows with your goals.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/food-preferences.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/health-goals.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/macro-targets.png",
+        ],
+      },
+    ],
   },
   {
     slug: "krysta-mae-ceramics",
