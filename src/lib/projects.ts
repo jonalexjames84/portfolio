@@ -31,6 +31,7 @@ export const projects: Project[] = [
     subtitle: "Community Platform Ecosystem",
     screenshot: "/screenshots/potteryfriends-home.png",
     screenshots: ["/screenshots/potteryfriends-home.png", "/screenshots/potteryfriends-admin.png"],
+    liveUrl: "https://potteryfriends.com/",
     description:
       "Pottery Friends grew out of my time as a member at Red Ox Ceramics in Concord, CA. Over months of daily studio sessions, I became close friends with the members and staff — and got a front-row seat to every operational pain point. The operations manager was drowning in manual billing, paper sign-up sheets, and group texts. Members were missing firings, had no way to track what glazes they'd used, and the community that made the studio special had no digital home. I built a 4-product ecosystem to solve this end-to-end: a native mobile app for members, a marketing site for studios, analytics dashboards for owners, and documentation for onboarding.",
     pitch:
@@ -55,8 +56,6 @@ export const projects: Project[] = [
     repos: [
       { name: "red-ox-mobile", role: "Mobile app (iOS/Android)" },
       { name: "potteryfriends-web", role: "Marketing & web app" },
-      { name: "pottery-friends-dashboards", role: "Analytics dashboards" },
-      { name: "pottery-friends-docs", role: "Documentation site" },
     ],
     highlights: [
       "4-product ecosystem: native mobile app, web platform, analytics dashboards, and docs site",
@@ -102,6 +101,7 @@ export const projects: Project[] = [
     slug: "swob",
     title: "Swob",
     subtitle: "Swipe-to-Hire Job Matching Platform",
+    liveUrl: "https://www.swobapp.com/",
     description:
       "Swob is a consulting project where I serve as the product manager. I build prototypes and manage delivery for the team. The platform makes job hunting easy — candidates swipe through 8M+ active jobs and apply instantly to hourly gigs, full-time roles, or internships. On the employer side, a candidate pipeline tracks applicants from first contact to first shift, and a shift-swap system lets employees trade hours without manager bottlenecks. Each product is a standalone Next.js app sharing a Supabase backend. The sites and prototypes serve as living specifications for the engineering team.",
     pitch:
@@ -225,7 +225,8 @@ export const projects: Project[] = [
     title: "Macro Chef",
     subtitle: "AI-Powered Fitness & Nutrition Analytics",
     screenshot: "/screenshots/health-home.png",
-    screenshots: ["/screenshots/health-home.png", "/screenshots/health-meals.png", "/screenshots/health-training.png"],
+    screenshots: ["/screenshots/health-home.png"],
+    liveUrl: "https://health.jonnymartin.blog/",
     description:
       "This project came from my own weightlifting and body recomposition journey. I found a system of fat reduction and muscle increase that helped me get tremendous results in 6 months, and I wanted to help others do the same. Fitness data is scattered across apps that don't talk to each other — Strava tracks your runs, COROS logs your heart rate, a DEXA scan lives in a PDF, and your meals are in a spreadsheet. Health Dashboard pulls it all into one place and makes it actionable, with an AI-generated meal planner that matches your specific goals — one of the hardest things to get right. I'm now testing it within our gym community called Everfit Motion.",
     pitch:
