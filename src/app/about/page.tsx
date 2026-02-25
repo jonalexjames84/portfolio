@@ -79,7 +79,8 @@ const sections = [
     title: "What I'm Looking For",
     gradient: "from-indigo-500 to-blue-500",
     content: [
-      "I'm targeting Senior PM roles at seed-to-Series B startups or growth-stage companies in SaaS, developer tools, AI/ML, or consumer platforms. I want to be close to the product — not three layers of process away from it. The right fit is a team that ships weekly, values technical depth in their PMs, and cares more about outcomes than outputs. I'm based in the Bay Area and open to remote.",
+      "I'm looking for a company where product is the growth engine — not a support function. I thrive when the PM owns the outcome, not just the roadmap. The right fit is a team that ships weekly, values technical depth in their PMs, and measures success by behavior change, not feature completion.",
+      "Stage-wise, I'm drawn to seed-to-Series B startups and growth-stage companies in SaaS, developer tools, AI/ML, or consumer platforms — anywhere I can be close to the product instead of three layers of process away from it. I'm based in the Bay Area and open to remote.",
     ],
   },
 ];

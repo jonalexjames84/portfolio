@@ -22,6 +22,8 @@ export type Project = {
   screenshot?: string;
   screenshots?: string[];
   callout?: string;
+  metrics?: { value: string; label: string }[];
+  strategyPoints?: { label: string; text: string }[];
   features?: {
     title: string;
     description: string;
@@ -78,11 +80,10 @@ export const projects: Project[] = [
     ],
     liveUrl: "https://potteryfriends.com/",
     description:
-      "Pottery Friends grew out of my time as a member at Red Ox Ceramics in Concord, CA. Over months of daily studio sessions, I became close friends with the members and staff — and got a front-row seat to every operational pain point. The operations manager was drowning in manual billing, paper sign-up sheets, and group texts. Members were missing firings, had no way to track what glazes they'd used, and the community that made the studio special had no digital home. I built a 4-product ecosystem to solve this end-to-end: a native mobile app for members, a marketing site for studios, analytics dashboards for owners, and documentation for onboarding.",
-    pitch:
-      "After spending nearly a year at Red Ox Ceramics — going six days a week, befriending the operations manager, and becoming embedded in the community — I realized every studio runs the same way: Venmo for billing, group texts for announcements, and spreadsheets for everything else. Members who travel to retreats at other studios told me it's the same everywhere. I built Pottery Friends to mirror the real pain points I heard firsthand, from the admin side (billing, member management, event scheduling) all the way to the end user who wants to know what glaze to try next and find inspiration within their community. The mobile app alone has 59 database migrations, 19 edge functions, Stripe payments, and a gamification system with quests and badges — it's a real product built on real relationships.",
+      "Every pottery studio runs the same way: Venmo for billing, group texts for announcements, spreadsheets for everything else. After embedding at Red Ox Ceramics 6 days a week for a year — building relationships with staff and 150 members — I identified an unowned vertical: no one has built purpose-built software for craft studio communities. I built a 4-product ecosystem (native app, web platform, analytics dashboards, docs site) to prove the thesis.",
+    pitch: "",
     problem:
-      "Studio communities are fragmented across group chats, paper schedules, and generic tools like Mindbody that were designed for gyms, not potters. The operations manager at Red Ox was spending hours every week on manual billing and member tracking. Members were missing events because announcements got buried in group chat noise. And the social fabric that makes a studio special — sharing techniques, glaze results, inspiration — had no digital home.",
+      "The operations manager at Red Ox was spending 5+ hours per week on manual billing and member tracking. Members were missing 2-3 events per month because announcements got buried in group chat noise. And the social fabric that makes a studio special — sharing techniques, glaze results, inspiration — had no digital home. Generic tools like Mindbody were designed for gyms, not craft communities.",
     tags: ["Platform", "Mobile", "E-Commerce", "Analytics"],
     stack: [
       "React Native",
@@ -96,56 +97,52 @@ export const projects: Project[] = [
       "Recharts",
     ],
     featured: true,
-    callout: "4-product ecosystem · 59 migrations · 19 edge functions",
+    callout: "4-product ecosystem · 150 beta members · solo build",
     category: "software",
     repos: [
       { name: "red-ox-mobile", role: "Mobile app (iOS/Android)" },
       { name: "potteryfriends-web", role: "Marketing & web app" },
     ],
-    highlights: [
-      "4-product ecosystem: native mobile app, web platform, analytics dashboards, and docs site",
-      "Mobile app with stories, events, messaging, materials library, quests, and profile customization",
-      "Stripe payment processing with subscription management and event ticketing",
-      "59 database migrations and 19 Supabase edge functions powering the full backend",
-      "PostHog analytics pipeline, Sentry error monitoring, and real-time data via Supabase subscriptions",
-      "Admin theming system: studio owners customize colors, typography, and copy without code",
+    metrics: [
+      { value: "150", label: "Beta Members" },
+      { value: "4", label: "Products Shipped" },
+      { value: "59", label: "DB Migrations" },
+      { value: "19", label: "Edge Functions" },
+      { value: "35%", label: "Quest Completion" },
+      { value: "2x", label: "Engagement After Redesign" },
     ],
+    highlights: [],
     outcomes: [
-      "59 database migrations shipped — each one a schema evolution reflecting real product learning",
-      "19 Supabase edge functions handling auth, payments, notifications, and content moderation",
-      "Waitlist-to-launch funnel on the web platform converting studio sign-ups through a multi-step onboarding flow",
-      "Gamification system driving repeat engagement: quests, badges, streaks, and XP leveling",
-      "Stripe integration processing subscriptions and event ticket sales with webhook-driven fulfillment",
+      "150 beta members onboarded at Red Ox Ceramics with consistent weekly usage — validating that a purpose-built tool outperforms the Venmo + spreadsheet + group chat stack studios default to",
+      "Gamification completion rates jumped from 5% to 35% after simplifying from 40 quests to 8 tied to real studio actions — proving that fewer, meaningful incentives beat volume",
+      "Home screen redesign (feed-first → events-first) doubled member engagement — the data contradicted the original hypothesis, so I killed the feed-first design and rebuilt around what users actually did",
+      "Solo-shipped a production 4-product ecosystem (59 DB migrations, 19 edge functions) in under 6 months — proving a PM with technical depth can go from user research to deployed product without a team",
     ],
     decisions: [
-      "Chose React Native over Flutter for code sharing with the web platform's React/Next.js stack — one mental model across 4 products",
-      "Built on Supabase instead of Firebase to get PostgreSQL and row-level security without managing infrastructure",
-      "Split into 4 products (mobile, web, dashboards, docs) instead of one monolith — each serves a different user and deploys independently",
-      "Invested in a theming system early so studios could customize without developer time — a bet on self-serve onboarding at scale",
-      "Used Nextra for documentation instead of building custom — saved weeks and got search, MDX, and versioning for free",
+      "Started with a feed-first home screen — usage data showed members skipped it entirely and went straight to Events. Redesigned around upcoming events and quick actions. Engagement doubled.",
+      "Split into 4 independent products (mobile, web, dashboards, docs) instead of a monolith — each serves a different persona (member, owner, admin) with its own release cycle. Result: I could ship dashboard improvements to studio owners without touching the member-facing app.",
+      "Cut the planned marketplace after user interviews revealed studio owners saw it as competition with their own retail. Redirected effort into analytics dashboards — the feature they actually wanted to pay for.",
     ],
-    teamContext:
-      "Solo founder — conceived, designed, built, and shipped all 4 products. This project came directly from being a daily member at Red Ox Ceramics in Concord, CA. I'm close friends with the operations manager and nearly every member, giving me deep insight into both sides of the studio experience. I didn't need to guess at pain points — I lived them. The multi-product architecture decisions draw directly from my experience leading cross-functional teams at Genies (where I built the product function from scratch as the first PM hire) and Mythical Games (where I owned game services powering multiple titles). The community engagement model is informed by 4 years at Zynga and Jam City managing live products with 1M+ DAU.",
+    teamContext: "",
     userResearch: [
-      "Embedded in the Red Ox Ceramics community for nearly a year — attending 6 days a week, building relationships with the operations manager, instructors, and members at every skill level",
-      "The operations manager walked me through her entire workflow: Venmo for billing, a spreadsheet for member tracking, group texts for event announcements, and a paper sign-up sheet for kiln reservations. She spent 5+ hours per week on manual admin",
-      "Members who travel to retreats at other studios confirmed the same problems exist everywhere — no studio has purpose-built software",
-      "Members reported missing 2-3 events per month because announcements were buried in group chat noise",
-      "The most common request from members wasn't scheduling — it was 'What glaze should I try next?' and 'I want to see what other people are making.' Community inspiration was the killer feature, not logistics",
+      "Embedded in the studio 6 days/week for a year — observed every workflow, pain point, and workaround firsthand",
+      "Ops manager demo'd her full workflow: Venmo billing, spreadsheet tracking, group texts, paper sign-ups — 5+ hrs/week on manual admin alone",
+      "Members at retreats confirmed the same problems exist at every studio — no one has purpose-built software",
+      "Top user request wasn't scheduling — it was 'What glaze should I try next?' Community inspiration was the killer feature, not logistics",
     ],
-    failures: [
-      "Initially built the mobile app with a feed-first home screen, assuming members wanted a social timeline. Usage data showed they skipped the feed entirely and went straight to Events. Redesigned the home screen around upcoming events and quick actions — engagement doubled",
-      "Spent 3 weeks building a real-time chat system before discovering that studio members preferred async communication. Pivoted to a stories/announcements model inspired by Instagram, which matched how studios actually share updates",
-      "The first version of the gamification system had 40+ quest types — too complex. Members ignored it. Simplified to 8 core quests tied to real studio actions (attend an event, try a new technique, share a photo). Completion rates went from 5% to 35%",
-      "Originally planned a marketplace for members to sell pottery — cut it after interviews revealed owners saw it as competition with their own retail. Redirected that effort into the analytics dashboards, which owners actually wanted to pay for",
+    failures: [],
+    strategy: "",
+    strategyPoints: [
+      { label: "Target", text: "Independent pottery studios with 30–200 members — large enough to need tools, too small for enterprise software. No one owns this vertical." },
+      { label: "Go-to-Market", text: "Lead with free analytics dashboards (the feature owners asked for most), then expand to the full platform once studios see engagement data." },
+      { label: "Business Model", text: "Freemium studio subscriptions — free tier for events and messaging, paid for analytics, payments, gamification, and theming." },
+      { label: "Vision", text: "Start with pottery, expand to woodworking, glassblowing, and other craft communities sharing the same studio model." },
     ],
-    strategy:
-      "Target customer: Independent pottery studios with 30-200 members — large enough to need digital tools but too small for enterprise solutions. These studios have a passionate community but no purpose-built software. Competitive landscape: Mindbody and Glofox dominate fitness booking but don't serve craft communities. Mighty Networks and Circle are too generic. No one owns the pottery/ceramics vertical. Go-to-market: Land with a free analytics dashboard (the feature owners asked for most), then expand to the full platform once studios see engagement data. The documentation site doubles as onboarding — studios self-serve setup without a sales call. Business model: Freemium with studio-level subscriptions. Free tier gives basic events and messaging. Paid tier unlocks analytics, payments, gamification, and custom theming. Vision: Start with pottery, then expand to other craft communities (woodworking, glassblowing, printmaking) that share the same studio-and-membership model.",
     features: [
       {
         title: "Social Feed & Content Creation",
         description:
-          "The feed is the heartbeat of the app — it's where members share their latest work, celebrate firings, and stay inspired. I built Instagram-style photo editing (filters, adjustments, cropping) and video support because potters are visual creators who want to showcase their craft without leaving the app.",
+          "Instagram-style photo editing (filters, adjustments, cropping) and video support — potters are visual creators who want to showcase work without leaving the app.",
         screenshots: [
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/feed.png",
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/new-post.png",
@@ -153,19 +150,9 @@ export const projects: Project[] = [
         ],
       },
       {
-        title: "Community Forums",
-        description:
-          "Studios have tribal knowledge — glaze recipes, firing schedules, technique tips — that dies in group chat noise. The forum gives it a permanent, searchable home. Channels are organized by topic (Glazes & Firing, Techniques, Show & Tell) because every studio conversation I observed fell into the same natural categories.",
-        screenshots: [
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/forum.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/new-thread.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/create-menu.png",
-        ],
-      },
-      {
         title: "Events & Workshops",
         description:
-          "Missing events was the #1 complaint from members. The 6-step event creation flow was designed to be fast enough that even the most tech-averse studio owner could publish a workshop in under 2 minutes. RSVP tracking replaced the paper sign-up sheets that were getting lost every week.",
+          "Missing events was the #1 complaint. 6-step creation flow lets owners publish a workshop in under 2 minutes. RSVP tracking replaced the paper sign-up sheets.",
         screenshots: [
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/event-detail.png",
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/event-date.png",
@@ -173,37 +160,19 @@ export const projects: Project[] = [
         ],
       },
       {
-        title: "Glaze Library",
+        title: "Forums & Glaze Library",
         description:
-          "When I asked members what feature they wanted most, the answer was always 'What glaze should I try next?' The glaze library tracks every glaze in the studio with firing info and cone temperature, so members can browse before they even get to the studio. This replaced the handwritten notes taped to the glaze cabinet.",
+          "Searchable home for tribal knowledge — glaze recipes, firing schedules, technique tips. Organized by topic because every studio conversation falls into the same natural categories.",
         screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/forum.png",
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/glaze-library.png",
-        ],
-      },
-      {
-        title: "Member Experience",
-        description:
-          "Granular notification controls, direct messaging, and privacy settings aren't glamorous — but they're what makes users trust an app with their community. Notification types (likes, comments, mentions, DMs, event reminders) prevent the fatigue that made group texts fail for studios in the first place. The welcome banner spotlights new members to drive early engagement.",
-        screenshots: [
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/welcome-members.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/messages.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/notifications.png",
-        ],
-      },
-      {
-        title: "Marketing Site & Growth",
-        description:
-          "The marketing site isn't just a landing page — it's a growth engine. The beta signup flow tracks conversion by platform (iOS vs Android), and the site admin panel lets me toggle between teaser, waitlist, and launch modes without redeploying. Real beta tester reviews from Red Ox build social proof.",
-        screenshots: [
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/landing-hero.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/landing-reviews.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/site-admin.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/new-thread.png",
         ],
       },
       {
         title: "Analytics Dashboards",
         description:
-          "Studio owners don't need vanity metrics — they need to know if the platform is retaining members. The weekly review surfaces the one metric that matters (weekly active members) and the activation funnel shows exactly where new members drop off. I built this because I needed the same data to make product decisions.",
+          "Weekly active members, activation funnels, and retention cohorts — the data studio owners need to understand engagement, not vanity metrics.",
         screenshots: [
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/dashboard-weekly.png",
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/dashboard-funnel.png",
@@ -213,7 +182,7 @@ export const projects: Project[] = [
       {
         title: "Studio Owner Admin",
         description:
-          "The owner app is a separate experience with its own navigation — because studio owners have fundamentally different needs than members. Role-based access (Owner, Admin, Student, Guest) controls what each member sees, and the content moderation system keeps the community safe without constant manual review.",
+          "Separate admin experience with role-based access (Owner, Admin, Student, Guest), content moderation, member management, and custom theming — no code required.",
         screenshots: [
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/admin-home.png",
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/manage-team.png",
@@ -270,7 +239,7 @@ export const projects: Project[] = [
     decisions: [
       "Split into 5 apps instead of feature flags in one app — each product serves a different persona (manager, candidate, admin) with its own deployment cycle",
       "Chose swipe UI over traditional list/filter because restaurant managers hire on gut + availability, not keyword matching",
-      "Built the white-label system before finding customers — a deliberate bet that B2B2C distribution would be the growth lever",
+      "Built the white-label system before finding customers — a deliberate bet on B2B2C distribution. In hindsight, early customers just wanted logo + brand color. Lesson: validate demand before building the premium version",
       "Used PostHog over Mixpanel for analytics because of the self-hostable option and session recordings at no extra per-seat cost",
     ],
     teamContext:
@@ -282,10 +251,10 @@ export const projects: Project[] = [
       "The #1 scheduling pain point wasn't creating schedules — it was last-minute shift swaps. Managers spent evenings texting through their staff list to find replacements. Peer-to-peer swap removed them from the loop entirely",
     ],
     failures: [
-      "First version had a single monolithic app with all 5 features behind tabs. User testing showed managers were overwhelmed — they wanted to hire OR manage shifts, not both at once. Splitting into separate apps with focused UIs solved the cognitive overload problem",
-      "Built an AI-powered candidate ranking system that scored applicants on 12 factors. Managers ignored the scores completely — they said 'I just need to see if they're available Saturday night.' Replaced the ranking with a simple swipe interface filtered by availability. Usage tripled",
-      "The white-label theming system was built before talking to potential B2B partners. In retrospect, the 8 themes and 7 layouts were over-engineered — early customers just wanted their logo and brand color. Learned to validate demand before building the premium version",
-      "PostHog revealed a 3x drop-off at the onboarding step. The original flow asked for business details, team size, and scheduling preferences upfront. Reduced onboarding to just email + business name, then collected the rest progressively. Drop-off decreased significantly",
+      "First version had a single monolithic app with all 5 features behind tabs. User testing showed managers were overwhelmed — they wanted to hire OR manage shifts, not both at once. Splitting into separate apps with focused UIs solved the cognitive overload problem. Takeaway: personas need separate products, not separate tabs.",
+      "Built an AI-powered candidate ranking system that scored applicants on 12 factors. Managers ignored the scores completely — they said 'I just need to see if they're available Saturday night.' Replaced the ranking with a simple swipe interface filtered by availability. Usage tripled. Takeaway: the feature users want isn't always the feature you'd design from first principles.",
+      "The white-label theming system (8 themes, 7 layouts) was built before talking to potential B2B partners. Early customers just wanted their logo and brand color — the rest was over-engineered. Takeaway: validate distribution thesis before building premium infrastructure.",
+      "PostHog revealed a 3x drop-off at onboarding. The original flow asked for business details, team size, and scheduling preferences upfront. Reduced to just email + business name, then collected the rest progressively. Drop-off decreased significantly. Takeaway: every form field before the 'aha moment' is a reason to leave.",
     ],
     strategy:
       "Target customer: Independent restaurants, bars, and retail shops with 10-50 hourly employees — high turnover, always hiring, and managing schedules manually. Competitive landscape: Indeed and ZipRecruiter own job posting but stop at the hire. When I Work and Homebase own scheduling but don't touch hiring. No platform connects who you hire to how you schedule them. Go-to-market: Start with the swipe-to-match hiring tool as a free standalone product — it's the sharpest wedge and easiest to demo. Once a manager hires through Swob, upsell the scheduling and shift-swap tools. The candidate dashboard creates a two-sided network: candidates prefer Swob because they get transparency, which attracts more managers. Business model: Free hiring tool, paid scheduling suite. Per-location pricing for multi-unit operators. The white-label system enables B2B2C distribution through staffing agencies.",
@@ -310,7 +279,7 @@ export const projects: Project[] = [
       "TailwindCSS",
       "React Navigation",
     ],
-    featured: true,
+    featured: false,
     callout: "100% lead attribution · Cross-platform web + mobile",
     category: "software",
     repos: [

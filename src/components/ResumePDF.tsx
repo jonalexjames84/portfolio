@@ -12,7 +12,109 @@ import {
   Rect,
   Link,
 } from "@react-pdf/renderer";
-import { career, skillCategories } from "@/lib/experience";
+import { skillCategories } from "@/lib/experience";
+
+// Resume-specific role data — concise, results-driven bullets separate from the website
+// Primary roles — full detail on the resume
+const resumeRoles = [
+  {
+    company: "Frame Story",
+    title: "Co-Founder & Director of Product",
+    period: "2025 – Present",
+    tags: ["Game Studio", "Co-Founder", "Indie Games"],
+    highlights: [
+      "Co-founded game studio; leading product on Cluck (3D horror-lite platformer) with a 10+ person team",
+      "Raising $100K pre-seed via grants (Epic MegaGrant, Wings Fund) and investor outreach",
+    ],
+  },
+  {
+    company: "Indie Builder",
+    title: "Founder / PM / Dev",
+    period: "Nov 2024 – 2025",
+    tags: ["Full-Stack", "4 Products Shipped", "React Native + Next.js"],
+    highlights: [
+      "Shipped 4 production apps solo (React Native, Next.js, Supabase) — 15+ repos, 59 database migrations",
+      "Validated with 20+ users across community, hiring, fitness, and travel products",
+    ],
+  },
+  {
+    company: "Treasure DAO",
+    title: "Senior PM",
+    period: "Apr 2024 – Nov 2024",
+    tags: ["Developer Platform", "Marketplace", "Quest Systems"],
+    highlights: [
+      "Drove +30% user engagement with Quest v2 and Verified Actions launch",
+      "Launched new chain on Arbitrum — +20% user base, +50% transaction speed, +35% active developers",
+    ],
+  },
+  {
+    company: "Mythical Games",
+    title: "Senior Technical PM",
+    period: "May 2022 – Dec 2023",
+    tags: ["Game Services", "Digital Marketplace", "Live Ops"],
+    highlights: [
+      "Shipped cross-title game services platform — +20% player retention, +15% revenue",
+      "Led digital asset marketplace integration, opening new revenue streams across multiple titles",
+    ],
+  },
+  {
+    company: "Genies",
+    title: "Founding Product Manager",
+    period: "Feb 2021 – May 2022",
+    tags: ["Avatar Ecosystem", "Creator Tools", "E-Commerce"],
+    highlights: [
+      "Built Creator Ecosystem from zero to launch — the product story that helped secure $150M (Gucci, GIPHY)",
+      "Launched e-commerce storefront generating $100K/week; defined GTM strategy that grew alpha to 1K users",
+    ],
+  },
+  {
+    company: "AAA",
+    title: "Digital Product Manager",
+    period: "Mar 2018 – Aug 2020",
+    tags: ["Mobile App", "Enterprise", "6M Users"],
+    highlights: [
+      "Launched API-driven mobile app to 6M members — saved $2M/year by shifting support to self-service",
+      "Only PM reporting directly to C-Suite; owned end-to-end strategy with weekly executive presentations",
+    ],
+  },
+  {
+    company: "Bandai Namco",
+    title: "Product Manager",
+    period: "Aug 2016 – Mar 2017",
+    tags: ["PAC-MAN", "Global Launch", "10M+ Installs"],
+    highlights: [
+      "Ran PAC-MAN franchise — 10M+ weekly installs, 1M+ MAU at global launch",
+      "Pivoted to paid acquisition after cohort analysis showed 20% higher retention from paid users",
+    ],
+  },
+  {
+    company: "Jam City",
+    title: "Product Manager",
+    period: "Aug 2013 – Mar 2015",
+    tags: ["$50M Product", "1M+ DAU", "Live Ops"],
+    highlights: [
+      "Scaled product to 1M+ DAU and $50M in revenue through live ops and monetization",
+      "Drove 20% MoM revenue growth via weekly currency optimizations — speed of iteration beat any single idea",
+    ],
+  },
+  {
+    company: "Zynga",
+    title: "Content Manager",
+    period: "Jun 2009 – Apr 2013",
+    tags: ["FarmVille", "Live Ops at Scale", "Mobile Pioneer"],
+    highlights: [
+      "Shipped features across FarmVille, FrontierVille, Treasure Isle, and PetVille during Zynga's peak",
+      "Built Zynga's first mobile raiding feature (Mafia Wars iPhone) — an early bet on mobile",
+    ],
+  },
+];
+
+// Earlier roles — shown condensed to save space
+const earlierRoles = [
+  { company: "Big Fish Games", title: "PM", period: "2017", note: "Built analytics pipeline from scratch; +20% engagement, +50% session length via multivariate tests" },
+  { company: "Flow State Media", title: "Director of Product", period: "2015–2016", note: "8 consecutive months of revenue growth across mobile games suite" },
+  { company: "SUPERLABS", title: "PM", period: "2015", note: "VR game pre-production (company later acquired by Zynga)" },
+];
 
 // Brand colors matching the portfolio website
 const c = {
@@ -161,6 +263,12 @@ const s = StyleSheet.create({
   contactSep: {
     fontSize: 8.5,
     color: c.zinc300,
+  },
+  summary: {
+    fontSize: 8.5,
+    color: c.zinc600,
+    lineHeight: 1.5,
+    marginTop: 8,
   },
   // Divider
   divider: {
@@ -375,6 +483,13 @@ export const ResumePDF = () => (
             <Text style={s.contactLink}>jonnymartin.blog</Text>
           </Link>
         </View>
+        <Text style={s.summary}>
+          Senior PM with 15 years shipping products at scale (Zynga, Genies, Jam
+          City). Recently built and shipped 4 production applications
+          solo—full-stack, from user research through deployment. I bring product
+          strategy, technical fluency, and the rare ability to go from zero to
+          shipped.
+        </Text>
       </View>
 
       <View style={s.divider} />
@@ -397,7 +512,7 @@ export const ResumePDF = () => (
         <Text style={s.sectionTitle}>Experience</Text>
       </View>
 
-      {career.map((role, i) => {
+      {resumeRoles.map((role, i) => {
         const accent = roleAccents[i % roleAccents.length];
         return (
           <View
@@ -442,6 +557,33 @@ export const ResumePDF = () => (
           </View>
         );
       })}
+
+      {/* Earlier Experience — condensed */}
+      <View style={[s.sectionHeader, { marginTop: 4 }]}>
+        <View
+          style={[s.sectionAccent, { backgroundColor: c.zinc400 }]}
+        />
+        <Text style={s.sectionTitle}>Earlier Experience</Text>
+      </View>
+
+      <View style={{ marginBottom: 10 }}>
+        {earlierRoles.map((role) => (
+          <View key={role.company} style={{ flexDirection: "row", marginBottom: 3, paddingLeft: 10 }} wrap={false}>
+            <Text style={[s.bulletText, { fontFamily: "Helvetica-Bold", color: c.zinc900, width: 120 }]}>
+              {role.company}
+            </Text>
+            <Text style={[s.bulletText, { color: c.indigo500, width: 90 }]}>
+              {role.title}
+            </Text>
+            <Text style={[s.bulletText, { color: c.zinc400, width: 50 }]}>
+              {role.period}
+            </Text>
+            <Text style={[s.bulletText, { flex: 1 }]}>
+              {role.note}
+            </Text>
+          </View>
+        ))}
+      </View>
 
       {/* Skills & Expertise */}
       <View style={s.sectionHeader}>

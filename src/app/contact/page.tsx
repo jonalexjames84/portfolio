@@ -44,14 +44,16 @@ export default function ContactPage() {
         <div className="pointer-events-none absolute -bottom-16 -right-16 h-36 w-36 rounded-full bg-purple-400/20 blur-3xl dark:bg-purple-600/10" />
         <div className="relative">
           <span className="mb-4 inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
-            Open to opportunities
+            Seeking Senior PM at a high-growth startup
           </span>
           <h1 className="mb-4 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-100">
             Let&apos;s Connect
           </h1>
           <p className="mx-auto max-w-xl text-lg text-zinc-600 dark:text-zinc-400">
-            Whether you have an opportunity, want to chat about product
-            or games, or just want to say hi — I&apos;d love to hear from you.
+            I&apos;m targeting Senior PM roles at seed-to-Series B startups in
+            SaaS, dev tools, AI/ML, or consumer platforms. Whether you have a
+            role, want to talk product, or just want to say hi — I&apos;d love
+            to hear from you.
           </p>
         </div>
       </motion.div>

@@ -90,22 +90,21 @@ export function HomePage() {
                 variants={staggerItem}
                 className="mb-6 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-100"
               >
-                15 years shipping products.
+                $50M in revenue. 6M users.
                 <br />
                 <span className="gradient-text">
-                  Now I build them too.
+                  Products I actually shipped.
                 </span>
               </motion.h1>
               <motion.p
                 variants={staggerItem}
                 className="mb-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
               >
-                I spent 15 years shipping products at Zynga, Jam City, Bandai Namco,
-                AAA, and Genies — scaling games to millions of users and helping
-                secure $150M in funding. Then I went indie — built four products
-                from scratch and co-founded Frame Story, a collaborative game
-                studio. Turns out, the best product instincts come from knowing
-                what it takes to build the thing.
+                15 years of product strategy at Zynga, Jam City, Bandai Namco,
+                AAA, and Genies — scaling products to millions of users and helping
+                secure $150M in funding. I also ship code, which means I never
+                lose context when working with engineering. Four solo-built
+                products and a co-founded game studio prove it.
               </motion.p>
               <motion.div
                 variants={staggerItem}
@@ -300,15 +299,16 @@ export function HomePage() {
 
           <div className="relative">
             <span className="mb-3 inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
-              Open to opportunities
+              Seeking Senior PM at a high-growth startup
             </span>
             <h2 className="mb-2 text-xl font-bold text-zinc-900 dark:text-zinc-100">
               Looking for a PM who ships?
             </h2>
             <p className="mx-auto mb-6 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
-              You just saw the work. I bring product strategy, technical fluency,
-              and the ability to go from zero to shipped. Let&apos;s talk about what
-              I can do for your team.
+              I&apos;m targeting Senior PM roles at seed-to-Series B startups
+              in SaaS, dev tools, AI/ML, or consumer platforms — teams that
+              ship weekly and value technical depth. Let&apos;s talk about what
+              I can do for yours.
             </p>
             <Link
               href="/contact"

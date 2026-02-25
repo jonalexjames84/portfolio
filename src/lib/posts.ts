@@ -11,6 +11,38 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug: "how-i-think-about-product-decisions",
+    title: "How I Think About Product Decisions",
+    subtitle:
+      "The framework I use when data says one thing and intuition says another — illustrated by a real pivot.",
+    date: "2026-02-25",
+    tags: ["Product Management", "Decision Making", "Case Study"],
+    content: [
+      "Most product advice boils down to \"follow the data.\" And most of the time, that's right. But the interesting decisions — the ones that actually move a product — happen when the data is ambiguous and you have to make a call with incomplete information. This post is about how I make those calls.",
+      "## The Pottery Friends Pivot",
+      "When I built Pottery Friends, a community platform for pottery studios, I designed the home screen around a social feed. Instagram-style photo sharing. It made sense — potters love showing their work, and feed-first home screens are the default pattern for community apps.",
+      "The data told a different story. PostHog showed that members were landing on the feed and immediately navigating away — to Events. Session recordings confirmed it: tap home, skip feed, tap Events, browse upcoming workshops, done. The feed wasn't broken. Members just didn't care about it as much as I thought they would.",
+      "## The Framework: Cost of Being Wrong",
+      "When I hit a decision like this, I don't ask \"what does the data say?\" first. I ask: **What's the cost of being wrong in each direction?**",
+      "- **If I keep the feed-first design and I'm wrong:** Members keep skipping the feed. Engagement stays flat. The app feels like it's not built for them. Churn risk goes up. The cost is slow — death by a thousand sessions where people don't find what they came for.",
+      "- **If I switch to events-first and I'm wrong:** Feed engagement drops. But feed engagement was already low. And if events-first doesn't work, I can always revert. The cost is a sprint of work and a week of monitoring.",
+      "The asymmetry was obvious. One direction had a low cost of failure and a high cost of inaction. The other had a high cost of inaction and an easy reversal. This isn't a data question — it's a risk question.",
+      "## The Decision",
+      "I redesigned the home screen around events and workshops. The feed moved to its own tab. I shipped it in a week and watched the numbers.",
+      "Engagement doubled. Not because the feed was bad, but because members came to Pottery Friends for a specific job: \"What's happening at my studio this week?\" The feed served a secondary job — social connection — that mattered, but not as the first thing they saw.",
+      "## The Broader Framework",
+      "Every product decision I make runs through a version of this filter:",
+      "**1. What's the fastest path to learning something we don't know?** If we're debating two approaches and one gives us signal in a week while the other takes a quarter, I'll almost always pick the faster one — even if it's less elegant. Speed of learning beats quality of guessing.",
+      "**2. What's the cost of being wrong?** Reversible decisions get made fast. Irreversible ones (pricing changes, platform migrations, data model changes) get more scrutiny. Most decisions are more reversible than people think.",
+      "**3. What job is the user actually hiring this product to do?** Not the job I designed it for. Not the job the roadmap says. The job they're actually doing when they open the app. I watch session recordings religiously for this reason — the gap between intended use and actual use is where the best product insights live.",
+      "**4. Discovery and delivery run in parallel, not in sequence.** I don't believe in \"research phase then build phase.\" You learn the most by shipping something real to real users. The Pottery Friends feed-to-events pivot only happened because the product was live and generating real behavioral data. A prototype or mockup would have validated the feed-first design because people would have said \"yeah, that looks good\" in an interview.",
+      "## Why This Matters",
+      "I've seen PMs freeze when the data doesn't give a clean answer. They run another A/B test, schedule another round of interviews, add another week to the research timeline. Sometimes that's right. But often, the cost of not deciding is higher than the cost of deciding wrong.",
+      "The best product decisions I've made weren't the ones where I had the most data. They were the ones where I correctly assessed the cost of being wrong, moved fast, and stayed close enough to the outcome to course-correct quickly.",
+      "After 15 years and building 4 products from scratch, that's the muscle I trust most: not pattern matching from past experience, but knowing how to make a good decision when the answer isn't obvious.",
+    ],
+  },
+  {
     slug: "speed-bumps-paint-brushes-and-resilience",
     image: "/blog/speed-bumps.jpg",
     title: "Speed Bumps, Paint Brushes, and Resilience",

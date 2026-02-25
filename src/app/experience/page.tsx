@@ -49,6 +49,9 @@ const skillGradients = [
   "from-rose-500 to-pink-500",
 ];
 
+// Key roles to expand by default — the 5 that carry the most weight
+const keyRoleCompanies = new Set(["Frame Story", "Indie Builder", "Genies", "AAA", "Jam City", "Zynga"]);
+
 function TimelineRole({
   role,
   index,
@@ -56,7 +59,8 @@ function TimelineRole({
   role: (typeof career)[0];
   index: number;
 }) {
-  const [expanded, setExpanded] = useState(index === 0);
+  const isKeyRole = keyRoleCompanies.has(role.company);
+  const [expanded, setExpanded] = useState(isKeyRole);
   const color = timelineColors[index % timelineColors.length];
 
   return (
@@ -376,14 +380,15 @@ export default function ExperiencePage() {
         <div className="absolute inset-0 rounded-xl border border-indigo-200/50 dark:border-indigo-800/30" />
         <div className="relative">
           <span className="mb-3 inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
-            Open to opportunities
+            Seeking Senior PM at a high-growth startup
           </span>
           <h2 className="mb-2 text-xl font-bold text-zinc-900 dark:text-zinc-100">
             Interested in working together?
           </h2>
           <p className="mx-auto mb-6 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
-            I&apos;m looking for my next Senior PM role. Let&apos;s talk about how
-            my experience can help your team ship.
+            I&apos;m targeting Senior PM roles at seed-to-Series B startups
+            in SaaS, dev tools, AI/ML, or consumer platforms. Let&apos;s talk
+            about how my experience can help your team ship.
           </p>
           <Link
             href="/contact"
