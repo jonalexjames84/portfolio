@@ -144,11 +144,11 @@ export default async function ProjectPage({
         </div>
       )}
 
-      {/* Legacy screenshot grid for projects without features */}
+      {/* Supporting screenshots — horizontally scrollable on mobile */}
       {!project.features && project.screenshots && project.screenshots.length > 1 && (
-        <div className="mb-12 grid gap-4 sm:grid-cols-2">
+        <div className="mb-12 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 sm:grid sm:snap-none sm:grid-cols-3 sm:overflow-visible sm:pb-0">
           {project.screenshots.slice(1).map((src) => (
-            <div key={src} className="transition-transform hover:scale-[1.02]">
+            <div key={src} className="w-[80%] shrink-0 snap-center sm:w-auto sm:shrink">
               <BrowserFrame
                 src={src}
                 alt={`${project.title} screenshot`}
