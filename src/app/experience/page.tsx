@@ -165,13 +165,15 @@ export default function ExperiencePage() {
               founder.
             </p>
           </div>
-          <Link
-            href="/resume.pdf"
+          <a
+            href="/api/resume"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white/80 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-white dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 dark:hover:bg-zinc-800"
           >
             <Download size={14} />
             PDF
-          </Link>
+          </a>
         </div>
       </motion.div>
 
