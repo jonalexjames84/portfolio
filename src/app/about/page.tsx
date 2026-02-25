@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Sparkles } from "lucide-react";
+import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Sparkles, Quote } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About",
@@ -190,6 +190,66 @@ export default function AboutPage() {
               className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
             />
           </div>
+        </div>
+      </div>
+
+      {/* Testimonials */}
+      <div className="mb-12">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 shadow-lg">
+            <Quote className="h-5 w-5 text-white" />
+          </div>
+          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+            What People Say
+          </h2>
+        </div>
+        <div className="space-y-4">
+          {[
+            {
+              quote: "Jon Martin was crucial to the success of Panda Pop, which is currently the number 1 bubble shooter in the world. He is reliable and makes good product decisions based on data and knowledge of the marketplace. He fought to be heard within the company, and argued for changes that ultimately took Panda Pop up a level to the top grossing hit it is today.",
+              name: "Mike Chera",
+              context: "Creative Director, Video Games — managed Jon at Jam City",
+              accent: "from-indigo-500 to-violet-500",
+            },
+            {
+              quote: "Jon is a pro at getting things done and a great morale boost to any team. I watched him transition from artist to designer, and quickly learn the ropes and technical wranglings of design and content implementation. He could always be relied upon to get things done, and spot process and tool improvements to increase efficiency.",
+              name: "Eric Zimmerman",
+              context: "Engineer at Dolby — managed Jon at Zynga",
+              accent: "from-violet-500 to-purple-500",
+            },
+            {
+              quote: "Jon is a great individual to work with and have on your team. He can be counted on to approach his work with charisma and a positive attitude — characteristics that make him a pleasure to work with under pressure. Jon is also a strong creative contributor who can pick up technical tasks with ease.",
+              name: "Brian Kahrs",
+              context: "Product @ Ridgeline — worked with Jon at Zynga",
+              accent: "from-emerald-500 to-teal-500",
+            },
+            {
+              quote: "Being able to walk up to Jon's desk has always been a pleasure, he's willing to help in explaining any design questions I've ever had. He's task oriented and keeps to a tight schedule while not cutting corners, he actually helps solves problems. Working with Jon is a great experience personally and professionally.",
+              name: "Randall Smith",
+              context: "3D Character Artist — worked with Jon at Zynga",
+              accent: "from-rose-500 to-pink-500",
+            },
+            {
+              quote: "Jon is an accomplished tech artist, UI designer and game designer. I worked with him at Zynga when he was first starting out and he impressed the team with his talent and dedication. Plus, Jon is a great team player.",
+              name: "Steven Lurie",
+              context: "Founder at Team Builder Ventures — senior to Jon at Zynga",
+              accent: "from-sky-500 to-cyan-500",
+            },
+          ].map((t) => (
+            <blockquote
+              key={t.name}
+              className="relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900/50"
+            >
+              <div className={`absolute top-0 left-0 bottom-0 w-1 bg-gradient-to-b ${t.accent}`} />
+              <p className="pl-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+              <footer className="mt-3 pl-3">
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{t.name}</p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">{t.context}</p>
+              </footer>
+            </blockquote>
+          ))}
         </div>
       </div>
 
