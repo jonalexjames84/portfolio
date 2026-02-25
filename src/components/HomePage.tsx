@@ -17,23 +17,23 @@ import {
 const testimonials = [
   {
     quote:
-      "Jonny didn't just build us an app — he sat down with our members and understood what our studio actually needed before writing a line of code.",
-    name: "Operations Manager",
-    context: "Red Ox Ceramics — Pottery Friends pilot studio",
+      "I had the pleasure of working with Jon at Treasure, where they excelled as a Product Manager in the blockchain industry. Their deep understanding of the field enabled them to deliver outstanding results consistently, completing projects on time and within budget. Jon is also a natural team builder, fostering an inclusive environment that empowers everyone to contribute.",
+    name: "Matt Farrokhzad",
+    context: "Multi-Cloud DevSecOps Leader — worked with Jon at Treasure",
     accent: "from-indigo-500 to-violet-500",
   },
   {
     quote:
-      "He's the rare PM who can walk into a room with engineers and designers and speak both languages fluently. That made everything move faster.",
-    name: "Engineering Lead",
-    context: "Genies",
+      "Jon has great vision and understands what is required when building digital platforms and products. While working with him as a Technical Lead, I received a crash course in the crucial role analytics play in product design and watched him make data-driven decisions to expand the reach and market-share of our application. I highly recommend him as a product manager.",
+    name: "Tim Jones",
+    context: "Sr. Solutions Architect at Amazon Web Services (AWS)",
     accent: "from-violet-500 to-purple-500",
   },
   {
     quote:
-      "I've never seen someone take a problem from 'I don't even know where to start' to a working product this quickly. He mapped my entire referral workflow and turned it into something I use every day.",
-    name: "Founder",
-    context: "1406 Adventures",
+      "I worked very closely with Jon on a major strategic project and he continuously proved himself as a disciplined, strategic, and creative thinker. He knows how to get things done quickly, effectively and rally a team to feel great about their accomplishments. Would highly recommend Jon in any capacity.",
+    name: "Meg Vrabel",
+    context: "Operations Executive & COO — Jon's mentor",
     accent: "from-purple-500 to-pink-500",
   },
 ];
