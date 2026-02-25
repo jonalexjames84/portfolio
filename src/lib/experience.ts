@@ -10,13 +10,27 @@ export type Role = {
 
 export const career: Role[] = [
   {
+    company: "Frame Story",
+    title: "Co-Founder & Director of Product",
+    period: "2025 – Present",
+    startYear: 2025,
+    context: "After 15 years shipping games for other people, I co-founded a studio to ship our own. Frame Story is a collaborative game studio where small creative teams own their games while the studio handles ops, legal, and publishing.",
+    highlights: [
+      "Co-founded a collaborative game studio with a 70/30 revenue-share model — creators retain IP and creative control",
+      "Leading product on Cluck, a 3D atmospheric horror-lite platformer (Little Nightmares meets animal rights) with a 10+ person team",
+      "Designing the studio-as-a-platform model: shared infrastructure for legal, finance, publishing, and production across multiple game pods",
+      "Building toward a $100K pre-seed raise via grants (Epic MegaGrant, Wings Fund) and investor outreach",
+    ],
+    tags: ["Game Studio", "Co-Founder", "Indie Games"],
+  },
+  {
     company: "Indie Builder",
     title: "Founder / PM / Dev",
-    period: "Nov 2024 – Present",
+    period: "Nov 2024 – 2025",
     startYear: 2024,
-    context: "Laid off in November 2024. Instead of jumping back into the job market, I spent three months decompressing — then started building. Four products later, I proved that fifteen years of product instincts translate directly into shipping real software.",
+    context: "Instead of jumping back into the job market, I spent three months decompressing — then started building. Four products later, I proved that fifteen years of product instincts translate directly into shipping real software.",
     highlights: [
-      "Shipped 4 complete product ecosystems across web and mobile — community platform, hiring platform, travel agency, and AI health dashboard",
+      "Shipped 4 complete product ecosystems across web and mobile — community platform, hiring platform, travel agency, and AI nutrition coach",
       "15+ repositories, 59 database migrations, 19 edge functions — production-grade apps, not prototypes",
       "Full-stack TypeScript: React Native, Next.js, Supabase, Stripe, PostHog, Claude API",
       "Conducted user research with 20+ users across all projects to validate problems and iterate on solutions",

@@ -100,14 +100,14 @@ export const projects: Project[] = [
   },
   {
     slug: "swob",
-    title: "SWOB",
-    subtitle: "Shift Management & Hiring Platform",
+    title: "Swob",
+    subtitle: "Swipe-to-Hire Job Matching Platform",
     description:
-      "SWOB is a consulting project where I serve as the product manager. I build prototypes and manage delivery for the team. The platform tackles shift-based hiring and scheduling — a Tinder-style swipe interface lets managers match with candidates in seconds, a candidate pipeline tracks applicants from first contact to first shift, and a shift-swap system lets employees trade hours without manager bottlenecks. Each product is a standalone Next.js app sharing a Supabase backend. The sites and prototypes serve as living specifications for the engineering team.",
+      "Swob is a consulting project where I serve as the product manager. I build prototypes and manage delivery for the team. The platform makes job hunting easy — candidates swipe through 8M+ active jobs and apply instantly to hourly gigs, full-time roles, or internships. On the employer side, a candidate pipeline tracks applicants from first contact to first shift, and a shift-swap system lets employees trade hours without manager bottlenecks. Each product is a standalone Next.js app sharing a Supabase backend. The sites and prototypes serve as living specifications for the engineering team.",
     pitch:
-      "As a consulting PM on SWOB, I'm responsible for building prototypes that serve as living specs and managing delivery across the product suite. Hiring in shift-based businesses is broken because the tools are built for office jobs. SWOB reimagines the whole flow. Managers swipe through pre-qualified candidates like a dating app. The candidate dashboard gives applicants a clean view of their applications and upcoming shifts. A pipeline tool tracks every applicant through customizable stages. And when someone can't make a shift, the swap system handles it peer-to-peer. I built 5 product prototypes because the problem isn't just hiring or just scheduling — it's the gap between them.",
+      "As a consulting PM on Swob, I'm responsible for building prototypes that serve as living specs and managing delivery across the product suite. Hiring in shift-based businesses is broken because the tools are built for office jobs. Swob reimagines the whole flow — candidates swipe right on jobs to apply instantly, and managers match with candidates in seconds. The candidate dashboard gives applicants a clean view of their applications and upcoming shifts. A pipeline tool tracks every applicant through customizable stages. And when someone can't make a shift, the swap system handles it peer-to-peer. I built 5 product prototypes because the problem isn't just hiring or just scheduling — it's the gap between them.",
     problem:
-      "Shift-based businesses rely on job boards designed for salaried roles, then manage schedules through group texts and spreadsheets. Hiring takes weeks when it should take hours. Shift swaps require manager approval chains that cause no-shows. There's no unified system connecting who you hire to how you schedule them.",
+      "Job seekers applying for hourly roles are stuck using platforms built for salaried positions. Hiring takes weeks when it should take hours. Shift swaps require manager approval chains that cause no-shows. There's no unified system connecting who you hire to how you schedule them.",
     tags: ["SaaS", "Multi-Product", "Hiring", "Workflow"],
     stack: ["Next.js", "TypeScript", "TailwindCSS", "Supabase", "PostHog"],
     featured: true,
@@ -155,7 +155,7 @@ export const projects: Project[] = [
       "PostHog revealed a 3x drop-off at the onboarding step. The original flow asked for business details, team size, and scheduling preferences upfront. Reduced onboarding to just email + business name, then collected the rest progressively. Drop-off decreased significantly",
     ],
     strategy:
-      "Target customer: Independent restaurants, bars, and retail shops with 10-50 hourly employees — high turnover, always hiring, and managing schedules manually. Competitive landscape: Indeed and ZipRecruiter own job posting but stop at the hire. When I Work and Homebase own scheduling but don't touch hiring. No platform connects who you hire to how you schedule them. Go-to-market: Start with the swipe-to-match hiring tool as a free standalone product — it's the sharpest wedge and easiest to demo. Once a manager hires through SWOB, upsell the scheduling and shift-swap tools. The candidate dashboard creates a two-sided network: candidates prefer SWOB because they get transparency, which attracts more managers. Business model: Free hiring tool, paid scheduling suite. Per-location pricing for multi-unit operators. The white-label system enables B2B2C distribution through staffing agencies.",
+      "Target customer: Independent restaurants, bars, and retail shops with 10-50 hourly employees — high turnover, always hiring, and managing schedules manually. Competitive landscape: Indeed and ZipRecruiter own job posting but stop at the hire. When I Work and Homebase own scheduling but don't touch hiring. No platform connects who you hire to how you schedule them. Go-to-market: Start with the swipe-to-match hiring tool as a free standalone product — it's the sharpest wedge and easiest to demo. Once a manager hires through Swob, upsell the scheduling and shift-swap tools. The candidate dashboard creates a two-sided network: candidates prefer Swob because they get transparency, which attracts more managers. Business model: Free hiring tool, paid scheduling suite. Per-location pricing for multi-unit operators. The white-label system enables B2B2C distribution through staffing agencies.",
   },
   {
     slug: "1406-adventures",
@@ -222,7 +222,7 @@ export const projects: Project[] = [
   },
   {
     slug: "health-dashboard",
-    title: "Health Dashboard",
+    title: "Macro Chef",
     subtitle: "AI-Powered Fitness & Nutrition Analytics",
     screenshot: "/screenshots/health-home.png",
     screenshots: ["/screenshots/health-home.png", "/screenshots/health-meals.png", "/screenshots/health-training.png"],

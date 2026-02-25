@@ -61,10 +61,8 @@ export default function ContactPage() {
             Let&apos;s Connect
           </h1>
           <p className="mx-auto max-w-xl text-lg text-zinc-600 dark:text-zinc-400">
-            I&apos;ve spent 15 years shipping products at scale and the last year
-            building them from scratch. Whether you have an opportunity, want to
-            chat about product, or just want to say hi — I&apos;d love to hear
-            from you.
+            Whether you have an opportunity, want to chat about product
+            or games, or just want to say hi — I&apos;d love to hear from you.
           </p>
         </div>
       </motion.div>
