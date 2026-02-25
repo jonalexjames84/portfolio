@@ -231,9 +231,9 @@ export const projects: Project[] = [
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/swob/swob-hero-employer.png",
     screenshots: [
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/swob/swob-hero-employer.png",
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/swob/swob-how-it-works.png",
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/swob/swob-features.png",
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/swob/swob-hero-jobseeker.png",
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/swob/swob-org-management.png",
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/swob/swob-job-detail.png",
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/swob/swob-manager-dashboard.png",
     ],
     description:
       "Swob is a consulting project where I serve as the product manager. I build prototypes and manage delivery for the team. The platform makes job hunting easy — candidates swipe through 8M+ active jobs and apply instantly to hourly gigs, full-time roles, or internships. On the employer side, a candidate pipeline tracks applicants from first contact to first shift, and a shift-swap system lets employees trade hours without manager bottlenecks. Each product is a standalone Next.js app sharing a Supabase backend. The sites and prototypes serve as living specifications for the engineering team.",
