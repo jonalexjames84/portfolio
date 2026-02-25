@@ -15,14 +15,14 @@ export function ProjectCard({ project, hero }: { project: Project; hero?: boolea
         className="group block overflow-hidden rounded-xl border border-zinc-200 transition-all hover:border-zinc-300 hover:shadow-lg dark:border-zinc-800 dark:hover:border-zinc-700"
       >
         {cardSrc && (
-          <div className={`relative h-64 w-full overflow-hidden sm:h-80 ${isLogo ? "flex items-center justify-center bg-gradient-to-br from-pink-50 to-rose-100 dark:from-pink-950/30 dark:to-rose-950/30" : "bg-zinc-100 dark:bg-zinc-800"}`}>
+          <div className={`relative h-64 w-full overflow-hidden sm:h-80 ${isLogo ? "flex items-center justify-center bg-gradient-to-b from-pink-400 to-rose-500 dark:from-pink-500 dark:to-rose-600" : "bg-zinc-100 dark:bg-zinc-800"}`}>
             {isLogo ? (
               <Image
                 src={cardSrc}
                 alt={`${project.title} logo`}
                 width={160}
                 height={160}
-                className="rounded-3xl shadow-xl transition-transform duration-500 group-hover:scale-110"
+                className="transition-transform duration-500 group-hover:scale-110"
               />
             ) : (
               <>
