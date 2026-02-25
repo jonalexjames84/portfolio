@@ -347,11 +347,11 @@ export default function ExperiencePage() {
             </h2>
           </div>
           <p className="mb-4 text-zinc-600 dark:text-zinc-400">
-            After getting laid off in November 2024, I didn&apos;t send a single
-            application for three months. Instead, I built four complete product
-            ecosystems from scratch — proving that fifteen years of product
-            instincts translate directly into shipping real software. 15+ repos,
-            59 database migrations, full-stack TypeScript.
+            When my role ended in November 2024, I saw an opportunity to go
+            all-in on building. Over three months I shipped four complete product
+            ecosystems from scratch — turning fifteen years of product instincts
+            into real, running software. 15+ repos, 59 database migrations,
+            full-stack TypeScript.
           </p>
           <Link
             href="/work"
