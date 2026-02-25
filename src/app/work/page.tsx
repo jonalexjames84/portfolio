@@ -30,7 +30,7 @@ export default function WorkPage() {
             </h1>
           </div>
           <p className="text-zinc-600 dark:text-zinc-400">
-            Products I conceived, designed, built, and shipped — from full-stack
+            Products I conceived, designed, built, and shipped, from full-stack
             platforms to brand identities.
           </p>
         </div>
@@ -48,13 +48,22 @@ export default function WorkPage() {
         >
           Featured
         </motion.h2>
-        <div className="mb-12 grid gap-4 sm:grid-cols-2">
-          {featured.map((project) => (
-            <motion.div key={project.slug} variants={staggerItem}>
-              <ProjectCard project={project} />
-            </motion.div>
-          ))}
-        </div>
+        {/* Hero card for first featured project */}
+        {featured.length > 0 && (
+          <motion.div variants={staggerItem} className="mb-4">
+            <ProjectCard project={featured[0]} hero />
+          </motion.div>
+        )}
+        {/* Remaining featured in 2-col grid */}
+        {featured.length > 1 && (
+          <div className="mb-12 grid gap-4 sm:grid-cols-2">
+            {featured.slice(1).map((project) => (
+              <motion.div key={project.slug} variants={staggerItem}>
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </div>
+        )}
       </motion.div>
 
       {design.length > 0 && (

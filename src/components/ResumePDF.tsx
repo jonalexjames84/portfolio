@@ -14,14 +14,13 @@ import {
 } from "@react-pdf/renderer";
 import { skillCategories } from "@/lib/experience";
 
-// Resume-specific role data — concise, results-driven bullets separate from the website
-// Primary roles — full detail on the resume
+// Resume-specific role data, concise, results-driven bullets separate from the website
+// Primary roles: the 6 that tell the career story
 const resumeRoles = [
   {
     company: "Frame Story",
     title: "Co-Founder & Director of Product",
     period: "2025 – Present",
-    tags: ["Game Studio", "Co-Founder", "Indie Games"],
     highlights: [
       "Co-founded game studio; leading product on Cluck (3D horror-lite platformer) with a 10+ person team",
       "Raising $100K pre-seed via grants (Epic MegaGrant, Wings Fund) and investor outreach",
@@ -31,9 +30,8 @@ const resumeRoles = [
     company: "Indie Builder",
     title: "Founder / PM / Dev",
     period: "Nov 2024 – 2025",
-    tags: ["Full-Stack", "4 Products Shipped", "React Native + Next.js"],
     highlights: [
-      "Shipped 4 production apps solo (React Native, Next.js, Supabase) — 15+ repos, 59 database migrations",
+      "Shipped 4 production apps solo (React Native, Next.js, Supabase): 15+ repos, 59 database migrations",
       "Validated with 20+ users across community, hiring, fitness, and travel products",
     ],
   },
@@ -41,29 +39,17 @@ const resumeRoles = [
     company: "Treasure DAO",
     title: "Senior PM",
     period: "Apr 2024 – Nov 2024",
-    tags: ["Developer Platform", "Marketplace", "Quest Systems"],
     highlights: [
       "Drove +30% user engagement with Quest v2 and Verified Actions launch",
-      "Launched new chain on Arbitrum — +20% user base, +50% transaction speed, +35% active developers",
-    ],
-  },
-  {
-    company: "Mythical Games",
-    title: "Senior Technical PM",
-    period: "May 2022 – Dec 2023",
-    tags: ["Game Services", "Digital Marketplace", "Live Ops"],
-    highlights: [
-      "Shipped cross-title game services platform — +20% player retention, +15% revenue",
-      "Led digital asset marketplace integration, opening new revenue streams across multiple titles",
+      "Launched new chain on Arbitrum: +20% user base, +50% transaction speed, +35% active developers",
     ],
   },
   {
     company: "Genies",
     title: "Founding Product Manager",
     period: "Feb 2021 – May 2022",
-    tags: ["Avatar Ecosystem", "Creator Tools", "E-Commerce"],
     highlights: [
-      "Built Creator Ecosystem from zero to launch — the product story that helped secure $150M (Gucci, GIPHY)",
+      "Built Creator Ecosystem from zero to launch; contributed to $150M raise (Gucci, GIPHY partnerships)",
       "Launched e-commerce storefront generating $100K/week; defined GTM strategy that grew alpha to 1K users",
     ],
   },
@@ -71,49 +57,30 @@ const resumeRoles = [
     company: "AAA",
     title: "Digital Product Manager",
     period: "Mar 2018 – Aug 2020",
-    tags: ["Mobile App", "Enterprise", "6M Users"],
     highlights: [
-      "Launched API-driven mobile app to 6M members — saved $2M/year by shifting support to self-service",
+      "Launched API-driven mobile app to 6M members, saving $2M/year by shifting support to self-service",
       "Only PM reporting directly to C-Suite; owned end-to-end strategy with weekly executive presentations",
-    ],
-  },
-  {
-    company: "Bandai Namco",
-    title: "Product Manager",
-    period: "Aug 2016 – Mar 2017",
-    tags: ["PAC-MAN", "Global Launch", "10M+ Installs"],
-    highlights: [
-      "Ran PAC-MAN franchise — 10M+ weekly installs, 1M+ MAU at global launch",
-      "Pivoted to paid acquisition after cohort analysis showed 20% higher retention from paid users",
     ],
   },
   {
     company: "Jam City",
     title: "Product Manager",
     period: "Aug 2013 – Mar 2015",
-    tags: ["$50M Product", "1M+ DAU", "Live Ops"],
     highlights: [
       "Scaled product to 1M+ DAU and $50M in revenue through live ops and monetization",
-      "Drove 20% MoM revenue growth via weekly currency optimizations — speed of iteration beat any single idea",
-    ],
-  },
-  {
-    company: "Zynga",
-    title: "Content Manager",
-    period: "Jun 2009 – Apr 2013",
-    tags: ["FarmVille", "Live Ops at Scale", "Mobile Pioneer"],
-    highlights: [
-      "Shipped features across FarmVille, FrontierVille, Treasure Isle, and PetVille during Zynga's peak",
-      "Built Zynga's first mobile raiding feature (Mafia Wars iPhone) — an early bet on mobile",
+      "Drove 20% MoM revenue growth via weekly currency optimizations",
     ],
   },
 ];
 
-// Earlier roles — shown condensed to save space
+// Earlier roles: condensed single-line entries
 const earlierRoles = [
-  { company: "Big Fish Games", title: "PM", period: "2017", note: "Built analytics pipeline from scratch; +20% engagement, +50% session length via multivariate tests" },
+  { company: "Mythical Games", title: "Senior Technical PM", period: "2022–2023", note: "Cross-title game services platform: +20% retention, +15% revenue" },
+  { company: "Bandai Namco", title: "PM", period: "2016–2017", note: "PAC-MAN franchise: 10M+ weekly installs, 1M+ MAU global launch" },
+  { company: "Big Fish Games", title: "PM", period: "2017", note: "Analytics pipeline from scratch; +20% engagement, +50% session length" },
   { company: "Flow State Media", title: "Director of Product", period: "2015–2016", note: "8 consecutive months of revenue growth across mobile games suite" },
-  { company: "SUPERLABS", title: "PM", period: "2015", note: "VR game pre-production (company later acquired by Zynga)" },
+  { company: "SUPERLABS", title: "PM", period: "2015", note: "VR game pre-production (acquired by Zynga)" },
+  { company: "Zynga", title: "Content Manager", period: "2009–2013", note: "FarmVille franchise; built first mobile raiding feature (Mafia Wars)" },
 ];
 
 // Brand colors matching the portfolio website
@@ -160,33 +127,13 @@ const roleAccents = [
   c.violet500,
 ];
 
-// Tag color pairs for consistent colored pills
-const tagPalette = [
-  { bg: c.indigo50, fg: c.indigo500 },
-  { bg: c.violet50, fg: c.violet500 },
-  { bg: c.amber50, fg: c.amber500 },
-  { bg: c.emerald50, fg: c.emerald500 },
-  { bg: c.rose50, fg: c.rose500 },
-  { bg: c.sky50, fg: c.sky500 },
-];
-
-function hashTag(tag: string): number {
-  let h = 0;
-  for (let i = 0; i < tag.length; i++) {
-    h = ((h << 5) - h + tag.charCodeAt(i)) | 0;
-  }
-  return Math.abs(h);
-}
-
 const skillAccents = [c.indigo500, c.amber500, c.emerald500, c.rose500];
 
 const resumeMetrics = [
-  { value: "15+", label: "Years Experience" },
+  { value: "15+", label: "Years Shipping" },
   { value: "$50M", label: "Revenue Driven" },
   { value: "$150M", label: "Funding Secured" },
   { value: "6M+", label: "Users Reached" },
-  { value: "10M+", label: "Weekly Installs" },
-  { value: "1M+", label: "DAU at Scale" },
 ];
 
 const s = StyleSheet.create({
@@ -325,7 +272,7 @@ const s = StyleSheet.create({
   },
   // Role entries
   role: {
-    marginBottom: 7,
+    marginBottom: 5,
     paddingLeft: 10,
     borderLeftWidth: 1.5,
     borderLeftColor: c.zinc200,
@@ -355,19 +302,6 @@ const s = StyleSheet.create({
     fontSize: 8,
     color: c.zinc400,
     flexShrink: 0,
-  },
-  tags: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 3,
-    marginTop: 2,
-    marginBottom: 3,
-  },
-  tag: {
-    fontSize: 6.5,
-    paddingHorizontal: 5,
-    paddingVertical: 1.5,
-    borderRadius: 3,
   },
   bullet: {
     flexDirection: "row",
@@ -484,11 +418,10 @@ export const ResumePDF = () => (
           </Link>
         </View>
         <Text style={s.summary}>
-          Senior PM with 15 years shipping products at scale (Zynga, Genies, Jam
-          City). Recently built and shipped 4 production applications
-          solo—full-stack, from user research through deployment. I bring product
-          strategy, technical fluency, and the rare ability to go from zero to
-          shipped.
+          Senior PM with 15 years shipping at scale (Zynga, Genies, Jam
+          City). Recently built and shipped 4 production apps solo, full-stack,
+          from user research through deployment. Product strategy, technical
+          fluency, and the ability to go from zero to shipped.
         </Text>
       </View>
 
@@ -528,24 +461,6 @@ export const ResumePDF = () => (
               <Text style={s.rolePeriod}>{role.period}</Text>
             </View>
 
-            <View style={s.tags}>
-              {role.tags.map((tag) => {
-                const pair =
-                  tagPalette[hashTag(tag) % tagPalette.length];
-                return (
-                  <Text
-                    key={tag}
-                    style={[
-                      s.tag,
-                      { backgroundColor: pair.bg, color: pair.fg },
-                    ]}
-                  >
-                    {tag}
-                  </Text>
-                );
-              })}
-            </View>
-
             {role.highlights.map((h, hi) => (
               <View key={hi} style={s.bullet}>
                 <View
@@ -558,7 +473,7 @@ export const ResumePDF = () => (
         );
       })}
 
-      {/* Earlier Experience — condensed */}
+      {/* Earlier Experience, condensed */}
       <View style={[s.sectionHeader, { marginTop: 4 }]}>
         <View
           style={[s.sectionAccent, { backgroundColor: c.zinc400 }]}
@@ -585,40 +500,25 @@ export const ResumePDF = () => (
         ))}
       </View>
 
-      {/* Skills & Expertise */}
-      <View style={s.sectionHeader}>
+      {/* Skills, compact inline */}
+      <View style={[s.sectionHeader, { marginTop: 4 }]}>
         <View
           style={[s.sectionAccent, { backgroundColor: c.violet500 }]}
         />
-        <Text style={s.sectionTitle}>Skills & Expertise</Text>
+        <Text style={s.sectionTitle}>Skills</Text>
       </View>
 
-      <View style={s.skillsGrid}>
-        {skillCategories.map((cat, i) => {
-          const accent = skillAccents[i % skillAccents.length];
-          return (
-            <View key={cat.name} style={s.skillCard} wrap={false}>
-              <View
-                style={[
-                  s.skillAccentBar,
-                  { backgroundColor: accent },
-                ]}
-              />
-              <Text style={s.skillCatName}>{cat.name}</Text>
-              {cat.skills.map((skill) => (
-                <View key={skill} style={s.skillItem}>
-                  <View
-                    style={[
-                      s.skillDot,
-                      { backgroundColor: accent },
-                    ]}
-                  />
-                  <Text style={s.skillText}>{skill}</Text>
-                </View>
-              ))}
-            </View>
-          );
-        })}
+      <View style={{ gap: 3 }}>
+        {skillCategories.map((cat) => (
+          <View key={cat.name} style={{ flexDirection: "row", paddingLeft: 10 }} wrap={false}>
+            <Text style={{ fontSize: 8, fontFamily: "Helvetica-Bold", color: c.zinc900, width: 120 }}>
+              {cat.name}
+            </Text>
+            <Text style={{ fontSize: 8, color: c.zinc600, flex: 1 }}>
+              {cat.skills.join("  ·  ")}
+            </Text>
+          </View>
+        ))}
       </View>
     </Page>
   </Document>

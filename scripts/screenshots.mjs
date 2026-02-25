@@ -17,7 +17,6 @@ const projects = [
       { path: "/projects", file: "portfolio-projects.png" },
       { path: "/projects/pottery-friends", file: "portfolio-pottery-friends.png" },
       { path: "/projects/swob", file: "portfolio-swob.png" },
-      { path: "/projects/1406-adventures", file: "portfolio-1406.png" },
       { path: "/projects/health-dashboard", file: "portfolio-health.png" },
       { path: "/about", file: "portfolio-about.png" },
     ],
@@ -28,13 +27,6 @@ const projects = [
     dir: path.join(REPOS_DIR, "health"),
     port: 3001,
     pages: [{ path: "/", file: "health-home.png" }],
-  },
-  {
-    name: "1406-adventures",
-    dir: path.join(REPOS_DIR, "1406-adventures"),
-    port: 5173,
-    devCommand: "npx vite --port 5173",
-    pages: [{ path: "/", file: "1406-home.png" }],
   },
   {
     name: "potteryfriends-web",

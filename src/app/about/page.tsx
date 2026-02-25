@@ -15,8 +15,8 @@ const sections = [
     title: "Where It Started",
     gradient: "from-indigo-500 to-violet-500",
     content: [
-      "I walked into Zynga in 2009, the same month FarmVille crossed 10 million players. Social gaming was inventing itself in real time, and I had no product experience and no idea what a DAU was. Within a year, I was shipping features on FarmVille, building Mafia Wars' first mobile raiding system, and learning the lesson that would define the next fifteen years: great products come from obsessing over what players actually do, not what your roadmap says they should do.",
-      "After four years I'd contributed to some of the biggest titles in social gaming — but I was still a content manager. I wanted to own a product, not feed content into someone else's.",
+      "I walked into Zynga in 2009, the same month FarmVille crossed 10 million players. No product experience, no idea what a DAU was. Within a year I was shipping features on FarmVille and building Mafia Wars' first mobile raiding system. The lesson that stuck: obsess over what players actually do, not what the roadmap says they should do.",
+      "After four years I'd contributed to some of the biggest titles in social gaming, but I was still a content manager. I wanted to own a product, not feed content into someone else's.",
     ],
   },
   {
@@ -24,8 +24,8 @@ const sections = [
     title: "Learning to Own the Outcome",
     gradient: "from-violet-500 to-purple-500",
     content: [
-      "Jam City gave me that ownership. I launched a game and scaled it to 1M+ DAU and $50M in revenue. The insight that stuck: 20% month-over-month revenue growth came from running currency optimizations weekly instead of quarterly. Speed of iteration beat any single brilliant idea. But after scaling one game, I wanted to know what product work looked like at franchise scale — the kind where every decision reaches millions of people.",
-      "A short stint at SUPERLABS exploring VR and MMO gaming (later acquired by Zynga) led to a Director of Product role at Flow State Media, where I ran strategy for a suite of mobile games and drove eight straight months of revenue growth. Then Bandai Namco offered me the PAC-MAN franchise — 10M+ weekly installs, 1M+ MAU. I learned what acquisition looks like at massive volume and drove a 20% retention improvement. But a franchise role means optimizing someone else's vision. I wanted to build from scratch again.",
+      "Jam City gave me that ownership. I launched a game and scaled it to 1M+ DAU and $50M in revenue. The insight that stuck: 20% month-over-month revenue growth came from running currency optimizations weekly instead of quarterly. Speed of iteration beat any single brilliant idea. But after scaling one game, I wanted to know what product work looked like at franchise scale, the kind where every decision reaches millions of people.",
+      "SUPERLABS (VR gaming, later acquired by Zynga), then Director of Product at Flow State Media where I drove eight straight months of revenue growth. Bandai Namco gave me the PAC-MAN franchise: 10M+ weekly installs, 1M+ MAU, 20% retention improvement. But franchise work means optimizing someone else's vision. I wanted to build from scratch again.",
     ],
   },
   {
@@ -33,8 +33,8 @@ const sections = [
     title: "Beyond Games",
     gradient: "from-amber-500 to-orange-500",
     content: [
-      "Big Fish Games deepened my analytics craft — I built a reporting pipeline from scratch and ran multivariate tests that improved engagement by 20% and session length by 50%. But I was starting to wonder: could my PM instincts transfer outside of gaming entirely?",
-      "AAA answered that question. I shipped a mobile app to 6M members, saved $2M in annual call center costs, and presented strategy weekly to C-Suite leadership. The domain was different but the core muscle was the same — understand the user, ship fast, measure what matters. That experience widened my lens from entertainment to enterprise utility and proved the skills were portable.",
+      "Big Fish Games deepened my analytics craft: reporting pipeline from scratch, multivariate tests that improved engagement 20% and session length 50%. Then I tested whether PM instincts transfer outside gaming.",
+      "AAA answered that. Mobile app to 6M members, $2M saved in annual call center costs, weekly C-Suite strategy presentations. Different domain, same core muscle: understand the user, ship fast, measure what matters.",
     ],
   },
   {
@@ -42,8 +42,8 @@ const sections = [
     title: "Betting on Myself",
     gradient: "from-rose-500 to-pink-500",
     content: [
-      "When Genies hired me as their first PM, I knew the risk. An 85-person startup with no product infrastructure, celebrity partnerships to manage (Gucci, GIPHY), and everything to prove. I built their creator ecosystem from concept to launch, an e-commerce storefront doing $100K in weekly sales, and helped position the company to close $150M in funding. It was the closest I'd come to founder energy — and it changed what I wanted next.",
-      "Mythical Games and Treasure DAO took me deeper into blockchain gaming. At Mythical, I led game services across multiple titles, improving retention by 20% and revenue by 15%. At Treasure, I shipped a quest system, a marketplace, and a new blockchain on Arbitrum that expanded the user base by 20%. Then, in November 2024, I was laid off.",
+      "Genies hired me as their first PM. 85-person startup, no product infrastructure, celebrity partnerships (Gucci, GIPHY), everything to prove. I built the creator ecosystem from concept to launch, an e-commerce storefront doing $100K/week, and helped close $150M in funding.",
+      "Mythical Games and Treasure DAO took me deeper into digital marketplaces and developer platforms. Mythical: cross-title game services, +20% retention, +15% revenue. Treasure: quest system, marketplace, new chain on Arbitrum, +20% user base. Then, in November 2024, I was laid off.",
     ],
   },
   {
@@ -51,9 +51,9 @@ const sections = [
     title: "The Last Year",
     gradient: "from-emerald-500 to-teal-500",
     content: [
-      "I didn't jump back into the job market. I took a few months to decompress — lifting weights, overhauling my nutrition, fighting through anxiety and depression. And then I started building.",
-      "I co-founded a game studio with a group of recently unemployed developers and designers. What started as a way to keep our skills sharp became something real — about six months in, I was converted to a full founder role. That taught me what zero-to-one actually feels like when there's no salary safety net. Around the same time, I started freelancing for my local pottery studio, building websites for artists who needed an online presence. My wife sells her fine art online — she grew to 100K followers and sells over $15K in art every year — and I used her playbook to help other artists do the same. That freelance work planted the seed for Pottery Friends.",
-      "I started consulting for Swob, helping them build a swipe-to-hire job matching platform for hourly workers — real startup work with early-stage fundraising and investor demos. On my own time, I built two more products: Macro Chef, which connects Strava, DEXA scans, and COROS devices into one intelligent view with AI-powered meal planning — born from my own fitness transformation — and Pottery Friends, a full platform ecosystem for pottery studio communities that I'm testing with 150 members to incredible feedback.",
+      "I didn't jump back into the job market. I took a few months to decompress: lifting weights, overhauling my nutrition, fighting through anxiety and depression. And then I started building.",
+      "I co-founded a game studio with recently laid-off developers and designers. Six months in, I was a full founder: zero-to-one with no salary safety net. I also started freelancing for my local pottery studio, which planted the seed for Pottery Friends.",
+      "Then came consulting on Swob (swipe-to-hire for hourly workers) and building two more products solo: Macro Chef (AI nutrition + fitness data) and Pottery Friends (community platform for pottery studios, 150 beta members).",
       "Four products. Fifteen repos. Fifty-nine database migrations. All of it conceived, designed, built, and shipped by one person who also happens to be a fifteen-year product manager.",
     ],
   },
@@ -62,7 +62,7 @@ const sections = [
     title: "The Thread",
     gradient: "from-sky-500 to-cyan-500",
     content: [
-      "Looking back, every move was deliberate — even when it didn't feel like it at the time. From contributor to owner. From one game to franchise scale. From games to enterprise. From employee to founding PM. From founding PM to actual founder. The common thread: the best product decisions come from understanding what it actually costs to build the thing. Not from a sprint planning estimate — from building it yourself. The last year has been the proof.",
+      "The common thread across 15 years: the best product decisions come from understanding what it actually costs to build. Not from a sprint planning estimate, from building it yourself.",
     ],
   },
   {
@@ -70,8 +70,8 @@ const sections = [
     title: "How I Work",
     gradient: "from-fuchsia-500 to-pink-500",
     content: [
-      "I've led cross-functional teams at companies ranging from 85-person startups to organizations with 60M+ members. I write PRDs that engineers actually want to read, run sprints without micromanaging, and say no to features that don't move the metric that matters. My builder background means I can unblock technical conversations faster than most PMs — I don't need a meeting to understand why a migration is risky or an API design decision matters. That shared vocabulary earns trust with engineering teams quickly.",
-      "I prioritize by asking one question: what's the fastest path to learning something we don't know? Discovery and delivery aren't separate phases — they're parallel tracks. I define product success by behavior change, not feature completion. A shipped feature nobody uses is worse than one that was cut because the data said no.",
+      "I've led cross-functional teams at companies ranging from 85-person startups to organizations with 60M+ members. I write PRDs that engineers actually want to read, run sprints without micromanaging, and say no to features that don't move the metric that matters. My builder background means I can unblock technical conversations faster than most PMs. I don't need a meeting to understand why a migration is risky or an API design decision matters. That shared vocabulary earns trust with engineering teams quickly.",
+      "I prioritize by asking one question: what's the fastest path to learning something we don't know? Discovery and delivery aren't separate phases. They're parallel tracks. I define product success by behavior change, not feature completion. A shipped feature nobody uses is worse than one that was cut because the data said no.",
     ],
   },
   {
@@ -79,15 +79,15 @@ const sections = [
     title: "What I'm Looking For",
     gradient: "from-indigo-500 to-blue-500",
     content: [
-      "I'm looking for a company where product is the growth engine — not a support function. I thrive when the PM owns the outcome, not just the roadmap. The right fit is a team that ships weekly, values technical depth in their PMs, and measures success by behavior change, not feature completion.",
-      "Stage-wise, I'm drawn to seed-to-Series B startups and growth-stage companies in SaaS, developer tools, AI/ML, or consumer platforms — anywhere I can be close to the product instead of three layers of process away from it. I'm based in the Bay Area and open to remote.",
+      "I want a company where product drives growth, not a support function. The right fit: PM owns the outcome, team ships weekly, technical depth matters.",
+      "Seed-to-Series B startups in SaaS, dev tools, AI/ML, or consumer platforms. Bay Area, open to remote.",
     ],
   },
 ];
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
+    <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Hero area */}
       <div className="relative mb-12 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-12 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
         <div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
@@ -108,9 +108,7 @@ export default function AboutPage() {
               About Me
             </h1>
             <p className="text-lg leading-relaxed text-zinc-700 dark:text-zinc-300">
-              Most product managers talk about what their teams shipped. I can show
-              you what <em className="text-indigo-600 not-italic font-medium dark:text-indigo-400">I</em> shipped — the products, the code, the databases,
-              the user research. But the more interesting story is how I got here.
+              Most PMs talk about what their teams shipped. I can show you what <em className="text-indigo-600 not-italic font-medium dark:text-indigo-400">I</em> shipped. Here&apos;s how I got here.
             </p>
           </div>
         </div>
@@ -209,31 +207,31 @@ export default function AboutPage() {
             {
               quote: "Jon Martin was crucial to the success of Panda Pop, which is currently the number 1 bubble shooter in the world. He is reliable and makes good product decisions based on data and knowledge of the marketplace. He fought to be heard within the company, and argued for changes that ultimately took Panda Pop up a level to the top grossing hit it is today.",
               name: "Mike Chera",
-              context: "Creative Director, Video Games — managed Jon at Jam City",
+              context: "Creative Director, Video Games. Managed Jon at Jam City",
               accent: "from-indigo-500 to-violet-500",
             },
             {
               quote: "Jon is a pro at getting things done and a great morale boost to any team. I watched him transition from artist to designer, and quickly learn the ropes and technical wranglings of design and content implementation. He could always be relied upon to get things done, and spot process and tool improvements to increase efficiency.",
               name: "Eric Zimmerman",
-              context: "Engineer at Dolby — managed Jon at Zynga",
+              context: "Engineer at Dolby. Managed Jon at Zynga",
               accent: "from-violet-500 to-purple-500",
             },
             {
-              quote: "Jon is a great individual to work with and have on your team. He can be counted on to approach his work with charisma and a positive attitude — characteristics that make him a pleasure to work with under pressure. Jon is also a strong creative contributor who can pick up technical tasks with ease.",
+              quote: "Jon is a great individual to work with and have on your team. He can be counted on to approach his work with charisma and a positive attitude, characteristics that make him a pleasure to work with under pressure. Jon is also a strong creative contributor who can pick up technical tasks with ease.",
               name: "Brian Kahrs",
-              context: "Product @ Ridgeline — worked with Jon at Zynga",
+              context: "Product @ Ridgeline. Worked with Jon at Zynga",
               accent: "from-emerald-500 to-teal-500",
             },
             {
               quote: "Being able to walk up to Jon's desk has always been a pleasure, he's willing to help in explaining any design questions I've ever had. He's task oriented and keeps to a tight schedule while not cutting corners, he actually helps solves problems. Working with Jon is a great experience personally and professionally.",
               name: "Randall Smith",
-              context: "3D Character Artist — worked with Jon at Zynga",
+              context: "3D Character Artist. Worked with Jon at Zynga",
               accent: "from-rose-500 to-pink-500",
             },
             {
               quote: "Jon is an accomplished tech artist, UI designer and game designer. I worked with him at Zynga when he was first starting out and he impressed the team with his talent and dedication. Plus, Jon is a great team player.",
               name: "Steven Lurie",
-              context: "Founder at Team Builder Ventures — senior to Jon at Zynga",
+              context: "Founder at Team Builder Ventures. Senior to Jon at Zynga",
               accent: "from-sky-500 to-cyan-500",
             },
           ].map((t) => (

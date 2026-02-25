@@ -49,7 +49,7 @@ const skillGradients = [
   "from-rose-500 to-pink-500",
 ];
 
-// Key roles to expand by default — the 5 that carry the most weight
+// Key roles to expand by default: the 5 that carry the most weight
 const keyRoleCompanies = new Set(["Frame Story", "Indie Builder", "Genies", "AAA", "Jam City", "Zynga"]);
 
 function TimelineRole({
@@ -144,7 +144,7 @@ function TimelineRole({
 
 export default function ExperiencePage() {
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
+    <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Header */}
       <motion.div
         initial="hidden"
@@ -164,8 +164,7 @@ export default function ExperiencePage() {
               </h1>
             </div>
             <p className="text-zinc-600 dark:text-zinc-400">
-              Every role taught me something the previous one couldn&apos;t — from
-              contributor to owner, from games to enterprise, from employee to
+              From contributor to owner, games to enterprise, employee to
               founder.
             </p>
           </div>
@@ -269,10 +268,10 @@ export default function ExperiencePage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
             { year: "2009", event: "Joined Zynga during FarmVille era", gradient: "from-indigo-500 to-violet-500" },
-            { year: "2013", event: "First PM role — scaled to $50M revenue", gradient: "from-violet-500 to-purple-500" },
-            { year: "2016", event: "PAC-MAN franchise — 10M+ weekly installs", gradient: "from-amber-500 to-orange-500" },
-            { year: "2018", event: "Beyond games — AAA app to 6M members", gradient: "from-sky-500 to-cyan-500" },
-            { year: "2021", event: "First PM at Genies — helped close $150M", gradient: "from-rose-500 to-pink-500" },
+            { year: "2013", event: "First PM role, scaled to $50M revenue", gradient: "from-violet-500 to-purple-500" },
+            { year: "2016", event: "PAC-MAN franchise, 10M+ weekly installs", gradient: "from-amber-500 to-orange-500" },
+            { year: "2018", event: "Beyond games: AAA app to 6M members", gradient: "from-sky-500 to-cyan-500" },
+            { year: "2021", event: "First PM at Genies, helped close $150M", gradient: "from-rose-500 to-pink-500" },
             { year: "2025", event: "Built 4 products from scratch as founder", gradient: "from-emerald-500 to-teal-500" },
           ].map((milestone) => (
             <motion.div
@@ -353,11 +352,9 @@ export default function ExperiencePage() {
             </h2>
           </div>
           <p className="mb-4 text-zinc-600 dark:text-zinc-400">
-            When my role ended in November 2024, I saw an opportunity to go
-            all-in on building. Over three months I shipped four complete product
-            ecosystems from scratch — turning fifteen years of product instincts
-            into real, running software. 15+ repos, 59 database migrations,
-            full-stack TypeScript.
+            After my role ended in November 2024, I went all-in on building.
+            Four products shipped from scratch in three months. 15+ repos, 59
+            database migrations, full-stack TypeScript.
           </p>
           <Link
             href="/work"

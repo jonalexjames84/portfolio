@@ -19,7 +19,7 @@ const testimonials = [
     quote:
       "I had the pleasure of working with Jon at Treasure, where they excelled as a Product Manager in the blockchain industry. Their deep understanding of the field enabled them to deliver outstanding results consistently, completing projects on time and within budget. Jon is also a natural team builder, fostering an inclusive environment that empowers everyone to contribute.",
     name: "Matt Farrokhzad",
-    context: "Multi-Cloud DevSecOps Leader — worked with Jon at Treasure",
+    context: "Multi-Cloud DevSecOps Leader, worked with Jon at Treasure",
     accent: "from-indigo-500 to-violet-500",
   },
   {
@@ -33,7 +33,7 @@ const testimonials = [
     quote:
       "I worked very closely with Jon on a major strategic project and he continuously proved himself as a disciplined, strategic, and creative thinker. He knows how to get things done quickly, effectively and rally a team to feel great about their accomplishments. Would highly recommend Jon in any capacity.",
     name: "Meg Vrabel",
-    context: "Operations Executive & COO — Jon's mentor",
+    context: "Operations Executive & COO, Jon's mentor",
     accent: "from-purple-500 to-pink-500",
   },
 ];
@@ -52,9 +52,9 @@ export function HomePage() {
 
   return (
     <>
-      {/* Hero — full bleed */}
+      {/* Hero */}
       <section className="hero-grain relative py-24 sm:py-32">
-        {/* Mesh gradient background — edge to edge */}
+        {/* Mesh gradient background */}
         <div
           className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center dark:hidden"
           style={{ backgroundImage: "url('/hero-mesh-light.svg')" }}
@@ -68,7 +68,7 @@ export function HomePage() {
           <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="relative z-10 flex flex-col items-start gap-8 sm:flex-row sm:items-center sm:gap-12">
             {/* Text */}
             <div className="flex-1">
-              {/* Photo — mobile only, centered */}
+              {/* Photo, mobile only */}
               <motion.div variants={staggerItem} className="mb-6 sm:hidden">
                 <div className="relative mx-auto h-28 w-28 overflow-hidden rounded-full border-2 border-zinc-200 shadow-lg dark:border-zinc-700">
                   <Image
@@ -100,11 +100,10 @@ export function HomePage() {
                 variants={staggerItem}
                 className="mb-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
               >
-                15 years of product strategy at Zynga, Jam City, Bandai Namco,
-                AAA, and Genies — scaling products to millions of users and helping
-                secure $150M in funding. I also ship code, which means I never
-                lose context when working with engineering. Four solo-built
-                products and a co-founded game studio prove it.
+                15 years shipping at Zynga, Jam City, Bandai Namco, AAA, and
+                Genies. $50M in revenue, $150M in funding, 6M users. I also
+                ship code, and four solo-built products and a co-founded game
+                studio prove it.
               </motion.p>
               <motion.div
                 variants={staggerItem}
@@ -224,7 +223,7 @@ export function HomePage() {
               Featured Work
             </h2>
             <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-              Products I conceived, designed, and shipped — each one a case study in product thinking
+              Products I designed, built, and shipped
             </p>
           </div>
           <Link
@@ -306,7 +305,7 @@ export function HomePage() {
             </h2>
             <p className="mx-auto mb-6 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
               I&apos;m targeting Senior PM roles at seed-to-Series B startups
-              in SaaS, dev tools, AI/ML, or consumer platforms — teams that
+              in SaaS, dev tools, AI/ML, or consumer platforms. Teams that
               ship weekly and value technical depth. Let&apos;s talk about what
               I can do for yours.
             </p>

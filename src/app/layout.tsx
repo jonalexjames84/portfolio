@@ -18,14 +18,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Jonny Martin — Senior Product Manager",
+    default: "Jonny Martin | Senior Product Manager",
     template: "%s | Jonny Martin",
   },
   description:
     "Senior Product Manager with 15+ years shipping games and products at Zynga, Jam City, Genies, Mythical Games, and more.",
   metadataBase: new URL("https://jonnymartin.blog"),
   openGraph: {
-    title: "Jonny Martin — Senior Product Manager",
+    title: "Jonny Martin | Senior Product Manager",
     description:
       "Senior Product Manager with 15+ years shipping games and products at Zynga, Jam City, Genies, Mythical Games, and more.",
     url: "https://jonnymartin.blog",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jonny Martin — Senior Product Manager",
+    title: "Jonny Martin | Senior Product Manager",
     description:
       "Senior Product Manager with 15+ years shipping games and products at Zynga, Jam City, Genies, Mythical Games, and more.",
   },

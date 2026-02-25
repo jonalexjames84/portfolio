@@ -38,7 +38,7 @@ export function CalendlyEmbed({ url }: { url: string }) {
           const cal = (window as unknown as { Calendly?: { initInlineWidgets: () => void } }).Calendly;
           cal?.initInlineWidgets();
         } catch {
-          // Calendly widget re-init failed — not critical
+          // Calendly widget re-init failed, not critical
         }
       } else {
         const script = document.createElement("script");

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Linkedin, Github, Send, Calendar, BookOpen, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
-import { CalendlyEmbed } from "@/components/CalendlyEmbed";
 
 const socials = [
   {
@@ -28,11 +27,18 @@ const socials = [
     description: "Read my writing",
     gradient: "from-orange-500 to-rose-500",
   },
+  {
+    label: "Schedule a Call",
+    href: "https://calendly.com/jonalexjames/30min",
+    icon: Calendar,
+    description: "Book a 30-minute chat",
+    gradient: "from-emerald-500 to-teal-500",
+  },
 ];
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
+    <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Header */}
       <motion.div
         initial="hidden"
@@ -52,7 +58,7 @@ export default function ContactPage() {
           <p className="mx-auto max-w-xl text-lg text-zinc-600 dark:text-zinc-400">
             I&apos;m targeting Senior PM roles at seed-to-Series B startups in
             SaaS, dev tools, AI/ML, or consumer platforms. Whether you have a
-            role, want to talk product, or just want to say hi — I&apos;d love
+            role, want to talk product, or just want to say hi, I&apos;d love
             to hear from you.
           </p>
         </div>
@@ -133,14 +139,13 @@ export default function ContactPage() {
           </form>
         </motion.div>
 
-        {/* Right column: Direct links + Calendly */}
+        {/* Right column: Direct links */}
         <motion.div
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
           className="space-y-4"
         >
-          {/* Direct links */}
           {socials.map((s) => (
             <motion.div key={s.label} variants={staggerItem}>
               <Link
@@ -164,27 +169,6 @@ export default function ContactPage() {
               </Link>
             </motion.div>
           ))}
-
-          {/* Calendly */}
-          <motion.div
-            variants={staggerItem}
-            className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/50"
-          >
-            <div className="flex items-center gap-2.5 border-b border-zinc-200 px-5 py-3 dark:border-zinc-800">
-              <div className="rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 p-2 shadow-lg">
-                <Calendar size={16} className="text-white" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  Schedule a Call
-                </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                  Book a 30-minute chat
-                </p>
-              </div>
-            </div>
-            <CalendlyEmbed url="https://calendly.com/jonalexjames/30min" />
-          </motion.div>
         </motion.div>
       </div>
     </div>
