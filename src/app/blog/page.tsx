@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
+    <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Header */}
       <div className="relative mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 p-8 sm:p-10 dark:from-violet-950/30 dark:via-purple-950/20 dark:to-fuchsia-950/30">
         <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10" />
@@ -30,7 +30,7 @@ export default function BlogPage() {
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {posts.map((post) => (
           <Link
             key={post.slug}
@@ -39,7 +39,7 @@ export default function BlogPage() {
           >
             {/* Hero image */}
             {post.image && (
-              <div className="relative h-48 w-full overflow-hidden">
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
                 <Image
                   src={post.image}
                   alt={post.title}

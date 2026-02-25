@@ -121,16 +121,13 @@ export function HomePage() {
           >
             <div className="relative h-56 w-56 overflow-hidden rounded-2xl border-2 border-zinc-200 shadow-lg dark:border-zinc-700">
               <Image
-                src="/jonny-gdc.jpg"
-                alt="Jonny Martin at GDC"
+                src="/jonny-headshot.jpg"
+                alt="Jonny Martin"
                 fill
-                className="object-cover object-top"
+                className="object-cover"
                 priority
               />
             </div>
-            <p className="mt-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
-              GDC 2025
-            </p>
           </motion.div>
         </motion.div>
       </section>
