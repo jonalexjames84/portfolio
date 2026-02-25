@@ -37,9 +37,7 @@ export const projects: Project[] = [
     slug: "pottery-friends",
     title: "Pottery Friends",
     subtitle: "Community Platform Ecosystem",
-    screenshot:
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/feed.png",
-    cardImage: "/screenshots/potteryfriends-logo.png",
+    screenshot: "/screenshots/potteryfriends-home.png",
     screenshots: [
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/feed.png",
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/potteryfriends/new-post.png",
