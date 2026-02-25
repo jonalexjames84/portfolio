@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { getPost, posts } from "@/lib/posts";
@@ -135,6 +136,21 @@ export default async function BlogPostPage({
         <ArrowLeft size={14} />
         All posts
       </Link>
+
+      {/* Hero image */}
+      {post.image && (
+        <div className="relative mb-8 overflow-hidden rounded-2xl">
+          <div className="relative h-64 w-full sm:h-80">
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        </div>
+      )}
 
       {/* Visual header area */}
       <div className="relative mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 p-6 sm:p-8 dark:from-violet-950/30 dark:via-purple-950/20 dark:to-fuchsia-950/30">

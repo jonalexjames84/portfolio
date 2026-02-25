@@ -6,6 +6,7 @@ export type Post = {
   tags: string[];
   content: string[];
   source?: string;
+  image?: string;
 };
 
 export const posts: Post[] = [
@@ -25,6 +26,7 @@ export const posts: Post[] = [
   },
   {
     slug: "speed-bumps-paint-brushes-and-resilience",
+    image: "/blog/speed-bumps.jpg",
     title: "Speed Bumps, Paint Brushes, and Resilience",
     subtitle:
       "On navigating career setbacks, supporting your partner\u2019s art, and finding strength in the chaos.",
@@ -55,6 +57,7 @@ export const posts: Post[] = [
   },
   {
     slug: "product-team-fit",
+    image: "/blog/product-team-fit.jpg",
     title: "Building a Team That Fits Your Product",
     subtitle:
       "What people don\u2019t talk about enough \u2014 having a team that fits your product, not the other way around.",
@@ -89,6 +92,7 @@ export const posts: Post[] = [
   },
   {
     slug: "how-i-prepare-for-pm-interviews",
+    image: "/blog/pm-interviews.jpg",
     title: "How I Prepare for PM Interviews",
     subtitle:
       "The books, frameworks, and four-phase system I use to prepare for product manager interviews.",
@@ -130,6 +134,7 @@ export const posts: Post[] = [
   },
   {
     slug: "finances-and-mental-health",
+    image: "/blog/mental-health.jpg",
     title: "Your Mental Health Is More Important Than Your Financial Health",
     subtitle:
       "How I stay grounded during economic uncertainty \u2014 small, practical tools anyone can use.",
@@ -164,6 +169,7 @@ export const posts: Post[] = [
   },
   {
     slug: "how-i-pitch-a-game",
+    image: "/blog/pitch-a-game.jpg",
     title: "How I Pitch a Game",
     subtitle:
       "The step-by-step process I use to pitch game projects \u2014 from competitive analysis to the ask.",
@@ -198,6 +204,7 @@ export const posts: Post[] = [
   },
   {
     slug: "from-anxious-to-excited",
+    image: "/blog/anxious-to-excited.jpg",
     title: "From Anxious to Excited",
     subtitle:
       "After a year of facing my fears head-on, here\u2019s what happened \u2014 from my first flight in a decade to Hawaii.",
@@ -235,6 +242,7 @@ export const posts: Post[] = [
   },
   {
     slug: "zero-to-zero-point-five",
+    image: "/blog/zero-to-half.jpg",
     title: "Zero to 0.5: The Hardest Part of Building Anything",
     subtitle:
       "Most things die before they even become an MVP. Here\u2019s how to survive the messy middle between idea and prototype.",
@@ -277,6 +285,7 @@ export const posts: Post[] = [
   },
   {
     slug: "forgotten-memories",
+    image: "/blog/forgotten-memories.jpg",
     title: "Forgotten Memories",
     subtitle:
       "I found my pre-internet photo archives under the bed. Here are the life lessons hiding in those old film rolls.",
@@ -315,6 +324,7 @@ export const posts: Post[] = [
   },
   {
     slug: "after-careful-consideration",
+    image: "/blog/after-careful-consideration.jpg",
     title: "After Careful Consideration...",
     subtitle:
       "What happens when rejection becomes your daily routine \u2014 and how starting Side Quest Games changed everything.",
@@ -342,6 +352,7 @@ export const posts: Post[] = [
   },
   {
     slug: "live-like-its-2005",
+    image: "/blog/live-like-2005.jpg",
     title: "Live Like It\u2019s 2005",
     subtitle:
       "What if we ditched the algorithms, bought CDs again, and got lost without GPS? I\u2019m trying it.",
@@ -376,6 +387,7 @@ export const posts: Post[] = [
   },
   {
     slug: "martin-ceramics-is-live",
+    image: "/blog/martin-ceramics.jpg",
     title: "Martin Ceramics is Live",
     subtitle:
       "A quick shameless plug for my new ceramics website \u2014 pottery, glazes, dogs, and all.",
@@ -392,6 +404,7 @@ export const posts: Post[] = [
   },
   {
     slug: "expression",
+    image: "/blog/expression.jpg",
     title: "Expression",
     subtitle:
       "How I lost my creative identity during my tech career \u2014 and how pottery, writing, and Rick Rubin helped me find it again.",
@@ -435,6 +448,7 @@ export const posts: Post[] = [
       "How I went from barely leaving the house to logging 372 hours of activity \u2014 and finally got my mental health back on track.",
     date: "2025-01-15",
     tags: ["Mental Health", "Fitness", "Personal"],
+    image: "/blog/2024-focus-health.jpg",
     content: [
       "2024, although turbulent professionally, was the year I became more focused and healthy than ever before. I want to share a story about my 2024 year in health, and hopefully, you can glean some insights on how to make 2025 your healthiest year yet.",
       "For me, I really love fitness \u2014 probably to a fault. I lean on it when times are tough to help me cope with stress. I also lean on it when times are good as an excuse to get outside when the sun is shining, making it a healthy outlet.",
@@ -461,6 +475,7 @@ export const posts: Post[] = [
       "From COVID pivots to crypto to stillness \u2014 five years of career moves, lessons learned, and building with my hands.",
     date: "2025-01-15",
     tags: ["Career", "Gaming", "Personal"],
+    image: "/blog/retrospective.jpg",
     content: [
       "The year was 2019. I was in a stable job at a big insurance company, building and managing an app with a small team in their marketing department. I was a product manager and had been there for 2.5 years. I wasn\u2019t making the most money I\u2019d ever earned, but the job was fairly low stress.",
       "Why am I explaining all this? Well, 2019 was the year COVID-19 hit, disrupting my life and the lives of countless others across the world. I\u2019m writing this because I found myself at a crossroads. I was pulled out of my normal, everyday decision-making routine and forced to make some really hard choices that would change my life forever.",
@@ -502,6 +517,7 @@ export const posts: Post[] = [
       "Why we need to stop relying on two-page documents to identify talent \u2014 and what I\u2019m doing instead.",
     date: "2024-12-09",
     tags: ["Career", "Product Management", "Personal Branding"],
+    image: "/blog/anti-resume.jpg",
     content: [
       "This is a love letter to hiring managers, recruiters, sourcers, headhunting firms, and, most importantly, all the job seekers out there relentlessly applying for opportunities. I want everyone reading this to rethink how we find great people and how we, as job seekers, present ourselves to those searching for the perfect fit for their teams.",
       "This post is about a concept I\u2019ve started putting into practice. My background isn\u2019t conventional \u2014 short stints at small startups, no high school diploma, no college degree, and minimal formal training outside of work. Yet, I\u2019ve managed to bootstrap my way to where I am today, thanks to the generosity of people who shared their time and knowledge to teach me new skills.",
@@ -532,6 +548,7 @@ export const posts: Post[] = [
       "Bruce Lee\u2019s philosophy helped me navigate the hardest month of my life \u2014 here\u2019s what I learned about making space for growth.",
     date: "2024-12-06",
     tags: ["Mental Health", "Personal Growth", "Resilience"],
+    image: "/blog/empty-the-cup.jpg",
     content: [
       "\u201CEmpty your cup so that it may be filled; become devoid to gain totality.\u201D \u2014 Bruce Lee",
       "This mantra has been my guide every time I meditate, and lately, it\u2019s taken on a deeper meaning. Life threw some serious curveballs at me this past month, and I\u2019ve been reflecting on how to navigate these challenges while staying on a path of self-improvement.",
@@ -558,6 +575,7 @@ export const posts: Post[] = [
       "On career storytelling, messy resumes, and why every team needs someone who\u2019s been drinking bitter soup for years.",
     date: "2024-10-23",
     tags: ["Career", "Product Management", "Storytelling"],
+    image: "/blog/lemon-soup.jpg",
     content: [
       "When life gives you lemons, people say to make lemonade. But what if you end up with lemon soup? That\u2019s what my career has felt like at times \u2014 too many unexpected ingredients, detours, and unplanned challenges. This blog is about the lessons I\u2019ve learned along the way, the power of career storytelling, and how you can turn your lemon soup into a winning recipe.",
       "## The Power of Storytelling in Your Career",
@@ -587,6 +605,7 @@ export const posts: Post[] = [
       "Why our culture looks down on trying new things at 40 \u2014 and the neuroscience that says we should do it anyway.",
     date: "2024-08-02",
     tags: ["Personal Growth", "Creativity", "Curiosity"],
+    image: "/blog/stop-age-gating.jpg",
     content: [
       "Recently, I\u2019ve been double-clicking on the feeling of \"I\u2019m curious about...\" This has led to tremendous progress in self-discovery and purpose. I initially heard this concept in a podcast by Rich Roll, where he interviewed a man who\u2019s been living out of his backpack for 5 years. He talked about his advice for people trying to understand more about their deeper purpose and discussed this feeling of curiosity and how we\u2019ve forgotten how to sense it.",
       "This tends to happen after we hit adulthood and are on these \"career\" or \"life tracks\" prescribed by society or upbringing. He feels these tracks are misleading for most and don\u2019t lead to happy, fulfilling lives.",
@@ -608,6 +627,7 @@ export const posts: Post[] = [
       "The survival guide I wish I\u2019d had \u2014 real talk on founder delusion, burnout, and why frameworks don\u2019t scale down.",
     date: "2024-07-26",
     tags: ["Product Management", "Startups", "Career"],
+    image: "/blog/founding-pm.jpg",
     content: [
       "Being a Product Manager (PM) at a startup is no joke. There are countless books offering hypothetical scenarios and frameworks to navigate every situation, but these systems often fail to scale down to the startup size. They work well for larger organizations but rarely for startups.",
       "If you, too, see endless \"how to get product-market fit in 5 easy steps\" posts on LinkedIn that are unhelpful while you\u2019re busy putting out a hundred different fires, I am here to help.",

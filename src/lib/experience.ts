@@ -160,11 +160,11 @@ export const career: Role[] = [
 ];
 
 export const metrics = [
-  { value: "15+", label: "Years in Games & Tech" },
-  { value: "10M+", label: "Weekly Installs (PAC-MAN)" },
-  { value: "$50M", label: "Product Revenue (Jam City)" },
-  { value: "$150M", label: "Funding Secured (Genies)" },
-  { value: "6M", label: "App Users (AAA)" },
+  { value: "15+", label: "Years Shipping Products" },
+  { value: "10M+", label: "Installs/Week Launched" },
+  { value: "$50M", label: "Revenue Driven" },
+  { value: "$150M", label: "Funding Secured" },
+  { value: "6M", label: "Users Reached" },
   { value: "1M+", label: "DAU at Scale" },
 ];
 

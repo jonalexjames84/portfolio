@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { posts } from "@/lib/posts";
 import { getTagColor } from "@/lib/tagColors";
@@ -36,8 +37,22 @@ export default function BlogPage() {
             href={`/blog/${post.slug}`}
             className="group block overflow-hidden rounded-xl border border-zinc-200 transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:hover:border-zinc-700"
           >
-            {/* Gradient top border */}
-            <div className="h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 opacity-60 transition-opacity group-hover:opacity-100" />
+            {/* Hero image */}
+            {post.image && (
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              </div>
+            )}
+            {/* Gradient top border (only when no image) */}
+            {!post.image && (
+              <div className="h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 opacity-60 transition-opacity group-hover:opacity-100" />
+            )}
             <div className="p-6">
               <div className="mb-3 flex items-start justify-between">
                 <div className="flex flex-wrap gap-2">

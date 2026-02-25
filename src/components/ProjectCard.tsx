@@ -40,6 +40,11 @@ export function ProjectCard({ project }: { project: Project }) {
         <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
           {project.description}
         </p>
+        {project.callout && (
+          <p className="mb-3 text-xs font-medium text-indigo-600 dark:text-indigo-400">
+            {project.callout}
+          </p>
+        )}
         <div className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
             <span

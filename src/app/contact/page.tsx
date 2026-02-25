@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Mail, Linkedin, Github, Send, Calendar, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
+import { CalendlyEmbed } from "@/components/CalendlyEmbed";
 
 const socials = [
   {
@@ -177,22 +178,25 @@ export default function ContactPage() {
             </motion.div>
           ))}
 
-          {/* Calendly placeholder */}
+          {/* Calendly */}
           <motion.div
             variants={staggerItem}
-            className="rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-6 text-center dark:border-zinc-700 dark:bg-zinc-900/30"
+            className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/50"
           >
-            <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 shadow-lg">
-              <Calendar size={20} className="text-white" />
+            <div className="flex items-center gap-2.5 border-b border-zinc-200 px-5 py-3 dark:border-zinc-800">
+              <div className="rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 p-2 shadow-lg">
+                <Calendar size={16} className="text-white" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  Schedule a Call
+                </p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  Book a 30-minute chat
+                </p>
+              </div>
             </div>
-            <p className="mb-1 text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              Schedule a Call
-            </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              Calendly integration coming soon.
-              <br />
-              For now, reach out via email to book time.
-            </p>
+            <CalendlyEmbed url="https://calendly.com/jonalexjames/30min" />
           </motion.div>
         </motion.div>
       </div>

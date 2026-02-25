@@ -21,6 +21,7 @@ export type Project = {
   strategy: string;
   screenshot?: string;
   screenshots?: string[];
+  callout?: string;
 };
 
 export const projects: Project[] = [
@@ -49,6 +50,7 @@ export const projects: Project[] = [
       "Recharts",
     ],
     featured: true,
+    callout: "4-product ecosystem · 59 migrations · 19 edge functions",
     category: "software",
     repos: [
       { name: "red-ox-mobile", role: "Mobile app (iOS/Android)" },
@@ -109,6 +111,7 @@ export const projects: Project[] = [
     tags: ["SaaS", "Multi-Product", "Hiring", "Workflow"],
     stack: ["Next.js", "TypeScript", "TailwindCSS", "Supabase", "PostHog"],
     featured: true,
+    callout: "5 apps, 1 backend · Hiring time from days to 2 minutes",
     category: "software",
     repos: [
       { name: "swob-app", role: "Core application" },
@@ -175,6 +178,7 @@ export const projects: Project[] = [
       "React Navigation",
     ],
     featured: true,
+    callout: "100% lead attribution · Cross-platform web + mobile",
     category: "software",
     repos: [
       { name: "1406-adventures", role: "Web app (React + Vite)" },
@@ -239,6 +243,7 @@ export const projects: Project[] = [
       "TailwindCSS",
     ],
     featured: true,
+    callout: "4 data sources unified · AI meal plans in under 3 seconds",
     category: "software",
     repos: [{ name: "health", role: "Full health analytics dashboard" }],
     highlights: [

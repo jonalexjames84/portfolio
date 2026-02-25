@@ -18,21 +18,21 @@ const testimonials = [
   {
     quote:
       "Jonny didn't just build us an app — he sat down with our members and understood what our studio actually needed before writing a line of code.",
-    name: "Studio Owner",
-    context: "Pottery Friends user research participant",
+    name: "Operations Manager",
+    context: "Red Ox Ceramics — Pottery Friends pilot studio",
     accent: "from-indigo-500 to-violet-500",
   },
   {
     quote:
       "He's the rare PM who can walk into a room with engineers and designers and speak both languages fluently. That made everything move faster.",
-    name: "Former Colleague",
+    name: "Engineering Lead",
     context: "Genies",
     accent: "from-violet-500 to-purple-500",
   },
   {
     quote:
       "I've never seen someone take a problem from 'I don't even know where to start' to a working product this quickly. He mapped my entire referral workflow and turned it into something I use every day.",
-    name: "Client",
+    name: "Founder",
     context: "1406 Adventures",
     accent: "from-purple-500 to-pink-500",
   },
@@ -53,13 +53,18 @@ export function HomePage() {
   return (
     <div className="mx-auto max-w-5xl px-6">
       {/* Hero */}
-      <section className="relative py-20 sm:py-28 overflow-hidden">
-        {/* Decorative gradient blobs */}
-        <div className="pointer-events-none absolute -top-40 -left-40 h-80 w-80 rounded-full bg-indigo-400/20 blur-3xl animate-blob dark:bg-indigo-600/10" />
-        <div className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-violet-400/20 blur-3xl animate-blob animation-delay-2000 dark:bg-violet-600/10" />
-        <div className="pointer-events-none absolute -bottom-20 left-1/3 h-64 w-64 rounded-full bg-purple-400/15 blur-3xl animate-blob animation-delay-4000 dark:bg-purple-600/8" />
+      <section className="hero-grain relative py-24 sm:py-32">
+        {/* Mesh gradient background */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center dark:hidden"
+          style={{ backgroundImage: "url('/hero-mesh-light.svg')" }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 hidden bg-cover bg-center dark:block"
+          style={{ backgroundImage: "url('/hero-mesh-dark.svg')" }}
+        />
 
-        <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="relative">
+        <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="relative z-10">
           <motion.p
             variants={staggerItem}
             className="mb-4 inline-block rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-medium tracking-wide text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400"
@@ -82,9 +87,9 @@ export function HomePage() {
           >
             I spent 15 years shipping products at Zynga, Jam City, Bandai Namco,
             AAA, and Genies — scaling games to millions of users and helping
-            secure $150M in funding. Then I got laid off and built four products
-            myself. Turns out, the best product instincts come from knowing what
-            it takes to build the thing.
+            secure $150M in funding. Then I went indie and built four products
+            from scratch. Turns out, the best product instincts come from
+            knowing what it takes to build the thing.
           </motion.p>
           <motion.div
             variants={staggerItem}
@@ -168,45 +173,6 @@ export function HomePage() {
               </p>
             </motion.div>
           ))}
-        </div>
-      </motion.section>
-
-      {/* Career Journey Strip */}
-      <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeIn}
-        className="pb-20"
-      >
-        <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-indigo-50 via-violet-50 to-purple-50 p-6 dark:from-indigo-950/20 dark:via-violet-950/15 dark:to-purple-950/20">
-          <div className="absolute inset-0 rounded-xl border border-indigo-200/30 dark:border-indigo-800/20" />
-          <div className="relative">
-            <p className="mb-4 text-center text-xs font-medium uppercase tracking-widest text-indigo-500/70 dark:text-indigo-400/50">
-              The Journey
-            </p>
-            <div className="flex items-center justify-between overflow-x-auto">
-              {[
-                { year: "'09", label: "Zynga" },
-                { year: "'13", label: "Jam City" },
-                { year: "'16", label: "PAC-MAN" },
-                { year: "'18", label: "AAA" },
-                { year: "'21", label: "Genies" },
-                { year: "'22", label: "Mythical" },
-                { year: "'24", label: "Builder" },
-              ].map((stop, i, arr) => (
-                <div key={stop.year} className="flex items-center">
-                  <div className="flex flex-col items-center px-2 sm:px-3">
-                    <span className="text-sm font-bold text-indigo-600 dark:text-indigo-400">{stop.year}</span>
-                    <span className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400 whitespace-nowrap">{stop.label}</span>
-                  </div>
-                  {i < arr.length - 1 && (
-                    <div className="h-px w-4 sm:w-8 bg-gradient-to-r from-indigo-300 to-violet-300 dark:from-indigo-700 dark:to-violet-700" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </motion.section>
 
@@ -305,9 +271,9 @@ export function HomePage() {
               Looking for a PM who ships?
             </h2>
             <p className="mx-auto mb-6 max-w-md text-sm text-zinc-600 dark:text-zinc-400">
-              I&apos;ve spent 15 years shipping products at scale and the last year
-              building them from scratch. I bring product strategy, technical depth,
-              and the ability to actually build what I spec.
+              You just saw the work. I bring product strategy, technical fluency,
+              and the ability to go from zero to shipped. Let&apos;s talk about what
+              I can do for your team.
             </p>
             <Link
               href="/contact"
