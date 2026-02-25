@@ -314,28 +314,6 @@ export default async function ProjectPage({
         </section>
       )}
 
-      {project.repos && project.repos.length > 0 && (
-        <section className="mb-12">
-          <SectionHeader icon={Wrench} title="Products Built" gradient="from-violet-500 to-purple-500" />
-          <div className="space-y-3">
-            {project.repos.map((repo) => (
-              <div
-                key={repo.name}
-                className="flex items-center gap-3 rounded-lg border border-zinc-200 px-4 py-3 dark:border-zinc-800"
-              >
-                <div>
-                  <p className="font-medium text-zinc-900 dark:text-zinc-100">
-                    {repo.name}
-                  </p>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                    {repo.role}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
     </div>
   );
 }
