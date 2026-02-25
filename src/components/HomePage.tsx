@@ -233,13 +233,20 @@ export function HomePage() {
             View all &rarr;
           </Link>
         </motion.div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {featured.map((project) => (
-            <motion.div key={project.slug} variants={staggerItem}>
-              <ProjectCard project={project} />
-            </motion.div>
-          ))}
-        </div>
+        {featured.length > 0 && (
+          <motion.div variants={staggerItem} className="mb-4">
+            <ProjectCard project={featured[0]} hero />
+          </motion.div>
+        )}
+        {featured.length > 1 && (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {featured.slice(1).map((project) => (
+              <motion.div key={project.slug} variants={staggerItem}>
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </div>
+        )}
       </motion.section>
 
       {/* Testimonials */}
