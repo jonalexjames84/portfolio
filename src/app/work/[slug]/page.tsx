@@ -233,9 +233,9 @@ export default async function ProjectPage({
                   </p>
                 </div>
                 <div className="border-t border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/50">
-                  <div className={`grid gap-3 ${feature.screenshots.length === 1 ? "grid-cols-1 max-w-[220px] mx-auto" : feature.screenshots.length === 2 ? "grid-cols-2 max-w-[440px] mx-auto" : "grid-cols-3"}`}>
+                  <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:grid sm:snap-none sm:overflow-visible sm:pb-0" style={{ gridTemplateColumns: `repeat(${feature.screenshots.length}, minmax(0, 1fr))` }}>
                     {feature.screenshots.map((src) => (
-                      <div key={src} className="overflow-hidden rounded-lg border border-zinc-200 shadow-sm dark:border-zinc-700">
+                      <div key={src} className="w-[200px] shrink-0 snap-center overflow-hidden rounded-lg border border-zinc-200 shadow-sm sm:w-auto sm:shrink dark:border-zinc-700">
                         <Image
                           src={src}
                           alt={feature.title}
