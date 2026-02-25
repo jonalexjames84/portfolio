@@ -22,8 +22,8 @@ const resumeRoles = [
     title: "Co-Founder & Director of Product",
     period: "2025 – Present",
     highlights: [
-      "Co-founded game studio; leading product on Cluck (3D horror-lite platformer) with a 10+ person team",
-      "Raising $100K pre-seed via grants (Epic MegaGrant, Wings Fund) and investor outreach",
+      "Co-founded collaborative game studio; leading product on Cluck (3D atmospheric platformer) with a 10+ person team",
+      "Building toward $100K pre-seed via grants (Epic MegaGrant, Wings Fund) and investor outreach",
     ],
   },
   {
@@ -31,8 +31,8 @@ const resumeRoles = [
     title: "Founder / PM / Dev",
     period: "Nov 2024 – 2025",
     highlights: [
-      "Shipped 4 production apps solo (React Native, Next.js, Supabase): 15+ repos, 59 database migrations",
-      "Validated with 20+ users across community, hiring, fitness, and travel products",
+      "Shipped Pottery Friends, Swob, and Macro Chef solo in 3 months: React Native, Next.js, Supabase, Stripe, Claude API",
+      "15+ repos, 59 database migrations, 19 edge functions. User research with 20+ users across all products",
     ],
   },
   {
@@ -40,8 +40,8 @@ const resumeRoles = [
     title: "Senior PM",
     period: "Apr 2024 – Nov 2024",
     highlights: [
-      "Drove +30% user engagement with Quest v2 and Verified Actions launch",
-      "Launched new chain on Arbitrum: +20% user base, +50% transaction speed, +35% active developers",
+      "Launched Quest v2 and Verified Actions: +30% user engagement, –40% data integration time",
+      "Led new chain launch on Arbitrum: +20% user base, +50% transaction speed, +35% active developers",
     ],
   },
   {
@@ -49,8 +49,8 @@ const resumeRoles = [
     title: "Founding Product Manager",
     period: "Feb 2021 – May 2022",
     highlights: [
-      "Built Creator Ecosystem from zero to launch; contributed to $150M raise (Gucci, GIPHY partnerships)",
-      "Launched e-commerce storefront generating $100K/week; defined GTM strategy that grew alpha to 1K users",
+      "First PM hire at 85-person startup. Built Creator Ecosystem from zero to launch, contributing to $150M raise (Gucci, GIPHY)",
+      "Launched e-commerce storefront generating $100K/week; grew alpha community to 1K users via GTM strategy",
     ],
   },
   {
@@ -59,7 +59,7 @@ const resumeRoles = [
     period: "Mar 2018 – Aug 2020",
     highlights: [
       "Launched API-driven mobile app to 6M members, saving $2M/year by shifting support to self-service",
-      "Only PM reporting directly to C-Suite; owned end-to-end strategy with weekly executive presentations",
+      "Drove 30% improvement in onboarding completion through competitive analysis, focus groups, and multivariate testing",
     ],
   },
   {
@@ -68,7 +68,7 @@ const resumeRoles = [
     period: "Aug 2013 – Mar 2015",
     highlights: [
       "Scaled product to 1M+ DAU and $50M in revenue through live ops and monetization",
-      "Drove 20% MoM revenue growth via weekly currency optimizations",
+      "Drove 20% MoM revenue growth via weekly currency optimizations and content production",
     ],
   },
 ];
@@ -418,10 +418,11 @@ export const ResumePDF = () => (
           </Link>
         </View>
         <Text style={s.summary}>
-          Senior PM with 15 years shipping at scale (Zynga, Genies, Jam
-          City). Recently built and shipped 4 production apps solo, full-stack,
-          from user research through deployment. Product strategy, technical
-          fluency, and the ability to go from zero to shipped.
+          Senior PM with 15 years shipping at scale (Zynga, Genies, Jam City,
+          AAA). $50M in revenue driven, 6M users reached, $150M in funding
+          secured. Recently shipped 4 full-stack production apps solo in 3
+          months, from user research through deployment. Product strategy meets
+          technical execution.
         </Text>
       </View>
 
