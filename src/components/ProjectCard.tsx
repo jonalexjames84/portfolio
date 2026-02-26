@@ -12,7 +12,7 @@ export function ProjectCard({ project, hero }: { project: Project; hero?: boolea
     return (
       <Link
         href={`/work/${project.slug}`}
-        className="group block overflow-hidden rounded-xl border border-zinc-200 transition-all hover:border-zinc-300 hover:shadow-lg dark:border-zinc-800 dark:hover:border-zinc-700"
+        className="theme-card group block overflow-hidden transition-all"
       >
         {cardSrc && (
           <div className={`relative h-64 w-full overflow-hidden sm:h-80 ${isLogo ? "flex items-center justify-center bg-gradient-to-b from-pink-400 to-rose-500 dark:from-pink-500 dark:to-rose-600" : "bg-zinc-100 dark:bg-zinc-800"}`}>
@@ -78,7 +78,7 @@ export function ProjectCard({ project, hero }: { project: Project; hero?: boolea
   return (
     <Link
       href={`/work/${project.slug}`}
-      className="group block overflow-hidden rounded-xl border border-zinc-200 transition-all hover:border-zinc-300 hover:shadow-lg dark:border-zinc-800 dark:hover:border-zinc-700"
+      className="theme-card group block overflow-hidden transition-all"
     >
       {project.screenshot && (
         <div className="relative h-48 w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">

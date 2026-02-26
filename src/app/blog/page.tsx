@@ -39,13 +39,13 @@ export default function BlogPage() {
         initial="hidden"
         animate="visible"
         variants={staggerContainer}
-        className="grid grid-cols-1 gap-4 lg:grid-cols-2"
+        className="theme-grid grid grid-cols-1 lg:grid-cols-2"
       >
         {posts.map((post) => (
           <motion.div key={post.slug} variants={staggerItem}>
             <Link
               href={`/blog/${post.slug}`}
-              className="group block h-full overflow-hidden rounded-xl border border-zinc-200 transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:hover:border-zinc-700"
+              className="theme-card group block h-full overflow-hidden transition-all"
             >
               {/* Hero image */}
               {post.image && (

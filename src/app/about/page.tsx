@@ -130,7 +130,7 @@ export default function AboutPage() {
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
         variants={staggerContainer}
-        className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-4"
+        className="mb-12 theme-grid grid grid-cols-2 sm:grid-cols-4"
       >
         {[
           { value: "2009", label: "First day at Zynga", gradient: "from-indigo-500 to-violet-500" },
@@ -138,7 +138,7 @@ export default function AboutPage() {
           { value: "$50M", label: "Product revenue (Jam City)", gradient: "from-amber-500 to-orange-500" },
           { value: "150", label: "Pottery Friends beta members", gradient: "from-emerald-500 to-teal-500" },
         ].map((stat) => (
-          <motion.div key={stat.label} variants={staggerItem} className="rounded-xl border border-zinc-200 bg-white p-4 text-center dark:border-zinc-800 dark:bg-zinc-900/50">
+          <motion.div key={stat.label} variants={staggerItem} className="theme-card p-4 text-center">
             <p className={`text-2xl font-bold bg-gradient-to-br ${stat.gradient} bg-clip-text text-transparent`}>
               {stat.value}
             </p>
@@ -274,7 +274,7 @@ export default function AboutPage() {
             <motion.blockquote
               key={t.name}
               variants={staggerItem}
-              className="relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900/50"
+              className="theme-card relative overflow-hidden p-5"
             >
               <div className={`absolute top-0 left-0 bottom-0 w-1 bg-gradient-to-b ${t.accent}`} />
               <p className="pl-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">

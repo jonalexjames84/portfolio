@@ -161,7 +161,7 @@ export function HomePage() {
           {companies.map((company) => (
             <div
               key={company.name}
-              className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 sm:gap-2.5 sm:px-4 sm:py-2.5 transition-all hover:border-accent-200 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-accent-800/50"
+              className="theme-card flex items-center gap-2 px-3 py-2 sm:gap-2.5 sm:px-4 sm:py-2.5"
             >
               <Image
                 src={company.logo}
@@ -188,12 +188,12 @@ export function HomePage() {
         variants={staggerContainer}
         className="pb-20"
       >
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="theme-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
           {metrics.map((metric, i) => (
             <motion.div
               key={metric.label}
               variants={staggerItem}
-              className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-4 text-center transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50"
+              className="theme-card group relative overflow-hidden p-4 text-center"
             >
               <div className={`absolute inset-0 bg-gradient-to-br ${metricColors[i % metricColors.length]} opacity-0 transition-opacity group-hover:opacity-5 dark:group-hover:opacity-10`} />
               <p className={`relative text-2xl font-bold bg-gradient-to-br ${metricColors[i % metricColors.length]} bg-clip-text text-transparent`}>
@@ -231,7 +231,7 @@ export function HomePage() {
             View all &rarr;
           </Link>
         </motion.div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="theme-grid grid sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((project) => (
             <motion.div key={project.slug} variants={staggerItem}>
               <ProjectCard project={project} />
@@ -316,12 +316,12 @@ export function HomePage() {
             View all &rarr;
           </Link>
         </motion.div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="theme-grid grid sm:grid-cols-2 lg:grid-cols-3">
           {posts.slice(0, 3).map((post) => (
             <motion.div key={post.slug} variants={staggerItem}>
               <Link
                 href={`/blog/${post.slug}`}
-                className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all hover:border-accent-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-accent-700/50"
+                className="theme-card group relative flex flex-col overflow-hidden transition-all"
               >
                 {/* Image or gradient bar */}
                 {post.image ? (
@@ -393,12 +393,12 @@ export function HomePage() {
         >
           What People Say
         </motion.h2>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="theme-grid grid sm:grid-cols-3">
           {testimonials.map((t) => (
             <motion.blockquote
               key={t.name}
               variants={staggerItem}
-              className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-zinc-200 bg-white p-6 transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50"
+              className="theme-card group relative flex flex-col justify-between overflow-hidden p-6 transition-all"
             >
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${t.accent}`} />
               <div>

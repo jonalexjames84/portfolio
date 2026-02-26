@@ -76,7 +76,7 @@ export default function ContactPage() {
           <form
             action="https://formspree.io/f/xojnywrp"
             method="POST"
-            className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50"
+            className="theme-card p-6"
           >
             <h2 className="mb-5 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
               Send a Message
@@ -154,7 +154,7 @@ export default function ContactPage() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700"
+                className="theme-card group flex items-center gap-4 p-5 transition-all"
               >
                 <div className={`rounded-lg bg-gradient-to-br ${s.gradient} p-2.5 shadow-lg transition-transform group-hover:scale-110`}>
                   <s.icon size={20} className="text-white" />

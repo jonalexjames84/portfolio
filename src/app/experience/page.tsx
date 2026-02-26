@@ -70,7 +70,7 @@ function TimelineRole({
       {/* Timeline dot - now gradient */}
       <div className={`absolute top-[10px] left-0 h-[15px] w-[15px] rounded-full bg-gradient-to-br ${color} shadow-md`} />
 
-      <div className="rounded-xl border border-zinc-200 bg-white p-5 transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50">
+      <div className="theme-card p-5">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
@@ -188,7 +188,7 @@ export default function ExperiencePage() {
         {companies.map((company) => (
           <div
             key={company.name}
-            className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 transition-all hover:border-accent-200 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-accent-800/50"
+            className="theme-card flex items-center gap-2 px-3 py-1.5"
           >
             <Image
               src={company.logo}
@@ -212,13 +212,13 @@ export default function ExperiencePage() {
         whileInView="visible"
         viewport={{ once: true }}
         variants={staggerContainer}
-        className="mb-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6"
+        className="mb-16 theme-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
       >
         {metrics.map((metric, i) => (
           <motion.div
             key={metric.label}
             variants={staggerItem}
-            className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-4 text-center transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50"
+            className="theme-card group relative overflow-hidden p-4 text-center"
           >
             <div className={`absolute inset-0 bg-gradient-to-br ${metricColors[i % metricColors.length]} opacity-0 transition-opacity group-hover:opacity-5 dark:group-hover:opacity-10`} />
             <p className={`relative text-2xl font-bold bg-gradient-to-br ${metricColors[i % metricColors.length]} bg-clip-text text-transparent`}>
@@ -263,7 +263,7 @@ export default function ExperiencePage() {
         <h2 className="mb-6 text-xl font-bold text-zinc-900 dark:text-zinc-100">
           Key Milestones
         </h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="theme-grid grid sm:grid-cols-2 lg:grid-cols-3">
           {[
             { year: "2009", event: "Joined Zynga during FarmVille era", gradient: "from-indigo-500 to-violet-500" },
             { year: "2013", event: "First PM role, scaled to $50M revenue", gradient: "from-violet-500 to-purple-500" },
@@ -275,7 +275,7 @@ export default function ExperiencePage() {
             <motion.div
               key={milestone.year}
               variants={staggerItem}
-              className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-4 transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50"
+              className="theme-card group relative overflow-hidden p-4"
             >
               <div className={`absolute top-0 left-0 bottom-0 w-1 bg-gradient-to-b ${milestone.gradient}`} />
               <div className="pl-3">
@@ -302,12 +302,12 @@ export default function ExperiencePage() {
         <h2 className="mb-6 text-xl font-bold text-zinc-900 dark:text-zinc-100">
           Skills & Expertise
         </h2>
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="theme-grid grid sm:grid-cols-2">
           {skillCategories.map((cat, i) => (
             <motion.div
               key={cat.name}
               variants={staggerItem}
-              className="group relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-5 transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50"
+              className="theme-card group relative overflow-hidden p-5"
             >
               {/* Gradient accent bar */}
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${skillGradients[i % skillGradients.length]}`} />

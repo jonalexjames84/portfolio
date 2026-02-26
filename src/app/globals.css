@@ -281,6 +281,110 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =================================================================
+   THEME CARD — per-theme card chrome (border, shadow, radius, bg)
+   ================================================================= */
+
+/* Default / Midnight: Compact & Crisp — bordered, shadow-sm, rounded-xl */
+.theme-card {
+  border-radius: 0.75rem;
+  border: 1px solid rgb(228 228 231);
+  background: white;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: all var(--transition-speed) ease;
+}
+.theme-card:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border-color: rgb(212 212 216);
+}
+.dark .theme-card {
+  border-color: rgb(39 39 42);
+  background: rgb(24 24 27 / 0.5);
+}
+.dark .theme-card:hover {
+  border-color: rgb(63 63 70);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+}
+
+/* Executive: Luxe Spacing — large radius, warm shadow, soft amber border */
+[data-style-theme="executive"] .theme-card {
+  border-radius: 1.25rem;
+  border: 1px solid rgb(253 230 138 / 0.4);
+  box-shadow: 0 4px 6px -1px rgb(120 53 15 / 0.08), 0 2px 4px -2px rgb(120 53 15 / 0.06);
+}
+[data-style-theme="executive"] .theme-card:hover {
+  border-color: rgb(253 230 138 / 0.6);
+  box-shadow: 0 10px 15px -3px rgb(120 53 15 / 0.1), 0 4px 6px -4px rgb(120 53 15 / 0.08);
+}
+[data-style-theme="executive"].dark .theme-card,
+.dark[data-style-theme="executive"] .theme-card {
+  border-color: rgb(120 53 15 / 0.25);
+  background: rgb(24 24 27 / 0.5);
+}
+[data-style-theme="executive"].dark .theme-card:hover,
+.dark[data-style-theme="executive"] .theme-card:hover {
+  border-color: rgb(120 53 15 / 0.4);
+  box-shadow: 0 10px 15px -3px rgb(120 53 15 / 0.15), 0 4px 6px -4px rgb(120 53 15 / 0.1);
+}
+
+/* Coastal: Soft & Round — extra large radius, teal-tinted shadow */
+[data-style-theme="coastal"] .theme-card {
+  border-radius: 1.5rem;
+  border: 1px solid rgb(153 246 228 / 0.5);
+  box-shadow: 0 4px 8px -1px rgb(13 148 136 / 0.1), 0 2px 4px -2px rgb(13 148 136 / 0.06);
+}
+[data-style-theme="coastal"] .theme-card:hover {
+  border-color: rgb(153 246 228 / 0.7);
+  box-shadow: 0 10px 20px -3px rgb(13 148 136 / 0.12), 0 4px 6px -4px rgb(13 148 136 / 0.08);
+}
+[data-style-theme="coastal"].dark .theme-card,
+.dark[data-style-theme="coastal"] .theme-card {
+  border-color: rgb(15 118 110 / 0.3);
+  background: rgb(24 24 27 / 0.5);
+}
+[data-style-theme="coastal"].dark .theme-card:hover,
+.dark[data-style-theme="coastal"] .theme-card:hover {
+  border-color: rgb(15 118 110 / 0.5);
+  box-shadow: 0 10px 20px -3px rgb(13 148 136 / 0.2), 0 4px 6px -4px rgb(13 148 136 / 0.12);
+}
+
+/* Rose: Borderless Shadow — no border, rose-tinted floating shadow */
+[data-style-theme="rose"] .theme-card {
+  border-radius: 0.75rem;
+  border: none;
+  box-shadow: 0 4px 12px -2px rgb(225 29 72 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+}
+[data-style-theme="rose"] .theme-card:hover {
+  box-shadow: 0 8px 24px -4px rgb(225 29 72 / 0.14), 0 4px 8px -4px rgb(0 0 0 / 0.06);
+}
+[data-style-theme="rose"].dark .theme-card,
+.dark[data-style-theme="rose"] .theme-card {
+  border: none;
+  background: rgb(24 24 27 / 0.5);
+  box-shadow: 0 4px 12px -2px rgb(225 29 72 / 0.12), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+}
+[data-style-theme="rose"].dark .theme-card:hover,
+.dark[data-style-theme="rose"] .theme-card:hover {
+  box-shadow: 0 8px 24px -4px rgb(225 29 72 / 0.2), 0 4px 8px -4px rgb(0 0 0 / 0.1);
+}
+
+/* =================================================================
+   THEME GRID — per-theme card gap
+   ================================================================= */
+
+.theme-grid {
+  gap: 0.75rem; /* Midnight: gap-3 */
+}
+[data-style-theme="executive"] .theme-grid {
+  gap: 1.25rem; /* gap-5 */
+}
+[data-style-theme="coastal"] .theme-grid {
+  gap: 1rem; /* gap-4 */
+}
+[data-style-theme="rose"] .theme-grid {
+  gap: 1rem; /* gap-4 */
+}
+
+/* =================================================================
    GRADIENT UTILITIES
    ================================================================= */
 

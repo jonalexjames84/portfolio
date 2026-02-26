@@ -52,7 +52,7 @@ export default function WorkPage() {
         >
           Featured
         </motion.h2>
-        <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-12 theme-grid grid sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((project) => (
             <motion.div key={project.slug} variants={staggerItem}>
               <ProjectCard project={project} />
@@ -81,7 +81,7 @@ export default function WorkPage() {
             Brand identities, websites, photography, and creative direction for
             artists and small businesses.
           </motion.p>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="theme-grid grid sm:grid-cols-2 lg:grid-cols-3">
             {designVisible.map((project, i) => (
               <motion.div
                 key={project.slug}
@@ -123,7 +123,7 @@ export default function WorkPage() {
           >
             Other Work
           </motion.h2>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="theme-grid grid sm:grid-cols-2">
             {other.map((project) => (
               <motion.div key={project.slug} variants={staggerItem}>
                 <ProjectCard project={project} />
