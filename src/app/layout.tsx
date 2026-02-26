@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: "Jonny Martin | Senior Product Manager",
     description:
       "Senior Product Manager with 15+ years shipping games and products at Zynga, Jam City, Genies, Mythical Games, and more.",
-    url: "https://jonnymartin.blog",
+    url: "https://portfolio.jonnymartin.blog",
     siteName: "Jonny Martin",
     locale: "en_US",
     type: "website",
