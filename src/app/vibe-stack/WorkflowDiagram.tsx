@@ -465,31 +465,9 @@ export function WorkflowDiagram() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg">
                 <Zap className="h-5 w-5 text-white" />
               </div>
-              <motion.h1
-                className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                transition={{ staggerChildren: 0.08, delayChildren: 0.2 }}
-              >
-                {"How I Build with AI".split(" ").map((word, i) => (
-                  <motion.span
-                    key={i}
-                    className="mr-[0.3em] inline-block"
-                    variants={{
-                      hidden: { opacity: 0, y: 10, filter: "blur(4px)" },
-                      visible: {
-                        opacity: 1,
-                        y: 0,
-                        filter: "blur(0px)",
-                        transition: { duration: 0.4, ease: "easeOut" },
-                      },
-                    }}
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-              </motion.h1>
+              <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                How I Build with AI
+              </h1>
             </div>
             <p className="max-w-2xl text-zinc-600 dark:text-zinc-400">
               Three workflows for three contexts. The tools change depending on

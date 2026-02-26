@@ -1,13 +1,10 @@
-import type { Metadata } from "next";
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Sparkles, Quote, User } from "lucide-react";
-
-export const metadata: Metadata = {
-  title: "About",
-  description:
-    "15 years shipping products at scale. Then I got laid off and built Pottery Friends from scratch. The story of a PM who proves product instincts by building the thing.",
-};
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
 
 const sections = [
   {
@@ -90,7 +87,12 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Hero area */}
-      <div className="relative mb-12 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeIn}
+        className="relative mb-12 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30"
+      >
         <div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
         <div className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10" />
         <div className="relative flex flex-col items-center gap-8 sm:flex-row">
@@ -118,24 +120,30 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Career at a glance */}
-      <div className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={staggerContainer}
+        className="mb-12 grid grid-cols-2 gap-3 sm:grid-cols-4"
+      >
         {[
           { value: "2009", label: "First day at Zynga", gradient: "from-indigo-500 to-violet-500" },
           { value: "10+", label: "Companies shipped at", gradient: "from-violet-500 to-purple-500" },
           { value: "$50M", label: "Product revenue (Jam City)", gradient: "from-amber-500 to-orange-500" },
           { value: "150", label: "Pottery Friends beta members", gradient: "from-emerald-500 to-teal-500" },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-xl border border-zinc-200 bg-white p-4 text-center dark:border-zinc-800 dark:bg-zinc-900/50">
+          <motion.div key={stat.label} variants={staggerItem} className="rounded-xl border border-zinc-200 bg-white p-4 text-center dark:border-zinc-800 dark:bg-zinc-900/50">
             <p className={`text-2xl font-bold bg-gradient-to-br ${stat.gradient} bg-clip-text text-transparent`}>
               {stat.value}
             </p>
             <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{stat.label}</p>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Story sections with visual timeline */}
       <div className="relative">
@@ -143,8 +151,16 @@ export default function AboutPage() {
         <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-300 via-violet-300 via-50% to-emerald-300 opacity-30 dark:from-indigo-700 dark:via-violet-700 dark:to-emerald-700 dark:opacity-20" />
 
         <div className="space-y-10">
-          {sections.map((section) => (
-            <div key={section.title} className="relative">
+          {sections.map((section, idx) => (
+            <motion.div
+              key={section.title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={fadeIn}
+              transition={{ duration: 0.5, delay: idx * 0.05, ease: "easeOut" }}
+              className="relative"
+            >
               <div className="mb-4 flex items-center gap-3">
                 <div className={`relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${section.gradient} shadow-lg`}>
                   <section.icon className="h-5 w-5 text-white" />
@@ -160,15 +176,21 @@ export default function AboutPage() {
                   </p>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
       {/* Lifestyle photos */}
-      <div className="mt-14 mb-12">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={staggerContainer}
+        className="mt-14 mb-12"
+      >
         <div className="grid grid-cols-3 gap-3">
-          <div className="aspect-[3/4] overflow-hidden rounded-xl">
+          <motion.div variants={staggerItem} className="aspect-[3/4] overflow-hidden rounded-xl">
             <Image
               src="/jonny-pottery-studio.jpg"
               alt="Jon at the pottery studio"
@@ -176,8 +198,8 @@ export default function AboutPage() {
               height={533}
               className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
             />
-          </div>
-          <div className="aspect-[3/4] overflow-hidden rounded-xl">
+          </motion.div>
+          <motion.div variants={staggerItem} className="aspect-[3/4] overflow-hidden rounded-xl">
             <Image
               src="/jonny-hiking.jpg"
               alt="Jon hiking with dogs"
@@ -185,8 +207,8 @@ export default function AboutPage() {
               height={533}
               className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
             />
-          </div>
-          <div className="aspect-[3/4] overflow-hidden rounded-xl">
+          </motion.div>
+          <motion.div variants={staggerItem} className="aspect-[3/4] overflow-hidden rounded-xl">
             <Image
               src="/jonny-couple.jpg"
               alt="Jon and his wife"
@@ -194,20 +216,26 @@ export default function AboutPage() {
               height={533}
               className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
             />
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Testimonials */}
-      <div className="mb-12">
-        <div className="mb-6 flex items-center gap-3">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={staggerContainer}
+        className="mb-12"
+      >
+        <motion.div variants={staggerItem} className="mb-6 flex items-center gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 shadow-lg">
             <Quote className="h-5 w-5 text-white" />
           </div>
           <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
             What People Say
           </h2>
-        </div>
+        </motion.div>
         <div className="space-y-4">
           {[
             {
@@ -241,8 +269,9 @@ export default function AboutPage() {
               accent: "from-sky-500 to-cyan-500",
             },
           ].map((t) => (
-            <blockquote
+            <motion.blockquote
               key={t.name}
+              variants={staggerItem}
               className="relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900/50"
             >
               <div className={`absolute top-0 left-0 bottom-0 w-1 bg-gradient-to-b ${t.accent}`} />
@@ -253,12 +282,18 @@ export default function AboutPage() {
                 <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{t.name}</p>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">{t.context}</p>
               </footer>
-            </blockquote>
+            </motion.blockquote>
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={fadeIn}
+        className="flex flex-col gap-3 sm:flex-row"
+      >
         <Link
           href="/work"
           className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
@@ -272,7 +307,7 @@ export default function AboutPage() {
         >
           View experience
         </Link>
-      </div>
+      </motion.div>
     </div>
   );
 }
