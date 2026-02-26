@@ -32,6 +32,21 @@
   /* Typography */
   --heading-font: var(--font-geist-sans);
   --body-font: var(--font-geist-sans);
+  --heading-weight: 700;
+  --heading-tracking: -0.025em;
+  --body-leading: 1.625;
+  --label-tracking: 0.05em;
+
+  /* Layout */
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Transition speed */
+  --transition-speed: 0.2s;
 }
 
 .dark {
@@ -64,6 +79,17 @@
   --gradient-to: #b45309;
   --gradient-end: #dc2626;
   --heading-font: var(--font-dm-serif);
+  --heading-weight: 400;
+  --heading-tracking: 0em;
+  --body-leading: 1.75;
+  --label-tracking: 0.08em;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --shadow: 0 1px 3px 0 rgb(120 53 15 / 0.08), 0 1px 2px -1px rgb(120 53 15 / 0.06);
+  --shadow-md: 0 4px 6px -1px rgb(120 53 15 / 0.08), 0 2px 4px -2px rgb(120 53 15 / 0.06);
+  --shadow-lg: 0 10px 15px -3px rgb(120 53 15 / 0.1), 0 4px 6px -4px rgb(120 53 15 / 0.08);
+  --transition-speed: 0.35s;
 }
 
 [data-style-theme="executive"].dark {
@@ -95,6 +121,17 @@
   --gradient-end: #38bdf8;
   --heading-font: var(--font-jakarta);
   --body-font: var(--font-jakarta);
+  --heading-weight: 600;
+  --heading-tracking: -0.01em;
+  --body-leading: 1.625;
+  --label-tracking: 0.06em;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --shadow: 0 1px 4px 0 rgb(13 148 136 / 0.08), 0 1px 2px -1px rgb(13 148 136 / 0.05);
+  --shadow-md: 0 4px 8px -1px rgb(13 148 136 / 0.1), 0 2px 4px -2px rgb(13 148 136 / 0.06);
+  --shadow-lg: 0 10px 20px -3px rgb(13 148 136 / 0.12), 0 4px 6px -4px rgb(13 148 136 / 0.08);
+  --transition-speed: 0.2s;
 }
 
 [data-style-theme="coastal"].dark {
@@ -126,6 +163,17 @@
   --gradient-to: #c026d3;
   --gradient-end: #e879f9;
   --heading-font: var(--font-playfair);
+  --heading-weight: 600;
+  --heading-tracking: -0.015em;
+  --body-leading: 1.75;
+  --label-tracking: 0.07em;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --shadow: 0 2px 8px -2px rgb(225 29 72 / 0.06), 0 1px 3px -1px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 12px -2px rgb(225 29 72 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 8px 24px -4px rgb(225 29 72 / 0.1), 0 4px 8px -4px rgb(0 0 0 / 0.06);
+  --transition-speed: 0.3s;
 }
 
 [data-style-theme="rose"].dark {
@@ -164,10 +212,72 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  line-height: var(--body-leading);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--heading-font);
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+}
+
+/* =================================================================
+   ICON CONTAINER — theme-aware icon wrappers
+   ================================================================= */
+
+/* Default / Midnight: gradient bg, rounded-xl, shadow, white icon */
+.icon-container {
+  display: flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(to bottom right, var(--gradient-from), var(--gradient-to));
+  box-shadow: var(--shadow-lg);
+  color: white;
+  transition: all var(--transition-speed) ease;
+}
+
+/* Executive: transparent bg, circular, thin accent border */
+[data-style-theme="executive"] .icon-container {
+  background: transparent;
+  border-radius: 9999px;
+  border: 1.5px solid var(--accent-500);
+  box-shadow: none;
+  color: var(--accent-600);
+}
+.dark[data-style-theme="executive"] .icon-container,
+[data-style-theme="executive"].dark .icon-container {
+  color: var(--accent-400);
+  border-color: var(--accent-400);
+}
+
+/* Coastal: tinted accent-100 bg, rounded-lg */
+[data-style-theme="coastal"] .icon-container {
+  background: var(--accent-100);
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+  color: var(--accent-600);
+}
+.dark[data-style-theme="coastal"] .icon-container,
+[data-style-theme="coastal"].dark .icon-container {
+  background: var(--accent-950);
+  color: var(--accent-400);
+}
+
+/* Rose: no bg, no border, just the colored icon (slightly larger) */
+[data-style-theme="rose"] .icon-container {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  color: var(--accent-500);
+  height: 2.75rem;
+  width: 2.75rem;
+}
+.dark[data-style-theme="rose"] .icon-container,
+[data-style-theme="rose"].dark .icon-container {
+  color: var(--accent-400);
 }
 
 /* =================================================================
@@ -186,7 +296,7 @@ h1, h2, h3, h4, h5, h6 {
 .gradient-btn {
   background: linear-gradient(to right, var(--gradient-from), var(--gradient-to));
   color: white;
-  transition: all 0.2s;
+  transition: all var(--transition-speed) ease;
 }
 
 .gradient-btn:hover {

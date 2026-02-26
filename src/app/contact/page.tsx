@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Linkedin, Github, Send, Calendar, BookOpen, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
+import { useThemeAnimations } from "@/lib/animations";
 
 const socials = [
   {
@@ -37,6 +37,8 @@ const socials = [
 ];
 
 export default function ContactPage() {
+  const { fadeIn, staggerContainer, staggerItem } = useThemeAnimations();
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Header */}

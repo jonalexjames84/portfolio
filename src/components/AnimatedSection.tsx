@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { useThemeAnimations } from "@/lib/animations";
 
 export function AnimatedSection({
   children,
@@ -14,13 +15,15 @@ export function AnimatedSection({
   delay?: number;
   as?: "section" | "div";
 }) {
+  const { section } = useThemeAnimations();
   const Component = as === "div" ? motion.div : motion.section;
+
   return (
     <Component
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={section.initial}
+      whileInView={section.animate}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      transition={{ ...section.transition, delay }}
       className={className}
     >
       {children}

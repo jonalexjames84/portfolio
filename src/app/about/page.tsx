@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Sparkles, Quote, User } from "lucide-react";
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
+import { useThemeAnimations } from "@/lib/animations";
 
 const sections = [
   {
@@ -84,6 +84,8 @@ const sections = [
 ];
 
 export default function AboutPage() {
+  const { fadeIn, staggerContainer, staggerItem } = useThemeAnimations();
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Hero area */}
@@ -108,8 +110,8 @@ export default function AboutPage() {
           </div>
           <div>
             <div className="mb-3 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-section shadow-lg">
-                <User className="h-5 w-5 text-white" />
+              <div className="icon-container">
+                <User className="h-5 w-5" />
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
                 About Me

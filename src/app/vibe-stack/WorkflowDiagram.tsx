@@ -462,8 +462,8 @@ export function WorkflowDiagram() {
 
           <div className="relative z-10">
             <div className="mb-3 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg">
-                <Zap className="h-5 w-5 text-white" />
+              <div className="icon-container">
+                <Zap className="h-5 w-5" />
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
                 How I Build with AI

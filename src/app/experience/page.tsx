@@ -12,12 +12,7 @@ import {
   skillCategories,
 } from "@/lib/experience";
 import { getTagColor } from "@/lib/tagColors";
-import {
-  fadeIn,
-  staggerContainer,
-  staggerItem,
-  slideUp,
-} from "@/lib/animations";
+import { useThemeAnimations } from "@/lib/animations";
 
 const timelineColors = [
   "from-indigo-500 to-violet-500",
@@ -59,6 +54,7 @@ function TimelineRole({
   role: (typeof career)[0];
   index: number;
 }) {
+  const { staggerItem } = useThemeAnimations();
   const isKeyRole = keyRoleCompanies.has(role.company);
   const [expanded, setExpanded] = useState(isKeyRole);
   const color = timelineColors[index % timelineColors.length];
@@ -143,6 +139,8 @@ function TimelineRole({
 }
 
 export default function ExperiencePage() {
+  const { fadeIn, staggerContainer, staggerItem, slideUp } = useThemeAnimations();
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Header */}
@@ -156,8 +154,8 @@ export default function ExperiencePage() {
         <div className="flex items-center justify-between">
           <div>
             <div className="mb-3 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-section shadow-lg">
-                <Briefcase className="h-5 w-5 text-white" />
+              <div className="icon-container">
+                <Briefcase className="h-5 w-5" />
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
                 Experience

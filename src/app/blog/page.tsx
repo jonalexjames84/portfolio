@@ -6,9 +6,11 @@ import { ArrowUpRight, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { posts } from "@/lib/posts";
 import { getTagColor } from "@/lib/tagColors";
-import { fadeIn, staggerContainer, staggerItem } from "@/lib/animations";
+import { useThemeAnimations } from "@/lib/animations";
 
 export default function BlogPage() {
+  const { fadeIn, staggerContainer, staggerItem } = useThemeAnimations();
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Header */}

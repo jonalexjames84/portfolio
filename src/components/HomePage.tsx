@@ -9,12 +9,7 @@ import { getFeaturedProjects } from "@/lib/projects";
 import { metrics, companies } from "@/lib/experience";
 import { posts } from "@/lib/posts";
 import { getTagColor } from "@/lib/tagColors";
-import {
-  fadeIn,
-  slideUp,
-  staggerContainer,
-  staggerItem,
-} from "@/lib/animations";
+import { useThemeAnimations } from "@/lib/animations";
 
 const testimonials = [
   {
@@ -51,6 +46,7 @@ const metricColors = [
 
 export function HomePage() {
   const featured = getFeaturedProjects();
+  const { fadeIn, slideUp, staggerContainer, staggerItem } = useThemeAnimations();
 
   return (
     <>

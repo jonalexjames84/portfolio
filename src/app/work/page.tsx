@@ -3,11 +3,12 @@
 import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
 import { motion } from "framer-motion";
-import { staggerContainer, staggerItem, fadeIn } from "@/lib/animations";
+import { useThemeAnimations } from "@/lib/animations";
 import { Layers, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 export default function WorkPage() {
+  const { fadeIn, staggerContainer, staggerItem } = useThemeAnimations();
   const [designExpanded, setDesignExpanded] = useState(false);
   const featured = projects.filter(
     (p) => p.featured && p.category === "software"
@@ -25,8 +26,8 @@ export default function WorkPage() {
         <div className="relative mb-10 overflow-hidden rounded-2xl gradient-bg-subtle p-8 sm:p-10">
           <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10" />
           <div className="flex items-center gap-3 mb-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-section shadow-lg">
-              <Layers className="h-5 w-5 text-white" />
+            <div className="icon-container">
+              <Layers className="h-5 w-5" />
             </div>
             <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
               Work
