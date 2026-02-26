@@ -12,7 +12,7 @@ export type Post = {
 export const posts: Post[] = [
   {
     slug: "how-i-think-about-product-decisions",
-    image: "/blog/pottery-friends-app.jpg",
+    image: "/blog/decision-framework.svg",
     title: "How I Think About Product Decisions",
     subtitle:
       "The framework I use when data says one thing and intuition says another, illustrated by a real pivot.",

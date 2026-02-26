@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" fill="none">
+  <!-- Background -->
+  <rect width="1200" height="480" fill="#0c0a1a"/>
+
+  <!-- Dot grid pattern -->
+  <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="12" cy="12" r="0.8" fill="#6366f1" opacity="0.15"/>
+  </pattern>
+  <rect width="1200" height="480" fill="url(#dots)"/>
+
+  <!-- Subtle gradient glow behind center -->
+  <radialGradient id="glow1" cx="600" cy="240" r="300" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#6366f1" stop-opacity="0.08"/>
+    <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1200" height="480" fill="url(#glow1)"/>
+
+  <!-- Radial glow behind decision diamond -->
+  <radialGradient id="glow2" cx="600" cy="200" r="120" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#a855f7" stop-opacity="0.12"/>
+    <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1200" height="480" fill="url(#glow2)"/>
+
+  <!-- Defs for filters and gradients -->
+  <defs>
+    <linearGradient id="grad-indigo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="grad-amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="grad-emerald" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="grad-rose" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#e11d48"/>
+    </linearGradient>
+    <linearGradient id="pathGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.3"/>
+    </linearGradient>
+    <filter id="nodeGlow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- ═══ CONNECTION PATHS ═══ -->
+
+  <!-- Signal → Decision diamond -->
+  <path d="M 230 120 C 330 120, 470 200, 530 200" stroke="url(#pathGrad)" stroke-width="1.5" stroke-dasharray="6 4"/>
+
+  <!-- Decision diamond → Cost Low (top right) -->
+  <path d="M 670 170 C 740 140, 800 110, 860 100" stroke="#10b981" stroke-width="1.5" stroke-opacity="0.4" stroke-dasharray="6 4"/>
+
+  <!-- Decision diamond → Cost High (bottom right) -->
+  <path d="M 670 230 C 740 260, 800 310, 860 330" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.4" stroke-dasharray="6 4"/>
+
+  <!-- Cost Low → Ship Fast -->
+  <path d="M 1000 100 C 1040 100, 1060 120, 1060 155" stroke="#10b981" stroke-width="1.5" stroke-opacity="0.3" stroke-dasharray="6 4"/>
+
+  <!-- Cost High → More Signal -->
+  <path d="M 1000 330 C 1040 330, 1060 350, 1060 370" stroke="#f43f5e" stroke-width="1.5" stroke-opacity="0.3" stroke-dasharray="6 4"/>
+
+  <!-- Signal → bottom row: User Job -->
+  <path d="M 160 150 C 160 280, 250 380, 340 390" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.25" stroke-dasharray="5 4"/>
+
+  <!-- User Job → Learning Speed -->
+  <path d="M 490 390 C 540 390, 580 390, 640 390" stroke="#f59e0b" stroke-width="1.2" stroke-opacity="0.25" stroke-dasharray="5 4"/>
+
+  <!-- ═══ TOP ROW: Main Decision Flow ═══ -->
+
+  <!-- Node 1: Signal / Data -->
+  <g transform="translate(80, 80)">
+    <rect x="0" y="0" width="150" height="76" rx="12" fill="#141225" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+    <rect x="0" y="0" width="4" height="76" rx="2" fill="url(#grad-indigo)"/>
+    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#818cf8" letter-spacing="1.5" text-transform="uppercase">SIGNAL</text>
+    <text x="20" y="48" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#e2e8f0">Data + Intuition</text>
+    <text x="20" y="65" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">What do users actually do?</text>
+  </g>
+
+  <!-- Node 2: Decision Diamond -->
+  <g transform="translate(600, 200)">
+    <g transform="rotate(45)">
+      <rect x="-55" y="-55" width="110" height="110" rx="14" fill="#141225" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.6"/>
+    </g>
+    <text x="0" y="-8" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#c084fc" letter-spacing="1" text-anchor="middle">COST OF</text>
+    <text x="0" y="10" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#c084fc" letter-spacing="1" text-anchor="middle">BEING</text>
+    <text x="0" y="28" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#c084fc" letter-spacing="1" text-anchor="middle">WRONG?</text>
+  </g>
+
+  <!-- Label: "Low" on top path -->
+  <text x="780" y="132" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#10b981" opacity="0.8">Low</text>
+
+  <!-- Label: "High" on bottom path -->
+  <text x="780" y="288" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#f43f5e" opacity="0.8">High</text>
+
+  <!-- Node 3a: Reversible / Ship Fast -->
+  <g transform="translate(860, 60)">
+    <rect x="0" y="0" width="150" height="76" rx="12" fill="#141225" stroke="#10b981" stroke-width="1.2" stroke-opacity="0.5"/>
+    <rect x="0" y="0" width="4" height="76" rx="2" fill="url(#grad-emerald)"/>
+    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399" letter-spacing="1.5">REVERSIBLE</text>
+    <text x="20" y="48" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#e2e8f0">Decide Fast</text>
+    <text x="20" y="65" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">Ship &amp; learn</text>
+  </g>
+
+  <!-- Node 3b: Irreversible / More Scrutiny -->
+  <g transform="translate(860, 292)">
+    <rect x="0" y="0" width="150" height="76" rx="12" fill="#141225" stroke="#f43f5e" stroke-width="1.2" stroke-opacity="0.5"/>
+    <rect x="0" y="0" width="4" height="76" rx="2" fill="url(#grad-rose)"/>
+    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#fb7185" letter-spacing="1.5">IRREVERSIBLE</text>
+    <text x="20" y="48" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#e2e8f0">More Scrutiny</text>
+    <text x="20" y="65" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">Gather more signal</text>
+  </g>
+
+  <!-- Action: Ship Fast outcome -->
+  <g transform="translate(1030, 155)">
+    <rect x="0" y="0" width="120" height="44" rx="10" fill="#10b981" fill-opacity="0.12" stroke="#10b981" stroke-width="1" stroke-opacity="0.3"/>
+    <text x="60" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#34d399" text-anchor="middle">Ship it</text>
+  </g>
+
+  <!-- Action: More Signal outcome -->
+  <g transform="translate(1030, 370)">
+    <rect x="0" y="0" width="120" height="44" rx="10" fill="#f43f5e" fill-opacity="0.12" stroke="#f43f5e" stroke-width="1" stroke-opacity="0.3"/>
+    <text x="60" y="27" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#fb7185" text-anchor="middle">Research more</text>
+  </g>
+
+  <!-- ═══ BOTTOM ROW: Supporting Principles ═══ -->
+
+  <!-- Principle 1: User Job -->
+  <g transform="translate(340, 355)">
+    <rect x="0" y="0" width="155" height="68" rx="12" fill="#141225" stroke="#6366f1" stroke-width="1" stroke-opacity="0.35"/>
+    <rect x="0" y="0" width="3" height="68" rx="2" fill="url(#grad-indigo)" opacity="0.7"/>
+    <text x="16" y="26" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#818cf8" letter-spacing="1.2">USER JOB</text>
+    <text x="16" y="44" font-family="system-ui, sans-serif" font-size="11.5" font-weight="500" fill="#cbd5e1">What job are they</text>
+    <text x="16" y="59" font-family="system-ui, sans-serif" font-size="11.5" font-weight="500" fill="#cbd5e1">hiring this for?</text>
+  </g>
+
+  <!-- Principle 2: Speed of Learning -->
+  <g transform="translate(640, 355)">
+    <rect x="0" y="0" width="155" height="68" rx="12" fill="#141225" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.35"/>
+    <rect x="0" y="0" width="3" height="68" rx="2" fill="url(#grad-amber)" opacity="0.7"/>
+    <text x="16" y="26" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#fbbf24" letter-spacing="1.2">LEARNING SPEED</text>
+    <text x="16" y="44" font-family="system-ui, sans-serif" font-size="11.5" font-weight="500" fill="#cbd5e1">Fastest path to</text>
+    <text x="16" y="59" font-family="system-ui, sans-serif" font-size="11.5" font-weight="500" fill="#cbd5e1">signal wins</text>
+  </g>
+
+  <!-- Small decorative floating dots -->
+  <circle cx="50" cy="40" r="2" fill="#6366f1" opacity="0.3"/>
+  <circle cx="1150" cy="50" r="2" fill="#a855f7" opacity="0.25"/>
+  <circle cx="400" cy="30" r="1.5" fill="#10b981" opacity="0.3"/>
+  <circle cx="1100" cy="440" r="2" fill="#f59e0b" opacity="0.2"/>
+  <circle cx="70" cy="430" r="1.5" fill="#f43f5e" opacity="0.2"/>
+  <circle cx="550" cy="450" r="1.5" fill="#6366f1" opacity="0.2"/>
+</svg>
