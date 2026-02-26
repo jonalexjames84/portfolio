@@ -33,7 +33,7 @@ export function FloatingCTA() {
         >
           <Link
             href="/contact"
-            className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-indigo-500/20 transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-xl hover:shadow-indigo-500/30"
+            className="group flex items-center gap-2 rounded-full gradient-btn px-5 py-3 text-sm font-medium shadow-lg"
           >
             <MessageSquare
               size={16}

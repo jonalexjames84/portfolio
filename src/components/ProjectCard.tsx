@@ -49,14 +49,14 @@ export function ProjectCard({ project, hero }: { project: Project; hero?: boolea
             </div>
             <ArrowUpRight
               size={18}
-              className="shrink-0 text-zinc-400 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-indigo-500 dark:group-hover:text-indigo-400"
+              className="shrink-0 text-zinc-400 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-500 dark:group-hover:text-accent-400"
             />
           </div>
           <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             {project.description}
           </p>
           {project.callout && (
-            <p className="mb-3 text-xs font-medium text-indigo-600 dark:text-indigo-400">
+            <p className="mb-3 text-xs font-medium text-accent-600 dark:text-accent-400">
               {project.callout}
             </p>
           )}
@@ -103,14 +103,14 @@ export function ProjectCard({ project, hero }: { project: Project; hero?: boolea
           </div>
           <ArrowUpRight
             size={18}
-            className="shrink-0 text-zinc-400 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-indigo-500 dark:group-hover:text-indigo-400"
+            className="shrink-0 text-zinc-400 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-500 dark:group-hover:text-accent-400"
           />
         </div>
         <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
           {project.description}
         </p>
         {project.callout && (
-          <p className="mb-3 text-xs font-medium text-indigo-600 dark:text-indigo-400">
+          <p className="mb-3 text-xs font-medium text-accent-600 dark:text-accent-400">
             {project.callout}
           </p>
         )}

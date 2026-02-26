@@ -12,7 +12,7 @@ export function Footer() {
   return (
     <footer className="relative">
       {/* Gradient top border */}
-      <div className="h-px bg-gradient-to-r from-transparent via-indigo-300 to-transparent dark:via-indigo-800" />
+      <div className="h-px gradient-divider" />
 
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 pb-20 pt-8 sm:flex-row">
         <p className="text-sm text-zinc-500 dark:text-zinc-400">

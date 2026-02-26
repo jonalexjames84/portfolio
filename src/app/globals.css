@@ -2,27 +2,244 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* =================================================================
+   BASE THEME VARIABLES — Default: Midnight (Indigo)
+   ================================================================= */
+
 :root {
   --background: #ffffff;
   --foreground: #09090b;
+
+  /* Accent color scale */
+  --accent-50: #eef2ff;
+  --accent-100: #e0e7ff;
+  --accent-200: #c7d2fe;
+  --accent-300: #a5b4fc;
+  --accent-400: #818cf8;
+  --accent-500: #6366f1;
+  --accent-600: #4f46e5;
+  --accent-700: #4338ca;
+  --accent-800: #3730a3;
+  --accent-900: #312e81;
+  --accent-950: #1e1b4e;
+
+  /* Gradient stops */
+  --gradient-from: #6366f1;
+  --gradient-via: #8b5cf6;
+  --gradient-to: #a855f7;
+  --gradient-end: #ec4899;
+
+  /* Typography */
+  --heading-font: var(--font-geist-sans);
+  --body-font: var(--font-geist-sans);
 }
 
 .dark {
   --background: #09090b;
   --foreground: #fafafa;
+  --gradient-from: #818cf8;
+  --gradient-via: #a78bfa;
+  --gradient-to: #c084fc;
 }
+
+/* =================================================================
+   EXECUTIVE THEME — Warm gold, serif headings
+   ================================================================= */
+
+[data-style-theme="executive"] {
+  --background: #faf9f6;
+  --accent-50: #fffbeb;
+  --accent-100: #fef3c7;
+  --accent-200: #fde68a;
+  --accent-300: #fcd34d;
+  --accent-400: #fbbf24;
+  --accent-500: #f59e0b;
+  --accent-600: #d97706;
+  --accent-700: #b45309;
+  --accent-800: #92400e;
+  --accent-900: #78350f;
+  --accent-950: #451a03;
+  --gradient-from: #d97706;
+  --gradient-via: #ea580c;
+  --gradient-to: #b45309;
+  --gradient-end: #dc2626;
+  --heading-font: var(--font-dm-serif);
+}
+
+[data-style-theme="executive"].dark {
+  --background: #0d0c0a;
+  --gradient-from: #fbbf24;
+  --gradient-via: #f59e0b;
+  --gradient-to: #d97706;
+}
+
+/* =================================================================
+   COASTAL THEME — Fresh teal, modern sans
+   ================================================================= */
+
+[data-style-theme="coastal"] {
+  --accent-50: #f0fdfa;
+  --accent-100: #ccfbf1;
+  --accent-200: #99f6e4;
+  --accent-300: #5eead4;
+  --accent-400: #2dd4bf;
+  --accent-500: #14b8a6;
+  --accent-600: #0d9488;
+  --accent-700: #0f766e;
+  --accent-800: #115e59;
+  --accent-900: #134e4a;
+  --accent-950: #042f2e;
+  --gradient-from: #0d9488;
+  --gradient-via: #0891b2;
+  --gradient-to: #0284c7;
+  --gradient-end: #38bdf8;
+  --heading-font: var(--font-jakarta);
+  --body-font: var(--font-jakarta);
+}
+
+[data-style-theme="coastal"].dark {
+  --background: #0a0f12;
+  --gradient-from: #2dd4bf;
+  --gradient-via: #22d3ee;
+  --gradient-to: #38bdf8;
+}
+
+/* =================================================================
+   ROSE THEME — Elegant rose, classic serif
+   ================================================================= */
+
+[data-style-theme="rose"] {
+  --background: #fdf8f9;
+  --accent-50: #fff1f2;
+  --accent-100: #ffe4e6;
+  --accent-200: #fecdd3;
+  --accent-300: #fda4af;
+  --accent-400: #fb7185;
+  --accent-500: #f43f5e;
+  --accent-600: #e11d48;
+  --accent-700: #be123c;
+  --accent-800: #9f1239;
+  --accent-900: #881337;
+  --accent-950: #4c0519;
+  --gradient-from: #e11d48;
+  --gradient-via: #db2777;
+  --gradient-to: #c026d3;
+  --gradient-end: #e879f9;
+  --heading-font: var(--font-playfair);
+}
+
+[data-style-theme="rose"].dark {
+  --background: #0d0a0b;
+  --gradient-from: #fb7185;
+  --gradient-via: #f472b6;
+  --gradient-to: #e879f9;
+}
+
+/* =================================================================
+   TAILWIND THEME TOKENS
+   ================================================================= */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-accent-50: var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-900: var(--accent-900);
+  --color-accent-950: var(--accent-950);
+  --font-sans: var(--body-font);
   --font-mono: var(--font-geist-mono);
 }
+
+/* =================================================================
+   BASE STYLES
+   ================================================================= */
 
 body {
   background: var(--background);
   color: var(--foreground);
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+}
+
+/* =================================================================
+   GRADIENT UTILITIES
+   ================================================================= */
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-via), var(--gradient-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient button (CTA) */
+.gradient-btn {
+  background: linear-gradient(to right, var(--gradient-from), var(--gradient-to));
+  color: white;
+  transition: all 0.2s;
+}
+
+.gradient-btn:hover {
+  background: linear-gradient(to right,
+    color-mix(in srgb, var(--gradient-from) 85%, white),
+    color-mix(in srgb, var(--gradient-to) 85%, white)
+  );
+  box-shadow: 0 10px 25px -5px color-mix(in srgb, var(--gradient-from) 25%, transparent);
+}
+
+/* Gradient section background (e.g. callout cards) */
+.gradient-section {
+  background: linear-gradient(to bottom right, var(--gradient-from), var(--gradient-to));
+}
+
+.gradient-section:hover {
+  box-shadow: 0 10px 25px -5px color-mix(in srgb, var(--gradient-from) 25%, transparent);
+}
+
+/* Subtle gradient background for CTA areas */
+.gradient-bg-subtle {
+  background: linear-gradient(to bottom right,
+    color-mix(in srgb, var(--gradient-from) 8%, var(--background)),
+    color-mix(in srgb, var(--gradient-via) 6%, var(--background)),
+    color-mix(in srgb, var(--gradient-to) 8%, var(--background))
+  );
+}
+
+.dark .gradient-bg-subtle {
+  background: linear-gradient(to bottom right,
+    color-mix(in srgb, var(--gradient-from) 15%, var(--background)),
+    color-mix(in srgb, var(--gradient-via) 10%, var(--background)),
+    color-mix(in srgb, var(--gradient-to) 15%, var(--background))
+  );
+}
+
+/* Gradient divider line */
+.gradient-divider {
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--accent-300) 50%, transparent), transparent);
+}
+
+.dark .gradient-divider {
+  background: linear-gradient(to right, transparent, color-mix(in srgb, var(--accent-700) 30%, transparent), transparent);
+}
+
+/* Gradient bar (thin decorative) */
+.gradient-bar {
+  background: linear-gradient(to right, var(--gradient-from), var(--gradient-to));
+}
+
+/* =================================================================
+   EFFECTS
+   ================================================================= */
 
 /* Grain texture overlay for depth */
 .hero-grain::before {
@@ -33,21 +250,6 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 1;
-}
-
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.dark .gradient-text {
-  background: linear-gradient(135deg, #818cf8, #a78bfa, #c084fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* Aurora floating blobs */
@@ -79,7 +281,7 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7, #ec4899);
+  background: linear-gradient(135deg, var(--gradient-from), var(--gradient-via), var(--gradient-to), var(--gradient-end));
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);

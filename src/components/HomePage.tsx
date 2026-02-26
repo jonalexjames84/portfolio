@@ -84,7 +84,7 @@ export function HomePage() {
               </motion.div>
               <motion.p
                 variants={staggerItem}
-                className="mb-4 inline-block rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-medium tracking-wide text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400"
+                className="mb-4 inline-block rounded-full bg-accent-50 px-4 py-1.5 text-sm font-medium tracking-wide text-accent-700 dark:bg-accent-950/40 dark:text-accent-400"
               >
                 Senior Product Manager
               </motion.p>
@@ -113,7 +113,7 @@ export function HomePage() {
               >
                 <Link
                   href="/work"
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg gradient-btn px-5 py-2.5 text-sm font-medium"
                 >
                   See my work
                   <ArrowRight size={16} />
@@ -148,7 +148,7 @@ export function HomePage() {
 
     <div className="mx-auto max-w-5xl px-6">
       {/* Section divider */}
-      <div className="mx-auto mb-8 h-px w-2/3 bg-gradient-to-r from-transparent via-indigo-300/40 to-transparent dark:via-indigo-700/20" />
+      <div className="mx-auto mb-8 h-px w-2/3 gradient-divider" />
 
       {/* Company Logos */}
       <motion.section
@@ -165,7 +165,7 @@ export function HomePage() {
           {companies.map((company) => (
             <div
               key={company.name}
-              className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 sm:gap-2.5 sm:px-4 sm:py-2.5 transition-all hover:border-indigo-200 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-indigo-800/50"
+              className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 sm:gap-2.5 sm:px-4 sm:py-2.5 transition-all hover:border-accent-200 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-accent-800/50"
             >
               <Image
                 src={company.logo}
@@ -230,7 +230,7 @@ export function HomePage() {
           </div>
           <Link
             href="/work"
-            className="hidden text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-500 sm:block dark:text-indigo-400 dark:hover:text-indigo-300"
+            className="hidden text-sm font-medium text-accent-600 transition-colors hover:text-accent-500 sm:block dark:text-accent-400 dark:hover:text-accent-300"
           >
             View all &rarr;
           </Link>
@@ -253,20 +253,20 @@ export function HomePage() {
         className="pb-20"
       >
         <Link href="/vibe-stack" className="group block">
-          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 p-8 transition-shadow hover:shadow-lg hover:shadow-indigo-500/25">
+          <div className="relative overflow-hidden rounded-xl gradient-section p-8 transition-shadow">
             <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
               {/* Left: text */}
               <div className="flex-1">
                 <div className="mb-3 flex items-center gap-2">
-                  <Zap size={20} className="text-indigo-200" />
-                  <span className="text-sm font-medium uppercase tracking-widest text-indigo-200">
+                  <Zap size={20} className="text-white/70" />
+                  <span className="text-sm font-medium uppercase tracking-widest text-white/70">
                     Workflow
                   </span>
                 </div>
                 <h2 className="mb-2 text-2xl font-bold tracking-tight text-white">
                   How I Build with AI
                 </h2>
-                <p className="mb-4 max-w-md text-sm leading-relaxed text-indigo-100/80">
+                <p className="mb-4 max-w-md text-sm leading-relaxed text-white/70">
                   A look at my AI-augmented workflow — from solo prototyping to
                   client consulting — and the tools that make it possible.
                 </p>
@@ -279,7 +279,7 @@ export function HomePage() {
               {/* Right: workflow pills */}
               <div className="flex flex-col gap-2 sm:min-w-[220px]">
                 {[
-                  { label: "Client Consulting", border: "border-l-indigo-300" },
+                  { label: "Client Consulting", border: "border-l-white/40" },
                   { label: "Solo Prototyping", border: "border-l-amber-400" },
                   { label: "Internal Buy-in", border: "border-l-emerald-400" },
                 ].map((pill) => (
@@ -315,7 +315,7 @@ export function HomePage() {
           </div>
           <Link
             href="/blog"
-            className="hidden text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-500 sm:block dark:text-indigo-400 dark:hover:text-indigo-300"
+            className="hidden text-sm font-medium text-accent-600 transition-colors hover:text-accent-500 sm:block dark:text-accent-400 dark:hover:text-accent-300"
           >
             View all &rarr;
           </Link>
@@ -325,7 +325,7 @@ export function HomePage() {
             <motion.div key={post.slug} variants={staggerItem}>
               <Link
                 href={`/blog/${post.slug}`}
-                className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all hover:border-indigo-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-indigo-700/50"
+                className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all hover:border-accent-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-accent-700/50"
               >
                 {/* Image or gradient bar */}
                 {post.image ? (
@@ -338,7 +338,7 @@ export function HomePage() {
                     />
                   </div>
                 ) : (
-                  <div className="h-2 w-full bg-gradient-to-r from-indigo-500 to-violet-500" />
+                  <div className="h-2 w-full gradient-bar" />
                 )}
 
                 <div className="flex flex-1 flex-col p-5">
@@ -373,7 +373,7 @@ export function HomePage() {
                     </time>
                     <ArrowUpRight
                       size={14}
-                      className="text-zinc-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-indigo-500 dark:text-zinc-500"
+                      className="text-zinc-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-500 dark:text-zinc-500"
                     />
                   </div>
                 </div>
@@ -406,7 +406,7 @@ export function HomePage() {
             >
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${t.accent}`} />
               <div>
-                <Quote size={20} className="mb-3 text-indigo-400/60 dark:text-indigo-500/40" />
+                <Quote size={20} className="mb-3 text-accent-400/60 dark:text-accent-500/40" />
                 <p className="mb-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                   {t.quote}
                 </p>
@@ -434,8 +434,8 @@ export function HomePage() {
       >
         <div className="relative overflow-hidden rounded-xl p-8 text-center">
           {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30" />
-          <div className="absolute inset-0 rounded-xl border border-indigo-200/50 dark:border-indigo-800/30" />
+          <div className="absolute inset-0 gradient-bg-subtle rounded-xl" />
+          <div className="absolute inset-0 rounded-xl border border-accent-200/50 dark:border-accent-800/30" />
 
           <div className="relative">
             <span className="mb-3 inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
@@ -452,7 +452,7 @@ export function HomePage() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
+              className="inline-flex items-center justify-center gap-2 rounded-lg gradient-btn px-5 py-2.5 text-sm font-medium"
             >
               Let&apos;s connect
               <ArrowRight size={16} />

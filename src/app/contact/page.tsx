@@ -44,9 +44,9 @@ export default function ContactPage() {
         initial="hidden"
         animate="visible"
         variants={fadeIn}
-        className="relative mb-12 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 text-center sm:p-12 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30"
+        className="relative mb-12 overflow-hidden rounded-2xl gradient-bg-subtle p-8 text-center sm:p-12"
       >
-        <div className="pointer-events-none absolute -top-20 -left-20 h-40 w-40 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
+        <div className="pointer-events-none absolute -top-20 -left-20 h-40 w-40 rounded-full bg-accent-400/20 blur-3xl dark:bg-accent-600/10" />
         <div className="pointer-events-none absolute -bottom-16 -right-16 h-36 w-36 rounded-full bg-purple-400/20 blur-3xl dark:bg-purple-600/10" />
         <div className="relative">
           <span className="mb-4 inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
@@ -92,7 +92,7 @@ export default function ContactPage() {
                   id="name"
                   name="name"
                   required
-                  className="w-full rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:border-indigo-500 dark:focus:ring-indigo-500"
+                  className="w-full rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 outline-none transition-colors focus:border-accent-400 focus:ring-1 focus:ring-accent-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:border-accent-500 dark:focus:ring-accent-500"
                   placeholder="Your name"
                 />
               </div>
@@ -108,7 +108,7 @@ export default function ContactPage() {
                   id="email"
                   name="email"
                   required
-                  className="w-full rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:border-indigo-500 dark:focus:ring-indigo-500"
+                  className="w-full rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 outline-none transition-colors focus:border-accent-400 focus:ring-1 focus:ring-accent-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:border-accent-500 dark:focus:ring-accent-500"
                   placeholder="you@company.com"
                 />
               </div>
@@ -124,13 +124,13 @@ export default function ContactPage() {
                   name="message"
                   required
                   rows={5}
-                  className="w-full resize-none rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 outline-none transition-colors focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:border-indigo-500 dark:focus:ring-indigo-500"
+                  className="w-full resize-none rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 outline-none transition-colors focus:border-accent-400 focus:ring-1 focus:ring-accent-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:focus:border-accent-500 dark:focus:ring-accent-500"
                   placeholder="Tell me about the role or what you'd like to discuss..."
                 />
               </div>
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg gradient-btn px-5 py-2.5 text-sm font-medium transition-all"
               >
                 <Send size={14} />
                 Send Message

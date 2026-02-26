@@ -88,7 +88,7 @@ function DecisionCards({ items, gradient }: { items: string[]; gradient: string 
         >
           <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${gradient}`} />
           <div className="flex gap-3 p-4 pl-5">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-indigo-200 text-[11px] font-bold text-indigo-600 dark:border-indigo-800 dark:text-indigo-400">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-accent-200 text-[11px] font-bold text-accent-600 dark:border-accent-800 dark:text-accent-400">
               {i + 1}
             </span>
             <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{item}</p>
@@ -155,7 +155,7 @@ export default async function ProjectPage({
     <div className="mx-auto max-w-3xl px-6 py-16">
       <Link
         href="/work"
-        className="mb-8 inline-flex items-center gap-1.5 text-sm text-zinc-500 transition-colors hover:text-indigo-600 dark:text-zinc-400 dark:hover:text-indigo-400"
+        className="mb-8 inline-flex items-center gap-1.5 text-sm text-zinc-500 transition-colors hover:text-accent-600 dark:text-zinc-400 dark:hover:text-accent-400"
       >
         <ArrowLeft size={14} />
         All work
@@ -163,8 +163,8 @@ export default async function ProjectPage({
 
       {/* Hero with embedded context */}
       <AnimatedSection className="mb-10">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-6 sm:p-8 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
-          <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
+        <div className="relative overflow-hidden rounded-2xl gradient-bg-subtle p-6 sm:p-8">
+          <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-accent-400/20 blur-3xl dark:bg-accent-600/10" />
           <div className="pointer-events-none absolute -bottom-8 -left-8 h-24 w-24 rounded-full bg-violet-400/20 blur-2xl dark:bg-violet-600/10" />
           <div className="relative">
             <div className="mb-4 flex flex-wrap gap-2">
@@ -195,7 +195,7 @@ export default async function ProjectPage({
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
+                className="mt-5 inline-flex items-center gap-2 rounded-lg gradient-btn px-4 py-2 text-sm font-medium transition-all"
               >
                 <Globe size={14} />
                 Visit Live Site
@@ -212,7 +212,7 @@ export default async function ProjectPage({
             <PhoneFrame src={project.screenshot} alt={project.title} />
           ) : (
             <div className="relative">
-              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-indigo-500/20 via-violet-500/20 to-purple-500/20 blur-sm dark:from-indigo-500/10 dark:via-violet-500/10 dark:to-purple-500/10" />
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-accent-500/20 via-violet-500/20 to-purple-500/20 blur-sm dark:from-accent-500/10 dark:via-violet-500/10 dark:to-purple-500/10" />
               <div className="relative">
                 <BrowserFrame
                   src={project.screenshot}

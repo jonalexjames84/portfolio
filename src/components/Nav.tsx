@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { StyleSwitcher } from "./StyleSwitcher";
 
 const links = [
   { href: "/", label: "Home" },
@@ -23,7 +24,7 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md dark:bg-zinc-950/80">
       {/* Gradient bottom border */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-300/50 to-transparent dark:via-indigo-700/30" />
+      <div className="absolute bottom-0 left-0 right-0 h-px gradient-divider" />
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link
           href="/"
@@ -40,20 +41,22 @@ export function Nav() {
               href={link.href}
               className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                 pathname === link.href
-                  ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400"
+                  ? "bg-accent-50 text-accent-700 dark:bg-accent-950/40 dark:text-accent-400"
                   : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-100"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="ml-2">
+          <div className="ml-2 flex items-center gap-1">
+            <StyleSwitcher />
             <ThemeToggle />
           </div>
         </div>
 
         {/* Mobile nav toggle */}
         <div className="flex items-center gap-2 md:hidden">
+          <StyleSwitcher />
           <ThemeToggle />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -75,7 +78,7 @@ export function Nav() {
               onClick={() => setMobileOpen(false)}
               className={`block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 pathname === link.href
-                  ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400"
+                  ? "bg-accent-50 text-accent-700 dark:bg-accent-950/40 dark:text-accent-400"
                   : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800/50"
               }`}
             >

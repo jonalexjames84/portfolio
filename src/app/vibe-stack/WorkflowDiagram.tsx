@@ -444,7 +444,7 @@ export function WorkflowDiagram() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Hero */}
-      <AnimatedSection className="mb-10">
+      <div className="mb-10">
         <div className="hero-grain relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
           {/* Aurora blobs */}
           <div
@@ -476,7 +476,7 @@ export function WorkflowDiagram() {
             </p>
           </div>
         </div>
-      </AnimatedSection>
+      </div>
 
       {/* Workflow tabs */}
       <AnimatedSection className="mb-10" delay={0.05}>

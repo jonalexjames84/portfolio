@@ -150,13 +150,13 @@ export default function ExperiencePage() {
         initial="hidden"
         animate="visible"
         variants={fadeIn}
-        className="relative mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30"
+        className="relative mb-8 overflow-hidden rounded-2xl gradient-bg-subtle p-8 sm:p-10"
       >
-        <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
+        <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-accent-400/20 blur-3xl dark:bg-accent-600/10" />
         <div className="flex items-center justify-between">
           <div>
             <div className="mb-3 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-section shadow-lg">
                 <Briefcase className="h-5 w-5 text-white" />
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
@@ -190,7 +190,7 @@ export default function ExperiencePage() {
         {companies.map((company) => (
           <div
             key={company.name}
-            className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 transition-all hover:border-indigo-200 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-indigo-800/50"
+            className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 transition-all hover:border-accent-200 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-accent-800/50"
           >
             <Image
               src={company.logo}
@@ -242,7 +242,7 @@ export default function ExperiencePage() {
         className="mb-16"
       >
         <div className="mb-6 flex items-center gap-2">
-          <Briefcase size={18} className="text-indigo-500" />
+          <Briefcase size={18} className="text-accent-500" />
           <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
             Career Timeline
           </h2>
@@ -376,8 +376,8 @@ export default function ExperiencePage() {
         variants={fadeIn}
         className="relative overflow-hidden rounded-xl p-8 text-center"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30" />
-        <div className="absolute inset-0 rounded-xl border border-indigo-200/50 dark:border-indigo-800/30" />
+        <div className="absolute inset-0 gradient-bg-subtle" />
+        <div className="absolute inset-0 rounded-xl border border-accent-200/50 dark:border-accent-800/30" />
         <div className="relative">
           <span className="mb-3 inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
             Seeking Senior PM at a high-growth startup
@@ -392,7 +392,7 @@ export default function ExperiencePage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
+            className="inline-flex items-center justify-center gap-2 rounded-lg gradient-btn px-5 py-2.5 text-sm font-medium transition-all"
           >
             Let&apos;s connect
             <ArrowRight size={16} />

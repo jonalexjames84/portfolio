@@ -59,7 +59,7 @@ export function CalendlyEmbed({ url }: { url: string }) {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-indigo-600 underline hover:text-indigo-500 dark:text-indigo-400"
+          className="text-accent-600 underline hover:text-accent-500 dark:text-accent-400"
         >
           Book a time on Calendly
         </a>

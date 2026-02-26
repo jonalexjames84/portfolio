@@ -91,9 +91,9 @@ export default function AboutPage() {
         initial="hidden"
         animate="visible"
         variants={fadeIn}
-        className="relative mb-12 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30"
+        className="relative mb-12 overflow-hidden rounded-2xl gradient-bg-subtle p-8 sm:p-10"
       >
-        <div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
+        <div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-accent-400/20 blur-3xl dark:bg-accent-600/10" />
         <div className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10" />
         <div className="relative flex flex-col items-center gap-8 sm:flex-row">
           <div className="shrink-0">
@@ -108,7 +108,7 @@ export default function AboutPage() {
           </div>
           <div>
             <div className="mb-3 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-section shadow-lg">
                 <User className="h-5 w-5 text-white" />
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
@@ -116,7 +116,7 @@ export default function AboutPage() {
               </h1>
             </div>
             <p className="text-zinc-600 dark:text-zinc-400">
-              Most PMs talk about what their teams shipped. I can show you what <em className="text-indigo-600 not-italic font-medium dark:text-indigo-400">I</em> shipped. Here&apos;s how I got here.
+              Most PMs talk about what their teams shipped. I can show you what <em className="text-accent-600 not-italic font-medium dark:text-accent-400">I</em> shipped. Here&apos;s how I got here.
             </p>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function AboutPage() {
       {/* Story sections with visual timeline */}
       <div className="relative">
         {/* Vertical gradient line connecting sections */}
-        <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-indigo-300 via-violet-300 via-50% to-emerald-300 opacity-30 dark:from-indigo-700 dark:via-violet-700 dark:to-emerald-700 dark:opacity-20" />
+        <div className="absolute left-5 top-0 bottom-0 w-px gradient-divider opacity-30 dark:opacity-20" />
 
         <div className="space-y-10">
           {sections.map((section, idx) => (
@@ -296,7 +296,7 @@ export default function AboutPage() {
       >
         <Link
           href="/work"
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25"
+          className="inline-flex items-center justify-center gap-2 rounded-lg gradient-btn px-5 py-2.5 text-sm font-medium transition-all"
         >
           See my work
           <ArrowRight size={16} />

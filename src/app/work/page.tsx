@@ -22,10 +22,10 @@ export default function WorkPage() {
     <div className="mx-auto max-w-5xl px-6 py-16">
       <motion.div initial="hidden" animate="visible" variants={fadeIn}>
         {/* Header */}
-        <div className="relative mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
+        <div className="relative mb-10 overflow-hidden rounded-2xl gradient-bg-subtle p-8 sm:p-10">
           <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10" />
           <div className="flex items-center gap-3 mb-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-section shadow-lg">
               <Layers className="h-5 w-5 text-white" />
             </div>
             <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
@@ -47,7 +47,7 @@ export default function WorkPage() {
       >
         <motion.h2
           variants={staggerItem}
-          className="mb-4 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400"
+          className="mb-4 text-sm font-semibold uppercase tracking-wide text-accent-600 dark:text-accent-400"
         >
           Featured
         </motion.h2>
@@ -69,7 +69,7 @@ export default function WorkPage() {
         >
           <motion.h2
             variants={staggerItem}
-            className="mb-4 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400"
+            className="mb-4 text-sm font-semibold uppercase tracking-wide text-accent-600 dark:text-accent-400"
           >
             Design &amp; Branding
           </motion.h2>
@@ -118,7 +118,7 @@ export default function WorkPage() {
         >
           <motion.h2
             variants={staggerItem}
-            className="mb-4 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400"
+            className="mb-4 text-sm font-semibold uppercase tracking-wide text-accent-600 dark:text-accent-400"
           >
             Other Work
           </motion.h2>
