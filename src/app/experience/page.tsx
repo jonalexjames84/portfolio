@@ -272,7 +272,7 @@ export default function ExperiencePage() {
             { year: "2016", event: "PAC-MAN franchise, 10M+ weekly installs", gradient: "from-amber-500 to-orange-500" },
             { year: "2018", event: "Beyond games: AAA app to 6M members", gradient: "from-sky-500 to-cyan-500" },
             { year: "2021", event: "First PM at Genies, helped close $150M", gradient: "from-rose-500 to-pink-500" },
-            { year: "2025", event: "Built 4 products from scratch as founder", gradient: "from-emerald-500 to-teal-500" },
+            { year: "2025", event: "Launched Pottery Friends beta, built solo with AI", gradient: "from-emerald-500 to-teal-500" },
           ].map((milestone) => (
             <motion.div
               key={milestone.year}
@@ -353,8 +353,11 @@ export default function ExperiencePage() {
           </div>
           <p className="mb-4 text-zinc-600 dark:text-zinc-400">
             After my role ended in November 2024, I went all-in on building.
-            Four products shipped from scratch in three months. 15+ repos, 59
-            database migrations, full-stack TypeScript.
+            Co-founded Frame Story (a collaborative game studio with a full
+            business plan, financial model, and fundraising strategy), shipped
+            Pottery Friends to 150 beta members, and built two more products
+            from scratch. 15+ repos, 59 database migrations, full-stack
+            TypeScript.
           </p>
           <Link
             href="/work"

@@ -22,17 +22,18 @@ const resumeRoles = [
     title: "Co-Founder & Director of Product",
     period: "2025 – Present",
     highlights: [
-      "Co-founded collaborative game studio; leading product on Cluck (3D atmospheric platformer) with a 10+ person team",
-      "Building toward $100K pre-seed via grants (Epic MegaGrant, Wings Fund) and investor outreach",
+      "Co-founded collaborative game studio: LLC formation, contributor agreements, IP assignment, 5-year financial model, and investor pitch deck",
+      "Designed phased GTM (Steam Next Fest, indie festivals, Kickstarter) and multi-track fundraising strategy ($100K pre-seed via SAFEs, grants, crowdfunding)",
     ],
   },
   {
-    company: "Indie Builder",
+    company: "Indie Builder (Pottery Friends)",
     title: "Founder / PM / Dev",
-    period: "Nov 2024 – 2025",
+    period: "Nov 2024 – Present",
     highlights: [
-      "Shipped 4 production apps solo in 3 months: React Native, Next.js, Supabase, Stripe, Claude API",
-      "15+ repos, 59 database migrations, 19 edge functions. User research with 20+ users across all products",
+      "Built a community platform for ceramic studios from zero to 150-member early access beta, solo, using AI-assisted development (Claude Code) — native mobile app, web app, analytics dashboards",
+      "Running structured user testing to validate PMF: retention cohorts, activation funnels, and PMF surveys against the incumbent stack (Square + group chat)",
+      "Prioritized by cutting scope from data: killed a marketplace after user interviews, pivoted the home screen when engagement data contradicted the hypothesis, doubling usage",
     ],
   },
   {
@@ -40,8 +41,8 @@ const resumeRoles = [
     title: "Senior PM",
     period: "Apr 2024 – Nov 2024",
     highlights: [
-      "Launched Quest v2 and Verified Actions: +30% user engagement, –40% data integration time",
-      "Led new chain launch on Arbitrum: +20% user base, +50% transaction speed, +35% active developers",
+      "Quest v2 + Verified Actions → +30% engagement, –40% integration time",
+      "New chain on Arbitrum → +20% user base, +50% tx speed, +35% devs",
     ],
   },
   {
@@ -49,8 +50,8 @@ const resumeRoles = [
     title: "Founding Product Manager",
     period: "Feb 2021 – May 2022",
     highlights: [
-      "First PM hire at 85-person startup. Built Creator Ecosystem from zero to launch, contributing to $150M raise (Gucci, GIPHY)",
-      "Launched e-commerce storefront generating $100K/week; grew alpha community to 1K users via GTM strategy",
+      "First PM hire (85 people). Creator Ecosystem → contributed to $150M raise",
+      "E-commerce storefront: $100K/week. Alpha community → 1K users",
     ],
   },
   {
@@ -58,8 +59,8 @@ const resumeRoles = [
     title: "Digital Product Manager",
     period: "Mar 2018 – Aug 2020",
     highlights: [
-      "Launched API-driven mobile app to 6M members, saving $2M/year by shifting support to self-service",
-      "Drove 30% improvement in onboarding completion through competitive analysis, focus groups, and multivariate testing",
+      "Mobile app to 6M members — saved $2M/year shifting to self-service",
+      "+30% onboarding completion via competitive analysis + A/B testing",
     ],
   },
   {
@@ -67,20 +68,20 @@ const resumeRoles = [
     title: "Product Manager",
     period: "Aug 2013 – Mar 2015",
     highlights: [
-      "Scaled product to 1M+ DAU and $50M in revenue through live ops and monetization",
-      "Drove 20% MoM revenue growth via weekly currency optimizations and content production",
+      "Scaled to 1M+ DAU, $50M revenue via live ops and monetization",
+      "20% MoM revenue growth through currency optimizations",
     ],
   },
 ];
 
 // Earlier roles: condensed single-line entries
 const earlierRoles = [
-  { company: "Mythical Games", title: "Senior Technical PM", period: "2022–2023", note: "Cross-title game services platform: +20% retention, +15% revenue" },
-  { company: "Bandai Namco", title: "PM", period: "2016–2017", note: "PAC-MAN franchise: 10M+ weekly installs, 1M+ MAU global launch" },
-  { company: "Big Fish Games", title: "PM", period: "2017", note: "Analytics pipeline from scratch; +20% engagement, +50% session length" },
-  { company: "Flow State Media", title: "Director of Product", period: "2015–2016", note: "8 consecutive months of revenue growth across mobile games suite" },
+  { company: "Mythical Games", title: "Senior Technical PM", period: "2022–2023", note: "+20% retention, +15% revenue via game services platform" },
+  { company: "Bandai Namco", title: "PM", period: "2016–2017", note: "PAC-MAN: 10M+ installs/week, 1M+ MAU at launch" },
+  { company: "Big Fish Games", title: "PM", period: "2017", note: "Built analytics pipeline → +20% engagement, +50% sessions" },
+  { company: "Flow State Media", title: "Director of Product", period: "2015–2016", note: "8 months consecutive revenue growth, mobile games" },
   { company: "SUPERLABS", title: "PM", period: "2015", note: "VR game pre-production (acquired by Zynga)" },
-  { company: "Zynga", title: "Content Manager", period: "2009–2013", note: "FarmVille franchise; built first mobile raiding feature (Mafia Wars)" },
+  { company: "Zynga", title: "Content Manager", period: "2009–2013", note: "FarmVille + Mafia Wars; first mobile raiding feature" },
 ];
 
 // Brand colors matching the portfolio website
@@ -272,7 +273,7 @@ const s = StyleSheet.create({
   },
   // Role entries
   role: {
-    marginBottom: 5,
+    marginBottom: 8,
     paddingLeft: 10,
     borderLeftWidth: 1.5,
     borderLeftColor: c.zinc200,
@@ -418,11 +419,7 @@ export const ResumePDF = () => (
           </Link>
         </View>
         <Text style={s.summary}>
-          Senior PM with 15 years shipping at scale (Zynga, Genies, Jam City,
-          AAA). $50M in revenue driven, 6M users reached, $150M in funding
-          secured. Recently shipped 4 full-stack production apps solo in 3
-          months, from user research through deployment. Product strategy meets
-          technical execution.
+          15-year Senior PM (Zynga, Jam City, Genies, AAA). Currently running an early access beta for Pottery Friends, built solo with AI-assisted development.
         </Text>
       </View>
 

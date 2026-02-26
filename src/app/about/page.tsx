@@ -6,7 +6,7 @@ import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Spa
 export const metadata: Metadata = {
   title: "About",
   description:
-    "15 years shipping products at scale. Then I got laid off and built four myself. The story of a PM who proves product instincts by building the thing.",
+    "15 years shipping products at scale. Then I got laid off and built Pottery Friends from scratch. The story of a PM who proves product instincts by building the thing.",
 };
 
 const sections = [
@@ -52,9 +52,10 @@ const sections = [
     gradient: "from-emerald-500 to-teal-500",
     content: [
       "I didn't jump back into the job market. I took a few months to decompress: lifting weights, overhauling my nutrition, fighting through anxiety and depression. And then I started building.",
-      "I co-founded a game studio with recently laid-off developers and designers. Six months in, I was a full founder: zero-to-one with no salary safety net. I also started freelancing for my local pottery studio, which planted the seed for Pottery Friends.",
-      "Then came consulting on Swob (swipe-to-hire for hourly workers) and building two more products solo: Macro Chef (AI nutrition + fitness data) and Pottery Friends (community platform for pottery studios, 150 beta members).",
-      "Four products. Fifteen repos. Fifty-nine database migrations. All of it conceived, designed, built, and shipped by one person who also happens to be a fifteen-year product manager.",
+      "I co-founded Frame Story, a collaborative game studio modeled after Finji and Raw Fury, with recently laid-off developers and designers. Not just a creative project: I incorporated the company, set up banking and payment processing, wrote contributor agreements and IP assignments, and built the financial model from scratch. Five-year projections, investor pitch materials, a SAFE structure at a $3M cap, and a phased fundraising strategy spanning grants (Epic MegaGrant, Wings Fund), angel investors, and a planned Kickstarter.",
+      "I designed the go-to-market pipeline for our first title, Cluck: Steam Next Fest demos, indie festival submissions, content creator partnerships, and a marketing roadmap that ties wishlist campaigns to funding milestones. I wrote the 90-day operational plan covering business formation, MVP scoping, community growth, and live ops. Six months in, I was a full founder: zero-to-one with no salary safety net.",
+      "I also started freelancing for my local pottery studio, which planted the seed for Pottery Friends. After embedding at the studio six days a week for a year, I identified an unowned vertical: no one has built purpose-built software for craft studio communities. So I built it myself, a native mobile app, marketing site, analytics dashboards, and internal docs, using AI-assisted development with Claude Code to ship production features in days, not sprints.",
+      "150 beta members. Fifteen repos. Fifty-nine database migrations. Currently running structured user testing to validate product-market fit. All of it conceived, designed, built, and shipped by one PM proving that modern AI tooling changes what a single builder can do.",
     ],
   },
   {
@@ -120,7 +121,7 @@ export default function AboutPage() {
           { value: "2009", label: "First day at Zynga", gradient: "from-indigo-500 to-violet-500" },
           { value: "10+", label: "Companies shipped at", gradient: "from-violet-500 to-purple-500" },
           { value: "$50M", label: "Product revenue (Jam City)", gradient: "from-amber-500 to-orange-500" },
-          { value: "4", label: "Products built solo", gradient: "from-emerald-500 to-teal-500" },
+          { value: "150", label: "Pottery Friends beta members", gradient: "from-emerald-500 to-teal-500" },
         ].map((stat) => (
           <div key={stat.label} className="rounded-xl border border-zinc-200 bg-white p-4 text-center dark:border-zinc-800 dark:bg-zinc-900/50">
             <p className={`text-2xl font-bold bg-gradient-to-br ${stat.gradient} bg-clip-text text-transparent`}>
