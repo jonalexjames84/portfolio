@@ -34,7 +34,6 @@ function DetailPanel({
       className="absolute right-0 top-0 bottom-0 z-40 w-80 overflow-y-auto border-l border-zinc-200 bg-white/95 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-950/95 lg:w-96"
     >
       <div className="p-6">
-        {/* Close button */}
         <button
           onClick={onClose}
           className="mb-4 flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 text-zinc-400 transition-colors hover:bg-zinc-50 hover:text-zinc-600 dark:border-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
@@ -42,7 +41,6 @@ function DetailPanel({
           <X size={16} />
         </button>
 
-        {/* Step badge */}
         <div className="flex items-center gap-3 mb-4">
           <span
             className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${gradient} text-sm font-bold text-white shadow-md`}
@@ -54,12 +52,10 @@ function DetailPanel({
           </h3>
         </div>
 
-        {/* Description */}
         <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 mb-6">
           {step.description}
         </p>
 
-        {/* Tools at large size */}
         {step.tools.length > 0 && (
           <div>
             <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
@@ -165,7 +161,6 @@ export function WorkflowDiagram() {
   const [activeWorkflow, setActiveWorkflow] = useState(0);
   const [activeStep, setActiveStep] = useState<number | null>(null);
   const [hoveredNode, setHoveredNode] = useState<number | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -173,16 +168,7 @@ export function WorkflowDiagram() {
 
   const workflow = workflows[activeWorkflow];
 
-  // Mobile detection
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    setIsMobile(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  // Container resize observer
+  // Container resize observer for the spatial diagram
   useEffect(() => {
     const el = diagramRef.current;
     if (!el) return;
@@ -252,7 +238,7 @@ export function WorkflowDiagram() {
         </div>
       </AnimatedSection>
 
-      {/* Workflow selector (mini-map thumbnails) */}
+      {/* Workflow selector */}
       <AnimatedSection className="mb-10" delay={0.05}>
         <WorkflowSelector
           workflows={workflows}
@@ -282,14 +268,13 @@ export function WorkflowDiagram() {
         </motion.div>
       </AnimatePresence>
 
-      {/* ── DESKTOP: Spatial diagram ──────────────────── */}
-      {!isMobile ? (
+      {/* ── DESKTOP: Spatial diagram (CSS-based, hidden below md) ── */}
+      <div className="hidden md:block">
         <div className="relative overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800">
-          {/* Diagram viewport */}
           <div
             ref={diagramRef}
             className="relative"
-            style={{ height: "clamp(500px, 55vh, 700px)" }}
+            style={{ height: "clamp(520px, 58vh, 720px)" }}
           >
             {/* Layer 1: Background (parallax slow) */}
             <motion.div
@@ -386,8 +371,10 @@ export function WorkflowDiagram() {
             </div>
           </div>
         </div>
-      ) : (
-        /* ── MOBILE: Enhanced vertical layout ─────────── */
+      </div>
+
+      {/* ── MOBILE: Enhanced vertical layout (CSS-based, hidden at md+) ── */}
+      <div className="md:hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={workflow.id}
@@ -411,7 +398,6 @@ export function WorkflowDiagram() {
               </div>
             ))}
 
-            {/* Mobile output */}
             <MobileFlowArrow color={workflow.color.hex} />
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -430,7 +416,19 @@ export function WorkflowDiagram() {
             </motion.div>
           </motion.div>
         </AnimatePresence>
-      )}
+
+        {/* Mobile detail sheet */}
+        <AnimatePresence>
+          {activeStep !== null && (
+            <DetailSheet
+              step={workflow.steps[activeStep]}
+              index={activeStep}
+              gradient={workflow.gradient}
+              onClose={() => setActiveStep(null)}
+            />
+          )}
+        </AnimatePresence>
+      </div>
 
       {/* Example */}
       <AnimatePresence mode="wait">
@@ -452,20 +450,6 @@ export function WorkflowDiagram() {
           </p>
         </motion.div>
       </AnimatePresence>
-
-      {/* Mobile detail sheet */}
-      {isMobile && (
-        <AnimatePresence>
-          {activeStep !== null && (
-            <DetailSheet
-              step={workflow.steps[activeStep]}
-              index={activeStep}
-              gradient={workflow.gradient}
-              onClose={() => setActiveStep(null)}
-            />
-          )}
-        </AnimatePresence>
-      )}
 
       {/* Footer */}
       <AnimatedSection className="mt-16">
