@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   description:
     "Senior Product Manager with 15+ years shipping games and products at Zynga, Jam City, Genies, Mythical Games, and more.",
-  metadataBase: new URL("https://jonnymartin.blog"),
+  metadataBase: new URL("https://portfolio.jonnymartin.blog"),
   openGraph: {
     title: "Jonny Martin | Senior Product Manager",
     description:
