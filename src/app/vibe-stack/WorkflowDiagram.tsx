@@ -1,10 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { Zap } from "lucide-react";
 import { AnimatedSection } from "@/components/AnimatedSection";
+
+/* ── Scramble text hook ──────────────────────────────────── */
+
+function useScramble(text: string, trigger: number) {
+  const [display, setDisplay] = useState(text);
+
+  useEffect(() => {
+    if (trigger === 0) {
+      setDisplay(text);
+      return;
+    }
+    const glyphs = "0123456789!@#$%&*";
+    let frame = 0;
+    const total = text.length * 5;
+    const id = setInterval(() => {
+      setDisplay(
+        text
+          .split("")
+          .map((ch, i) =>
+            frame / 5 > i
+              ? ch
+              : glyphs[Math.floor(Math.random() * glyphs.length)]
+          )
+          .join("")
+      );
+      frame++;
+      if (frame >= total) {
+        clearInterval(id);
+        setDisplay(text);
+      }
+    }, 35);
+    return () => clearInterval(id);
+  }, [text, trigger]);
+
+  return display;
+}
 
 /* ── Tool logo map ─────────────────────────────────────── */
 
@@ -27,6 +63,25 @@ const toolLogos: Record<string, { src: string; bg: string }> = {
 
 function ToolIcon({ name, size = "md" }: { name: string; size?: "sm" | "md" | "lg" }) {
   const logo = toolLogos[name];
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+
+  const handleMouse = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      x.set((e.clientX - (rect.left + rect.width / 2)) * 0.25);
+      y.set((e.clientY - (rect.top + rect.height / 2)) * 0.25);
+    },
+    [x, y]
+  );
+
+  const reset = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+
   const sizeClasses = {
     sm: "h-8 w-8",
     md: "h-12 w-12",
@@ -47,7 +102,12 @@ function ToolIcon({ name, size = "md" }: { name: string; size?: "sm" | "md" | "l
   }
 
   return (
-    <div className="group/tool relative flex flex-col items-center gap-1.5">
+    <motion.div
+      className="group/tool relative flex flex-col items-center gap-1.5"
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+      style={{ x: springX, y: springY }}
+    >
       <div
         className={`${sizeClasses[size]} flex items-center justify-center rounded-xl ${logo.bg} ring-1 ring-zinc-200/60 transition-all group-hover/tool:scale-110 group-hover/tool:shadow-lg dark:ring-zinc-700/60`}
       >
@@ -63,7 +123,7 @@ function ToolIcon({ name, size = "md" }: { name: string; size?: "sm" | "md" | "l
       <span className="text-[10px] font-medium text-zinc-500 dark:text-zinc-400">
         {name}
       </span>
-    </div>
+    </motion.div>
   );
 }
 
@@ -79,10 +139,39 @@ function FlowArrow({ gradient }: { gradient: string }) {
 
   return (
     <div className="flex items-center justify-center py-2">
-      <svg width="24" height="32" viewBox="0 0 24 32" fill="none">
-        <path d="M12 0 L12 24" stroke={color} strokeWidth="2" strokeDasharray="4 3" opacity="0.4" />
-        <path d="M6 20 L12 28 L18 20" stroke={color} strokeWidth="2" fill="none" opacity="0.6" />
-      </svg>
+      <motion.svg
+        width="24"
+        height="32"
+        viewBox="0 0 24 32"
+        fill="none"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4 }}
+      >
+        <line
+          x1="12"
+          y1="0"
+          x2="12"
+          y2="24"
+          stroke={color}
+          strokeWidth="2"
+          strokeDasharray="4 3"
+          opacity="0.4"
+          className="flow-line"
+        />
+        <motion.path
+          d="M6 20 L12 28 L18 20"
+          stroke={color}
+          strokeWidth="2"
+          fill="none"
+          opacity="0.6"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+        />
+      </motion.svg>
     </div>
   );
 }
@@ -305,9 +394,17 @@ function WorkflowTab({
   isActive: boolean;
   onClick: () => void;
 }) {
+  const [scrambleKey, setScrambleKey] = useState(0);
+  const displayNumber = useScramble(workflow.number, scrambleKey);
+
+  useEffect(() => {
+    if (isActive) setScrambleKey((k) => k + 1);
+  }, [isActive]);
+
   return (
     <button
       onClick={onClick}
+      onMouseEnter={() => setScrambleKey((k) => k + 1)}
       className={`relative flex flex-1 flex-col items-center gap-2 rounded-2xl border px-4 py-5 transition-all ${
         isActive
           ? "border-zinc-300 bg-white shadow-lg dark:border-zinc-600 dark:bg-zinc-900"
@@ -322,9 +419,9 @@ function WorkflowTab({
         />
       )}
       <span
-        className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${workflow.gradient} text-sm font-bold text-white shadow-md`}
+        className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${workflow.gradient} font-mono text-sm font-bold text-white shadow-md`}
       >
-        {workflow.number}
+        {displayNumber}
       </span>
       <div className="text-center">
         <p className={`text-sm font-semibold ${isActive ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-600 dark:text-zinc-400"}`}>
@@ -348,17 +445,51 @@ export function WorkflowDiagram() {
     <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Hero */}
       <AnimatedSection className="mb-10">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
-          <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
-          <div className="pointer-events-none absolute -bottom-8 -left-8 h-24 w-24 rounded-full bg-violet-400/20 blur-2xl dark:bg-violet-600/10" />
-          <div className="relative">
+        <div className="hero-grain relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
+          {/* Aurora blobs */}
+          <div
+            className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10"
+            style={{ animation: "float-blob 12s ease-in-out infinite" }}
+          />
+          <div
+            className="pointer-events-none absolute -bottom-12 -left-12 h-48 w-48 rounded-full bg-violet-400/25 blur-3xl dark:bg-violet-600/15"
+            style={{ animation: "float-blob 15s ease-in-out infinite 2s" }}
+          />
+          <div
+            className="pointer-events-none absolute left-1/3 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-purple-400/15 blur-3xl dark:bg-purple-600/10"
+            style={{ animation: "float-blob 18s ease-in-out infinite 4s" }}
+          />
+
+          <div className="relative z-10">
             <div className="mb-3 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg">
                 <Zap className="h-5 w-5 text-white" />
               </div>
-              <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                How I Build with AI
-              </h1>
+              <motion.h1
+                className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ staggerChildren: 0.08, delayChildren: 0.2 }}
+              >
+                {"How I Build with AI".split(" ").map((word, i) => (
+                  <motion.span
+                    key={i}
+                    className="mr-[0.3em] inline-block"
+                    variants={{
+                      hidden: { opacity: 0, y: 10, filter: "blur(4px)" },
+                      visible: {
+                        opacity: 1,
+                        y: 0,
+                        filter: "blur(0px)",
+                        transition: { duration: 0.4, ease: "easeOut" },
+                      },
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </motion.h1>
             </div>
             <p className="max-w-2xl text-zinc-600 dark:text-zinc-400">
               Three workflows for three contexts. The tools change depending on

@@ -50,6 +50,24 @@ body {
   background-clip: text;
 }
 
+/* Aurora floating blobs */
+@keyframes float-blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(10px, -15px) scale(1.05); }
+  50% { transform: translate(-5px, 10px) scale(0.98); }
+  75% { transform: translate(-10px, -5px) scale(1.03); }
+}
+
+/* Flowing dashed line for workflow connectors */
+@keyframes flow-dash {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -7; }
+}
+
+.flow-line {
+  animation: flow-dash 0.8s linear infinite;
+}
+
 /* Gradient border effect */
 .gradient-border {
   position: relative;
