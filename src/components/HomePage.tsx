@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Quote } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Quote, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/ProjectCard";
 import { getFeaturedProjects } from "@/lib/projects";
 import { metrics, companies } from "@/lib/experience";
+import { posts } from "@/lib/posts";
+import { getTagColor } from "@/lib/tagColors";
 import {
   fadeIn,
   slideUp,
@@ -237,6 +239,145 @@ export function HomePage() {
           {featured.map((project) => (
             <motion.div key={project.slug} variants={staggerItem}>
               <ProjectCard project={project} />
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* Vibe Stack Callout */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeIn}
+        className="pb-20"
+      >
+        <Link href="/vibe-stack" className="group block">
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 p-8 transition-shadow hover:shadow-lg hover:shadow-indigo-500/25">
+            <div className="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+              {/* Left: text */}
+              <div className="flex-1">
+                <div className="mb-3 flex items-center gap-2">
+                  <Zap size={20} className="text-indigo-200" />
+                  <span className="text-sm font-medium uppercase tracking-widest text-indigo-200">
+                    Workflow
+                  </span>
+                </div>
+                <h2 className="mb-2 text-2xl font-bold tracking-tight text-white">
+                  How I Build with AI
+                </h2>
+                <p className="mb-4 max-w-md text-sm leading-relaxed text-indigo-100/80">
+                  A look at my AI-augmented workflow — from solo prototyping to
+                  client consulting — and the tools that make it possible.
+                </p>
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-white transition-transform group-hover:translate-x-1">
+                  Explore the stack
+                  <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+
+              {/* Right: workflow pills */}
+              <div className="flex flex-col gap-2 sm:min-w-[220px]">
+                {[
+                  { label: "Client Consulting", border: "border-l-indigo-300" },
+                  { label: "Solo Prototyping", border: "border-l-amber-400" },
+                  { label: "Internal Buy-in", border: "border-l-emerald-400" },
+                ].map((pill) => (
+                  <div
+                    key={pill.label}
+                    className={`rounded-lg border-l-4 ${pill.border} bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm`}
+                  >
+                    {pill.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Link>
+      </motion.section>
+
+      {/* Latest Writing */}
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+        className="pb-20"
+      >
+        <motion.div variants={staggerItem} className="mb-8 flex items-end justify-between">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+              Latest Writing
+            </h2>
+            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+              Thoughts on product, building, and career
+            </p>
+          </div>
+          <Link
+            href="/blog"
+            className="hidden text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-500 sm:block dark:text-indigo-400 dark:hover:text-indigo-300"
+          >
+            View all &rarr;
+          </Link>
+        </motion.div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.slice(0, 3).map((post) => (
+            <motion.div key={post.slug} variants={staggerItem}>
+              <Link
+                href={`/blog/${post.slug}`}
+                className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all hover:border-indigo-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-indigo-700/50"
+              >
+                {/* Image or gradient bar */}
+                {post.image ? (
+                  <div className="relative h-40 w-full overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover transition-transform group-hover:scale-105"
+                    />
+                  </div>
+                ) : (
+                  <div className="h-2 w-full bg-gradient-to-r from-indigo-500 to-violet-500" />
+                )}
+
+                <div className="flex flex-1 flex-col p-5">
+                  {/* Tags */}
+                  <div className="mb-2 flex flex-wrap gap-1.5">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${getTagColor(tag)}`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Title + subtitle */}
+                  <h3 className="mb-1 text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                    {post.title}
+                  </h3>
+                  <p className="mb-3 line-clamp-2 text-sm text-zinc-500 dark:text-zinc-400">
+                    {post.subtitle}
+                  </p>
+
+                  {/* Date + arrow */}
+                  <div className="mt-auto flex items-center justify-between">
+                    <time className="text-xs text-zinc-400 dark:text-zinc-500">
+                      {new Date(post.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </time>
+                    <ArrowUpRight
+                      size={14}
+                      className="text-zinc-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-indigo-500 dark:text-zinc-500"
+                    />
+                  </div>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
