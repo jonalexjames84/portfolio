@@ -12,6 +12,7 @@ export type Post = {
 export const posts: Post[] = [
   {
     slug: "three-workflows-how-i-actually-use-ai-as-a-pm",
+    image: "/blog/three-workflows.svg",
     title: "Three Workflows: How I Actually Use AI as a PM",
     subtitle:
       "I don't use AI to write PRDs faster. I use it to build entire products. Here's the system behind every project on this site.",
