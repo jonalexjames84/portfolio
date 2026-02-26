@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Sparkles, Quote } from "lucide-react";
+import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Sparkles, Quote, User } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About",
@@ -90,7 +90,7 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Hero area */}
-      <div className="relative mb-12 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-12 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
+      <div className="relative mb-12 overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
         <div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
         <div className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-violet-400/20 blur-3xl dark:bg-violet-600/10" />
         <div className="relative flex flex-col items-center gap-8 sm:flex-row">
@@ -105,10 +105,15 @@ export default function AboutPage() {
             />
           </div>
           <div>
-            <h1 className="mb-4 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-              About Me
-            </h1>
-            <p className="text-lg leading-relaxed text-zinc-700 dark:text-zinc-300">
+            <div className="mb-3 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg">
+                <User className="h-5 w-5 text-white" />
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                About Me
+              </h1>
+            </div>
+            <p className="text-zinc-600 dark:text-zinc-400">
               Most PMs talk about what their teams shipped. I can show you what <em className="text-indigo-600 not-italic font-medium dark:text-indigo-400">I</em> shipped. Here&apos;s how I got here.
             </p>
           </div>

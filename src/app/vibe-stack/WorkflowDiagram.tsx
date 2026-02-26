@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { Zap } from "lucide-react";
 import { AnimatedSection } from "@/components/AnimatedSection";
 
 /* ── Tool logo map ─────────────────────────────────────── */
@@ -344,17 +345,22 @@ export function WorkflowDiagram() {
   const workflow = workflows[activeWorkflow];
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
+    <div className="mx-auto max-w-5xl px-6 py-16">
       {/* Hero */}
       <AnimatedSection className="mb-10">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-6 sm:p-8 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50 p-8 sm:p-10 dark:from-indigo-950/30 dark:via-violet-950/20 dark:to-purple-950/30">
           <div className="pointer-events-none absolute -top-16 -right-16 h-32 w-32 rounded-full bg-indigo-400/20 blur-3xl dark:bg-indigo-600/10" />
           <div className="pointer-events-none absolute -bottom-8 -left-8 h-24 w-24 rounded-full bg-violet-400/20 blur-2xl dark:bg-violet-600/10" />
           <div className="relative">
-            <h1 className="mb-3 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-              How I Build with AI
-            </h1>
-            <p className="max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <div className="mb-3 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg">
+                <Zap className="h-5 w-5 text-white" />
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                How I Build with AI
+              </h1>
+            </div>
+            <p className="max-w-2xl text-zinc-600 dark:text-zinc-400">
               Three workflows for three contexts. The tools change depending on
               who I&apos;m building for, but the principle is the same: AI
               handles the execution, I handle the judgment.
