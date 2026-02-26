@@ -217,14 +217,15 @@ export default async function ProjectPage({
       {/* Supporting screenshots */}
       {!project.features && project.screenshots && project.screenshots.length > 1 && (
         <AnimatedSection className="mb-12">
-          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 sm:grid sm:snap-none sm:grid-cols-3 sm:overflow-visible sm:pb-0">
+          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 sm:grid sm:snap-none sm:grid-cols-2 sm:overflow-visible sm:pb-0">
             {project.screenshots.slice(1).map((src) => (
-              <div key={src} className="w-[80%] shrink-0 snap-center sm:w-auto sm:shrink">
-                <BrowserFrame
+              <div key={src} className="w-[80%] shrink-0 snap-center overflow-hidden rounded-xl border border-zinc-200 shadow-sm transition-transform hover:scale-[1.02] sm:w-auto sm:shrink dark:border-zinc-800">
+                <Image
                   src={src}
                   alt={`${project.title} screenshot`}
-                  width={640}
-                  height={400}
+                  width={1280}
+                  height={800}
+                  className="w-full"
                 />
               </div>
             ))}
