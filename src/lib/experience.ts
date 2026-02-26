@@ -12,7 +12,7 @@ export const career: Role[] = [
   {
     company: "Frame Story",
     title: "Co-Founder & Director of Product",
-    period: "2025 – Present",
+    period: "Feb 2025 – Present",
     startYear: 2025,
     context: "Co-founded a collaborative game studio modeled after Finji and Raw Fury. Small creative pods own their IP and earn 70% of net revenue; the studio centralizes ops, legal, finance, and publishing so creators focus on making great games.",
     highlights: [
@@ -27,8 +27,8 @@ export const career: Role[] = [
   {
     company: "Indie Builder",
     title: "Founder / PM / Dev",
-    period: "Nov 2024 – Present",
-    startYear: 2024,
+    period: "Feb 2025 – Present",
+    startYear: 2025,
     context: "Built Pottery Friends from zero to 150-member early access beta using AI-native development. Currently running user testing to validate product-market fit for an unowned vertical: purpose-built software for craft studio communities.",
     highlights: [
       "Running a structured early access beta: tracking D1/D7 retention cohorts, activation funnels, and PMF surveys to validate whether purpose-built studio software beats the Square + group chat status quo",

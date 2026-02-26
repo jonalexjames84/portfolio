@@ -49,11 +49,11 @@ function renderBlock(block: string, index: number) {
     );
   }
 
-  // List items (block contains \n- pattern)
-  if (block.includes("\n- ")) {
+  // List items (block contains \n- pattern or starts with - )
+  if (block.includes("\n- ") || block.startsWith("- ")) {
     const lines = block.split("\n");
-    const intro = lines[0];
-    const items = lines.slice(1).filter((l) => l.startsWith("- "));
+    const intro = lines[0].startsWith("- ") ? "" : lines[0];
+    const items = lines.filter((l) => l.startsWith("- "));
     return (
       <div key={index} className="mb-4">
         {intro && (
