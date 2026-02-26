@@ -9,20 +9,20 @@ import { AnimatedSection } from "@/components/AnimatedSection";
 /* ── Tool logo map ─────────────────────────────────────── */
 
 const toolLogos: Record<string, { src: string; bg: string }> = {
-  Fireflies: { src: "https://cdn.worldvectorlogo.com/logos/fireflies-ai.svg", bg: "bg-purple-100 dark:bg-purple-900/40" },
-  NotebookLM: { src: "https://www.gstatic.com/lamda/images/notebooklm_icon_delight_192_54d777e948.png", bg: "bg-blue-100 dark:bg-blue-900/40" },
-  Notion: { src: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png", bg: "bg-zinc-100 dark:bg-zinc-800" },
-  "Claude Code": { src: "https://cdn.worldvectorlogo.com/logos/anthropic-1.svg", bg: "bg-amber-50 dark:bg-amber-900/30" },
-  Claude: { src: "https://cdn.worldvectorlogo.com/logos/anthropic-1.svg", bg: "bg-amber-50 dark:bg-amber-900/30" },
-  ChatGPT: { src: "https://cdn.worldvectorlogo.com/logos/chatgpt-6.svg", bg: "bg-emerald-50 dark:bg-emerald-900/30" },
-  Figma: { src: "https://cdn.worldvectorlogo.com/logos/figma-icon.svg", bg: "bg-violet-100 dark:bg-violet-900/40" },
-  Supabase: { src: "https://cdn.worldvectorlogo.com/logos/supabase-icon.svg", bg: "bg-emerald-100 dark:bg-emerald-900/40" },
-  GitHub: { src: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg", bg: "bg-zinc-100 dark:bg-zinc-800" },
-  Vercel: { src: "/vercel.svg", bg: "bg-zinc-100 dark:bg-zinc-800" },
-  PostHog: { src: "https://cdn.worldvectorlogo.com/logos/posthog.svg", bg: "bg-yellow-100 dark:bg-yellow-900/40" },
-  "Next.js": { src: "https://cdn.worldvectorlogo.com/logos/next-js.svg", bg: "bg-zinc-100 dark:bg-zinc-800" },
-  "React Native": { src: "https://cdn.worldvectorlogo.com/logos/react-2.svg", bg: "bg-sky-100 dark:bg-sky-900/40" },
-  TypeScript: { src: "https://cdn.worldvectorlogo.com/logos/typescript.svg", bg: "bg-blue-100 dark:bg-blue-900/40" },
+  Fireflies: { src: "/logos/fireflies.png", bg: "bg-purple-100 dark:bg-purple-900/40" },
+  NotebookLM: { src: "/logos/notebooklm.svg", bg: "bg-blue-100 dark:bg-blue-900/40" },
+  Notion: { src: "/logos/notion.svg", bg: "bg-zinc-100 dark:bg-zinc-800" },
+  "Claude Code": { src: "/logos/anthropic.svg", bg: "bg-amber-50 dark:bg-amber-900/30" },
+  Claude: { src: "/logos/anthropic.svg", bg: "bg-amber-50 dark:bg-amber-900/30" },
+  ChatGPT: { src: "/logos/chatgpt.svg", bg: "bg-emerald-50 dark:bg-emerald-900/30" },
+  Figma: { src: "/logos/figma.svg", bg: "bg-violet-100 dark:bg-violet-900/40" },
+  Supabase: { src: "/logos/supabase.svg", bg: "bg-emerald-100 dark:bg-emerald-900/40" },
+  GitHub: { src: "/logos/github.svg", bg: "bg-zinc-100 dark:bg-zinc-800" },
+  Vercel: { src: "/logos/vercel.svg", bg: "bg-zinc-100 dark:bg-zinc-800" },
+  PostHog: { src: "/logos/posthog.svg", bg: "bg-yellow-100 dark:bg-yellow-900/40" },
+  "Next.js": { src: "/logos/nextjs.svg", bg: "bg-zinc-100 dark:bg-zinc-800" },
+  "React Native": { src: "/logos/react.svg", bg: "bg-sky-100 dark:bg-sky-900/40" },
+  TypeScript: { src: "/logos/typescript.svg", bg: "bg-blue-100 dark:bg-blue-900/40" },
 };
 
 function ToolIcon({ name, size = "md" }: { name: string; size?: "sm" | "md" | "lg" }) {

@@ -59,7 +59,7 @@ export const workflowColors: Record<string, WorkflowColor> = {
 
 export const toolLogos: Record<string, { src: string; bg: string }> = {
   Fireflies: {
-    src: "/logos/fireflies.svg",
+    src: "/logos/fireflies.png",
     bg: "bg-purple-100 dark:bg-purple-900/40",
   },
   NotebookLM: {
@@ -71,19 +71,19 @@ export const toolLogos: Record<string, { src: string; bg: string }> = {
     bg: "bg-zinc-100 dark:bg-zinc-800",
   },
   "Claude Code": {
-    src: "https://cdn.worldvectorlogo.com/logos/anthropic-1.svg",
+    src: "/logos/anthropic.svg",
     bg: "bg-amber-50 dark:bg-amber-900/30",
   },
   Claude: {
-    src: "https://cdn.worldvectorlogo.com/logos/anthropic-1.svg",
+    src: "/logos/anthropic.svg",
     bg: "bg-amber-50 dark:bg-amber-900/30",
   },
   ChatGPT: {
-    src: "https://cdn.worldvectorlogo.com/logos/chatgpt-6.svg",
+    src: "/logos/chatgpt.svg",
     bg: "bg-emerald-50 dark:bg-emerald-900/30",
   },
   Figma: {
-    src: "https://cdn.worldvectorlogo.com/logos/figma-icon.svg",
+    src: "/logos/figma.svg",
     bg: "bg-violet-100 dark:bg-violet-900/40",
   },
   Supabase: {
@@ -91,11 +91,11 @@ export const toolLogos: Record<string, { src: string; bg: string }> = {
     bg: "bg-emerald-100 dark:bg-emerald-900/40",
   },
   GitHub: {
-    src: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg",
+    src: "/logos/github.svg",
     bg: "bg-zinc-100 dark:bg-zinc-800",
   },
   Vercel: {
-    src: "/vercel.svg",
+    src: "/logos/vercel.svg",
     bg: "bg-zinc-100 dark:bg-zinc-800",
   },
   PostHog: {
@@ -103,15 +103,15 @@ export const toolLogos: Record<string, { src: string; bg: string }> = {
     bg: "bg-yellow-100 dark:bg-yellow-900/40",
   },
   "Next.js": {
-    src: "https://cdn.worldvectorlogo.com/logos/next-js.svg",
+    src: "/logos/nextjs.svg",
     bg: "bg-zinc-100 dark:bg-zinc-800",
   },
   "React Native": {
-    src: "https://cdn.worldvectorlogo.com/logos/react-2.svg",
+    src: "/logos/react.svg",
     bg: "bg-sky-100 dark:bg-sky-900/40",
   },
   TypeScript: {
-    src: "https://cdn.worldvectorlogo.com/logos/typescript.svg",
+    src: "/logos/typescript.svg",
     bg: "bg-blue-100 dark:bg-blue-900/40",
   },
 };
