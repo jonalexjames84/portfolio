@@ -31,7 +31,7 @@ const resumeRoles = [
     title: "Founder / PM / Dev",
     period: "Nov 2024 – 2025",
     highlights: [
-      "Shipped Pottery Friends, Swob, and Macro Chef solo in 3 months: React Native, Next.js, Supabase, Stripe, Claude API",
+      "Shipped 4 production apps solo in 3 months: React Native, Next.js, Supabase, Stripe, Claude API",
       "15+ repos, 59 database migrations, 19 edge functions. User research with 20+ users across all products",
     ],
   },
@@ -133,7 +133,7 @@ const resumeMetrics = [
   { value: "15+", label: "Years Shipping" },
   { value: "$50M", label: "Revenue Driven" },
   { value: "$150M", label: "Funding Secured" },
-  { value: "6M+", label: "Users Reached" },
+  { value: "6M", label: "Users Reached" },
 ];
 
 const s = StyleSheet.create({

@@ -70,7 +70,7 @@ const sections = [
     title: "How I Work",
     gradient: "from-fuchsia-500 to-pink-500",
     content: [
-      "I've led cross-functional teams at companies ranging from 85-person startups to organizations with 60M+ members. I write PRDs that engineers actually want to read, run sprints without micromanaging, and say no to features that don't move the metric that matters. My builder background means I can unblock technical conversations faster than most PMs. I don't need a meeting to understand why a migration is risky or an API design decision matters. That shared vocabulary earns trust with engineering teams quickly.",
+      "I've led cross-functional teams at companies ranging from 85-person startups to organizations with 6M members. I write PRDs that engineers actually want to read, run sprints without micromanaging, and say no to features that don't move the metric that matters. My builder background means I can unblock technical conversations faster than most PMs. I don't need a meeting to understand why a migration is risky or an API design decision matters. That shared vocabulary earns trust with engineering teams quickly.",
       "I prioritize by asking one question: what's the fastest path to learning something we don't know? Discovery and delivery aren't separate phases. They're parallel tracks. I define product success by behavior change, not feature completion. A shipped feature nobody uses is worse than one that was cut because the data said no.",
     ],
   },

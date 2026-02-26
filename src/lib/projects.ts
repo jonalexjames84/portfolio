@@ -218,7 +218,7 @@ export const projects: Project[] = [
       "Used PostHog over Mixpanel for analytics because of the self-hostable option and session recordings at no extra per-seat cost",
     ],
     teamContext:
-      "Consulting Product Manager. I build prototypes and manage delivery for this team. The sites and prototypes function as living specifications that guide engineering implementation. The multi-persona product design (manager vs. candidate vs. admin) is informed by my experience at AAA, where I led mobile strategy for a 60M+ member organization and reported weekly to C-Suite and VP stakeholders. The funnel analytics approach comes from Jam City, where I owned P&L on a $50M product and drove 20% MoM revenue growth through data-driven optimizations.",
+      "Consulting Product Manager. I build prototypes and manage delivery for this team. The sites and prototypes function as living specifications that guide engineering implementation. The multi-persona product design (manager vs. candidate vs. admin) is informed by my experience at AAA, where I led mobile strategy for a 6M-member organization and reported weekly to C-Suite and VP stakeholders. The funnel analytics approach comes from Jam City, where I owned P&L on a $50M product and drove 20% MoM revenue growth through data-driven optimizations.",
     userResearch: [
       "Interviewed 6 restaurant and retail managers, and all described the same pattern: post on Indeed, wait 2-3 weeks, get 50+ unqualified applicants, then hire whoever shows up to the interview",
       "Managers said they make hiring decisions in under 30 seconds based on availability, proximity, and vibe, not resumes. Traditional job boards force a workflow that doesn't match how they actually evaluate candidates",
