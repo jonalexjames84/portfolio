@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight } from "lucide-react";
 import { AnimatedSection } from "@/components/AnimatedSection";
 
 /* ── Tool logo map ─────────────────────────────────────── */
@@ -99,14 +98,10 @@ function StepNode({
   step,
   index,
   gradient,
-  isActive,
-  onClick,
 }: {
   step: StepData;
   index: number;
   gradient: string;
-  isActive: boolean;
-  onClick: () => void;
 }) {
   return (
     <motion.div
@@ -115,42 +110,28 @@ function StepNode({
       viewport={{ once: true }}
       transition={{ delay: index * 0.08, duration: 0.4 }}
     >
-      <button
-        onClick={onClick}
-        className={`group relative w-full overflow-hidden rounded-2xl border text-left transition-all ${
-          isActive
-            ? "border-zinc-300 bg-white shadow-lg dark:border-zinc-600 dark:bg-zinc-900"
-            : "border-zinc-200 bg-white/80 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700"
-        }`}
+      <div
+        className="group relative w-full overflow-hidden rounded-2xl border text-left border-zinc-300 bg-white shadow-lg dark:border-zinc-600 dark:bg-zinc-900"
       >
         {/* Left accent bar */}
         <div
-          className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${gradient} transition-opacity ${
-            isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"
-          }`}
+          className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${gradient}`}
         />
 
         <div className="p-4 sm:p-5">
-          {/* Header row with step number + title + tool icons */}
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <span
-                className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${gradient} text-xs font-bold text-white shadow-sm`}
-              >
-                {index + 1}
-              </span>
-              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                {step.title}
-              </h3>
-            </div>
-            <ChevronRight
-              className={`mt-1 h-4 w-4 shrink-0 text-zinc-400 transition-transform ${
-                isActive ? "rotate-90" : ""
-              }`}
-            />
+          {/* Header row with step number + title */}
+          <div className="flex items-center gap-3">
+            <span
+              className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${gradient} text-xs font-bold text-white shadow-sm`}
+            >
+              {index + 1}
+            </span>
+            <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              {step.title}
+            </h3>
           </div>
 
-          {/* Tool icons row - always visible */}
+          {/* Tool icons row */}
           {step.tools.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-2 pl-11">
               {step.tools.map((tool) => (
@@ -159,24 +140,12 @@ function StepNode({
             </div>
           )}
 
-          {/* Expanded description */}
-          <AnimatePresence>
-            {isActive && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="overflow-hidden"
-              >
-                <p className="mt-3 pl-11 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-                  {step.description}
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Description - always visible */}
+          <p className="mt-3 pl-11 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+            {step.description}
+          </p>
         </div>
-      </button>
+      </div>
     </motion.div>
   );
 }
@@ -372,7 +341,6 @@ function WorkflowTab({
 
 export function WorkflowDiagram() {
   const [activeWorkflow, setActiveWorkflow] = useState(0);
-  const [activeStep, setActiveStep] = useState<number | null>(null);
   const workflow = workflows[activeWorkflow];
 
   return (
@@ -403,10 +371,7 @@ export function WorkflowDiagram() {
               key={w.id}
               workflow={w}
               isActive={activeWorkflow === i}
-              onClick={() => {
-                setActiveWorkflow(i);
-                setActiveStep(null);
-              }}
+              onClick={() => setActiveWorkflow(i)}
             />
           ))}
         </div>
@@ -440,8 +405,6 @@ export function WorkflowDiagram() {
                   step={step}
                   index={i}
                   gradient={workflow.gradient}
-                  isActive={activeStep === i}
-                  onClick={() => setActiveStep(activeStep === i ? null : i)}
                 />
               </div>
             ))}
