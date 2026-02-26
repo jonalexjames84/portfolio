@@ -11,7 +11,7 @@ const links = [
   { href: "/work", label: "Work" },
   { href: "/experience", label: "Experience" },
   { href: "/blog", label: "Blog" },
-  { href: "/workflow", label: "Workflow" },
+  { href: "/vibe-stack", label: "Vibe Stack" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { WorkflowDiagram } from "./WorkflowDiagram";
 
 export const metadata: Metadata = {
-  title: "AI Workflow",
+  title: "Vibe Stack",
   description:
-    "How I build products using AI-native workflows. Three approaches for client consulting, solo rapid prototyping, and internal stakeholder buy-in.",
+    "My AI-native build system. Three approaches for client consulting, solo rapid prototyping, and internal stakeholder buy-in.",
 };
 
 export default function WorkflowPage() {

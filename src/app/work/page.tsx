@@ -4,9 +4,11 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
 import { motion } from "framer-motion";
 import { staggerContainer, staggerItem, fadeIn } from "@/lib/animations";
-import { Layers } from "lucide-react";
+import { Layers, ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 export default function WorkPage() {
+  const [designExpanded, setDesignExpanded] = useState(false);
   const featured = projects.filter(
     (p) => p.featured && p.category === "software"
   );
@@ -14,6 +16,7 @@ export default function WorkPage() {
   const other = projects.filter(
     (p) => !p.featured && p.category === "software"
   );
+  const designVisible = designExpanded ? design : design.slice(0, 3);
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
@@ -48,22 +51,13 @@ export default function WorkPage() {
         >
           Featured
         </motion.h2>
-        {/* Hero card for first featured project */}
-        {featured.length > 0 && (
-          <motion.div variants={staggerItem} className="mb-4">
-            <ProjectCard project={featured[0]} hero />
-          </motion.div>
-        )}
-        {/* Remaining featured in 2-col grid */}
-        {featured.length > 1 && (
-          <div className="mb-12 grid gap-4 sm:grid-cols-2">
-            {featured.slice(1).map((project) => (
-              <motion.div key={project.slug} variants={staggerItem}>
-                <ProjectCard project={project} />
-              </motion.div>
-            ))}
-          </div>
-        )}
+        <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((project) => (
+            <motion.div key={project.slug} variants={staggerItem}>
+              <ProjectCard project={project} />
+            </motion.div>
+          ))}
+        </div>
       </motion.div>
 
       {design.length > 0 && (
@@ -86,13 +80,27 @@ export default function WorkPage() {
             Brand identities, websites, photography, and creative direction for
             artists and small businesses.
           </motion.p>
-          <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {design.map((project) => (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {designVisible.map((project) => (
               <motion.div key={project.slug} variants={staggerItem}>
                 <ProjectCard project={project} />
               </motion.div>
             ))}
           </div>
+          {design.length > 3 && (
+            <div className="mt-4 mb-12 flex justify-center">
+              <button
+                onClick={() => setDesignExpanded(!designExpanded)}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800/50"
+              >
+                {designExpanded ? "Show less" : `More (${design.length - 3})`}
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform ${designExpanded ? "rotate-180" : ""}`}
+                />
+              </button>
+            </div>
+          )}
         </motion.div>
       )}
 
