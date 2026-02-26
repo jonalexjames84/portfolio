@@ -32,12 +32,19 @@ export const metadata: Metadata = {
     siteName: "Jonny Martin",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/jonny-headshot.jpg",
+        alt: "Jonny Martin",
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Jonny Martin | Senior Product Manager",
     description:
       "Senior Product Manager with 15+ years shipping games and products at Zynga, Jam City, Genies, Mythical Games, and more.",
+    images: ["/jonny-headshot.jpg"],
   },
 };
 
