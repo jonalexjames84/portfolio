@@ -35,26 +35,36 @@ export async function generateMetadata({
 }
 
 function renderBlock(block: string, index: number) {
-  // Inline image — ![alt text](/path/to/image)
-  const imgMatch = block.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+  // Inline image — ![alt text](/path/to/image) or ![alt text](/path "phone")
+  const imgMatch = block.match(
+    /^!\[([^\]]*)\]\(([^)"]+)(?:\s+"([^"]*)")?\)$/
+  );
   if (imgMatch) {
-    const [, alt, src] = imgMatch;
+    const [, alt, src, hint] = imgMatch;
+    const isPhone = hint === "phone";
     return (
-      <figure key={index} className="my-8">
-        <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
-          <Image
-            src={src}
-            alt={alt}
-            width={800}
-            height={600}
-            className="w-full object-cover"
-          />
+      <figure
+        key={index}
+        className={`my-8 ${isPhone ? "flex justify-center" : ""}`}
+      >
+        <div>
+          <div
+            className={`relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700 ${isPhone ? "w-[280px]" : ""}`}
+          >
+            <Image
+              src={src}
+              alt={alt}
+              width={isPhone ? 360 : 1280}
+              height={isPhone ? 778 : 800}
+              className="h-auto w-full"
+            />
+          </div>
+          {alt && (
+            <figcaption className="mt-2 text-center text-sm text-zinc-400 dark:text-zinc-500">
+              {alt}
+            </figcaption>
+          )}
         </div>
-        {alt && (
-          <figcaption className="mt-2 text-center text-sm text-zinc-400 dark:text-zinc-500">
-            {alt}
-          </figcaption>
-        )}
       </figure>
     );
   }
