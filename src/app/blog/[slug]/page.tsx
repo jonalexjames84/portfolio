@@ -35,12 +35,42 @@ export async function generateMetadata({
 }
 
 function renderBlock(block: string, index: number) {
-  // Inline image — ![alt text](/path/to/image) or ![alt text](/path "phone")
-  const imgMatch = block.match(
-    /^!\[([^\]]*)\]\(([^)"]+)(?:\s+"([^"]*)")?\)$/
-  );
-  if (imgMatch) {
-    const [, alt, src, hint] = imgMatch;
+  // Image carousel — multiple ![alt](/path "phone") separated by |
+  const imgPattern = /!\[([^\]]*)\]\(([^)"]+)(?:\s+"([^"]*)")?\)/g;
+  const images = [...block.matchAll(imgPattern)];
+  if (images.length > 1) {
+    return (
+      <div key={index} className="my-8 -mx-6">
+        <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-3">
+          {images.map(([, alt, src], i) => (
+            <div
+              key={i}
+              className="w-[200px] shrink-0 snap-center sm:w-[240px]"
+            >
+              <div className="overflow-hidden rounded-xl border border-zinc-200 shadow-sm dark:border-zinc-700">
+                <Image
+                  src={src}
+                  alt={alt}
+                  width={390}
+                  height={844}
+                  className="w-full"
+                />
+              </div>
+              {alt && (
+                <p className="mt-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
+                  {alt}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Single image — ![alt text](/path/to/image)
+  if (images.length === 1) {
+    const [, alt, src, hint] = images[0];
     const isPhone = hint === "phone";
     return (
       <figure
@@ -49,13 +79,13 @@ function renderBlock(block: string, index: number) {
       >
         <div>
           <div
-            className={`relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700 ${isPhone ? "w-[280px]" : ""}`}
+            className={`relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700 ${isPhone ? "w-[200px] sm:w-[240px]" : ""}`}
           >
             <Image
               src={src}
               alt={alt}
-              width={isPhone ? 360 : 1280}
-              height={isPhone ? 778 : 800}
+              width={isPhone ? 390 : 1280}
+              height={isPhone ? 844 : 800}
               className="h-auto w-full"
             />
           </div>
