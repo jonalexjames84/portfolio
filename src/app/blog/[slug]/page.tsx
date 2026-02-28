@@ -35,6 +35,30 @@ export async function generateMetadata({
 }
 
 function renderBlock(block: string, index: number) {
+  // Inline image — ![alt text](/path/to/image)
+  const imgMatch = block.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+  if (imgMatch) {
+    const [, alt, src] = imgMatch;
+    return (
+      <figure key={index} className="my-8">
+        <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+          <Image
+            src={src}
+            alt={alt}
+            width={800}
+            height={600}
+            className="w-full object-cover"
+          />
+        </div>
+        {alt && (
+          <figcaption className="mt-2 text-center text-sm text-zinc-400 dark:text-zinc-500">
+            {alt}
+          </figcaption>
+        )}
+      </figure>
+    );
+  }
+
   // Heading
   if (block.startsWith("## ")) {
     return (
