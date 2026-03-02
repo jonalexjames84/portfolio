@@ -12,7 +12,7 @@ export type Post = {
 export const posts: Post[] = [
   {
     slug: "from-skeptic-to-vibe-coder",
-    image: "/blog/pottery-friends-app.jpg",
+    image: "/blog/from-skeptic-to-vibe-coder.jpg",
     title:
       'From Skeptic to "Vibe Coder": How I Built a Pottery App for Good',
     subtitle:
