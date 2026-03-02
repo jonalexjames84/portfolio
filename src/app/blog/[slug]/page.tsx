@@ -214,7 +214,7 @@ export default async function BlogPostPage({
       {/* Hero image */}
       {post.image && (
         <div className="relative mb-8 overflow-hidden rounded-2xl">
-          <div className="relative h-64 w-full sm:h-80">
+          <div className="relative aspect-[5/4] w-full">
             <Image
               src={post.image}
               alt={post.title}
@@ -223,6 +223,19 @@ export default async function BlogPostPage({
               priority
             />
           </div>
+          {/* Company logo badge for interview posts */}
+          {post.companyLogo && (
+            <div className="absolute bottom-4 right-4 flex items-center gap-2.5 rounded-xl bg-black/60 px-4 py-2 backdrop-blur-sm">
+              <img
+                src={post.companyLogo}
+                alt={post.companyName || ""}
+                className="h-6 w-6"
+              />
+              <span className="text-sm font-medium text-white">
+                {post.companyName}
+              </span>
+            </div>
+          )}
         </div>
       )}
 

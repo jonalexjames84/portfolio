@@ -49,7 +49,7 @@ export default function BlogPage() {
             >
               {/* Hero image */}
               {post.image && (
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                <div className="relative aspect-[5/4] w-full overflow-hidden">
                   <Image
                     src={post.image}
                     alt={post.title}
@@ -57,6 +57,19 @@ export default function BlogPage() {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                  {/* Company logo badge for interview posts */}
+                  {post.companyLogo && (
+                    <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-sm">
+                      <img
+                        src={post.companyLogo}
+                        alt={post.companyName || ""}
+                        className="h-5 w-5"
+                      />
+                      <span className="text-xs font-medium text-white">
+                        {post.companyName}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
               {/* Gradient top border (only when no image) */}
