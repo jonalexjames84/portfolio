@@ -48,7 +48,16 @@ export default function BlogPage() {
               className="theme-card group block h-full overflow-hidden transition-all"
             >
               {/* Hero image */}
-              {post.image && (
+              {post.companyLogo ? (
+                <div className="flex aspect-[5/4] w-full flex-col items-center justify-center gap-3 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                  <img
+                    src={post.companyLogo}
+                    alt={post.companyName || ""}
+                    className="h-14 w-auto transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <span className="text-xs text-zinc-400 dark:text-zinc-500">Berkeley Haas AI Conference</span>
+                </div>
+              ) : post.image ? (
                 <div className="relative aspect-[5/4] w-full overflow-hidden">
                   <Image
                     src={post.image}
@@ -57,21 +66,8 @@ export default function BlogPage() {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                  {/* Company logo badge for interview posts */}
-                  {post.companyLogo && (
-                    <div className="absolute bottom-3 right-3 flex items-center gap-2 rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-sm">
-                      <img
-                        src={post.companyLogo}
-                        alt={post.companyName || ""}
-                        className="h-5 w-5"
-                      />
-                      <span className="text-xs font-medium text-white">
-                        {post.companyName}
-                      </span>
-                    </div>
-                  )}
                 </div>
-              )}
+              ) : null}
               {/* Gradient top border (only when no image) */}
               {!post.image && (
                 <div className="h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500 opacity-60 transition-opacity group-hover:opacity-100" />

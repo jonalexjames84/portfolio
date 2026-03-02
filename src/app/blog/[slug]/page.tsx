@@ -212,7 +212,20 @@ export default async function BlogPostPage({
       </Link>
 
       {/* Hero image */}
-      {post.image && (
+      {post.companyLogo ? (
+        <div className="relative mb-8 flex aspect-[5/4] w-full flex-col items-center justify-center gap-5 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800">
+          <img
+            src={post.companyLogo}
+            alt={post.companyName || ""}
+            className="h-20 w-auto sm:h-28"
+          />
+          <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+            <span className="inline-block h-px w-6 bg-zinc-300 dark:bg-zinc-600" />
+            <span>Berkeley Haas AI Conference</span>
+            <span className="inline-block h-px w-6 bg-zinc-300 dark:bg-zinc-600" />
+          </div>
+        </div>
+      ) : post.image ? (
         <div className="relative mb-8 overflow-hidden rounded-2xl">
           <div className="relative aspect-[5/4] w-full">
             <Image
@@ -223,21 +236,8 @@ export default async function BlogPostPage({
               priority
             />
           </div>
-          {/* Company logo badge for interview posts */}
-          {post.companyLogo && (
-            <div className="absolute bottom-4 right-4 flex items-center gap-2.5 rounded-xl bg-black/60 px-4 py-2 backdrop-blur-sm">
-              <img
-                src={post.companyLogo}
-                alt={post.companyName || ""}
-                className="h-6 w-6"
-              />
-              <span className="text-sm font-medium text-white">
-                {post.companyName}
-              </span>
-            </div>
-          )}
         </div>
-      )}
+      ) : null}
 
       {/* Visual header area */}
       <div className="relative mb-10 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 p-6 sm:p-8 dark:from-violet-950/30 dark:via-purple-950/20 dark:to-fuchsia-950/30">
