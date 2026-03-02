@@ -37,8 +37,7 @@ export const projects: Project[] = [
     slug: "cluck",
     title: "Cluck: Escape the Line",
     subtitle: "3D Atmospheric Puzzle-Platformer",
-    screenshot:
-      "https://cluckdev.com/opengraph-image",
+    screenshot: "/screenshots/cluck-home.png",
     screenshots: [],
     liveUrl: "https://www.cluckdev.com/",
     description:
