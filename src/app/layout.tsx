@@ -7,7 +7,6 @@ import {
   Playfair_Display,
 } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { StyleThemeProvider } from "@/components/StyleThemeProvider";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
@@ -84,14 +83,12 @@ export default function RootLayout({
       >
         <PostHogProvider>
           <ThemeProvider>
-            <StyleThemeProvider>
-              <div className="flex min-h-screen flex-col">
-                <Nav />
-                <main className="flex-1">{children}</main>
-                <Footer />
-                <FloatingCTA />
-              </div>
-            </StyleThemeProvider>
+            <div className="flex min-h-screen flex-col">
+              <Nav />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <FloatingCTA />
+            </div>
           </ThemeProvider>
         </PostHogProvider>
       </body>

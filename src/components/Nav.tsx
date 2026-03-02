@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
-import { StyleSwitcher } from "./StyleSwitcher";
 
 const links = [
   { href: "/", label: "Home" },
@@ -48,15 +47,13 @@ export function Nav() {
               {link.label}
             </Link>
           ))}
-          <div className="ml-2 flex items-center gap-1">
-            <StyleSwitcher />
+          <div className="ml-2">
             <ThemeToggle />
           </div>
         </div>
 
         {/* Mobile nav toggle */}
         <div className="flex items-center gap-2 md:hidden">
-          <StyleSwitcher />
           <ThemeToggle />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
