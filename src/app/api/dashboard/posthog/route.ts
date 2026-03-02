@@ -96,20 +96,31 @@ export async function POST(request: NextRequest) {
 
     const data = await res.json()
 
+    let result: unknown
     switch (queryType) {
       case 'websitePageViews':
-        return NextResponse.json(transformPageViews(data))
+        result = transformPageViews(data)
+        break
       case 'websiteTrafficSources':
-        return NextResponse.json(transformTrafficSources(data))
+        result = transformTrafficSources(data)
+        break
       case 'websiteTopPages':
-        return NextResponse.json(transformTopPages(data))
+        result = transformTopPages(data)
+        break
       case 'websiteDevices':
-        return NextResponse.json(transformDevices(data))
+        result = transformDevices(data)
+        break
     }
+
+    return NextResponse.json(result, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      },
+    })
   } catch (error) {
     console.error('PostHog API error:', error)
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Unknown error' },
+      { error: 'Failed to fetch analytics data' },
       { status: 500 }
     )
   }

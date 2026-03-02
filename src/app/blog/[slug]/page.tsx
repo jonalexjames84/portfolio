@@ -6,6 +6,15 @@ import { ArrowLeft } from "lucide-react";
 import { getPost, posts } from "@/lib/posts";
 import { getTagColor } from "@/lib/tagColors";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }
@@ -144,12 +153,10 @@ function renderBlock(block: string, index: number) {
               <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-violet-500 to-purple-500" />
               <span
                 dangerouslySetInnerHTML={{
-                  __html: item
-                    .slice(2)
-                    .replace(
-                      /\*\*(.+?)\*\*/g,
-                      '<strong class="text-zinc-900 dark:text-zinc-100">$1</strong>'
-                    ),
+                  __html: escapeHtml(item.slice(2)).replace(
+                    /\*\*(.+?)\*\*/g,
+                    '<strong class="text-zinc-900 dark:text-zinc-100">$1</strong>'
+                  ),
                 }}
               />
             </li>
@@ -160,7 +167,7 @@ function renderBlock(block: string, index: number) {
   }
 
   // Bold text and inline formatting
-  const formatted = block
+  const formatted = escapeHtml(block)
     .replace(
       /\*\*(\d+\..+?)\*\*/g,
       '<strong class="text-zinc-900 dark:text-zinc-100">$1</strong>'
