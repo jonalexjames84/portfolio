@@ -11,6 +11,7 @@ import { StyleThemeProvider } from "@/components/StyleThemeProvider";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { FloatingCTA } from "@/components/FloatingCTA";
+import { PostHogProvider } from "@/components/PostHogProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -81,16 +82,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dmSerifDisplay.variable} ${plusJakartaSans.variable} ${playfairDisplay.variable} font-sans antialiased`}
       >
-        <ThemeProvider>
-          <StyleThemeProvider>
-          <div className="flex min-h-screen flex-col">
-            <Nav />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <FloatingCTA />
-          </div>
-          </StyleThemeProvider>
-        </ThemeProvider>
+        <PostHogProvider>
+          <ThemeProvider>
+            <StyleThemeProvider>
+              <div className="flex min-h-screen flex-col">
+                <Nav />
+                <main className="flex-1">{children}</main>
+                <Footer />
+                <FloatingCTA />
+              </div>
+            </StyleThemeProvider>
+          </ThemeProvider>
+        </PostHogProvider>
       </body>
     </html>
   );
