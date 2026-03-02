@@ -34,6 +34,65 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "cluck",
+    title: "Cluck: Escape the Line",
+    subtitle: "3D Atmospheric Puzzle-Platformer",
+    screenshot:
+      "https://cluckdev.com/opengraph-image",
+    screenshots: [],
+    liveUrl: "https://www.cluckdev.com/",
+    description:
+      "Co-founded Frame Story, a collaborative game studio modeled after Finji and Raw Fury, and leading product on our first title: a 3D atmospheric puzzle-platformer where players guide a lone chicken through a nightmarish facility using stealth, wits, and the will to survive. Managing a 10+ person team through milestone-driven development toward a Steam release.",
+    pitch:
+      "Frame Story is built on a thesis: small creative pods that own their IP and earn 70% of net revenue will attract better talent than traditional studio deals. The studio centralizes ops, legal, finance, and publishing so creators focus on making great games. Cluck is the first title — a stealth-puzzle platformer targeting Steam Next Fest, indie festivals, and a Kickstarter campaign. My role spans product leadership, business formation, financial modeling, GTM strategy, and fundraising.",
+    problem:
+      "Indie game studios face a brutal tradeoff: sign away IP and revenue share to a publisher, or self-publish and drown in ops, legal, and finance work that pulls creators away from making the game. Most small teams either burn out on the business side or give up too much on the creative side. There's no middle-ground model that handles the studio infrastructure while letting creators keep ownership.",
+    tags: ["Game Dev", "Co-Founder", "GTM Strategy", "Steam"],
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "PostHog",
+      "Unreal Engine",
+      "Steam",
+    ],
+    featured: true,
+    callout: "Co-Founder · 10+ person team · Steam release pipeline",
+    category: "software",
+    metrics: [
+      { value: "10+", label: "Team Members" },
+      { value: "$3M", label: "SAFE Cap" },
+      { value: "$100K", label: "Pre-Seed Target" },
+      { value: "70%", label: "Creator Revenue Share" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Led business formation end-to-end: LLC, banking, payments, contributor agreements, IP assignment",
+      "Built 5-year financial model and investor materials with a $3M cap SAFE and 1-to-12 title portfolio strategy",
+      "Designed phased GTM for Cluck: Steam Next Fest, indie festivals, creator partnerships, Kickstarter",
+      "Executing $100K pre-seed raise via SAFEs, grants (Epic MegaGrant, Wings Fund), and crowdfunding",
+    ],
+    decisions: [
+      "Chose a collaborative studio model (70/30 creator-favorable revenue split) over traditional publisher deals to attract experienced developers who'd been laid off and wanted to own their work",
+      "Designed a phased fundraising strategy — SAFEs, grants, then crowdfunding — instead of seeking a single large raise, reducing dilution and validating market interest at each stage",
+      "Targeted Steam Next Fest as the first major milestone rather than building in stealth, using wishlist campaigns to generate fundraising proof points",
+    ],
+    teamContext:
+      "Co-Founder & Director of Product at Frame Story. Leading product on Cluck with a 10+ person team of developers, designers, and artists through milestone-driven development. Responsible for business formation, financial modeling, GTM strategy, fundraising, and product direction.",
+    userResearch: [
+      "Recruited recently laid-off developers and designers who wanted creative ownership — the studio model was designed around their pain points with traditional employment",
+      "Steam Next Fest demo strategy informed by indie dev community research: wishlists convert at 5-15%, making festival visibility the highest-leverage marketing channel for pre-launch",
+    ],
+    failures: [],
+    strategy:
+      "Frame Story's strategy is portfolio diversification through small creative pods. Rather than betting everything on one title, the 1-to-12 title portfolio strategy spreads risk across multiple games while the studio handles shared infrastructure. Cluck is the proof-of-concept: if the model works for one title, it scales to many. The phased GTM — Steam Next Fest, indie festivals, creator partnerships, Kickstarter — builds audience and validates demand before committing to full production.",
+    strategyPoints: [
+      { label: "Studio Model", text: "Small creative pods own IP and earn 70% of net revenue. Studio centralizes ops, legal, finance, and publishing." },
+      { label: "Fundraising", text: "$100K pre-seed via SAFEs at $3M cap, grants (Epic MegaGrant, Wings Fund), and Kickstarter crowdfunding." },
+      { label: "Go-to-Market", text: "Steam Next Fest → indie festivals → creator partnerships → Kickstarter. Each phase builds wishlists and validates demand." },
+      { label: "Portfolio", text: "1-to-12 title strategy. Cluck proves the model; success funds the next creative pod." },
+    ],
+  },
+  {
     slug: "pottery-friends",
     title: "Pottery Friends",
     subtitle: "Community Platform Ecosystem",

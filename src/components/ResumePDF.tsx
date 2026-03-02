@@ -5,148 +5,124 @@ import {
   Text,
   View,
   StyleSheet,
-  Svg,
-  Defs,
-  LinearGradient as SvgLinearGradient,
-  Stop,
-  Rect,
   Link,
 } from "@react-pdf/renderer";
 import { career, skillCategories } from "@/lib/experience";
 
 const c = {
-  indigo500: "#6366f1",
-  violet500: "#8b5cf6",
-  purple500: "#a855f7",
-  indigo50: "#eef2ff",
-  zinc900: "#18181b",
-  zinc700: "#3f3f46",
-  zinc600: "#52525b",
-  zinc500: "#71717a",
-  zinc400: "#a1a1aa",
-  zinc300: "#d4d4d8",
-  zinc200: "#e4e4e7",
+  black: "#0d0d0d",
+  dark: "#1a1a1a",
+  body: "#2a2a2a",
+  muted: "#444444",
+  subtle: "#555555",
+  light: "#777777",
+  rule: "#c0c0c0",
+  ruleLight: "#d0d0d0",
+  ruleFaint: "#dddddd",
+  bulletDot: "#999999",
   white: "#ffffff",
 };
-
-const accent = c.indigo500;
 
 const s = StyleSheet.create({
   page: {
     fontFamily: "Helvetica",
     backgroundColor: c.white,
-    paddingTop: 28,
+    paddingTop: 36,
     paddingBottom: 32,
-    paddingHorizontal: 40,
-    fontSize: 9,
-    color: c.zinc700,
+    paddingHorizontal: 43,
+    fontSize: 8.5,
+    color: c.body,
   },
-  topBar: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-  },
-  footer: {
-    position: "absolute",
-    bottom: 14,
-    left: 40,
-    right: 40,
+
+  /* ── Header ── */
+  header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    borderTopWidth: 0.5,
-    borderTopColor: c.zinc200,
-    paddingTop: 5,
+    alignItems: "flex-end",
+    paddingBottom: 8,
+    borderBottomWidth: 2,
+    borderBottomColor: c.dark,
+    marginBottom: 8,
   },
-  footerText: {
-    fontSize: 7,
-    color: c.zinc400,
-  },
-  header: {
-    marginBottom: 10,
-  },
+  headerLeft: {},
   name: {
     fontSize: 22,
     fontFamily: "Helvetica-Bold",
-    color: c.zinc900,
+    color: c.black,
     letterSpacing: -0.5,
   },
-  contactRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginTop: 4,
+  title: {
+    fontSize: 10,
+    color: c.subtle,
+    letterSpacing: 0.5,
+    textTransform: "uppercase",
+    marginTop: 1,
   },
-  contactText: {
-    fontSize: 8,
-    color: c.zinc500,
+  headerRight: {
+    textAlign: "right",
+    fontSize: 8.5,
+    color: c.muted,
+    lineHeight: 1.5,
   },
-  contactLink: {
-    fontSize: 8,
-    color: c.indigo500,
-    textDecoration: "none",
-  },
-  contactSep: {
-    fontSize: 8,
-    color: c.zinc300,
-  },
+
+  /* ── Summary ── */
   summary: {
     fontSize: 8.5,
-    color: c.zinc600,
-    lineHeight: 1.5,
-    marginTop: 8,
+    color: "#3a3a3a",
+    lineHeight: 1.45,
+    marginBottom: 10,
+    paddingBottom: 8,
+    borderBottomWidth: 0.5,
+    borderBottomColor: c.ruleLight,
   },
-  divider: {
-    height: 0.5,
-    backgroundColor: c.zinc200,
-    marginBottom: 8,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 6,
-    gap: 5,
-  },
-  sectionAccent: {
-    width: 3,
-    height: 12,
-    borderRadius: 1.5,
-    backgroundColor: c.indigo500,
-  },
+
+  /* ── Section ── */
   sectionTitle: {
-    fontSize: 10,
+    fontSize: 8,
     fontFamily: "Helvetica-Bold",
-    color: c.zinc900,
     textTransform: "uppercase",
-    letterSpacing: 1,
+    letterSpacing: 1.5,
+    color: c.dark,
+    borderBottomWidth: 0.75,
+    borderBottomColor: c.rule,
+    paddingBottom: 2,
+    marginBottom: 7,
   },
+
+  /* ── Role ── */
   role: {
     marginBottom: 7,
-    paddingLeft: 10,
-    borderLeftWidth: 1.5,
-    borderLeftColor: c.zinc200,
   },
   roleTop: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 2,
+    alignItems: "baseline",
+    marginBottom: 1,
   },
-  roleCompany: {
-    fontSize: 9.5,
-    fontFamily: "Helvetica-Bold",
-    color: c.zinc900,
+  roleTitleLine: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    flexShrink: 1,
   },
   roleTitle: {
-    fontSize: 8.5,
-    color: c.indigo500,
-    marginLeft: 6,
+    fontSize: 9,
+    fontFamily: "Helvetica-Bold",
+    color: c.black,
+  },
+  roleCompany: {
+    fontSize: 9,
+    color: c.subtle,
+    marginLeft: 5,
   },
   rolePeriod: {
-    fontSize: 7.5,
-    color: c.zinc400,
+    fontSize: 8,
+    color: c.light,
     flexShrink: 0,
+  },
+
+  /* ── Bullets ── */
+  bulletList: {
+    marginTop: 2,
   },
   bullet: {
     flexDirection: "row",
@@ -156,75 +132,76 @@ const s = StyleSheet.create({
     width: 2.5,
     height: 2.5,
     borderRadius: 1.25,
-    backgroundColor: c.zinc400,
-    marginTop: 3.5,
+    backgroundColor: c.bulletDot,
+    marginTop: 3,
     marginRight: 6,
     flexShrink: 0,
   },
   bulletText: {
-    fontSize: 8,
-    color: c.zinc600,
+    fontSize: 8.5,
+    color: c.body,
     flex: 1,
-    lineHeight: 1.4,
+    lineHeight: 1.38,
+  },
+
+  /* ── Skills ── */
+  skillGroup: {
+    flexDirection: "row",
+    marginBottom: 2.5,
+  },
+  skillLabel: {
+    fontSize: 8,
+    fontFamily: "Helvetica-Bold",
+    color: c.dark,
+  },
+  skillValue: {
+    fontSize: 8,
+    color: c.muted,
+    flex: 1,
+  },
+
+  /* ── Interests ── */
+  interests: {
+    fontSize: 8,
+    color: c.light,
+    marginTop: 6,
+    paddingTop: 5,
+    borderTopWidth: 0.5,
+    borderTopColor: c.ruleFaint,
+  },
+  interestsLabel: {
+    fontFamily: "Helvetica-Bold",
+    color: c.subtle,
   },
 });
-
-const GradientBar = ({ height = 3 }: { height?: number }) => (
-  <Svg width="100%" height={height}>
-    <Defs>
-      <SvgLinearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
-        <Stop offset="0%" stopColor={c.indigo500} />
-        <Stop offset="50%" stopColor={c.violet500} />
-        <Stop offset="100%" stopColor={c.purple500} />
-      </SvgLinearGradient>
-    </Defs>
-    <Rect x="0" y="0" width="612" height={height} fill="url(#brand)" />
-  </Svg>
-);
 
 export const ResumePDF = () => (
   <Document title="Jon Martin - Senior Product Manager" author="Jon Martin">
     <Page size="LETTER" style={s.page}>
-      <View style={s.topBar} fixed>
-        <GradientBar />
-      </View>
 
-      <View style={s.footer} fixed>
-        <Text style={s.footerText}>Jon Martin</Text>
-        <Text
-          style={s.footerText}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-        />
-      </View>
-
-      {/* Header */}
+      {/* ── Header ── */}
       <View style={s.header}>
-        <Text style={s.name}>Jon Martin</Text>
-        <View style={s.contactRow}>
-          <Text style={s.contactText}>(650) 627-6352</Text>
-          <Text style={s.contactSep}>|</Text>
-          <Link src="mailto:jonalexjames@gmail.com">
-            <Text style={s.contactLink}>jonalexjames@gmail.com</Text>
-          </Link>
-          <Text style={s.contactSep}>|</Text>
-          <Link src="https://jonnymartin.blog">
-            <Text style={s.contactLink}>jonnymartin.blog</Text>
-          </Link>
+        <View style={s.headerLeft}>
+          <Text style={s.name}>Jon Martin</Text>
+          <Text style={s.title}>Senior Product Manager</Text>
         </View>
-        <Text style={s.summary}>
-          Senior Product Manager with 15 years shipping consumer products at scale across gaming, consumer platforms, and enterprise mobile. Deep expertise in growth, live ops, monetization, and go-to-market strategy at companies like Zynga, Jam City, Genies, and AAA. Now building with AI-native workflows -- recently shipped a production app solo from zero to 150 early access members using Claude Code, combining product strategy with hands-on full-stack development.
-        </Text>
+        <View style={s.headerRight}>
+          <Text>(650) 627-6352</Text>
+          <Text>jonalexjames@gmail.com</Text>
+          <Link src="https://jonnymartin.blog" style={{ textDecoration: "none" }}>
+            <Text style={{ fontSize: 8.5, color: c.muted }}>jonnymartin.blog</Text>
+          </Link>
+          <Text>Concord, CA</Text>
+        </View>
       </View>
 
-      <View style={s.divider} />
+      {/* ── Summary ── */}
+      <Text style={s.summary}>
+        Senior Product Manager with 15+ years shipping consumer products at scale across gaming, consumer platforms, and enterprise mobile. Deep expertise in growth, live ops, monetization, and go-to-market strategy at companies including Zynga, Jam City, Genies, and AAA. Currently co-founding a game studio and building with AI-native workflows {"\u2014"} recently shipped a production app solo from zero to 150 early access members using modern AI tooling, combining product strategy with hands-on full-stack development.
+      </Text>
 
-      {/* Experience */}
-      <View style={s.sectionHeader}>
-        <View style={s.sectionAccent} />
-        <Text style={s.sectionTitle}>Experience</Text>
-      </View>
+      {/* ── Experience ── */}
+      <Text style={s.sectionTitle}>Experience</Text>
 
       {career.map((role) => (
         <View
@@ -233,39 +210,41 @@ export const ResumePDF = () => (
           wrap={false}
         >
           <View style={s.roleTop}>
-            <View style={{ flexDirection: "row", alignItems: "baseline", flexShrink: 1 }}>
-              <Text style={s.roleCompany}>{role.company}</Text>
+            <View style={s.roleTitleLine}>
               <Text style={s.roleTitle}>{role.title}</Text>
+              <Text style={s.roleCompany}>| {role.company}</Text>
             </View>
             <Text style={s.rolePeriod}>{role.period}</Text>
           </View>
-          {role.highlights.map((h, hi) => (
-            <View key={hi} style={s.bullet}>
-              <View style={s.bulletDot} />
-              <Text style={s.bulletText}>{h}</Text>
-            </View>
-          ))}
+          <View style={s.bulletList}>
+            {role.highlights.map((h, hi) => (
+              <View key={hi} style={s.bullet}>
+                <View style={s.bulletDot} />
+                <Text style={s.bulletText}>{h}</Text>
+              </View>
+            ))}
+          </View>
         </View>
       ))}
 
-      {/* Skills */}
-      <View style={s.sectionHeader}>
-        <View style={[s.sectionAccent, { backgroundColor: c.violet500 }]} />
-        <Text style={s.sectionTitle}>Skills</Text>
+      {/* ── Skills ── */}
+      <Text style={s.sectionTitle}>Skills</Text>
+
+      {skillCategories.map((cat) => (
+        <View key={cat.name} style={s.skillGroup} wrap={false}>
+          <Text style={s.skillLabel}>{cat.name}: </Text>
+          <Text style={s.skillValue}>{cat.skills.join(", ")}</Text>
+        </View>
+      ))}
+
+      {/* ── Interests ── */}
+      <View style={s.interests}>
+        <Text>
+          <Text style={s.interestsLabel}>Interests: </Text>
+          <Text>Ceramics, Functional Fitness, Nutrition, Urban Farming</Text>
+        </Text>
       </View>
 
-      <View style={{ gap: 3 }}>
-        {skillCategories.map((cat) => (
-          <View key={cat.name} style={{ flexDirection: "row", paddingLeft: 10 }} wrap={false}>
-            <Text style={{ fontSize: 7.5, fontFamily: "Helvetica-Bold", color: c.zinc900, width: 110 }}>
-              {cat.name}
-            </Text>
-            <Text style={{ fontSize: 7.5, color: c.zinc600, flex: 1 }}>
-              {cat.skills.join("  ·  ")}
-            </Text>
-          </View>
-        ))}
-      </View>
     </Page>
   </Document>
 );
