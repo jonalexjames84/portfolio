@@ -37,7 +37,7 @@ export const posts: Post[] = [
     source: "Berkeley ProductCon, 2026",
     companyLogo: "/blog/logos/berkeley.svg",
     companyName: "Berkeley",
-    image: "/blog/aakash-gupta-ai-pm.jpg",
+    image: "/blog/aakash-gupta-ai-pm.svg",
     content: [
       "Aakash Gupta, known online as The AI PM Guy, took the stage at Berkeley ProductCon with a single premise: the AI-powered product manager is already a one-person product team. On his opening slide, \"PM\" sat on the left side. On the right: UXR, Eng, Analyst, Designer. The gap between them is now closable — and the talk was a dense, demo-heavy masterclass on exactly how to close it.",
 
