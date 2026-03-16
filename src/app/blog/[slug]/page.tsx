@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
-import { getPost, posts } from "@/lib/posts";
+import { getPost, posts, getBrandGradient } from "@/lib/posts";
 import { getTagColor } from "@/lib/tagColors";
 
 function escapeHtml(str: string): string {
@@ -220,16 +220,19 @@ export default async function BlogPostPage({
 
       {/* Hero image */}
       {post.companyLogo ? (
-        <div className="relative mb-8 flex aspect-[5/4] w-full flex-col items-center justify-center gap-5 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800">
+        <div
+          className="relative mb-8 flex aspect-[5/4] w-full flex-col items-center justify-center gap-5 overflow-hidden rounded-2xl"
+          style={{ background: getBrandGradient(post.companyName || "") }}
+        >
           <img
             src={post.companyLogo}
             alt={post.companyName || ""}
-            className="h-20 w-auto sm:h-28"
+            className="h-28 w-auto sm:h-40"
           />
-          <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-            <span className="inline-block h-px w-6 bg-zinc-300 dark:bg-zinc-600" />
+          <div className="flex items-center gap-2 text-sm text-white/70">
+            <span className="inline-block h-px w-6 bg-white/40" />
             <span>Berkeley Haas AI Conference</span>
-            <span className="inline-block h-px w-6 bg-zinc-300 dark:bg-zinc-600" />
+            <span className="inline-block h-px w-6 bg-white/40" />
           </div>
         </div>
       ) : post.image ? (

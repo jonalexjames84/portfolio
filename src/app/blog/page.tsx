@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
-import { posts } from "@/lib/posts";
+import { posts, getBrandGradient } from "@/lib/posts";
 import { getTagColor } from "@/lib/tagColors";
 import { useThemeAnimations } from "@/lib/animations";
 
@@ -49,13 +49,16 @@ export default function BlogPage() {
             >
               {/* Hero image */}
               {post.companyLogo ? (
-                <div className="flex aspect-[5/4] w-full flex-col items-center justify-center gap-3 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                <div
+                  className="flex aspect-[5/4] w-full flex-col items-center justify-center gap-3 overflow-hidden"
+                  style={{ background: getBrandGradient(post.companyName || "") }}
+                >
                   <img
                     src={post.companyLogo}
                     alt={post.companyName || ""}
-                    className="h-14 w-auto transition-transform duration-300 group-hover:scale-105"
+                    className="h-20 w-auto transition-transform duration-300 group-hover:scale-105"
                   />
-                  <span className="text-xs text-zinc-400 dark:text-zinc-500">Berkeley Haas AI Conference</span>
+                  <span className="text-xs text-white/70">Berkeley Haas AI Conference</span>
                 </div>
               ) : post.image ? (
                 <div className="relative aspect-[5/4] w-full overflow-hidden">

@@ -11,7 +11,117 @@ export type Post = {
   companyName?: string;
 };
 
+export function getBrandGradient(companyName: string): string {
+  const gradients: Record<string, string> = {
+    Intercom: "linear-gradient(135deg, #286EFA 0%, #1043B0 100%)",
+    "GitHub Next": "linear-gradient(135deg, #2b3137 0%, #0d1117 100%)",
+    Snowflake: "linear-gradient(135deg, #29B5E8 0%, #1A8BBF 100%)",
+    Perplexity: "linear-gradient(135deg, #20B2AA 0%, #0F7A74 100%)",
+    Adobe: "linear-gradient(135deg, #FF0000 0%, #B30000 100%)",
+    Box: "linear-gradient(135deg, #0061D5 0%, #003E8A 100%)",
+    Webflow: "linear-gradient(135deg, #4353FF 0%, #2D3BD4 100%)",
+    YouTube: "linear-gradient(135deg, #FF0000 0%, #CC0000 100%)",
+    OpenAI: "linear-gradient(135deg, #10A37F 0%, #0A7D60 100%)",
+  };
+  return gradients[companyName] || "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)";
+}
+
 export const posts: Post[] = [
+  {
+    slug: "aakash-gupta-ai-powered-pm",
+    title: "The AI-Powered PM: Six Ways to Work Like a One-Person Product Team",
+    subtitle:
+      "Aakash Gupta's fast-paced masterclass at Berkeley ProductCon on using AI to do the work of an entire product org.",
+    date: "2026-03-16",
+    tags: ["AI", "Product Management", "Productivity", "Tools"],
+    source: "Berkeley ProductCon, 2026",
+    companyLogo: "/blog/logos/berkeley.svg",
+    companyName: "Berkeley",
+    image: "/blog/aakash-gupta-ai-pm.jpg",
+    content: [
+      "Aakash Gupta, known online as The AI PM Guy, took the stage at Berkeley ProductCon with a single premise: the AI-powered product manager is already a one-person product team. On his opening slide, \"PM\" sat on the left side. On the right: UXR, Eng, Analyst, Designer. The gap between them is now closable — and the talk was a dense, demo-heavy masterclass on exactly how to close it.",
+
+      "He structured the session around six areas: Prompting, AI Copilots, AI Agents, AI Prototyping, AI Discovery, and AI Analysis. Here's what stood out from each.",
+
+      "## 1. Prompting: Stop Writing Prompts, Start Using AI to Write Them",
+
+      "Gupta opened with what he called the foundation: prompting. His first move was radical personalization — using a system prompt to permanently alter how your AI model behaves. The prompt he showed eliminates sycophancy, enforces directness, disables filler phrases, and dials the model toward cognitive precision over agreeableness. His framing: most people are using a neutered version of their AI. Fix the defaults first.",
+
+      "He then showed a grid of eight prompt frameworks: C-A-S-E, R-I-S-E, R-T-F, D-R-E-A-M, P-A-C-T, T-A-O, S-O-L-V-E, and R-A-C-E — each a structured approach to structuring your requests. The point wasn't to memorize them. It was to build a prompt library, a personal collection of high-performing prompts organized by task. He surfaced a LinkedIn post from a Chief Product Officer that landed with the room: PMs are now expected to show their prompt library in interviews. \"What's in your prompt library?\" is the new \"walk me through your roadmap process.\"",
+
+      "His best tactical tip was a meme turned real advice: stop writing prompts for AI, use AI to write your prompts. He showed Superwhisper — a voice-to-text tool that lets you dictate raw, messy thoughts and converts them into clean, structured prompts. The friction of typing a high-quality prompt goes away when you can just talk.",
+
+      "## 2. AI Copilot: The Mentor You Wish You Always Had",
+
+      "The second section was the most system-heavy and, for most PMs, the most immediately actionable. Gupta's core argument: context is everything, and most people give their AI no context at all.",
+
+      "His solution is a three-part copilot stack:",
+
+      "**Claude Projects (High Context LLM)** — The brain. You load it with everything that makes your work yours: performance reviews, AI-transcribed meeting notes, dictated thoughts, strategy decks, and roadmap documents. The AI then has the full context of your role, your voice, your org's priorities, and the nuances of your relationships.",
+
+      "**Cluely (Desktop Context Assistant)** — The eyes. An ambient desktop assistant that watches what's happening on your screen in real time. Use it during internal meetings to ask \"what did they mean by this?\" Use it during customer calls to ask \"what's the context here?\" Use it while working to ask \"what else should I add to this email?\"",
+
+      "**NotebookLM (Sole Context LLM)** — The historian. Load it with PRDs, FRWs, interview transcripts, and strategy presentations from the past one to two years. Then run a gap analysis: where has stated strategy diverged from what actually got built? What did users ask for that never got prioritized? What's the biggest strategic blind spot? Gupta's suggested prompt was brutally direct: \"Be honest. I need to know where we're lying to ourselves.\"",
+
+      "He walked through a live example to show the delta between vanilla AI and a high-context AI. The task: draft a weekly status email to Sam Altman, Mira Murati, the CPO, and the full product team, 18 days out from a TechCrunch keynote, with tension around a reasoning feature that design thinks isn't ready but leadership is excited about.",
+
+      "The vanilla model buried the status indicator, used generic language, and asked for a meeting instead of making a recommendation. The high-context model opened with STATUS: YELLOW in the subject line, used language pulled directly from past performance reviews, made a concrete recommendation (ship reasoning-only to Pro users), and called out the keynote timeline and NPS metric explicitly. Same prompt. Completely different output.",
+
+      "## 3. AI Agents: Building Your 40-Person Team",
+
+      "Gupta's third section reframed agents not as a futuristic concept but as something you should be deploying today. His stack:",
+
+      "**ChatGPT Agent (and Manus as a close second)** — Best for tasks with clear boundaries: pulling data from a report into a spreadsheet, browsing a site and ordering something, synthesizing voluminous data into a brief, sending personalized outreach to a list. Avoid them for anything calendar-related, anything involving a CAPTCHA, any task that takes under five minutes to do manually, and long multi-step analyses — they fail in longer sequences.",
+
+      "**Lindy** — For workflow automation at scale. Gupta showed his email responder: a branching agent that receives emails, classifies them by type (discount request, sponsorship inquiry, support request, podcast guest request, new subscriber), routes each to the appropriate sub-agent, and sends a tailored response. He started with just two agents — email responder and meeting prepper — and called that the right entry point. Alternatives: Relay, Zapier, N8N.",
+
+      "**Claude Code + Cursor** — For building product artifacts. His project structure for Claude Code: a business info file (full product, market, and strategy description), writing style guides (internal voice, technical voice, user-friendly voice), example documents (past PRDs, analyses, reports), and auto-uploaded meeting transcripts. With that context loaded, a single prompt — \"create a PRD for voice-based automations using GPT Real-Time\" — produces something actually usable.",
+
+      "## 4. AI Prototyping: The New Product Development Lifecycle",
+
+      "The fourth section was the most provocative. Gupta showed the old product development lifecycle: ideation, planning, discovery, PM handoff, design, engineering start. Prototypes barely appeared — maybe 5% of the time at ideation, 15% during planning, 50% at discovery. By the time engineers started, prototypes were essentially gone.",
+
+      "His new lifecycle: prototypes at every stage, 100% of the time. PMs use them to work out product problems during ideation. Roadmap discussions happen against working prototypes, not slides. Discovery is done with users clicking through real flows. PRDs go to teams with working prototypes attached. Designers evolve validated, Figma-powered, system-aligned prototypes rather than starting from scratch. Engineers begin with something to reference or extend.",
+
+      "He showed a comprehensive tool landscape and where each fits:",
+
+      "- **Claude Code** — Agentic coding for complex workflows and large refactors\n- **Cursor / Windsurf** — Vibe coding for backend-heavy or large-codebase prototypes\n- **Replit** — Full prototypes to deployments, good for versatile development\n- **v0 / Bolt / Lovable** — Fast front-end and UI generation for quick iteration\n- **Base44** — No-code app generation, best for 0-to-1 products without engineering\n- **Magic Patterns** — UI generation with design system exports to React/Figma",
+
+      "His universal prototyping workflow: start with context (Figma designs, screenshots, or even a napkin sketch — visual input prevents AI assumptions about design), write a concise PRD with core functionality and user flows, use AI to help generate the requirements in an .md file, then get to building by breaking down into components and being explicit. Iterate one thing at a time. Create forks to test multiple ideas rather than mutating a single working version.",
+
+      "## 5. AI Discovery: Finding the Right Things With the Right Tools",
+
+      "Gupta's fifth section covered how AI changes the front end of the product process — how you gather, conduct, and synthesize user research.",
+
+      "**AI Customer Intelligence** — Tools like Enterpret, Unwrap, and Dovetail let you aggregate signals across social media, Zendesk tickets, Gong call recordings, and review platforms, then synthesize them at scale. The output isn't a CSV of feedback. It's patterns, themes, and prioritized gaps.",
+
+      "**Conducting Interviews** — He showed a Claude prompt for evaluating interview guides before a session. It checks for leading questions, applies the Mom Test (would this pass Fitzpatrick's filter for dishonest-friendly questions?), flags past vs. future focus issues, checks open-endedness, and suggests question prioritization given time constraints. Paste your guide in. Get a critique back before you talk to a single user.",
+
+      "**Synthesizing Interviews** — NotebookLM again, this time as the research repository. Load transcripts across multiple sessions and query across all of them. What did users say about onboarding? What objections came up most in sales calls? How has sentiment on feature X shifted over the past quarter?",
+
+      "**Discovery for AI Features Specifically** — He called out that AI features have a different discovery process than traditional features. You're not just figuring out what to build. You're designing for context engineering (what inputs the model needs), orchestration (how model calls sequence and combine), observability (logging to see model inputs and outputs), evals (automated quality checks over time), and maintenance (prompt and model drift as models update).",
+
+      "## 6. AI Analysis: Vibe Experimentation and the Eval Stack",
+
+      "The final section covered how AI accelerates the learn side of the build-measure-learn loop.",
+
+      "Gupta outlined three use cases for AI in analysis:",
+
+      "**Deciding what to experiment** — Use a Claude Project loaded with strategic context to generate experiment hypotheses. Your AI knows your metrics, your current bets, and your strategic priorities. Let it propose what's worth testing.",
+
+      "**Vibe experimentation** — He walked through a tool landscape for running experiments tied to prototypes: Stack 1 (Lovable/Bolt + Cursor + LaunchDarkly/Amplitude/Optimizely) for prototype-to-experiment pipelines; Stack 2 (Cursor/Claude Code/Windsurf connected to GitHub + Figma tokens + LaunchDarkly) for native-feeling, design-system-aligned experiments; Stack 3 (Kameleoon, Amplitude, Optimizely) for all-in-one prompt-based experimentation without custom setup.",
+
+      "**Analyzing results** — SQL help from AI (describe what you're trying to understand, get the query back), plus built-in analysis from platforms like Statsig that surface statistical significance and decision recommendations automatically.",
+
+      "He also surfaced an eval and observability tool landscape for teams building AI-powered features: Phoenix and LangFuse on the open-source side; Braintrust, LangSmith, and Arize for AI-native evals; Helicone as a lightweight proxy layer for simple OpenAI monitoring; DataDog and Weights & Biases for teams already standardized on traditional APM.",
+
+      "## The Through-Line",
+
+      "The talk moved fast — dense with tools, frameworks, and live examples — but the through-line was consistent: the modern PM is expected to operate across the full product surface, from discovery to analysis to shipping working prototypes. AI doesn't automate that expectation away. It makes it achievable for one person.",
+
+      "Gupta's parting framing: the PMs who win the next decade aren't the ones who can prompt better. They're the ones who build systems — copilots loaded with their context, agent workflows running in the background, prototype pipelines that collapse the gap between idea and testable artifact. The PM who shows up with a prompt library, a working Lindy workflow, and a deployed prototype isn't just faster. They're playing a different game entirely.",
+    ],
+  },
   {
     slug: "from-skeptic-to-vibe-coder",
     image: "/blog/from-skeptic-to-vibe-coder.jpg",
