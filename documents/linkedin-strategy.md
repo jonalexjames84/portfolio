@@ -116,6 +116,13 @@ Pin these in this order:
 - Killed scope ruthlessly: cut a planned marketplace after user interviews, redesigned the home screen when engagement data contradicted the hypothesis (engagement doubled), reduced 40 onboarding quests to 8 (completion jumped from 5% to 35%)
 - 15+ repos, 59 migrations, 19 edge functions across React Native, Next.js, Supabase, Stripe, and PostHog — one PM with AI tooling replacing a small product team
 
+### Swob | Fractional Product Manager (AI) | Nov 2024 -- Present
+
+- Embedded as the sole product function for a pre-funding AI hiring platform -- roadmap, prioritization, and execution from zero
+- Building and shipping features end-to-end with AI-assisted development (Claude Code) -- prototype to production
+- Shaped AI strategy: killed features with insufficient data, redirected engineering toward high-impact automations
+- Prototyped swipe-to-match flow that cut hiring shortlist time from days to under 2 minutes
+
 ### Treasure DAO | Senior PM | Apr 2024 -- Nov 2024
 
 - Launched Quest v2 and Verified Actions: user engagement up 30%, data integration time down 40%

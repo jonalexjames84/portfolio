@@ -22,6 +22,15 @@ Three-time zero-to-one builder. First PM at Genies (85-person startup, $150M rai
 - Launched an e-commerce storefront generating $100K in weekly sales within months of launch
 - Shipped mobile app with GIPHY integration, scaling to 3K early users; defined GTM strategy that grew alpha community to 1K users
 
+### Fractional Product Manager (AI) — Swob
+**Nov 2024 – Present**
+
+- Embedded as the product function for a pre-funding, pre-revenue AI hiring platform — no team, no infrastructure, everything to build from zero
+- Building and shipping features end-to-end using AI-assisted development: prototyping with Claude Code, validating with users, pushing production code
+- Shaped the AI strategy: killed predictive features with insufficient data and legal exposure, redirected engineering toward automations that delivered immediate user value
+- Prototyped swipe-to-match hiring flow; tested with 3 restaurant managers — time to shortlist dropped from days to under 2 minutes
+- Recommended splitting a monolithic 5-feature app into separate apps per persona after user testing revealed cognitive overload
+
 ### Co-Founder & Director of Product — Frame Story
 **Feb 2025 – Present**
 

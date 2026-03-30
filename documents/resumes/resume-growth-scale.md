@@ -61,6 +61,13 @@ Growth-focused PM with 15+ years scaling consumer products from launch to millio
 ### Earlier Roles
 **2009 – 2015** | Zynga (FarmVille, Mafia Wars — live ops at peak scale, built first mobile raiding feature) | SUPERLABS (VR, acquired by Zynga)
 
+### Fractional Product Manager (AI) — Swob
+**Nov 2024 – Present**
+
+- Embedded as sole product function for a pre-funding AI hiring platform — roadmap, prioritization, and execution from zero
+- Prototyped swipe-to-match hiring flow that cut shortlist time from days to under 2 minutes in user testing
+- Identified 3x onboarding drop-off and redesigned flow to reduce friction; reshaped AI feature scope to focus on immediate user value
+
 ### Current — Founder / PM / Dev — Pottery Friends
 **Feb 2025 – Present**
 

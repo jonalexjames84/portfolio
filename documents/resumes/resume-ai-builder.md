@@ -29,6 +29,15 @@ PM with 15+ years of shipping products who now builds them directly. Shipped a f
 - Designed phased go-to-market strategy: Steam Next Fest, indie festivals, creator partnerships, Kickstarter
 - Built 5-year financial model and investor materials; executing $100K pre-seed raise via SAFEs and grants
 
+### Fractional Product Manager (AI) — Swob
+**Nov 2024 – Present**
+
+- Embedded as the sole product function for a pre-funding AI hiring platform — building and shipping features end-to-end with Claude Code from prototype to production
+- Owning roadmap, prioritization, sprint planning, and execution from zero — no team, no infrastructure, no playbook
+- Shaped AI strategy: killed predictive features with insufficient data and legal exposure, redirected engineering toward high-impact automations
+- Prototyped swipe-to-match hiring flow; tested with 3 restaurant managers — time to shortlist dropped from days to under 2 minutes
+- Recommended splitting a monolithic 5-feature app into separate apps per persona after user testing revealed cognitive overload
+
 ### Senior PM — Treasure DAO
 **Apr 2024 – Nov 2024**
 
