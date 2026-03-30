@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Circle, ExternalLink } from "lucide-react";
+import { CheckCircle2, Circle, ExternalLink, Flame, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Task = {
@@ -11,6 +11,7 @@ type Task = {
   impact: string;
   company: string | null;
   link: string | null;
+  date: string;
   done: boolean;
 };
 
@@ -29,8 +30,21 @@ const impactStyles: Record<string, string> = {
   low: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",
 };
 
-export function TaskList({ tasks: initialTasks }: { tasks: Task[] }) {
+type TaskListProps = {
+  tasks: Task[];
+  backlogCount: number;
+  allDone: boolean;
+};
+
+export function TaskList({ tasks: initialTasks, backlogCount: initialBacklog, allDone: initialAllDone }: TaskListProps) {
   const [tasks, setTasks] = useState(initialTasks);
+  const [backlogCount, setBacklogCount] = useState(initialBacklog);
+  const [pullingFuture, setPullingFuture] = useState(false);
+
+  const done = tasks.filter((t) => t.done).length;
+  const total = tasks.length;
+  const allDone = total > 0 && done === total;
+  const today = new Date().toISOString().split("T")[0];
 
   async function toggleComplete(id: string) {
     setTasks((prev) =>
@@ -39,8 +53,25 @@ export function TaskList({ tasks: initialTasks }: { tasks: Task[] }) {
     await fetch(`/api/job-search/tasks/${id}/complete`, { method: "POST" });
   }
 
-  const done = tasks.filter((t) => t.done).length;
-  const total = tasks.length;
+  async function pullFutureTask() {
+    setPullingFuture(true);
+    try {
+      const res = await fetch(`/api/job-search/tasks?date=${today}&pull_future=true`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.futurePulled?.length > 0) {
+          setTasks((prev) => [...prev, ...data.futurePulled]);
+        }
+        setBacklogCount(data.backlogCount);
+      }
+    } finally {
+      setPullingFuture(false);
+    }
+  }
+
+  function isFromPastDay(task: Task): boolean {
+    return task.date < today;
+  }
 
   return (
     <div>
@@ -53,6 +84,7 @@ export function TaskList({ tasks: initialTasks }: { tasks: Task[] }) {
         </span>
       </div>
 
+      {/* Progress bar */}
       <div className="h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full mb-5 overflow-hidden">
         <motion.div
           className="h-full bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full"
@@ -91,9 +123,17 @@ export function TaskList({ tasks: initialTasks }: { tasks: Task[] }) {
                     {task.task}
                   </span>
                 </div>
-                {task.company && (
-                  <p className="text-xs text-zinc-500 mt-0.5 ml-7">{task.company}</p>
-                )}
+                <div className="flex items-center gap-2 ml-7 mt-0.5">
+                  {task.company && (
+                    <span className="text-xs text-zinc-500">{task.company}</span>
+                  )}
+                  {isFromPastDay(task) && !task.done && (
+                    <span className="inline-flex items-center gap-0.5 text-[10px] text-amber-600 dark:text-amber-400">
+                      <Clock className="h-3 w-3" />
+                      rolled over
+                    </span>
+                  )}
+                </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${impactStyles[task.impact]}`}>
@@ -116,6 +156,35 @@ export function TaskList({ tasks: initialTasks }: { tasks: Task[] }) {
         </AnimatePresence>
       </div>
 
+      {/* Backlog indicator */}
+      {backlogCount > 0 && !allDone && (
+        <p className="text-xs text-zinc-400 mt-3 text-center">
+          +{backlogCount} more task{backlogCount > 1 ? "s" : ""} waiting in the backlog
+        </p>
+      )}
+
+      {/* All done — opt into pulling future tasks */}
+      {allDone && total > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-4 text-center"
+        >
+          <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium mb-3">
+            All done. Nice work.
+          </p>
+          <button
+            onClick={pullFutureTask}
+            disabled={pullingFuture}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-medium hover:from-amber-600 hover:to-orange-600 transition-all disabled:opacity-50"
+          >
+            <Flame className="h-4 w-4" />
+            {pullingFuture ? "Pulling..." : "I'm on fire, give me more"}
+          </button>
+        </motion.div>
+      )}
+
+      {/* Empty state */}
       {tasks.length === 0 && (
         <div className="text-center py-8 text-zinc-400">
           <p className="text-lg font-medium">No tasks today</p>

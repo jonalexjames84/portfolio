@@ -8,11 +8,10 @@ async function getTodaysTasks() {
   const today = new Date().toISOString().split("T")[0];
   try {
     const res = await fetch(`${baseUrl}/api/job-search/tasks?date=${today}`, { cache: "no-store" });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.tasks || [];
+    if (!res.ok) return { tasks: [], backlogCount: 0, allDone: false };
+    return await res.json();
   } catch {
-    return [];
+    return { tasks: [], backlogCount: 0, allDone: false };
   }
 }
 
@@ -39,7 +38,7 @@ async function getPipeline() {
 }
 
 export default async function JobSearchDashboard() {
-  const [tasks, metricsData, pipelineData] = await Promise.all([
+  const [taskData, metricsData, pipelineData] = await Promise.all([
     getTodaysTasks(),
     getMetrics(),
     getPipeline(),
@@ -58,7 +57,7 @@ export default async function JobSearchDashboard() {
 
       {/* Layer 1: Today's tasks — FRONT AND CENTER */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
-        <TaskList tasks={tasks} />
+        <TaskList tasks={taskData.tasks || []} backlogCount={taskData.backlogCount || 0} allDone={taskData.allDone || false} />
       </div>
 
       {/* Layer 2: Weekly scorecard + Pipeline side by side on desktop */}
