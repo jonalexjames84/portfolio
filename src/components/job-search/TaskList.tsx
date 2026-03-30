@@ -34,7 +34,7 @@ export function TaskList({ tasks: initialTasks }: { tasks: Task[] }) {
 
   async function toggleComplete(id: string) {
     setTasks((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, done: true } : t))
+      prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t))
     );
     await fetch(`/api/job-search/tasks/${id}/complete`, { method: "POST" });
   }
@@ -75,7 +75,7 @@ export function TaskList({ tasks: initialTasks }: { tasks: Task[] }) {
                   ? "bg-zinc-50 border-zinc-100 dark:bg-zinc-900/50 dark:border-zinc-800 opacity-60"
                   : "bg-white border-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 hover:border-teal-300 dark:hover:border-teal-700"
               }`}
-              onClick={() => !task.done && toggleComplete(task.id)}
+              onClick={() => toggleComplete(task.id)}
             >
               <div className="mt-0.5 shrink-0">
                 {task.done ? (

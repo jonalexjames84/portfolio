@@ -7,9 +7,18 @@ export async function POST(
 ) {
   const { id } = await params;
 
+  // Check current state to toggle
+  const { data: current } = await supabase
+    .from("job_daily_tasks")
+    .select("done")
+    .eq("id", id)
+    .single();
+
+  const newDone = !current?.done;
+
   const { data, error } = await supabase
     .from("job_daily_tasks")
-    .update({ done: true, completed_at: new Date().toISOString() })
+    .update({ done: newDone, completed_at: newDone ? new Date().toISOString() : null })
     .eq("id", id)
     .select()
     .single();
