@@ -28,6 +28,338 @@ export function getBrandGradient(companyName: string): string {
 
 export const posts: Post[] = [
   {
+    slug: "managing-agents-is-the-new-management",
+    title: "Managing Agents Is the New Management",
+    subtitle:
+      "Why Your People Skills Are About to Become Your Most Valuable Technical Skill",
+    date: "2026-03-30",
+    tags: ["AI", "Product Management", "Leadership", "Agents"],
+    source: "Berkeley ProductCon, 2026",
+    content: [
+      "At the Berkeley AI Conference, Box CTO Ben Haines said something that stopped me cold: \"A really good programmer used to be very good at writing code. Nowadays, a really good programmer is very good at managing agents to write good code.\"",
+
+      "He wasn't being abstract. He described his bleeding-edge engineers arriving at work, kicking off ten to twenty agents simultaneously, then spending the rest of their day evaluating output. Cancel this branch. Revert that one. This one is good, keep going. The skill isn't writing code anymore. The skill is managing a fleet of autonomous workers who don't have feelings but absolutely have opinions about how to interpret your instructions.",
+
+      "I've spent 15 years managing product teams. Cross-functional pods, remote teams, design sprints with strong personalities in the room. And the single biggest insight I took away from Berkeley is this: managing AI agents uses the exact same muscle as managing people, just without the emotional overhead.",
+
+      "## The Parallels Are Not Metaphorical",
+
+      "When Haines was asked about the difference between managing agents and managing humans, his answer surprised the room. He said it's \"weirdly similar.\" Give an agent vague instructions, you get vague output. Give it sophisticated context, you get sophisticated results. Same as any direct report you've ever had.",
+
+      "Here's where it gets interesting. He noted that saying \"please\" actually changes model output. That giving the agent background information, the way you'd brief a new team member, produces measurably better work. And that if you give it \"really stupid instructions, it'll give you a stupid result, because it's like, it must be like what? The kind of thing I know how to talk to people like you.\"",
+
+      "That last part is critical. The models are trained on human communication. They respond to the same patterns that humans respond to. Clear objectives. Relevant context. Explicit success criteria. These aren't prompt engineering tricks. They're management fundamentals.",
+
+      "## The Micromanager's Revenge",
+
+      "Here's a take I didn't expect to hear from a CTO: micromanagers might finally have their moment.",
+
+      "Haines pointed out that one of the biggest upsides of micromanaging agents is that they don't get mad at you. You can be as detailed, as demanding, as specific as you want, and the agent just does the work. No passive-aggressive Slack messages. No one-on-ones to repair the relationship. Just output.",
+
+      "I've always been the kind of PM who leans toward tight feedback loops and high-context communication. In people management, there's a fine line between that and micromanagement. With agents, that line disappears. The PM who provides exhaustive context, checks output frequently, and redirects quickly isn't a micromanager. They're an effective agent operator.",
+
+      "This is a real competitive advantage. If you've spent years developing the ability to give clear briefs, decompose ambiguous problems into concrete tasks, and evaluate whether output matches intent, you are already better at agent management than most engineers.",
+
+      "## What This Means for PMs Right Now",
+
+      "The conference made one thing clear: agent management is not a future skill. It's a present one. Multiple speakers noted that the people who are struggling with AI agents aren't lacking technical knowledge. They're lacking management reps.",
+
+      "Haines was blunt: \"If you can't get it to do something that you want, then probably you're not managing it properly.\" He compared it to the early days of Google, when certain people were dramatically better at searching for information. Those people were temporarily very valuable. Then everyone caught up. The same thing is happening with agents right now, and the window to build the skill is open.",
+
+      "Here's what I'd tell any PM who wants to get ahead of this:",
+
+      "**1. Treat agent sessions like 1:1s with a new hire.** Give background. Explain the context of the project, not just the task. Share what good output looks like. The more you front-load, the less you correct on the back end.",
+
+      "**2. Build your management reps.** The only way to get good at this is volume. Don't wait for the perfect use case. Start with the messy, low-stakes stuff. Draft a competitive analysis. Synthesize a batch of user interview transcripts. Rewrite a PRD in a different voice. The goal isn't perfect output. It's building your intuition for how to direct, evaluate, and redirect.",
+
+      "**3. Document your agent playbook.** Every good manager has a system for onboarding people. Build the same thing for agents. What context do they need? What format do you want output in? What are your quality criteria? I keep a project in Claude loaded with my performance reviews, my writing style, my org's priorities. That's not a prompt library. That's an onboarding doc.",
+
+      "**4. Get comfortable with parallel management.** The engineers Haines described are managing ten agents at once. PMs should be thinking the same way. Kick off a market analysis in one thread, a PRD draft in another, a competitive teardown in a third. Evaluate in parallel. This is portfolio management, and it's a skill PMs already have.",
+
+      "## The Uncomfortable Truth",
+
+      "The part nobody said out loud at Berkeley, but everyone was thinking: if you can't manage agents well, your value proposition shrinks dramatically. Not because agents replace PMs. They don't. But because the PMs who can manage agents will operate at 5-10x the throughput of those who can't. And hiring managers know it.",
+
+      "Perplexity's VP of Growth said they hire people who \"get their dopamine hits off of speed.\" Intercom's head of solutions said they've restructured their team three times in one year to keep up with the pace of AI. OpenAI's enterprise lead used ChatGPT study mode to learn an entire industry vertical in four months and close a major partnership with UCSF.",
+
+      "The speed advantage isn't theoretical. It's already showing up in hiring decisions, promotion velocity, and team structure.",
+
+      "If you've spent years learning how to give clear direction, evaluate output quality, and course-correct fast, you're not behind the curve on AI. You're ahead of it. The question is whether you're putting those skills to work on agents, or waiting for someone else to figure it out first.",
+    ],
+  },
+  {
+    slug: "the-rip-everything-up-playbook",
+    title:
+      "The \"Rip Everything Up\" Playbook: How Intercom Bet the Company on AI in a Weekend",
+    subtitle:
+      "What incumbent product teams can learn from the most aggressive AI pivot I've heard described firsthand.",
+    date: "2026-03-30",
+    tags: ["AI", "Strategy", "Product Management", "Transformation"],
+    source: "Berkeley ProductCon, 2026",
+    content: [
+      "At the Berkeley AI Conference, an Intercom leader described something I've never heard a company at their scale admit publicly: the weekend after ChatGPT launched, their leadership team got together and decided to rip everything up. Not the roadmap. Not the Q1 plan. Everything. The roadmap, the company strategy, the metrics they tracked, the organizational structure, the company values. They essentially restarted the company.",
+
+      "This wasn't a startup. This was a business with hundreds of millions in revenue and an existing machine that was working. And they tore it down because their CEO looked out three to five years and concluded: the world is going to be the opposite of what it is today.",
+
+      "I've been in product for 15 years, and I've seen plenty of \"pivots.\" Most of them are deck pivots. The strategy changes. The org chart stays. The roadmap gets a new theme. The actual day-to-day work shifts by maybe 20%. Intercom did something genuinely different, and the results tell the story.",
+
+      "## The Startup-Within-a-Startup, Taken Seriously",
+
+      "The move Intercom made wasn't just creating an AI team. Lots of companies do that. They created a self-contained, self-functioning team that sat in a different part of the office. This team wasn't burdened by existing red tape. They had one job: build, build, build, and make the AI product successful.",
+
+      "I've worked in big companies where \"innovation teams\" get announced with fanfare and then die because they can't ship without going through the same approval process as everyone else. Intercom's version worked because they actually severed the connective tissue. The team had autonomy, not the org-chart kind where you still need four sign-offs, but the real kind where you're physically separated and operationally independent.",
+
+      "Once the product hit escape velocity, they merged it back in. That sequencing matters. Build first, integrate second. Most companies try to do both simultaneously and end up with a thing that's too slow to be a startup and too disconnected to be part of the core business.",
+
+      "## The Pricing Model Nobody Was Ready For",
+
+      "The other move Intercom made that caught my attention was their shift to outcome-based pricing. Instead of charging per seat, they charge per resolution. Their AI agent, Finn, resolves customer support issues. The customer pays for resolutions.",
+
+      "The concept is elegant: Intercom's revenue is directly aligned with the value their AI delivers. More resolutions, more revenue. Better AI, better outcomes for everyone.",
+
+      "But the execution exposed a problem nobody talks about: buyers aren't ready for consumption pricing in categories where they've never seen it. The Intercom speaker was candid about this. Support leaders who've only ever bought seat-based products didn't know how to explain variable billing to their CFO. They'd see overages and panic, not because the product wasn't working, but because the billing model was unfamiliar.",
+
+      "This is a real product management lesson. The pricing model can be technically superior and still fail if customers don't have the mental model for it. Intercom's solution was education: transparently communicating what \"resolution\" means, showing customers the cause and effect between configuration changes and billing outcomes, and training account teams to walk customers through the new motion.",
+
+      "For PMs building AI products, this is worth internalizing. Your pricing innovation might be ahead of your customers' procurement process. That's not a reason to retreat to seat-based pricing. It's a reason to invest in education as a product feature.",
+
+      "## The Six-Month Market Shift",
+
+      "Here's the stat that stuck with me most. The Intercom speaker said that one year ago, prospects would ask: \"Why do I need an AI agent for customer service?\" Today, that question never comes up. The question is now: \"How do I know you have the best AI agent?\"",
+
+      "In traditional SaaS, that kind of market evolution takes three years. In AI, it happened in six months. The implication for product teams is severe: if you're building your roadmap assuming the market will move at normal speed, you're already behind.",
+
+      "This matches what I'm seeing across the AI product landscape. The adoption curve isn't following the Crossing the Chasm model that most PMs were trained on. Early adopters aren't trickling in. They're flooding in, and the majority is right behind them. Box's CTO said the same thing at a different panel: once AI products start working well, the chasm crossing will happen faster than any previous technology wave.",
+
+      "## What I'd Steal From This Playbook",
+
+      "I've shipped products inside companies ranging from scrappy startups to enterprises with thousands of employees. Here's what I'd take from Intercom's approach if I were leading an AI transformation today:",
+
+      "**Make the bet over a weekend, not a quarter.** The speed of Intercom's decision was the decision. If they'd spent three months doing an analysis of whether to pivot, the window would have closed. The leaders who move fastest in AI aren't the ones with the best data. They're the ones with the best judgment about when to act on incomplete information.",
+
+      "**Physically separate the team.** Not a Slack channel. Not a tag in Jira. A different part of the building. Different rituals. Different approval processes. The goal is to remove every friction point that exists in the main business. You can always add governance back later. You can't add speed back later.",
+
+      "**Change the metrics, not just the roadmap.** Intercom didn't just build an AI product. They changed what they measured. If you pivot to AI and keep tracking the same KPIs you tracked before, your team will optimize for the old world. New strategy requires new scorecards.",
+
+      "**Invest in customer education as a first-class product feature.** Outcome-based pricing, consumption models, resolution-based billing, these are better models for AI products. But your customers need help getting there. Build the education into the product experience, not just the sales deck.",
+
+      "**Restructure your team every six months.** Intercom's solutions leader said they've changed their team model three times in one year. That sounds chaotic, but it's actually responsive. The market is moving faster than annual planning cycles. Your org structure should move at least as fast as your roadmap.",
+
+      "## The Uncomfortable Part",
+
+      "The part that made the room quiet was this: every speaker who'd done a major AI pivot described it as painful. Not painful in the abstract. Painful as in: people lost their roles, roadmaps they'd spent months building got thrown out, features they were proud of became irrelevant.",
+
+      "But every single one of them also said the same thing: the cost of not pivoting was higher. The companies that hesitated, that tried to run AI as a side project while protecting the core business, are the ones losing ground.",
+
+      "One speaker put it plainly: \"If you're expecting things to stay the same, you're probably with a company that's not growing.\"",
+
+      "That's the real takeaway from Berkeley. The AI pivot isn't optional. And the companies that do it fastest, most completely, and with the most conviction are the ones pulling away.",
+    ],
+  },
+  {
+    slug: "speed-is-the-moat",
+    title:
+      "Speed Is the Moat: What Perplexity's Growth Team Taught Me About Building in AI",
+    subtitle:
+      "Forget network effects. Forget data moats. In AI, the only defensible advantage is moving faster than everyone else.",
+    date: "2026-03-30",
+    tags: ["AI", "Growth", "Strategy", "Startups"],
+    source: "Berkeley ProductCon, 2026",
+    content: [
+      "\"If we are not ahead of their product roadmap, if they're copying us instead of the other way around, you can go ahead and pronounce us dead.\"",
+
+      "That was Perplexity's VP of Growth at the Berkeley AI Conference, answering the question every AI startup gets: how do you compete with OpenAI? His answer was disarmingly simple. Stay ahead. Ship faster. Be more accurate. There is no moat except speed.",
+
+      "I've spent 15 years watching product teams try to build defensibility. Data moats. Network effects. Switching costs. Platform lock-in. These are the classics from every strategy deck I've ever written or reviewed. And in the AI era, most of them are eroding.",
+
+      "The Perplexity team's framing was the most honest thing I heard all weekend. Their CEO, who spoke at Berkeley a few weeks prior, said the moat is speed. And his VP of Growth described exactly how that shows up operationally.",
+
+      "## Hiring for Speed as a Personality Trait",
+
+      "When asked how they build a growth system that matches the pace of product changes, the Perplexity VP described three things. The first was hiring: \"Do we hire people that, frankly, get their dopamine hits off of speed and being able to ship and being able to see that impact as quickly as possible?\"",
+
+      "This is not a platitude. It's a hiring filter. They are literally screening for people whose neurochemistry responds to shipping velocity. I've hired dozens of PMs and I can tell you: the difference between someone who is comfortable with ambiguity and someone who is energized by it is enormous. Perplexity is selecting for the second type exclusively.",
+
+      "The second was focus. Knowing what to go all-in on and what to let play out. He was candid that \"to a certain extent, it's a little bit of guessing and you hope your intuition gets you there.\" That honesty matters. In AI, nobody has enough data to make perfectly informed bets. The teams that win are the ones whose intuition is good enough to pick the right 3 out of 10 bets, and fast enough to kill the other 7 before they drain resources.",
+
+      "The third was organizational flatness. \"Every single person at every layer is empowered. There is not a hierarchy of should I do this.\" The expectation is that you own your metrics and drive them aggressively. No permission-seeking. No approval chains.",
+
+      "## The Unintuitive Experiment Results",
+
+      "The growth team's experimentation practice revealed something PMs should pay attention to. They run \"an endless amount of experimentation\" on answer quality and structure. What length of answer do users want? How should the UI present different types of information?",
+
+      "The results are consistently unintuitive. Cooking recipes? Users want long, blog-style answers. That runs counter to every \"keep it concise\" instinct a PM might have. Their onboarding flow? They've tested extensively whether to explain the product or just drop users in. The winning variant so far: people figure it out on their own.",
+
+      "This maps to something I believe deeply about AI product development: your intuitions from traditional software are wrong more often than they're right. The interaction patterns, the information density preferences, the onboarding assumptions, all of it needs to be re-tested. If your AI product's UX decisions are based on analogies to pre-AI products, you're probably leaving growth on the table.",
+
+      "## Accuracy as a Long Game",
+
+      "Perplexity's competitive positioning was the most interesting of any company at the conference. They're not trying to be the most feature-rich or the most affordable. They're betting on accuracy.",
+
+      "\"We are not here to make you feel good from every single answer. We're here to give you the most accurate answer to every question.\"",
+
+      "The VP made the case that 5-10% more accurate over a sustained period is the winning strategy. Not flashier. Not more features. More correct. This is a bet on compounding trust. Every time a user gets a better answer from Perplexity than from a competitor, the switching cost goes up, not because of lock-in, but because of earned confidence.",
+
+      "For PMs, this is a useful framework. In AI products, the \"aha moment\" isn't a feature. It's the first time a user trusts the output enough to act on it without verifying. Everything you do in product development should be working toward that moment.",
+
+      "## The Founder-Mentality Hiring Bar",
+
+      "When asked what they look for in hires, the Perplexity VP said: \"Who's the underdog? Who's going to take big risks? We hire a lot of founders.\" He elaborated: \"Are they willing to join the tiny company that is going up against Google? Have they tried to spin something up of their own and failed gloriously?\"",
+
+      "\"Failed gloriously\" was the exact phrase. Not \"failed gracefully\" or \"learned from failure.\" Gloriously. The implication is that they want people who have swung hard, missed, and are ready to swing again.",
+
+      "This is a hiring signal that I think applies beyond Perplexity. AI startups are moving so fast that the traditional interview signals, polished case studies, structured frameworks, methodical thinking, can actually be negative indicators. What these companies need are people who can make a call with 40% of the information and iterate their way to the right answer.",
+
+      "## What This Means for Your Product Career",
+
+      "If speed is the moat, it has implications for how you build your own career in AI product management:",
+
+      "**Ship things.** Not decks. Not strategies. Things. Perplexity's VP was clear: they rarely hire for defined roles. They hire people who can \"take on a lot of stuff\" and grow into whatever the company needs next. The best way to demonstrate that is a track record of building and shipping, even if what you shipped was small or imperfect.",
+
+      "**Develop your intuition through volume.** The Perplexity team's good judgment comes from running a massive number of experiments. You can do the same thing at a smaller scale. Build prototypes. Test assumptions. Run your own experiments. The PM who has tested 50 ideas and killed 40 of them has better intuition than the PM who spent six months researching the perfect one.",
+
+      "**Get comfortable being wrong fast.** Multiple speakers at Berkeley described a world where plans are obsolete within months. Adobe's PM leader said the roadmap from January feels irrelevant by November. If your process requires certainty before action, you'll be too slow.",
+
+      "**Build for accuracy, not features.** If you're working on an AI product, resist the urge to add capabilities. Instead, make the core thing more reliable. The product that users trust is the product that wins, and trust is built through consistent accuracy, not a longer feature list.",
+
+      "The AI product landscape is going to consolidate. Speed determines who's still standing when it does. That's true for companies, and it's true for the people building inside them.",
+    ],
+  },
+  {
+    slug: "the-pm-role-is-splitting-in-two",
+    title: "The PM Role Is Splitting in Two",
+    subtitle:
+      "Berkeley's AI leaders described a future where engineers make product decisions and PMs become directors of the movie. Here's what that actually means.",
+    date: "2026-03-30",
+    tags: ["AI", "Product Management", "Career", "Leadership"],
+    source: "Berkeley ProductCon, 2026",
+    content: [
+      "At the Berkeley AI Conference, a question came up that I've been chewing on for months: how important is a technical background for product managers compared to a background in customer research and discovery?",
+
+      "The answer from Perplexity's VP of Growth was the most direct version of something I've been sensing across the industry: \"We're seeing a separation where engineers and designers are actually making more product decisions. We don't have these very stark roles. And so then the PM role becomes more of this: can you see the larger picture? Can you be the director of the movie and make it come to life?\"",
+
+      "That metaphor, the PM as director, is the clearest articulation I've heard of where the role is heading. And it has massive implications for anyone building a career in product right now.",
+
+      "## The Split",
+
+      "Here's what I think is actually happening, based on what I heard across four panels at Berkeley and what I'm seeing in the market:",
+
+      "The PM role is splitting into two distinct archetypes. The first is the technical PM who lives close to the model. At Perplexity, when they hire for AI-focused roles iterating on answer quality, they want \"someone with more in-depth experience\" and \"data science type experience.\" This person is tuning prompts, designing eval frameworks, running quality experiments, and making decisions about model behavior. They're a PM in title but closer to an ML engineer in practice.",
+
+      "The second is the strategic PM who operates at the system level. This person owns the narrative. They see how all the pieces fit together, customer needs, business model, competitive positioning, go-to-market, organizational dynamics, and they make the calls that shape the product's direction. They're the one who decides that the home screen should be events-first instead of feed-first. They're the one who tells the CEO the keynote feature isn't ready.",
+
+      "Both are called \"product manager.\" They require completely different skills.",
+
+      "## Why This Is Happening Now",
+
+      "Three things I heard at Berkeley explain the split:",
+
+      "**AI products require domain-specific technical depth.** Discovery for AI features isn't the same as discovery for traditional features. You're not just figuring out what to build. You're designing for context engineering, orchestration, observability, evals, and maintenance. A PM who doesn't understand how model calls sequence, why prompt drift happens, or what an eval framework looks like can't make good decisions about an AI product. Full stop.",
+
+      "**The speed of iteration has outpaced traditional PM workflows.** Adobe's Chloe McConnell described roadmaps becoming irrelevant within months. Intercom restructured their team three times in a year. At this speed, the classic PM workflow of research, spec, handoff, build, measure, learn is too slow. Engineers and designers who are closer to the implementation are making product calls in real time because waiting for a PM review cycle would kill velocity.",
+
+      "**Judgment is the scarce resource, not execution.** YouTube's Heather Christmann said it plainly: \"So much of our work now has become table stakes of what AI can do for us. The analysis, the synthesize these five points, all of that now is table stakes. And so there's an opportunity for you to really just do more critical thinking and position yourself as an owner.\"",
+
+      "The tactical PM work, writing specs, synthesizing research, building decks, is increasingly automatable. What's not automatable is the judgment layer: which bet to make, which feature to kill, when to pivot, how to frame a strategic trade-off for leadership.",
+
+      "## What the \"Director\" PM Actually Does",
+
+      "If the PM becomes the director of the movie, what does that look like day to day?",
+
+      "**They own the narrative, not the backlog.** The director PM isn't triaging tickets. They're defining what the product is, who it's for, why it exists, and what success looks like. They're the person who can walk into a board meeting and explain why the company is betting on outcome-based pricing instead of seat-based, and have the data and conviction to back it up.",
+
+      "**They make calls under uncertainty.** Every panel at Berkeley described a world where nobody knows what the next six months look like. The director PM is comfortable saying \"I don't have enough data, but here's what I believe and here's why.\" They use frameworks like cost-of-being-wrong analysis rather than waiting for statistical significance.",
+
+      "**They bridge technical and commercial.** Intercom's move to resolution-based pricing required someone who understood both how Finn resolves customer issues (technical) and how support leaders budget and report to their CFOs (commercial). That bridging function is the PM's core value, and it gets more valuable as the technical layer gets more complex.",
+
+      "**They build and manage the system, not just the product.** The Aakash Gupta framework from ProductCon still rings in my ears: the PMs who win aren't the ones who prompt better. They're the ones who build systems, copilots with full context, agent workflows running in the background, prototype pipelines that collapse the gap between idea and artifact. The director PM builds the machine that builds the product.",
+
+      "## How to Position Yourself",
+
+      "If you're a PM figuring out which side of the split you're on, here's how I'd think about it:",
+
+      "**If you're technical and love the model layer:** Go deep. Learn evals. Understand context engineering and orchestration. Get hands-on with the tools. This path leads to AI PM roles at labs and AI-native companies where the product IS the model. Be prepared: you'll be competing with engineers who also want this role, and they have a head start on the technical side.",
+
+      "**If you're strategic and love the systems layer:** Double down on judgment. Build your track record of making good calls with incomplete data. Get fluent in AI concepts, not so you can tune a model, but so you can have credible conversations with the people who do. Ship prototypes so you can demonstrate that you can move from idea to artifact without depending on a full engineering team. This path leads to leadership roles where you're shaping product direction, not just executing it.",
+
+      "**Either way, ship things.** Michael Pratt from Apple's Platoon said the quiet part out loud: \"Download Cursor, toss your resume in, and just build a resume website. That's an awesome first step of showing your product sense and your product execution.\" The bar for what PMs should be able to build themselves has permanently moved up.",
+
+      "The PM role isn't dying. It's differentiating. The generalist PM who could do a little of everything was valuable when software moved slowly and the PM was the bottleneck between research and engineering. In the AI era, that bottleneck is gone. What's left is the need for deep technical judgment on one end and deep strategic judgment on the other.",
+
+      "Pick your lane. Go hard.",
+    ],
+  },
+  {
+    slug: "most-ai-pilots-fail-thats-normal",
+    title: "Most AI Pilots Fail. That's Not an AI Problem.",
+    subtitle:
+      "Box's CTO on why the failure rate of enterprise AI projects is exactly what you'd expect, and what to do about it.",
+    date: "2026-03-30",
+    tags: ["AI", "Enterprise", "Strategy", "Product Management"],
+    source: "Berkeley ProductCon, 2026",
+    content: [
+      "Someone at the Berkeley AI Conference asked Box CTO Ben Haines a rapid-fire question: what percent of enterprise AI pilots are failing right now?",
+
+      "His answer: \"Most. By far.\"",
+
+      "Then he said something that reframed the entire conversation: \"Before you read too far into that, I think most projects fail. What's the base rate of success of large projects? Most technology projects fail.\"",
+
+      "That response is the most useful thing I heard all weekend. Not because it's comforting. Because it's clarifying.",
+
+      "## The Base Rate Problem",
+
+      "The AI industry has a narrative problem. When enterprise AI pilots fail, it gets framed as evidence that AI doesn't work, that the technology is overhyped, that companies should wait for it to mature. The headlines write themselves.",
+
+      "But Haines's framing cuts through it. Enterprise technology projects have always had high failure rates. ERP implementations. CRM rollouts. Cloud migrations. Digital transformations. The base rate of failure for large-scale technology initiatives is somewhere between 50% and 70%, depending on whose research you trust. That's been true for decades.",
+
+      "AI projects failing at similar or even higher rates isn't a signal that AI is broken. It's a signal that organizations are organizations. They struggle with change management, unclear success metrics, misaligned stakeholders, and scope creep whether the project involves AI or not.",
+
+      "The question Haines said matters isn't whether the first attempt fails. It's what happens when they try again.",
+
+      "## Why the Second Attempt Matters More",
+
+      "I've led product implementations across multiple industries and company sizes. The pattern is remarkably consistent: the first attempt at any significant technology change fails for organizational reasons, not technical ones. The technology works. The people, processes, and incentive structures don't.",
+
+      "The second attempt benefits from something the first attempt never has: a shared understanding of what actually went wrong. Not the post-mortem version that gets presented to leadership. The real version. The one where the team acknowledges that nobody agreed on success metrics, that the data was messier than anyone admitted, that the sponsor lost interest halfway through.",
+
+      "With AI, this second-attempt advantage is even more pronounced because the technology is improving between attempts. If your pilot failed six months ago because the model hallucinated too frequently, the models available today are measurably better. If it failed because the integration was brittle, the tooling has matured. The ground beneath you is literally improving while you regroup.",
+
+      "This is why Haines's framing matters for product leaders. If you're evaluating AI readiness based on first-attempt success rates, you're using the wrong metric. The right metric is second-attempt success rate. And that number is much higher.",
+
+      "## The \"Buy, Don't Build\" Argument",
+
+      "Haines made another point that's worth unpacking. When asked how he advises Box's large enterprise customers to keep up with AI, he was direct: \"Don't build it yourself. Buy a company, invest in a vendor and a SaaS platform that will do that for you.\"",
+
+      "His reasoning is practical. The rate of change in AI is so extreme that most organizations can't keep up internally. Fifteen major frontier models were released in the past twelve months. Each one was arguably the most impressive piece of engineering in the history of civilization. Keeping up with that pace while also running your core business isn't realistic for most companies.",
+
+      "This is a PM decision that comes up in every enterprise AI conversation I've been part of: build or buy? And the calculus has shifted. In previous technology waves, building gave you customization and control. In AI, building gives you a maintenance burden that compounds every time a new model drops. The teams I've seen succeed are the ones that buy the platform layer and focus their internal efforts on the application layer, the part that's specific to their business, their data, their workflows.",
+
+      "## The Practical Takeaways",
+
+      "Here's what I'd tell any PM or product leader navigating enterprise AI based on what I heard at Berkeley:",
+
+      "**1. Normalize failure in your stakeholder communication.** If your AI pilot's success rate is the same as every other enterprise technology project, say that. Frame it as organizational learning, not technology failure. The worst thing you can do is let a failed pilot become evidence that AI doesn't work. It's evidence that your first attempt wasn't right, and now you know what to fix.",
+
+      "**2. Design your pilot for learning, not for ROI.** The first AI implementation should be optimized for signal, not revenue impact. What did you learn about your data quality? About user adoption? About where the model struggles? These insights are worth more than whatever incremental efficiency the pilot was supposed to deliver.",
+
+      "**3. Plan the second attempt before the first one ships.** This sounds counterintuitive, but it's the highest-leverage move I've seen. Before you launch pilot v1, document what you expect to learn and what you'd do differently in v2. This turns a \"failed pilot\" into \"phase 1 of a two-phase implementation\" and changes the organizational narrative entirely.",
+
+      "**4. Invest in education.** Multiple speakers at Berkeley flagged this. Intercom had to teach support leaders how consumption pricing works. OpenAI's enterprise team had to learn an entire industry vertical from scratch. Box has to help customers understand what an AI agent even is. The education layer isn't a nice-to-have. It's the difference between adoption and abandonment.",
+
+      "**5. Move from pilot to production faster.** The Crossing the Chasm model says there's a gap between early adopters and the early majority. Haines suggested that in AI, once things start working, \"a lot of people will very quickly cross the chasm.\" That means the window between \"successful pilot\" and \"company-wide rollout\" is shorter than you think. If you're still running pilots when your competitors are in production, you've already lost.",
+
+      "## The Real Risk",
+
+      "The biggest risk in enterprise AI isn't that your pilot fails. It's that your pilot fails and you use that as a reason to stop.",
+
+      "Haines was clear: the companies that are pulling ahead aren't the ones with the highest first-attempt success rate. They're the ones that fail, learn, and try again faster than everyone else. That's not an AI strategy. That's just good product management.",
+
+      "Every technology wave has the same shape. Early experiments fail. Organizations learn. The technology improves. And the companies that stayed in the game during the messy middle end up with an insurmountable lead over the ones that waited for certainty.",
+
+      "We're in the messy middle right now. The PMs who treat this moment as an opportunity to build organizational muscle, not as a signal to retreat, are the ones who'll be running AI-native product teams in two years.",
+    ],
+  },
+  {
     slug: "aakash-gupta-ai-powered-pm",
     title: "The AI-Powered PM: Six Ways to Work Like a One-Person Product Team",
     subtitle:
