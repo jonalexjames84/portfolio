@@ -71,11 +71,43 @@ export async function GET(request: NextRequest) {
     futurePulled = futureUndone || [];
   }
 
+  // 5. Resolve blocked status — a task is blocked if its blocker exists and isn't done
+  const allTaskIds = new Set(visible.map((t) => t.id));
+  const blockerIds = visible
+    .filter((t) => t.blocked_by && !allTaskIds.has(t.blocked_by))
+    .map((t) => t.blocked_by);
+
+  // Fetch any blockers not in the visible set
+  let externalBlockers: Record<string, boolean> = {};
+  if (blockerIds.length > 0) {
+    const { data: blockers } = await supabase
+      .from("job_daily_tasks")
+      .select("id, done")
+      .in("id", blockerIds);
+    for (const b of blockers || []) {
+      externalBlockers[b.id] = b.done;
+    }
+  }
+
+  const tasksWithBlockedStatus = visible.map((t) => {
+    if (!t.blocked_by) return { ...t, is_blocked: false };
+    // Check if blocker is in visible set
+    const visibleBlocker = visible.find((v) => v.id === t.blocked_by);
+    if (visibleBlocker) return { ...t, is_blocked: !visibleBlocker.done };
+    // Check external blockers
+    if (t.blocked_by in externalBlockers) return { ...t, is_blocked: !externalBlockers[t.blocked_by] };
+    // Blocker was deleted — not blocked
+    return { ...t, is_blocked: false };
+  });
+
+  const actionable = tasksWithBlockedStatus.filter((t) => !t.is_blocked);
+  const allDone = actionable.length > 0 && actionable.every((t) => t.done);
+
   return NextResponse.json({
-    tasks: visible,
+    tasks: tasksWithBlockedStatus,
     futurePulled,
     backlogCount,
-    allDone: visible.length > 0 && visible.every((t) => t.done),
+    allDone,
   });
 }
 
@@ -85,13 +117,14 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const tasks = Array.isArray(body) ? body : [body];
 
-  const rows = tasks.map((t: { task: string; category: string; impact?: string; company?: string; link?: string; date?: string }) => ({
+  const rows = tasks.map((t: { task: string; category: string; impact?: string; company?: string; link?: string; date?: string; blocked_by?: string }) => ({
     task: t.task,
     category: t.category,
     impact: t.impact || "medium",
     company: t.company || null,
     link: t.link || null,
     date: t.date || new Date().toISOString().split("T")[0],
+    blocked_by: t.blocked_by || null,
   }));
 
   const { data, error } = await supabase.from("job_daily_tasks").insert(rows).select();

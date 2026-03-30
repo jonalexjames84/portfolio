@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Circle, ExternalLink, Flame, Clock } from "lucide-react";
+import { CheckCircle2, Circle, ExternalLink, Flame, Clock, Lock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Task = {
@@ -13,6 +13,8 @@ type Task = {
   link: string | null;
   date: string;
   done: boolean;
+  blocked_by: string | null;
+  is_blocked: boolean;
 };
 
 const categoryEmoji: Record<string, string> = {
@@ -47,8 +49,17 @@ export function TaskList({ tasks: initialTasks, backlogCount: initialBacklog, al
   const today = new Date().toISOString().split("T")[0];
 
   async function toggleComplete(id: string) {
+    const task = tasks.find((t) => t.id === id);
+    if (!task || task.is_blocked) return;
+
+    const newDone = !task.done;
     setTasks((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t))
+      prev.map((t) => {
+        if (t.id === id) return { ...t, done: newDone };
+        // Unblock tasks that were blocked by this one
+        if (t.blocked_by === id) return { ...t, is_blocked: !newDone };
+        return t;
+      })
     );
     await fetch(`/api/job-search/tasks/${id}/complete`, { method: "POST" });
   }
@@ -102,15 +113,19 @@ export function TaskList({ tasks: initialTasks, backlogCount: initialBacklog, al
               layout
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
-                task.done
-                  ? "bg-zinc-50 border-zinc-100 dark:bg-zinc-900/50 dark:border-zinc-800 opacity-60"
-                  : "bg-white border-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 hover:border-teal-300 dark:hover:border-teal-700"
+              className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
+                task.is_blocked
+                  ? "bg-zinc-50 border-zinc-100 dark:bg-zinc-900/50 dark:border-zinc-800 opacity-50 cursor-not-allowed"
+                  : task.done
+                    ? "bg-zinc-50 border-zinc-100 dark:bg-zinc-900/50 dark:border-zinc-800 opacity-60 cursor-pointer"
+                    : "bg-white border-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 hover:border-teal-300 dark:hover:border-teal-700 cursor-pointer"
               }`}
               onClick={() => toggleComplete(task.id)}
             >
               <div className="mt-0.5 shrink-0">
-                {task.done ? (
+                {task.is_blocked ? (
+                  <Lock className="h-5 w-5 text-zinc-300 dark:text-zinc-600" />
+                ) : task.done ? (
                   <CheckCircle2 className="h-5 w-5 text-teal-500" />
                 ) : (
                   <Circle className="h-5 w-5 text-zinc-300 dark:text-zinc-600" />
@@ -127,7 +142,13 @@ export function TaskList({ tasks: initialTasks, backlogCount: initialBacklog, al
                   {task.company && (
                     <span className="text-xs text-zinc-500">{task.company}</span>
                   )}
-                  {isFromPastDay(task) && !task.done && (
+                  {task.is_blocked && (
+                    <span className="inline-flex items-center gap-0.5 text-[10px] text-zinc-400">
+                      <Lock className="h-3 w-3" />
+                      do {tasks.find((t) => t.id === task.blocked_by)?.task.split(" ").slice(0, 4).join(" ") || "prerequisite"} first
+                    </span>
+                  )}
+                  {!task.is_blocked && isFromPastDay(task) && !task.done && (
                     <span className="inline-flex items-center gap-0.5 text-[10px] text-amber-600 dark:text-amber-400">
                       <Clock className="h-3 w-3" />
                       rolled over
