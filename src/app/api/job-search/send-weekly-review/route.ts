@@ -6,9 +6,24 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const TARGETS = { applications_sent: 5, outreach_sent: 5, follow_ups_sent: 3, linkedin_posts: 3, conversations: 2 };
 
+function checkAuth(request: NextRequest): boolean {
+  // Vercel Cron sends this header
+  if (request.headers.get("authorization") === `Bearer ${process.env.CRON_SECRET}`) return true;
+  // Scheduled agents use the API key
+  if (request.headers.get("authorization") === `Bearer ${process.env.JOB_SEARCH_API_KEY}`) return true;
+  return false;
+}
+
+export async function GET(request: NextRequest) {
+  return handleReview(request);
+}
+
 export async function POST(request: NextRequest) {
-  const auth = request.headers.get("authorization");
-  if (auth !== `Bearer ${process.env.JOB_SEARCH_API_KEY}`) {
+  return handleReview(request);
+}
+
+async function handleReview(request: NextRequest) {
+  if (!checkAuth(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
