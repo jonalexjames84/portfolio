@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { Linkedin, Github, Send, Calendar, BookOpen, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import posthog from "posthog-js";
 import { useThemeAnimations } from "@/lib/animations";
 
 const socials = [
@@ -38,6 +40,10 @@ const socials = [
 
 export default function ContactPage() {
   const { fadeIn, staggerContainer, staggerItem } = useThemeAnimations();
+
+  useEffect(() => {
+    posthog.capture("contact_page_viewed");
+  }, []);
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
@@ -154,6 +160,11 @@ export default function ContactPage() {
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => {
+                  if (s.label === "Schedule a Call") {
+                    posthog.capture("calendly_clicked", { source: "contact_page" });
+                  }
+                }}
                 className="theme-card group flex items-center gap-4 p-5 transition-all"
               >
                 <div className={`rounded-lg bg-gradient-to-br ${s.gradient} p-2.5 shadow-lg transition-transform group-hover:scale-110`}>

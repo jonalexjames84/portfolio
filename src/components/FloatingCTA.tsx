@@ -5,6 +5,7 @@ import { MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import posthog from "posthog-js";
 
 export function FloatingCTA() {
   const pathname = usePathname();
@@ -33,6 +34,9 @@ export function FloatingCTA() {
         >
           <Link
             href="/contact"
+            onClick={() => {
+              posthog.capture("cta_clicked", { source: "floating_cta", page: pathname });
+            }}
             className="group flex items-center gap-2 rounded-full gradient-btn px-5 py-3 text-sm font-medium shadow-lg"
           >
             <MessageSquare

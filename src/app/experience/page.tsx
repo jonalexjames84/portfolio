@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Download, Briefcase, ChevronDown, ChevronUp, ArrowRight, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import posthog from "posthog-js";
 import {
   career,
   metrics,
@@ -170,6 +171,9 @@ export default function ExperiencePage() {
             href="/api/resume"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => {
+              posthog.capture("resume_downloaded", { source: "experience_page" });
+            }}
             className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white/80 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-white dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 dark:hover:bg-zinc-800"
           >
             <Download size={14} />

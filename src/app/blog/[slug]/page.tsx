@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { getPost, posts, getBrandGradient } from "@/lib/posts";
 import { getTagColor } from "@/lib/tagColors";
+import { TrackPageView } from "@/components/TrackPageView";
 
 function escapeHtml(str: string): string {
   return str
@@ -210,6 +211,7 @@ export default async function BlogPostPage({
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
+      <TrackPageView event="blog_post_viewed" properties={{ post: slug }} />
       <Link
         href="/blog"
         className="mb-8 inline-flex items-center gap-1.5 text-sm text-zinc-500 transition-colors hover:text-violet-600 dark:text-zinc-400 dark:hover:text-violet-400"

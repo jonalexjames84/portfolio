@@ -8,6 +8,7 @@ import { getTagColor } from "@/lib/tagColors";
 import { BrowserFrame } from "@/components/BrowserFrame";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { TrackPageView } from "@/components/TrackPageView";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -153,6 +154,7 @@ export default async function ProjectPage({
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
+      <TrackPageView event="project_viewed" properties={{ project: slug }} />
       <Link
         href="/work"
         className="mb-8 inline-flex items-center gap-1.5 text-sm text-zinc-500 transition-colors hover:text-accent-600 dark:text-zinc-400 dark:hover:text-accent-400"
