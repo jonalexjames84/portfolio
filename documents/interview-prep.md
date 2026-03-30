@@ -75,7 +75,7 @@ Use **STAR format** (Situation, Task, Action, Result) for all behavioral answers
 
 **Q13: Tell me about a time you shipped something fast with limited resources.**
 - **Story:** Indie Builder — building Pottery Friends solo with AI-assisted development
-- **Skeleton:** I built the entire Pottery Friends ecosystem solo using Claude Code: native mobile app, marketing site, analytics dashboards, and internal docs — 15+ repos, 59 migrations, 19 edge functions. AI-assisted development let one PM replace what would normally be a small product team, shipping production features in days instead of sprints.
+- **Skeleton:** I built the entire Pottery Friends ecosystem solo using Claude Code: native mobile app, marketing site, analytics dashboards, and internal docs — 15+ repos across React Native, Next.js, Supabase, Stripe, and PostHog. AI-assisted development let one PM replace what would normally be a small product team, shipping production features in days instead of sprints.
 
 ### Growth & Scale
 
@@ -168,7 +168,7 @@ Use **STAR format** (Situation, Task, Action, Result) for all behavioral answers
 - **Answer:** You need a multi-layered evaluation: automated evals for regression detection (does the model still handle known edge cases?), human evaluation for subjective quality (does this meal plan look appetizing and nutritionally sound?), and user behavior metrics for real-world signal (did they use the output?). At Macro Chef, I built the Claude API integration with full context — macro targets, dietary restrictions, available ingredients, and recent meal history — because quality in AI products is largely a function of prompt quality and context richness.
 
 **Q3: What's your experience with AI-assisted development?**
-- **Answer:** I've built an entire product ecosystem solo using Claude Code: 15+ repos, 59 database migrations, 19 edge functions across React Native, Next.js, Supabase, Stripe, and PostHog. AI-assisted development doesn't just speed up coding — it fundamentally changes what a single PM can ship. I went from "I need an engineering team" to "I can validate a product thesis end-to-end in weeks." The key skill isn't prompting — it's knowing what to build and being able to evaluate whether the output is correct.
+- **Answer:** I've built an entire product ecosystem solo using Claude Code: 15+ repos across React Native, Next.js, Supabase, Stripe, and PostHog. AI-assisted development doesn't just speed up coding — it fundamentally changes what a single PM can ship. I went from "I need an engineering team" to "I can validate a product thesis end-to-end in weeks." The key skill isn't prompting — it's knowing what to build and being able to evaluate whether the output is correct.
 
 **Q4: How do you handle AI hallucinations in a production product?**
 - **Answer:** Design the product so hallucinations are visible and recoverable, not hidden and dangerous. At Macro Chef, if the AI generates a recipe with incorrect macros, the user sees the calculated totals immediately and can regenerate. I also constrain the output space — structured JSON responses instead of free text, validated against known nutritional data ranges. The architecture question is: where does the AI output go before the user sees it, and what guardrails sit in between?
@@ -332,7 +332,7 @@ The pivot point was Genies. I was the first PM hire at an 85-person startup with
 
 After Genies, I went into web3 at Mythical Games and Treasure DAO, shipping game services platforms, marketplaces, and developer tools. I learned to build for developers, handle complex technical systems, and operate at the platform level.
 
-Now I'm in the most interesting chapter. I co-founded Frame Story, a game studio, and I've been building products solo with AI-assisted development. I shipped a full platform — native mobile app, web app, analytics dashboards — to 150 beta users using Claude Code as my primary development tool. Fifteen repos, 59 database migrations, the works. I'm not just a PM who talks about AI — I build with it daily and understand its capabilities and limitations firsthand.
+Now I'm in the most interesting chapter. I co-founded Frame Story, a game studio, and I've been building products solo with AI-assisted development. I shipped a full platform — native mobile app, web app, analytics dashboards — to 150 beta users using Claude Code as my primary development tool. Fifteen repos, the works. I'm not just a PM who talks about AI — I build with it daily and understand its capabilities and limitations firsthand.
 
 I'm looking for a Senior PM role at an AI-forward company where that combination of deep product experience and genuine AI fluency creates outsized impact."
 
@@ -350,7 +350,7 @@ From Zynga I went to Jam City, where I launched and scaled a product to 1M+ dail
 
 **The current chapter: AI-native building.** This is where it gets interesting for an AI company. I co-founded Frame Story, a game studio, and I'm leading product on our first title through a milestone-driven Steam release. But more relevantly, I've been building products solo using AI-assisted development.
 
-I built Pottery Friends — a community platform for craft studios — from zero to 150 beta members. The full ecosystem: native mobile app, marketing site, analytics dashboards, internal docs. Fifteen repos, 59 database migrations, 19 edge functions across React Native, Next.js, Supabase, Stripe, and PostHog. One PM with Claude Code replacing what would normally require a small product team. I'm shipping production features in days, not sprints.
+I built Pottery Friends — a community platform for craft studios — from zero to 150 beta members. The full ecosystem: native mobile app, marketing site, analytics dashboards, internal docs. Fifteen repos across React Native, Next.js, Supabase, Stripe, and PostHog. One PM with Claude Code replacing what would normally require a small product team. I'm shipping production features in days, not sprints.
 
 But I'm not just using AI to code faster. I'm running a structured early access beta — tracking D1/D7 retention cohorts, activation funnels, and PMF surveys. I'm making real product decisions based on data: I killed a planned marketplace after user interviews showed studio owners saw it as competition, pivoted the home screen when engagement data contradicted my hypothesis, and cut 40 onboarding quests to 8 tied to real studio actions.
 

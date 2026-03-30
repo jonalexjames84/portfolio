@@ -20,7 +20,7 @@ All templates use these placeholders:
 
 I saw the [ROLE] posting. Here is why I am writing instead of just applying.
 
-I spent 15 years shipping products at companies like Zynga, Bandai Namco, and Genies (where I was first PM hire, helped close $150M in funding). After getting laid off in late 2024, I did something most PMs talk about but never do: I built a full product myself. Pottery Friends is a native mobile app I took from zero to 150 beta members using AI-assisted development with Claude Code. 15 repos, 59 migrations, structured retention testing. One PM, modern tooling.
+I spent 15 years shipping products at companies like Zynga, Bandai Namco, and Genies (where I was first PM hire, helped close $150M in funding). After getting laid off in late 2024, I did something most PMs talk about but never do: I built a full product myself. Pottery Friends is a native mobile app I took from zero to 150 beta members using AI-assisted development with Claude Code. 15+ repos, structured retention testing. One PM, modern tooling.
 
 [SPECIFIC DETAIL about why this company/role fits.]
 
@@ -219,7 +219,7 @@ jonmartin.pro
 
 Great connecting at Berkeley ProductCon. The discussion around [specific panel topic or conversation] was exactly the kind of thinking I have been applying hands-on.
 
-After getting laid off last year, I tested what a PM can actually ship with modern AI tooling: built a full product (native app, marketing site, analytics) using Claude Code, went from zero to 150 beta members, 15 repos, 59 migrations. Not a side project -- structured retention testing, PMF surveys, the whole product discipline applied solo.
+After getting laid off last year, I tested what a PM can actually ship with modern AI tooling: built a full product (native app, marketing site, analytics) using Claude Code, went from zero to 150 beta members, 15+ repos. Not a side project -- structured retention testing, PMF surveys, the whole product discipline applied solo.
 
 I am exploring senior PM roles at companies where that kind of technical depth is an asset, not a curiosity. [COMPANY] came up in our conversation, and I would love to continue the thread.
 

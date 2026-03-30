@@ -81,7 +81,7 @@ Three-time zero-to-one builder. First PM at Genies (85-person startup, $150M rai
 
 **Cross-Functional Leadership:** Engineering, design, and ops alignment / PRDs engineers want to read / sprint execution without micromanaging
 
-**Technical Fluency:** React / Next.js / TypeScript / Supabase / Claude Code / PostHog — can unblock technical conversations and earn engineering trust fast
+**Technical Fluency:** React / Next.js / TypeScript / Supabase / Claude Code / PostHog — engineers don't have to dumb things down, I've shipped production code with the same stack
 
 ---
 

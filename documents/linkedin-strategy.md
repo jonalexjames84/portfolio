@@ -27,7 +27,7 @@
 
 ### Version A: For AI Startups (Lead with Builder Credentials)
 
-I got laid off in late 2024 and instead of jumping straight back into the job market, I started building. I used Claude Code to ship an entire product ecosystem on my own — native mobile app, marketing site, analytics, payments. 150 beta members, 15 repos, 59 database migrations. No engineering team. Production features in days, not sprints.
+I got laid off in late 2024 and instead of jumping straight back into the job market, I started building. I used Claude Code to ship an entire product ecosystem on my own — native mobile app, marketing site, analytics, payments. 150 beta members, 15+ repos. No engineering team. Production features in days, not sprints.
 
 That's not a side project. It's what product management looks like when you pair 15 years of shipping experience with modern AI tooling.
 
@@ -35,7 +35,7 @@ Before that: first PM hire at Genies, where I built the creator ecosystem that h
 
 I also co-founded Frame Story, a game studio where I handled everything from incorporating the LLC to building the 5-year financial model to designing the go-to-market pipeline. And I'm currently consulting as a fractional PM for an AI startup, building and shipping features end-to-end with Claude Code.
 
-My technical stack is real — React Native, Next.js, TypeScript, Supabase, PostgreSQL, Stripe, PostHog, Claude API. I write PRDs that engineers actually want to read, and I can unblock technical conversations because I've been in the code myself.
+My technical stack is real — React Native, Next.js, TypeScript, Supabase, PostgreSQL, Stripe, PostHog, Claude API. Engineers don't have to dumb things down for me — I've shipped production code with the same tools they use.
 
 Looking for a company where product drives growth, not a support function. Seed-to-Series B in AI/ML, SaaS, dev tools, or consumer platforms. Bay Area, open to remote.
 
@@ -57,9 +57,9 @@ I've spent 15 years building products — from 85-person startups to organizatio
 
 Started at Zynga in 2009 during the FarmVille era, built Mafia Wars' first mobile raiding system. Moved to Jam City and scaled a game to 1M+ DAU and $50M in revenue. Ran the PAC-MAN franchise at Bandai Namco (10M+ weekly installs). Built an analytics pipeline from scratch at Big Fish Games. Launched a mobile app to 6M members at AAA, saving $2M/year. Joined Genies as their first PM and built the creator ecosystem that helped secure $150M in funding.
 
-This past year I stopped talking about AI and started building with it. I shipped Pottery Friends — native mobile app, marketing site, analytics, payments — solo using Claude Code. 150 beta members, 15 repos, 59 migrations. I also co-founded Frame Story, a game studio where I did everything from LLC formation to financial modeling to GTM strategy. And I'm consulting as a fractional PM for an AI startup, building and shipping features with Claude Code daily.
+This past year I stopped talking about AI and started building with it. I shipped Pottery Friends — native mobile app, marketing site, analytics, payments — solo using Claude Code. 150 beta members, 15+ repos. I also co-founded Frame Story, a game studio where I did everything from LLC formation to financial modeling to GTM strategy. And I'm consulting as a fractional PM for an AI startup, building and shipping features with Claude Code daily.
 
-My technical stack: React Native, Next.js, TypeScript, Supabase, PostgreSQL, Stripe, PostHog, Claude API. I write PRDs engineers actually want to read and I can unblock technical conversations because I've been in the code myself.
+My technical stack: React Native, Next.js, TypeScript, Supabase, PostgreSQL, Stripe, PostHog, Claude API. Engineers don't have to dumb things down for me — I've shipped production code with the same tools they use.
 
 Looking for a company where product drives growth. Seed-to-Series B in AI/ML, SaaS, dev tools, or consumer platforms. Bay Area, open to remote.
 
@@ -102,7 +102,7 @@ Pin these in this order:
 - Built a full product ecosystem solo using AI-assisted development (Claude Code): native mobile app, marketing site, analytics dashboards, and docs — shipping production features in days, not sprints
 - Grew to 150 beta members; tracking D1/D7 retention cohorts, activation funnels, and PMF surveys to validate product-market fit in an unowned vertical
 - Killed scope ruthlessly: cut a planned marketplace after user interviews, redesigned the home screen when engagement data contradicted the hypothesis (engagement doubled), reduced 40 onboarding quests to 8 (completion jumped from 5% to 35%)
-- 15+ repos, 59 migrations, 19 edge functions across React Native, Next.js, Supabase, Stripe, and PostHog — one PM with AI tooling replacing a small product team
+- 15+ repos across React Native, Next.js, Supabase, Stripe, and PostHog — one PM with AI tooling replacing a small product team
 
 ### Swob | Fractional Product Manager (AI) | Nov 2024 -- Present
 
@@ -195,7 +195,7 @@ Pin these in this order:
 Share the insight from Berkeley ProductCon that interviewers are now asking "what's in your prompt library?" Frame it as: this isn't optional anymore. List 2-3 frameworks (RISE, RACE) with one-line descriptions. End with "What's in yours?"
 
 **Post 2 — Here's What I Built: "I built a full product ecosystem with no engineering team"**
-Pottery Friends story. Lead with the numbers: 150 beta members, 15 repos, 59 migrations, solo build. The hook: "AI didn't replace my engineering team. I never had one." Show 2-3 screenshots. End with what you learned about AI-native development.
+Pottery Friends story. Lead with the numbers: 150 beta members, 15+ repos, solo build. The hook: "AI didn't replace my engineering team. I never had one." Show 2-3 screenshots. End with what you learned about AI-native development.
 
 **Post 3 — Framework: "The one question I ask before prioritizing anything"**
 "What's the fastest path to learning something we don't know?" Walk through a real example from Pottery Friends where you killed the marketplace feature after user interviews. Discovery and delivery aren't separate phases.

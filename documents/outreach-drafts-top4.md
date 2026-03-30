@@ -21,7 +21,7 @@ Amit,
 
 Your customers are my former employers. I shipped features across FarmVille, Mafia Wars, and FrontierVille at Zynga, scaled a game to $50M and 1M+ DAU at Jam City, and ran PAC-MAN product ops at Bandai Namco (10M+ installs at global launch). I know how gaming studios think about UA because I sat in those rooms.
 
-After getting laid off in 2024, I built a full product solo using AI-assisted development -- native app, 15 repos, 59 database migrations, 150 beta members. I design AI agent workflows with Claude Code every day. That combination -- deep mobile gaming context plus hands-on AI builder experience -- is what your Sr PM role needs.
+After getting laid off in 2024, I built a full product solo using AI-assisted development -- native app, 15+ repos, 150 beta members. I design AI agent workflows with Claude Code every day. That combination -- deep mobile gaming context plus hands-on AI builder experience -- is what your Sr PM role needs.
 
 I saw the Series B news and the 100+ studio waitlist. Happy to talk about how I would approach the agentic platform from the studio side of the table.
 
@@ -64,7 +64,7 @@ Appreciate the connect! Just wanted to put a face to the request. I'm a PM and f
 
 Cat,
 
-I am not a PM who tried Claude Code once for a demo. I built an entire product ecosystem with it: native mobile app, marketing site, analytics dashboards, edge functions -- 15 repos, 59 database migrations, 19 edge functions, 150 beta members. One PM, no engineering team. I have mass-edited 400 test files in a single session and mass-migrated database schemas across environments. I know where Claude Code is extraordinary and where it breaks.
+I am not a PM who tried Claude Code once for a demo. I built an entire product ecosystem with it: native mobile app, marketing site, analytics dashboards, edge functions -- 15+ repos across React Native, Next.js, Supabase, Stripe, and PostHog, 150 beta members. One PM, no engineering team. I have mass-edited 400 test files in a single session and mass-migrated database schemas across environments. I know where Claude Code is extraordinary and where it breaks.
 
 That depth of real usage is what I would bring to the PM role. I have 15 years of shipping products at scale (Zynga, Jam City, Genies, Mythical Games) and I can translate power-user pain into product decisions.
 
@@ -91,7 +91,7 @@ Sr PM at Replit -- I am your target user and I ship production apps with AI tool
 
 Aman,
 
-I am the PM Replit is building for. Over the past year I shipped a full product -- native mobile app, marketing site, analytics, payments -- using AI-assisted development. 15 repos, 59 database migrations, React Native, Next.js, Supabase, Stripe, PostHog. One person, modern tooling, 150 beta members running structured retention testing.
+I am the PM Replit is building for. Over the past year I shipped a full product -- native mobile app, marketing site, analytics, payments -- using AI-assisted development. 15+ repos across React Native, Next.js, Supabase, Stripe, and PostHog. One person, modern tooling, 150 beta members running structured retention testing.
 
 Before that: 15 years shipping at Zynga, Jam City ($50M product, 1M+ DAU), Bandai Namco (10M+ installs), and Genies (first PM, helped close $150M). I know what it takes to build products that scale, and I know what AI-assisted development actually feels like from the inside -- the wins and the friction.
 

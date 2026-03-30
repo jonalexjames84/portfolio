@@ -43,7 +43,7 @@
 - **What they do:** AI safety company building Claude, the AI model Jon uses daily to build products
 - **Stage/Funding:** $30B raised in Feb 2026 alone; valued at ~$60B+
 - **Location:** San Francisco, CA and Seattle, WA
-- **Why Jon is a fit:** Jon is a power user of Claude Code -- he's built an entire product ecosystem with it (15+ repos, 59 DB migrations, mobile app, web apps). He can speak to the developer experience from deep personal use. His consumer product sense (Genies, gaming) maps to Claude Experiences role.
+- **Why Jon is a fit:** Jon is a power user of Claude Code -- he's built an entire product ecosystem with it (15+ repos, native app, web apps). He can speak to the developer experience from deep personal use. His consumer product sense (Genies, gaming) maps to Claude Experiences role.
 - **Careers:** https://www.anthropic.com/careers -- **PM, Claude Code; PM, Claude Code (Enterprise); PM, Claude Code Growth; PM, Claude Experiences** all open in SF
 - **Recent news:** Claude Code is one of the fastest-growing developer tools; multiple PM roles open signals major product investment
 
@@ -143,7 +143,7 @@
 - **What they do:** Open-source Firebase alternative with PostgreSQL, auth, storage, edge functions, and vector embeddings
 - **Stage/Funding:** Series C, ~$116M raised
 - **Location:** Fully remote (global)
-- **Why Jon is a fit:** Jon builds with Supabase every day -- Pottery Friends runs on Supabase (59 database migrations, 19 edge functions). He can speak to the developer experience as a power user. His technical depth with PostgreSQL and the Supabase ecosystem is a PM differentiator.
+- **Why Jon is a fit:** Jon builds with Supabase every day -- Pottery Friends runs on Supabase (15+ repos, 19 edge functions). He can speak to the developer experience as a power user. His technical depth with PostgreSQL and the Supabase ecosystem is a PM differentiator.
 - **Careers:** https://supabase.com/careers -- ~40 jobs open; PM, Pricing & Billing listed
 - **Recent news:** Core infrastructure for the "vibe coding" wave; widely used by AI app builders
 
@@ -327,7 +327,7 @@
 
 ## Jon's Top Differentiators to Emphasize
 
-1. **PM who actually builds:** 15+ repos, 59 DB migrations, 19 edge functions managed solo with AI tools -- not theoretical, production-grade
+1. **PM who actually builds:** 15+ repos across React Native, Next.js, Supabase, Stripe, and PostHog managed solo with AI tools -- not theoretical, production-grade
 2. **Full-stack AI workflow:** Claude Code, React/React Native, Next.js, TypeScript, Supabase, PostHog, Vercel -- the modern AI builder stack
 3. **Consumer scale:** $50M products, 1M+ DAU, 10M+ installs across gaming titles
 4. **Gaming + AI intersection:** Zynga, Jam City, Bandai Namco, Mythical, Treasure DAO -- rare combination for AI gaming companies
