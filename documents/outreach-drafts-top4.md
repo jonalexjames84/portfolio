@@ -37,17 +37,30 @@ Hi Amit -- I shipped features at Zynga (FarmVille, Mafia Wars) and scaled a $50M
 
 ---
 
-## 2. Anthropic -- PM, Claude Code
+## 2. Anthropic -- PM, Consumer
 
-**Target:** Cat Wu, Head of Product, Claude Code
-**LinkedIn:** https://www.linkedin.com/in/catherine-wu-703ba399/
-**Notes:** Cat Wu is Head of Product for Claude Code. She returned to Anthropic after a brief stint at Cursor. Multiple Claude Code PM roles open (Core, Enterprise, Growth, Platform). Recent launches include Code Review tool (March 2026) and Auto Mode.
+**Role:** Product Manager, Consumer ($385K-$460K, SF/NYC)
+**Posting:** https://job-boards.greenhouse.io/anthropic/jobs/5127559008
 
-### Subject Line
+### Target: Scott White, Head of Product, Claude
+**LinkedIn:** https://www.linkedin.com/in/scottiewhite
+**Notes:** Scott runs product for Claude. Former Instacart (Growth & Monetization), Airtable (End User Product Head), founder of walrus.ai. Based in Berkeley. Recently did a Behind the Craft podcast episode. The Consumer PM role almost certainly reports to him or someone under him. This is the #1 DM target.
 
-Claude Code PM -- I built an entire product ecosystem with it (15 repos, 59 migrations, 150 users)
+### Other contacts at Anthropic
+- **Cat Wu** -- Head of Product, Claude Code (https://www.linkedin.com/in/catherine-wu-703ba399/) — for Claude Code PM roles specifically
+- **Matt Piccolella** -- Product at Anthropic (https://www.linkedin.com/in/mattpiccolella/) — potential peer on the team
+- **Julia Schmaltz** -- Recruiter (https://www.linkedin.com/in/juliaschmaltz/) — fallback if product people don't respond
+- **Mike Krieger** -- CPO, now in Labs group (https://www.linkedin.com/in/mikekrieger/) — Instagram co-founder, high visibility
 
-### Cold Email
+### LinkedIn Connection Request (to Scott White)
+
+Hey Scott — first off, what a fantastic product. I've been building nonstop with Claude since October. It's helped me with my consulting, my startup, my health, and now my job search (ugh, this market… but at least Claude keeps me company while I DM strangers). Saw the PM, Consumer role and think it could be a great fit. Would love to chat if you're open to it.
+
+### Follow-up DM (if he accepts)
+
+Appreciate the connect! Just wanted to put a face to the request. I'm a PM and founder — spent the last year building full products with Claude Code (native app, marketing sites, analytics, the whole stack) and before that 15 years shipping consumer products at places like Zynga, Jam City, and Genies. I applied to the Consumer PM role and genuinely think I could contribute. Happy to share more if you're curious — portfolio.jonnymartin.blog has the full story. Either way, keep shipping, the product is incredible.
+
+### Cold Email (to Cat Wu -- for Claude Code PM roles)
 
 Cat,
 
@@ -60,10 +73,6 @@ I saw the Code Review launch and Auto Mode rollout -- both solve problems I have
 Jon Martin
 jonalexjames@gmail.com
 portfolio.jonnymartin.blog
-
-### LinkedIn Connection Request
-
-Hi Cat -- I built a full product ecosystem with Claude Code (15 repos, 59 migrations, 150 users). No eng team, just AI-native dev. Would love to discuss the PM roles and share what I have learned as a power user.
 
 ---
 
