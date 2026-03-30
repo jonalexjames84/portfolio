@@ -27,53 +27,41 @@
 
 ### Version A: For AI Startups (Lead with Builder Credentials)
 
-I build products. Not decks about products. Products.
+I got laid off in late 2024 and instead of jumping straight back into the job market, I started building. I used Claude Code to ship an entire product ecosystem on my own — native mobile app, marketing site, analytics, payments. 150 beta members, 15 repos, 59 database migrations. No engineering team. Production features in days, not sprints.
 
-In 2025, I built Pottery Friends from zero — a native mobile app, marketing site, analytics dashboards, and internal docs — using AI-assisted development with Claude Code. 150 beta members. 15 repos. 59 database migrations. 19 edge functions. One PM. No engineering team. I shipped production features in days that used to take sprints.
+That's not a side project. It's what product management looks like when you pair 15 years of shipping experience with modern AI tooling.
 
-That's not a side project. That's a proof of concept for what product management looks like now: a PM who can go from user interview to working software in the same week.
+Before that: first PM hire at Genies, where I built the creator ecosystem that helped close $150M in funding with partners like Gucci and GIPHY. Scaled a game to 1M+ DAU and $50M in revenue at Jam City. Launched a mobile app to 6M members at AAA, saving $2M/year in call center costs. Ran the PAC-MAN franchise at Bandai Namco — 10M+ weekly installs. Shipped cross-title game services at Mythical Games that lifted retention 20% and revenue 15%.
 
-Before that, I spent 15 years shipping at scale. First PM hire at Genies, where I built the creator ecosystem that helped close $150M in funding with partners like Gucci and GIPHY. Scaled a game to 1M+ DAU and $50M in revenue at Jam City. Launched a mobile app to 6M members at AAA that saved $2M/year in call center costs. Ran the PAC-MAN franchise at Bandai Namco: 10M+ weekly installs. Shipped cross-title game services at Mythical Games that lifted retention 20% and revenue 15%.
+I also co-founded Frame Story, a game studio where I handled everything from incorporating the LLC to building the 5-year financial model to designing the go-to-market pipeline. And I'm currently consulting as a fractional PM for an AI startup, building and shipping features end-to-end with Claude Code.
 
-I co-founded Frame Story, a game studio where I built the financial model, investor materials, and GTM pipeline from scratch — LLC formation through a $3M cap SAFE raise.
+My technical stack is real — React Native, Next.js, TypeScript, Supabase, PostgreSQL, Stripe, PostHog, Claude API. I write PRDs that engineers actually want to read, and I can unblock technical conversations because I've been in the code myself.
 
-My technical stack is real, not decorative: React Native, Next.js, TypeScript, Supabase, PostgreSQL, Stripe, PostHog, Claude API. I write PRDs that engineers want to read, and I can unblock technical conversations because I've been in the code myself.
-
-I prioritize by asking one question: what's the fastest path to learning something we don't know? Discovery and delivery run in parallel. I define product success by behavior change, not feature completion.
-
-Looking for: seed-to-Series B startups in AI/ML, SaaS, dev tools, or consumer platforms where PM owns the outcome. Bay Area, open to remote.
+Looking for a company where product drives growth, not a support function. Seed-to-Series B in AI/ML, SaaS, dev tools, or consumer platforms. Bay Area, open to remote.
 
 ### Version B: For Growth Companies (Lead with Metrics)
 
-$50M in revenue driven. $150M in funding secured. 10M+ weekly installs launched. 6M users reached. 1M+ DAU at scale. 15+ years of shipping products that people actually use.
+15 years shipping products. $50M in revenue at Jam City. $150M in funding at Genies. 10M+ weekly installs on PAC-MAN. 6M members on a mobile app at AAA. The through line across all of it: find the growth lever, test it fast, and double down on what works.
 
-Those numbers span Zynga (FarmVille, Mafia Wars), Jam City (scaled a game to 1M+ DAU), Bandai Namco (PAC-MAN franchise), AAA (6M-member mobile app), Genies (first PM, $150M raise), Mythical Games, and Treasure DAO.
+At Jam City, 20% month-over-month revenue growth came from running currency optimizations weekly instead of quarterly — speed of iteration beat any single brilliant idea. At AAA, $2M in annual savings came from realizing the real product wasn't the app, it was eliminating the call center dependency. At Genies, $100K/week in storefront revenue came from shipping an MVP fast enough to prove the model before the funding conversation ended.
 
-But metrics without context are vanity. Here's what drove them:
+This past year I've been building with AI tools full-time. I shipped Pottery Friends — native app, marketing site, analytics, payments — solo using Claude Code. 150 beta members, 15 repos, structured retention testing and PMF surveys. I also co-founded a game studio where I built the financial model, investor materials, and GTM pipeline from scratch.
 
-At Jam City, 20% month-over-month revenue growth came from running currency optimizations weekly instead of quarterly. Speed of iteration beat any single brilliant idea. At AAA, $2M in annual savings came from understanding that the real product wasn't the app — it was eliminating the call center dependency. At Genies, $100K/week in storefront revenue came from shipping an MVP fast enough to prove the business model before the funding conversation ended.
+I'm technical in a way that's useful, not decorative — React Native, Next.js, TypeScript, Supabase, PostHog, Claude API. I can read a PR, debug an API response, and have a real conversation about architecture tradeoffs.
 
-I've spent the last year building with AI tools. I shipped Pottery Friends — a full product ecosystem (native app, marketing site, analytics, docs) — solo, using Claude Code. 150 beta members, 15 repos, structured retention tracking and PMF surveys. This isn't a hobby project. It's evidence that AI-native development changes the economics of product teams.
-
-I also co-founded Frame Story, a game studio. I built the 5-year financial model, investor pitch, SAFE structure, and go-to-market pipeline from zero.
-
-Technical fluency: React Native, Next.js, TypeScript, Supabase, PostgreSQL, Stripe, PostHog, Claude API. I can read a PR, debug an API response, and have a real conversation about system architecture.
-
-Looking for: companies where product drives growth. PM owns the outcome, team ships weekly, technical depth matters. Seed-to-Series B, AI/ML, SaaS, dev tools, consumer platforms. Bay Area, open to remote.
+Looking for companies where product drives growth and PMs own outcomes. Seed-to-Series B in AI/ML, SaaS, dev tools, or consumer platforms. Bay Area, open to remote.
 
 ### Version C: Balanced
 
-I've spent 15 years building products at companies from 85-person startups to organizations serving 6 million members. The common thread: the best product decisions come from understanding what it actually costs to build.
+I've spent 15 years building products — from 85-person startups to organizations serving 6 million members. The thing that's stayed consistent: the best product decisions come from understanding what it actually costs to build.
 
-Started at Zynga in 2009, shipping features on FarmVille and building Mafia Wars' first mobile raiding system during social gaming's peak. Moved to Jam City and scaled a game to 1M+ DAU and $50M in revenue. Ran the PAC-MAN franchise at Bandai Namco (10M+ weekly installs). Built an analytics pipeline from scratch at Big Fish Games. Launched a mobile app to 6M members at AAA, saving $2M/year. Joined Genies as their first PM and built the creator ecosystem that helped secure $150M in funding.
+Started at Zynga in 2009 during the FarmVille era, built Mafia Wars' first mobile raiding system. Moved to Jam City and scaled a game to 1M+ DAU and $50M in revenue. Ran the PAC-MAN franchise at Bandai Namco (10M+ weekly installs). Built an analytics pipeline from scratch at Big Fish Games. Launched a mobile app to 6M members at AAA, saving $2M/year. Joined Genies as their first PM and built the creator ecosystem that helped secure $150M in funding.
 
-In the last year, I stopped talking about AI and started building with it. I shipped Pottery Friends — native mobile app, marketing site, analytics dashboards, 150 beta members — solo, using AI-assisted development with Claude Code. 15 repos, 59 migrations, 19 edge functions. Production features in days, not sprints. I also co-founded Frame Story, a game studio where I handled everything from LLC formation and financial modeling to GTM strategy and a $3M cap SAFE raise.
+This past year I stopped talking about AI and started building with it. I shipped Pottery Friends — native mobile app, marketing site, analytics, payments — solo using Claude Code. 150 beta members, 15 repos, 59 migrations. I also co-founded Frame Story, a game studio where I did everything from LLC formation to financial modeling to GTM strategy. And I'm consulting as a fractional PM for an AI startup, building and shipping features with Claude Code daily.
 
-My technical stack: React Native, Next.js, TypeScript, Supabase, PostgreSQL, Stripe, PostHog, Claude API. I write PRDs engineers want to read. I can unblock technical conversations because I've actually written the code.
+My technical stack: React Native, Next.js, TypeScript, Supabase, PostgreSQL, Stripe, PostHog, Claude API. I write PRDs engineers actually want to read and I can unblock technical conversations because I've been in the code myself.
 
-How I work: I prioritize by finding the fastest path to learning something we don't know. I define success by behavior change, not feature completion. I say no to features that don't move the metric that matters.
-
-Looking for: seed-to-Series B startups in AI/ML, SaaS, dev tools, or consumer platforms. PM owns the outcome, team ships weekly, technical depth matters. Bay Area, open to remote.
+Looking for a company where product drives growth. Seed-to-Series B in AI/ML, SaaS, dev tools, or consumer platforms. Bay Area, open to remote.
 
 ---
 
