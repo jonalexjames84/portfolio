@@ -111,7 +111,6 @@ async function handleDailyDigest(request: NextRequest) {
   if (weekdaysPassed >= 3) {
     const appPace = (counts.apply || 0) / weekdaysPassed;
     if (appPace * 5 < TARGETS.applications_sent) {
-      const remaining = TARGETS.applications_sent - (counts.apply || 0);
       const daysLeft = 5 - weekdaysPassed;
       signals.push(`\ud83d\udfe1 Below pace on applications \u2014 ${counts.apply || 0}/${TARGETS.applications_sent} with ${daysLeft} day${daysLeft !== 1 ? "s" : ""} left`);
     }

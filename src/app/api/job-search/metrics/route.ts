@@ -39,7 +39,7 @@ export async function GET() {
       if (t.category === "apply") counts.applications_sent++;
       if (t.category === "outreach") counts.outreach_sent++;
       if (t.category === "follow_up") counts.follow_ups_sent++;
-      if (t.category === "content") counts.linkedin_posts++;
+      if (t.category === "linkedin_post") counts.linkedin_posts++;
     }
 
     return NextResponse.json({

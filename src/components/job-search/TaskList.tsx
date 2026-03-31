@@ -22,6 +22,7 @@ const categoryEmoji: Record<string, string> = {
   outreach: "\ud83d\udce7",
   follow_up: "\ud83d\udd04",
   content: "\u270d\ufe0f",
+  linkedin_post: "\ud83d\udcf1",
   prep: "\ud83d\udcda",
   admin: "\u2699\ufe0f",
 };
