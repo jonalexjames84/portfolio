@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Building2, Users, FileText, MessageSquare, Search } from "lucide-react";
+import { Building2, Users, FileText, MessageSquare, Search, LayoutDashboard } from "lucide-react";
 
 const tabs = [
+  { href: "/dashboard/job-search", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/job-search", label: "Overview", icon: Search, exact: true },
   { href: "/job-search/companies", label: "Companies", icon: Building2 },
   { href: "/job-search/network", label: "Network", icon: Users },

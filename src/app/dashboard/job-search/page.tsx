@@ -3,6 +3,7 @@ import { WeeklyScorecard } from "@/components/job-search/WeeklyScorecard";
 import { FunnelHealth } from "@/components/job-search/FunnelHealth";
 import { PortfolioKPIs } from "@/components/job-search/PortfolioKPIs";
 import { PipelineBacklog } from "@/components/job-search/PipelineBacklog";
+import { HubNav } from "@/components/job-search/HubNav";
 import { supabase } from "@/lib/supabase";
 
 const MAX_TASKS = 5;
@@ -160,6 +161,8 @@ export default async function JobSearchDashboard() {
           {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
         </p>
       </div>
+
+      <HubNav />
 
       {/* Layer 1: Today's tasks */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
