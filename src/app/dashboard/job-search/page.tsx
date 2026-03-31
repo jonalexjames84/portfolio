@@ -3,6 +3,7 @@ import { WeeklyScorecard } from "@/components/job-search/WeeklyScorecard";
 import { FunnelHealth } from "@/components/job-search/FunnelHealth";
 import { PortfolioKPIs } from "@/components/job-search/PortfolioKPIs";
 import { PipelineBacklog } from "@/components/job-search/PipelineBacklog";
+import { supabase } from "@/lib/supabase";
 
 async function getTodaysTasks() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -38,11 +39,21 @@ async function getPipeline() {
   }
 }
 
+async function getBacklogTasks() {
+  const { data } = await supabase
+    .from("job_daily_tasks")
+    .select("id, task, category, impact, company, date, done")
+    .neq("category", "apply")
+    .order("date", { ascending: true });
+  return data || [];
+}
+
 export default async function JobSearchDashboard() {
-  const [taskData, metricsData, pipelineData] = await Promise.all([
+  const [taskData, metricsData, pipelineData, backlogTasks] = await Promise.all([
     getTodaysTasks(),
     getMetrics(),
     getPipeline(),
+    getBacklogTasks(),
   ]);
 
   return (
@@ -56,7 +67,7 @@ export default async function JobSearchDashboard() {
         </p>
       </div>
 
-      {/* Layer 1: Today's tasks — FRONT AND CENTER */}
+      {/* Layer 1: Today's tasks */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
         <TaskList tasks={taskData.tasks || []} backlogCount={taskData.backlogCount || 0} allDone={taskData.allDone || false} />
       </div>
@@ -71,9 +82,9 @@ export default async function JobSearchDashboard() {
         </div>
       </div>
 
-      {/* Layer 3: Pipeline backlog */}
+      {/* Layer 3: Backlog (applications + tasks) */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
-        <PipelineBacklog entries={pipelineData.entries || []} />
+        <PipelineBacklog entries={pipelineData.entries || []} tasks={backlogTasks} />
       </div>
 
       {/* Layer 4: Portfolio KPIs */}

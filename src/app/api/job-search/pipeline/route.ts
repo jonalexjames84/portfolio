@@ -13,6 +13,7 @@ export async function GET() {
 
   const entries = data || [];
   const funnel = {
+    saved: entries.filter((e) => e.status === "saved").length,
     applied: entries.filter((e) => e.status === "applied").length,
     screen: entries.filter((e) => e.status === "screen").length,
     interview: entries.filter((e) => e.status === "interview").length,
