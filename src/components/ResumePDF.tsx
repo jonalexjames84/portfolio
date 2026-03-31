@@ -197,7 +197,7 @@ export const ResumePDF = () => (
 
       {/* ── Summary ── */}
       <Text style={s.summary}>
-        Senior Product Manager with 15+ years shipping consumer products at scale across gaming, consumer platforms, and enterprise mobile. Deep expertise in growth, live ops, monetization, and go-to-market strategy at companies including Zynga, Jam City, Genies, and AAA. Currently co-founding a game studio and building with AI-native workflows {"\u2014"} recently shipped a production app solo from zero to 150 early access members using modern AI tooling, combining product strategy with hands-on full-stack development.
+        Senior Product Manager with 15+ years shipping consumer products at scale across gaming, consumer platforms, and enterprise mobile. Deep expertise in growth, monetization, and go-to-market strategy at companies including Zynga, Jam City, Genies, and AAA. Currently building with AI-native workflows {"\u2014"} shipped a production app solo from zero to 150 early access members using Claude Code and Claude API, and consulting as a fractional AI PM helping a SaaS startup define its AI product strategy and build investor-ready prototypes.
       </Text>
 
       {/* ── Experience ── */}

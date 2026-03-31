@@ -2,6 +2,7 @@ import { TaskList } from "@/components/job-search/TaskList";
 import { WeeklyScorecard } from "@/components/job-search/WeeklyScorecard";
 import { FunnelHealth } from "@/components/job-search/FunnelHealth";
 import { PortfolioKPIs } from "@/components/job-search/PortfolioKPIs";
+import { PipelineBacklog } from "@/components/job-search/PipelineBacklog";
 
 async function getTodaysTasks() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -70,7 +71,12 @@ export default async function JobSearchDashboard() {
         </div>
       </div>
 
-      {/* Layer 3: Portfolio KPIs */}
+      {/* Layer 3: Pipeline backlog */}
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
+        <PipelineBacklog entries={pipelineData.entries || []} />
+      </div>
+
+      {/* Layer 4: Portfolio KPIs */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
         <PortfolioKPIs />
       </div>
