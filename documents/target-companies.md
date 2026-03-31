@@ -301,6 +301,89 @@
 
 ---
 
+## PRACTICE TIER: Interview Reps (Game Studios + Bay Area Startups)
+
+*Added March 31, 2026. Lower-stakes targets for shaking off interview rust before going after A-tier companies.*
+
+### 36. 2K Games
+- **What they do:** Major game publisher (NBA 2K, Borderlands, Civilization) — hiring for backend-as-a-service platform
+- **Stage/Funding:** Subsidiary of Take-Two Interactive (public)
+- **Location:** Novato, CA (~35 min from Concord)
+- **Why practice here:** Deep gaming background maps directly — zero prep needed. Good for warming up technical PM storytelling.
+- **Role:** Sr. Technical Product Manager
+- **Cover letter:** `documents/cover-letter-2k-games.md`
+
+### 37. Discord
+- **What they do:** Communication platform for communities, originally gaming-focused
+- **Stage/Funding:** Late-stage, valued at $15B+
+- **Location:** San Francisco, CA (BART ~40 min)
+- **Why practice here:** Gaming-adjacent but social platform. Good for practicing the "why I'm evolving beyond gaming" narrative.
+- **Roles:** PM, Core Product (Messaging) ($196K-$220K); Sr. PM, Commerce
+- **Careers:** https://discord.com/careers
+
+### 38. Manticore Games
+- **What they do:** UGC gaming platform (Core) — anyone can create and publish games
+- **Stage/Funding:** Series B, ~$100M+ raised
+- **Location:** San Mateo, CA (remote option)
+- **Why practice here:** Creator ecosystem + gaming intersection. Startup-style interview, low pressure.
+- **Role:** Sr. Product Manager
+- **Cover letter:** `documents/cover-letter-manticore-games.md`
+
+### 39. Roblox
+- **What they do:** Massive UGC platform for user-created games and experiences
+- **Stage/Funding:** Public (NYSE: RBLX)
+- **Location:** San Mateo, CA (~45 min from Concord)
+- **Why practice here:** Live-ops + community experience maps well. Biggest name in this tier — save for when warmed up.
+- **Role:** Sr. PM, Social Profile
+- **Careers:** https://careers.roblox.com
+
+### 40. Penrose Studios
+- **What they do:** VR/AR storytelling studio — real-time cinema for immersive media
+- **Stage/Funding:** Early-stage
+- **Location:** San Francisco, CA
+- **Why practice here:** Smaller company, less pressure. VR/AR focus is a conversation starter.
+- **Role:** Product Manager
+- **Careers:** https://penrosestudios.com/careers
+
+### 41. DreamCraft
+- **What they do:** Code-free game creation platform with high-quality art assets
+- **Stage/Funding:** YC-backed, backed by March Capital, Makers Fund, Tencent
+- **Location:** Redwood City, CA
+- **Why practice here:** ~20 person team. AI builder angle plays well for a creation tools company.
+- **Role:** Product Manager (check careers page)
+
+### 42. FlutterFlow
+- **What they do:** No-code app builder for creating mobile and web apps visually
+- **Stage/Funding:** YC-backed
+- **Location:** San Francisco, CA
+- **Why practice here:** Good for practicing the "PM who builds" positioning in a startup interview format.
+- **Role:** Product Manager
+
+### 43. Capitol AI
+- **What they do:** AI startup (YC-backed)
+- **Stage/Funding:** YC-backed, early stage
+- **Location:** San Francisco, CA
+- **Why practice here:** Test AI narrative on a smaller stage before using it at Anthropic or Vercel.
+- **Role:** Product Manager
+
+### 44. Recall.ai
+- **What they do:** Universal API for meeting bots — dev tools for real-time meeting data
+- **Stage/Funding:** YC-backed
+- **Location:** San Francisco, CA
+- **Why practice here:** Dev tools adjacent. PMM role sharpens storytelling even though it's not a PM title.
+- **Role:** Product Marketing Manager
+
+---
+
+### Recommended Practice Order
+
+1. **2K Games** + **Manticore Games** first — gaming background = minimal prep, maximum reps
+2. **Discord** next — higher profile but gaming-adjacent, good bridge story practice
+3. **FlutterFlow** or **Capitol AI** — practice startup-style interviews
+4. **Roblox** last — biggest name, save for when warmed up
+
+---
+
 ## Quick Reference: Companies Actively Hiring PMs (March 2026)
 
 | Company | Role | Location | Comp Range |
@@ -322,6 +405,17 @@
 | W&B | Staff PM, Models | San Francisco, CA | TBD |
 | Hex | Product Manager | San Francisco, CA | TBD |
 | Notion | PM (2 roles) | San Francisco, CA | TBD |
+| **Practice Tier** | | | |
+| 2K Games | Sr. Technical PM | Novato, CA | TBD |
+| Discord | PM, Core Product (Messaging) | San Francisco, CA | $196K-$220K |
+| Discord | Sr. PM, Commerce | San Francisco, CA | TBD |
+| Manticore Games | Sr. PM | San Mateo, CA (remote) | TBD |
+| Roblox | Sr. PM, Social Profile | San Mateo, CA | TBD |
+| Penrose Studios | PM | San Francisco, CA | TBD |
+| DreamCraft | PM | Redwood City, CA | TBD |
+| FlutterFlow | PM | San Francisco, CA | TBD |
+| Capitol AI | PM | San Francisco, CA | TBD |
+| Recall.ai | PMM | San Francisco, CA | TBD |
 
 ---
 
