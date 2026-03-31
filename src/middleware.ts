@@ -34,6 +34,7 @@ export function middleware(request: NextRequest) {
   // API POST/writes use Bearer token auth separately (for the scheduled agent)
   if (
     pathname.startsWith("/dashboard/job-search") ||
+    pathname.startsWith("/job-search") ||
     (pathname.startsWith("/api/job-search") && !request.headers.get("authorization"))
   ) {
     const cookie = request.cookies.get(COOKIE_NAME);
@@ -81,5 +82,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/dashboard/posthog", "/api/resume", "/dashboard/job-search/:path*", "/api/job-search/:path*"],
+  matcher: ["/api/dashboard/posthog", "/api/resume", "/dashboard/job-search/:path*", "/api/job-search/:path*", "/job-search/:path*"],
 };

@@ -7,12 +7,13 @@ const COOKIE_NAME = "job_search_auth";
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token");
   const email = request.nextUrl.searchParams.get("email");
+  const redirectTo = request.nextUrl.searchParams.get("redirect") || "/dashboard/job-search";
 
   if (email !== ALLOWED_EMAIL || token !== AUTH_SECRET) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const response = NextResponse.redirect(new URL("/dashboard/job-search", request.url));
+  const response = NextResponse.redirect(new URL(redirectTo, request.url));
   response.cookies.set(COOKIE_NAME, AUTH_SECRET, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
