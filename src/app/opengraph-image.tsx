@@ -8,9 +8,9 @@ export const contentType = "image/png";
 
 export default function OGImage() {
   const headshotData = readFileSync(
-    join(process.cwd(), "public", "jonny-headshot.jpg")
+    join(process.cwd(), "public", "jonny-headshot.png")
   );
-  const headshotSrc = `data:image/jpeg;base64,${headshotData.toString("base64")}`;
+  const headshotSrc = `data:image/png;base64,${headshotData.toString("base64")}`;
 
   return new ImageResponse(
     (
