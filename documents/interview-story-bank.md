@@ -14,7 +14,7 @@ Organized by theme. Each story uses STAR format with specific metrics, tagged wi
 
 **Action:** Built the Creator Ecosystem from concept to launch. Defined GTM strategy that grew the alpha community to 1K users. Launched an e-commerce storefront and shipped a mobile app with GIPHY integration. Worked directly with celebrity partners to translate brand requirements into product specs.
 
-**Result:** E-commerce storefront generated $100K in weekly sales. Mobile app scaled to 3K early users. The creator ecosystem became the product story that helped secure $150M in funding.
+**Result:** E-commerce storefront generated $100K in weekly sales. Mobile app scaled to 3K early users. The creator ecosystem became the company's flagship product narrative.
 
 **Answers:** "Tell me about a time you built something from nothing." / "Describe a time you had to create structure where none existed." / "How do you handle ambiguity?"
 **Best audience:** Startup (Seed to Series B)
@@ -170,7 +170,7 @@ Organized by theme. Each story uses STAR format with specific metrics, tagged wi
 
 **Action:** Worked directly with celebrity and brand partners to understand their requirements. Translated those into technical specs the engineering team could execute against. Built the product processes (roadmapping, sprint planning, stakeholder communication) as I went. Balanced partner timelines against engineering capacity without overcommitting.
 
-**Result:** Creator Ecosystem launched successfully. GIPHY integration shipped in the mobile app. E-commerce storefront doing $100K/week. The product narrative helped close $150M in funding.
+**Result:** Creator Ecosystem launched successfully. GIPHY integration shipped in the mobile app. E-commerce storefront doing $100K/week. The product narrative became the company's core value proposition.
 
 **Answers:** "Tell me about managing external stakeholders." / "How do you balance competing priorities?" / "Describe influencing without authority." / "Tell me about a time you managed a high-stakes partnership."
 **Best audience:** Startup, consumer/brand company
@@ -426,7 +426,6 @@ Organized by theme. Each story uses STAR format with specific metrics, tagged wi
 | Metric | Context |
 |---|---|
 | $50M revenue | Jam City / Panda Pop |
-| $150M funding secured | Genies creator ecosystem |
 | $2M/year cost savings | AAA mobile app |
 | $100K/week sales | Genies e-commerce storefront |
 | 10M+ weekly installs | Bandai Namco / PAC-MAN |

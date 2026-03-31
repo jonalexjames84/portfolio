@@ -273,7 +273,7 @@ export default function ExperiencePage() {
             { year: "2013", event: "First PM role, scaled to $50M revenue", gradient: "from-violet-500 to-purple-500" },
             { year: "2016", event: "PAC-MAN franchise, 10M+ weekly installs", gradient: "from-amber-500 to-orange-500" },
             { year: "2018", event: "Beyond games: AAA app to 6M members", gradient: "from-sky-500 to-cyan-500" },
-            { year: "2021", event: "First PM at Genies, helped close $150M", gradient: "from-rose-500 to-pink-500" },
+            { year: "2021", event: "First PM at Genies, built creator ecosystem", gradient: "from-rose-500 to-pink-500" },
             { year: "2025", event: "Launched Pottery Friends beta, built solo with AI", gradient: "from-emerald-500 to-teal-500" },
           ].map((milestone) => (
             <motion.div

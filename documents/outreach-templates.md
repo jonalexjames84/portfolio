@@ -20,7 +20,7 @@ All templates use these placeholders:
 
 I saw the [ROLE] posting. Here is why I am writing instead of just applying.
 
-I spent 15 years shipping products at companies like Zynga, Bandai Namco, and Genies (where I was first PM hire, helped close $150M in funding). After getting laid off in late 2024, I did something most PMs talk about but never do: I built a full product myself. Pottery Friends is a native mobile app I took from zero to 150 beta members using AI-assisted development with Claude Code. 15+ repos, structured retention testing. One PM, modern tooling.
+I spent 15 years shipping products at companies like Zynga, Bandai Namco, and Genies (where I was first PM hire and built the creator ecosystem). After getting laid off in late 2024, I did something most PMs talk about but never do: I built a full product myself. Pottery Friends is a native mobile app I took from zero to 150 beta members using AI-assisted development with Claude Code. 15+ repos, structured retention testing. One PM, modern tooling.
 
 [SPECIFIC DETAIL about why this company/role fits.]
 
@@ -37,7 +37,7 @@ jonmartin.pro
 
 I do not see an open PM role at [COMPANY], but [SPECIFIC DETAIL about the company's product direction or recent news] caught my attention, and I think my background is relevant.
 
-I have shipped products from zero to 1M+ DAU ($50M revenue at Jam City), launched developer platforms and marketplaces (Mythical Games, Treasure DAO), and was first PM hire at Genies where I built the creator ecosystem that helped close $150M. After a layoff last year, I built a full product solo using AI-native development: native app, marketing site, analytics -- 150 beta members, structured PMF testing.
+I have shipped products from zero to 1M+ DAU ($50M revenue at Jam City), launched developer platforms and marketplaces (Mythical Games, Treasure DAO), and was first PM hire at Genies where I built the creator ecosystem from concept to launch. After a layoff last year, I built a full product solo using AI-native development: native app, marketing site, analytics -- 150 beta members, structured PMF testing.
 
 If you are thinking about adding product capacity, I would like to be on your radar. Worth a 15-minute call?
 
@@ -184,7 +184,7 @@ Hey [PERSON NAME],
 
 Wanted to connect you with Jon Martin. He is a PM I [know from / worked with at / met at] [context].
 
-Quick background: 15 years shipping products. Started at Zynga during FarmVille, scaled a game to $50M at Jam City, was first PM at Genies (helped close $150M), shipped developer platforms at Mythical Games and Treasure DAO. After a layoff, he built a full product solo using AI-native development -- native app, 150 beta members, structured PMF testing. He also co-founded a game studio where he did everything from incorporation to financial modeling.
+Quick background: 15 years shipping products. Started at Zynga during FarmVille, scaled a game to $50M at Jam City, was first PM at Genies (built the creator ecosystem, $100K/week e-commerce), shipped developer platforms at Mythical Games and Treasure DAO. After a layoff, he built a full product solo using AI-native development -- native app, 150 beta members, structured PMF testing. He also co-founded a game studio where he did everything from incorporation to financial modeling.
 
 He is looking at senior PM roles where product drives growth, especially in AI/ML and dev tools. Thought you two should talk.
 

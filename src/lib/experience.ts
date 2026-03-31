@@ -86,7 +86,7 @@ export const career: Role[] = [
     startYear: 2021,
     context: "First PM hire at an 85-person startup. No product infrastructure, celebrity partnerships to manage, everything to prove.",
     highlights: [
-      "Built the Creator Ecosystem from concept to launch, the product story that helped secure $150M in funding with partners like Gucci and GIPHY",
+      "Built the Creator Ecosystem from concept to launch with partners like Gucci and GIPHY",
       "Launched e-commerce storefront generating $100K in weekly sales; shipped mobile app with GIPHY integration, scaling to 3K early users",
       "Defined GTM strategy that grew alpha community to 1K users",
     ],
@@ -182,7 +182,7 @@ export const metrics = [
   { value: "15+", label: "Years Shipping Products" },
   { value: "10M+", label: "Installs/Week Launched" },
   { value: "$50M", label: "Revenue Driven" },
-  { value: "$150M", label: "Funding Secured" },
+  { value: "$100K/wk", label: "E-Commerce Revenue" },
   { value: "6M", label: "Users Reached" },
   { value: "1M+", label: "DAU at Scale" },
 ];

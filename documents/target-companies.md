@@ -425,7 +425,7 @@
 2. **Full-stack AI workflow:** Claude Code, React/React Native, Next.js, TypeScript, Supabase, PostHog, Vercel -- the modern AI builder stack
 3. **Consumer scale:** $50M products, 1M+ DAU, 10M+ installs across gaming titles
 4. **Gaming + AI intersection:** Zynga, Jam City, Bandai Namco, Mythical, Treasure DAO -- rare combination for AI gaming companies
-5. **0-to-1 experience:** First PM at Genies (contributed to $150M funding), founded Pottery Friends and Frame Story
+5. **0-to-1 experience:** First PM at Genies (built creator ecosystem, $100K/week e-commerce), founded Pottery Friends and Frame Story
 6. **Data-driven decision making:** Killed features based on data, pivoted based on engagement metrics, ran A/B tests and cohort analysis
 
 ---

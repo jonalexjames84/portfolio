@@ -8,10 +8,10 @@
 > Senior PM | Built a full product solo with AI tooling | 15 yrs shipping at Zynga, Genies, Bandai Namco
 
 **Option B (Recruiter-Filter Optimized)**
-> Senior Product Manager | AI-Native Builder | $50M Revenue, $150M Funding, 10M+ Users
+> Senior Product Manager | AI-Native Builder | $50M Revenue, 10M+ Installs, 6M Users
 
 **Option C (Startup Signal)**
-> Founding PM turned AI Builder | Shipped products from 0-to-1 at Genies ($150M raise) and Jam City ($50M product)
+> Founding PM turned AI Builder | Shipped products from 0-to-1 at Genies and Jam City ($50M product)
 
 **Option D (Technical PM)**
 > Technical Product Manager | I build with AI, not just manage it | React Native, Next.js, Claude API
@@ -31,7 +31,7 @@ I got laid off in late 2024 and instead of jumping straight back into the job ma
 
 That's not a side project. It's what product management looks like when you pair 15 years of shipping experience with modern AI tooling.
 
-Before that: first PM hire at Genies, where I built the creator ecosystem that helped close $150M in funding with partners like Gucci and GIPHY. Scaled a game to 1M+ DAU and $50M in revenue at Jam City. Launched a mobile app to 6M members at AAA, saving $2M/year in call center costs. Ran the PAC-MAN franchise at Bandai Namco — 10M+ weekly installs. Shipped cross-title game services at Mythical Games that lifted retention 20% and revenue 15%.
+Before that: first PM hire at Genies, where I built the creator ecosystem from concept to launch with partners like Gucci and GIPHY. Scaled a game to 1M+ DAU and $50M in revenue at Jam City. Launched a mobile app to 6M members at AAA, saving $2M/year in call center costs. Ran the PAC-MAN franchise at Bandai Namco — 10M+ weekly installs. Shipped cross-title game services at Mythical Games that lifted retention 20% and revenue 15%.
 
 I also co-founded Frame Story, a game studio where I handled everything from incorporating the LLC to building the 5-year financial model to designing the go-to-market pipeline. And I'm currently consulting as a fractional PM for an AI startup, building and shipping features end-to-end with Claude Code.
 
@@ -41,7 +41,7 @@ Looking for a company where product drives growth, not a support function. Seed-
 
 ### Version B: For Growth Companies (Lead with Metrics)
 
-15 years shipping products. $50M in revenue at Jam City. $150M in funding at Genies. 10M+ weekly installs on PAC-MAN. 6M members on a mobile app at AAA. The through line across all of it: find the growth lever, test it fast, and double down on what works.
+15 years shipping products. $50M in revenue at Jam City. 10M+ weekly installs on PAC-MAN. 6M members on a mobile app at AAA. The through line across all of it: find the growth lever, test it fast, and double down on what works.
 
 At Jam City, 20% month-over-month revenue growth came from running currency optimizations weekly instead of quarterly — speed of iteration beat any single brilliant idea. At AAA, $2M in annual savings came from realizing the real product wasn't the app, it was eliminating the call center dependency. At Genies, $100K/week in storefront revenue came from shipping an MVP fast enough to prove the model before the funding conversation ended.
 
@@ -55,7 +55,7 @@ Looking for companies where product drives growth and PMs own outcomes. Seed-to-
 
 I've spent 15 years building products — from 85-person startups to organizations serving 6 million members. The thing that's stayed consistent: the best product decisions come from understanding what it actually costs to build.
 
-Started at Zynga in 2009 during the FarmVille era, built Mafia Wars' first mobile raiding system. Moved to Jam City and scaled a game to 1M+ DAU and $50M in revenue. Ran the PAC-MAN franchise at Bandai Namco (10M+ weekly installs). Built an analytics pipeline from scratch at Big Fish Games. Launched a mobile app to 6M members at AAA, saving $2M/year. Joined Genies as their first PM and built the creator ecosystem that helped secure $150M in funding.
+Started at Zynga in 2009 during the FarmVille era, built Mafia Wars' first mobile raiding system. Moved to Jam City and scaled a game to 1M+ DAU and $50M in revenue. Ran the PAC-MAN franchise at Bandai Namco (10M+ weekly installs). Built an analytics pipeline from scratch at Big Fish Games. Launched a mobile app to 6M members at AAA, saving $2M/year. Joined Genies as their first PM and built the creator ecosystem from concept to launch.
 
 This past year I stopped talking about AI and started building with it. I shipped Pottery Friends — native mobile app, marketing site, analytics, payments — solo using Claude Code. 150 beta members, 15+ repos. I also co-founded Frame Story, a game studio where I did everything from LLC formation to financial modeling to GTM strategy. And I'm consulting as a fractional PM for an AI startup, building and shipping features with Claude Code daily.
 
@@ -126,7 +126,7 @@ Pin these in this order:
 
 ### Genies | Founding Product Manager | Feb 2021 -- May 2022
 
-- First PM hire at an 85-person startup. Built the creator ecosystem from concept to launch — the product story that helped secure $150M in funding with partners like Gucci and GIPHY
+- First PM hire at an 85-person startup. Built the creator ecosystem from concept to launch with partners like Gucci and GIPHY
 - Launched an e-commerce storefront generating $100K in weekly sales; shipped a mobile app with GIPHY integration, scaling to 3K early users
 - Defined go-to-market strategy that grew the alpha community to 1K users from zero
 

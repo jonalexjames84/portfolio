@@ -13,7 +13,7 @@ I'm a Senior PM with 15 years in games and creator platforms — Zynga, Jam City
 
 Two things make this a strong fit:
 
-**I've built creator ecosystems from scratch.** At Genies, I was the first PM hire at an 85-person startup. I built the Creator Ecosystem from concept to launch — the product story that helped secure $150M in funding with partners like Gucci and GIPHY. At Treasure DAO, I owned the developer platform, gaming marketplace, and quest engagement system, shipping tools that increased active developers by 35%. I know what creators need because I've watched them bounce off bad tooling and thrive on good tooling.
+**I've built creator ecosystems from scratch.** At Genies, I was the first PM hire at an 85-person startup. I built the Creator Ecosystem from concept to launch with partners like Gucci and GIPHY. At Treasure DAO, I owned the developer platform, gaming marketplace, and quest engagement system, shipping tools that increased active developers by 35%. I know what creators need because I've watched them bounce off bad tooling and thrive on good tooling.
 
 **I'm a PM who actually builds.** Over the past year I've shipped a production app solo using Claude Code — React Native, Next.js, Supabase, 59 migrations, 150 beta users. For a company building creation tools, having a PM who codes daily means I can prototype ideas, stress-test the creator experience firsthand, and talk to engineers without a translator.
 

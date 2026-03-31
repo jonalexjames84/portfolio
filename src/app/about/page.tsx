@@ -39,7 +39,7 @@ const sections = [
     title: "Betting on Myself",
     gradient: "from-rose-500 to-pink-500",
     content: [
-      "Genies hired me as their first PM. 85-person startup, no product infrastructure, celebrity partnerships (Gucci, GIPHY), everything to prove. I built the creator ecosystem from concept to launch, an e-commerce storefront doing $100K/week, and helped close $150M in funding.",
+      "Genies hired me as their first PM. 85-person startup, no product infrastructure, celebrity partnerships (Gucci, GIPHY), everything to prove. I built the creator ecosystem from concept to launch and an e-commerce storefront doing $100K/week.",
       "Mythical Games and Treasure DAO took me deeper into digital marketplaces and developer platforms. Mythical: cross-title game services, +20% retention, +15% revenue. Treasure: quest system, marketplace, new chain on Arbitrum, +20% user base. Then, in November 2024, I was laid off.",
     ],
   },

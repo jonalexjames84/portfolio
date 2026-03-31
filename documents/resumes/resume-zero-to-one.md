@@ -8,7 +8,7 @@ Bay Area | Open to Remote | jonalexjames@gmail.com | (650) 627-6352 | portfolio.
 
 ## Summary
 
-Three-time zero-to-one builder. First PM at Genies (85-person startup, $150M raised). Co-founded Frame Story, a game studio where I incorporated the company, built the financial model, and am executing a pre-seed raise. Built Pottery Friends solo from idea to 150-member beta. Fifteen years of product experience across startups and scale — but I do my best work when there is no playbook and the job is to create one.
+Three-time zero-to-one builder. First PM at Genies (85-person startup, built creator ecosystem from scratch). Co-founded Frame Story, a game studio where I incorporated the company, built the financial model, and am executing a pre-seed raise. Built Pottery Friends solo from idea to 150-member beta. Fifteen years of product experience across startups and scale — but I do my best work when there is no playbook and the job is to create one.
 
 ---
 
@@ -18,7 +18,7 @@ Three-time zero-to-one builder. First PM at Genies (85-person startup, $150M rai
 **Feb 2021 – May 2022**
 
 - First PM hire at an 85-person startup with no product infrastructure, celebrity partnerships to manage, and everything to prove
-- Built the Creator Ecosystem from concept to launch — the product story that helped secure $150M in funding with partners including Gucci and GIPHY
+- Built the Creator Ecosystem from concept to launch with partners including Gucci and GIPHY
 - Launched an e-commerce storefront generating $100K in weekly sales within months of launch
 - Shipped mobile app with GIPHY integration, scaling to 3K early users; defined GTM strategy that grew alpha community to 1K users
 

@@ -99,7 +99,7 @@ export function HomePage() {
                 className="mb-8 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400"
               >
                 15 years shipping at Zynga, Jam City, Bandai Namco, AAA, and
-                Genies. $50M in revenue, $150M in funding, 6M users. I also
+                Genies. $50M in revenue, 10M+ installs, 6M users. I also
                 ship code, and four solo-built products and a co-founded game
                 studio prove it.
               </motion.p>

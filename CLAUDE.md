@@ -41,7 +41,7 @@ This repo exists as **context about Jon** — his career, skills, projects, writ
 - **15+ years** shipping products across gaming, consumer tech, enterprise, and web3
 - **AI-native builder**: Built Pottery Friends (150 beta users), this portfolio, and multiple projects solo using Claude Code
 - **Founder experience**: Co-founded Frame Story, built financial models, raised funding via SAFEs
-- **Metrics-driven**: $50M product revenue, $150M funding secured, 10M+ installs, 6M users
+- **Metrics-driven**: $50M product revenue, 10M+ installs, 6M users
 - **Technical PM**: Codes in React/Next.js/TypeScript, runs PostHog analytics, ships without engineering support
 
 ## Tone When Writing For Jon

@@ -23,7 +23,7 @@ Use **STAR format** (Situation, Task, Action, Result) for all behavioral answers
 
 **Q1: Tell me about a time you had to influence without authority.**
 - **Story:** Genies — Founding PM at 85-person startup, no product infrastructure
-- **Skeleton:** I was the first PM hire at Genies with no established product process and celebrity partnerships to manage. I built the Creator Ecosystem from concept to launch by earning trust through shipping, which became the product story that helped secure $150M in funding with partners like Gucci and GIPHY.
+- **Skeleton:** I was the first PM hire at Genies with no established product process and celebrity partnerships to manage. I built the Creator Ecosystem from concept to launch by earning trust through shipping, shipping the creator ecosystem with partners like Gucci and GIPHY.
 
 **Q2: Describe a time you rallied a cross-functional team around a difficult goal.**
 - **Story:** Mythical Games — cross-title game services platform
@@ -35,7 +35,7 @@ Use **STAR format** (Situation, Task, Action, Result) for all behavioral answers
 
 **Q4: Describe a time you built something from zero.**
 - **Story:** Genies — first PM hire, built Creator Ecosystem from concept
-- **Skeleton:** At Genies there was no product infrastructure when I arrived — no roadmap, no process, no shared understanding of what we were building. I defined and launched the Creator Ecosystem end-to-end, a product story strong enough to help close $150M in funding, plus shipped an e-commerce storefront generating $100K in weekly sales.
+- **Skeleton:** At Genies there was no product infrastructure when I arrived — no roadmap, no process, no shared understanding of what we were building. I defined and launched the Creator Ecosystem end-to-end, shipping an e-commerce storefront generating $100K in weekly sales.
 
 **Q5: Tell me about a time you managed competing priorities across multiple products.**
 - **Story:** Treasure DAO — marketplace, quest system, developer platform, chain launch
@@ -320,7 +320,7 @@ Use **STAR format** (Situation, Task, Action, Result) for all behavioral answers
 
 ### 30-Second Version
 
-"I'm Jon Martin — 15 years shipping products, from Zynga in the early social gaming days through AAA at enterprise scale, to Genies where I was the founding PM on a product that helped secure $150M in funding. Most recently, I've gone deep on AI-native development — I built an entire product ecosystem solo using Claude Code, shipping a mobile app, web platform, and analytics dashboards to 150 beta users. I'm looking for a Senior PM role at an AI-forward company where I can combine deep product experience with hands-on AI fluency."
+"I'm Jon Martin — 15 years shipping products, from Zynga in the early social gaming days through AAA at enterprise scale, to Genies where I was the founding PM building the creator ecosystem from scratch. Most recently, I've gone deep on AI-native development — I built an entire product ecosystem solo using Claude Code, shipping a mobile app, web platform, and analytics dashboards to 150 beta users. I'm looking for a Senior PM role at an AI-forward company where I can combine deep product experience with hands-on AI fluency."
 
 ### 2-Minute Version
 
@@ -328,7 +328,7 @@ Use **STAR format** (Situation, Task, Action, Result) for all behavioral answers
 
 I started at Zynga during the peak of social gaming — FarmVille, FrontierVille — learning live ops at a scale few companies have matched. From there I moved through progressively more ownership: product manager at Jam City where I built a $50M product with 1M+ DAU, Director of Product at Flow State, then PAC-MAN at Bandai Namco with 10M+ weekly installs.
 
-The pivot point was Genies. I was the first PM hire at an 85-person startup with no product infrastructure. I built the Creator Ecosystem from concept to launch — that product story helped close $150M in funding with partners like Gucci and GIPHY. That experience taught me what it means to build from zero with high stakes.
+The pivot point was Genies. I was the first PM hire at an 85-person startup with no product infrastructure. I built the Creator Ecosystem from concept to launch — I shipped that with partners like Gucci and GIPHY. That experience taught me what it means to build from zero with high stakes.
 
 After Genies, I went into web3 at Mythical Games and Treasure DAO, shipping game services platforms, marketplaces, and developer tools. I learned to build for developers, handle complex technical systems, and operate at the platform level.
 
@@ -344,7 +344,7 @@ I'm looking for a Senior PM role at an AI-forward company where that combination
 
 From Zynga I went to Jam City, where I launched and scaled a product to 1M+ daily active users and $50M in revenue. I drove 20% month-over-month revenue growth by refining content and monetization. Then I became Director of Product at Flow State, running strategy for a full suite of mobile games. Then PAC-MAN at Bandai Namco — 10M+ weekly installs, global launch, and I pivoted the acquisition strategy from organic to paid after cohort data showed paid users retained 20% better. Each role added a new dimension: analytics at Big Fish Games where I built the entire pipeline from scratch, enterprise at AAA where I launched a mobile app to 6M members and saved $2M a year in call center costs.
 
-**The inflection point: building from zero.** Genies was where everything changed. I was the first PM hire at an 85-person startup. No product infrastructure, celebrity partnerships to manage, everything to prove. I built the Creator Ecosystem from concept to launch. That product story helped secure $150M in funding with partners like Gucci and GIPHY. I shipped an e-commerce storefront generating $100K in weekly sales and a mobile app with GIPHY integration scaling to 3K early users. Genies taught me that the most valuable PM skill isn't frameworks — it's the ability to create clarity out of chaos and ship something real when the stakes are high.
+**The inflection point: building from zero.** Genies was where everything changed. I was the first PM hire at an 85-person startup. No product infrastructure, celebrity partnerships to manage, everything to prove. I built the Creator Ecosystem from concept to launch. I shipped an e-commerce storefront generating $100K in weekly sales and a mobile app with GIPHY integration scaling to 3K early users. Genies taught me that the most valuable PM skill isn't frameworks — it's the ability to create clarity out of chaos and ship something real when the stakes are high.
 
 **Platform thinking: web3 and developer tools.** After Genies, I spent two years in web3. At Mythical Games, I shipped a cross-title game services platform — player retention up 20%, revenue up 15%. I led the team that built a digital asset marketplace on time and under budget. At Treasure DAO, I owned the full product stack: marketplace, quest engagement system, developer platform, and a new chain launch from scratch. I shipped the refactored web app, gaming marketplace, testnet, and developer portal, increasing active developers by 35%. This period taught me platform thinking — how to build shared infrastructure that enables multiple products rather than one-off features.
 
@@ -364,7 +364,7 @@ I also built Macro Chef, a fitness analytics platform that integrates Strava, DE
 
 | Story Title | Company | Key Metrics | Best For |
 |---|---|---|---|
-| Creator Ecosystem | Genies | $150M funding, $100K/wk sales | Building from zero, influence, high stakes |
+| Creator Ecosystem | Genies | $100K/wk sales, 3K early users | Building from zero, influence, high stakes |
 | Pottery Friends | Indie Builder | 150 beta members, 2x engagement | AI-native dev, data-driven pivots, solo execution |
 | Cross-title Platform | Mythical Games | +20% retention, +15% revenue | Platform thinking, cross-functional leadership |
 | PAC-MAN Acquisition Pivot | Bandai Namco | 10M+ installs, +20% retention | Data-driven decisions, challenging assumptions |

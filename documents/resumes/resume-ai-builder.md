@@ -54,7 +54,7 @@ PM with 15+ years of shipping products who now builds them directly. Shipped a f
 ### Founding Product Manager — Genies
 **Feb 2021 – May 2022**
 
-- First PM hire at 85-person startup; built the Creator Ecosystem from concept to launch, contributing to $150M in funding
+- First PM hire at 85-person startup; built the Creator Ecosystem from concept to launch with partners like Gucci and GIPHY
 - Launched e-commerce storefront generating $100K in weekly sales; shipped mobile app with GIPHY integration
 
 ### Digital Product Manager — AAA

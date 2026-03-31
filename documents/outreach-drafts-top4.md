@@ -93,7 +93,7 @@ Aman,
 
 I am the PM Replit is building for. Over the past year I shipped a full product -- native mobile app, marketing site, analytics, payments -- using AI-assisted development. 15+ repos across React Native, Next.js, Supabase, Stripe, and PostHog. One person, modern tooling, 150 beta members running structured retention testing.
 
-Before that: 15 years shipping at Zynga, Jam City ($50M product, 1M+ DAU), Bandai Namco (10M+ installs), and Genies (first PM, helped close $150M). I know what it takes to build products that scale, and I know what AI-assisted development actually feels like from the inside -- the wins and the friction.
+Before that: 15 years shipping at Zynga, Jam City ($50M product, 1M+ DAU), Bandai Namco (10M+ installs), and Genies (first PM, built creator ecosystem). I know what it takes to build products that scale, and I know what AI-assisted development actually feels like from the inside -- the wins and the friction.
 
 Replit's bet on making coding accessible to everyone resonates because I have lived it. I would love to talk about how that firsthand experience maps to the Sr PM role.
 
@@ -123,7 +123,7 @@ Kathy,
 
 I deploy on Vercel every day. My portfolio site, my startup's marketing platform, and the GTM site for my game studio all run on Vercel with Next.js. I use v0 to prototype components and the AI SDK for integrations. I am not pitching theoretical interest -- I am a paying customer who also happens to have 15 years of product experience.
 
-The Agent Platform role caught my attention because I have done 0-to-1 before: first PM at Genies (built the creator ecosystem that helped close $150M), shipped cross-title game services at Mythical, and recently built an entire product solo using AI-native development -- 15 repos, 150 beta members, structured PMF testing.
+The Agent Platform role caught my attention because I have done 0-to-1 before: first PM at Genies (built the creator ecosystem, $100K/week e-commerce), shipped cross-title game services at Mythical, and recently built an entire product solo using AI-native development -- 15 repos, 150 beta members, structured PMF testing.
 
 Taking a product from design partners to GA while defining packaging, pricing, and governance is exactly the work I want to do. 20 minutes to discuss?
 
