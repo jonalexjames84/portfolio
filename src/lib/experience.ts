@@ -25,16 +25,16 @@ export const career: Role[] = [
     tags: ["Game Studio", "Co-Founder", "GTM Strategy", "Fundraising", "Financial Modeling"],
   },
   {
-    company: "Indie Builder",
+    company: "Pottery Friends",
     title: "Founder / PM / Dev",
     period: "Feb 2025 – Present",
     startYear: 2025,
     context: "Built Pottery Friends from zero to 150-member early access beta using AI-native development. Currently running user testing to validate product-market fit for an unowned vertical: purpose-built software for craft studio communities.",
     highlights: [
-      "Shipped a full product ecosystem solo using AI-native development (Claude Code, Claude API): native mobile app, marketing site, analytics dashboards, and internal docs — proving one PM with AI tooling can replace a small product team",
+      "Shipped a full product ecosystem solo using AI-native development (Claude Code, Claude API): native mobile app, marketing site, analytics dashboards, and internal docs",
       "Running a structured early access beta with 150 members: tracking D1/D7 retention cohorts, activation funnels, and PMF surveys to validate product-market fit",
       "Prioritized by killing scope ruthlessly: cut a planned marketplace after user interviews, pivoted the home screen when engagement data contradicted the hypothesis, reduced 40 onboarding quests to 8",
-      "15+ repos, 59 migrations, 19 edge functions across React Native, Next.js, Supabase, Stripe, and PostHog — AI-assisted full-stack development from zero to production",
+      "15+ repos, 59 migrations, 19 edge functions across React Native, Next.js, Supabase, Stripe, and PostHog. Full-stack development from zero to production using AI-assisted workflows",
     ],
     tags: ["AI-Native Dev", "Early Access Beta", "150 Beta Members"],
   },
@@ -47,7 +47,7 @@ export const career: Role[] = [
     highlights: [
       "Defined AI product strategy for a swipe-to-hire platform: reframed founder 'AI' assumptions as targeted automations, cutting months of misallocated engineering and surfacing legal risks in predictive turnover models",
       "Built 5 functional prototypes using AI-assisted development (Claude Code + Next.js + Supabase), each serving as both investor demo and living engineering spec",
-      "Designed AI-ranked candidate pipeline aggregating Indeed, ZipRecruiter, and native applicants — swipe-to-match prototype reduced manager shortlisting time from days to under 2 minutes",
+      "Designed AI-ranked candidate pipeline aggregating Indeed, ZipRecruiter, and native applicants. Swipe-to-match prototype reduced manager shortlisting time from days to under 2 minutes",
       "Prototypes used directly in investor meetings and enterprise sales conversations with restaurant brands",
     ],
     tags: ["Fractional PM", "AI Strategy", "SaaS", "Prototyping"],

@@ -7,6 +7,9 @@ const RATE_LIMITS: Record<string, { maxRequests: number; windowMs: number }> = {
 
 const requestLog = new Map<string, number[]>();
 
+const COOKIE_NAME = "job_search_auth";
+const AUTH_SECRET = process.env.JOB_SEARCH_AUTH_SECRET || "jon-job-search-2026";
+
 // Prune expired entries every 5 minutes
 let lastPrune = Date.now();
 const PRUNE_INTERVAL = 5 * 60_000;
@@ -27,6 +30,22 @@ function prune(now: number) {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Job search auth gate — dashboard page and API GET endpoints
+  // API POST/writes use Bearer token auth separately (for the scheduled agent)
+  if (
+    pathname.startsWith("/dashboard/job-search") ||
+    (pathname.startsWith("/api/job-search") && !request.headers.get("authorization"))
+  ) {
+    const cookie = request.cookies.get(COOKIE_NAME);
+    if (cookie?.value !== AUTH_SECRET) {
+      if (pathname.startsWith("/api/")) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  // Rate limiting
   const limit = RATE_LIMITS[pathname];
   if (!limit) return NextResponse.next();
 
@@ -62,5 +81,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/dashboard/posthog", "/api/resume"],
+  matcher: ["/api/dashboard/posthog", "/api/resume", "/dashboard/job-search/:path*", "/api/job-search/:path*"],
 };

@@ -156,37 +156,36 @@ export function PipelineBacklog({ entries: initialEntries, tasks: initialTasks }
             {filteredApps.map((entry) => (
               <div
                 key={entry.id}
-                className="flex items-center gap-3 p-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900"
+                className="px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900"
               >
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 truncate">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                       {entry.company}
-                    </span>
-                    <span className="text-xs text-zinc-400 truncate">
+                    </p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 leading-snug">
                       {entry.role}
-                    </span>
+                    </p>
                   </div>
-                  {entry.applied_date && (
-                    <span className="text-[11px] text-zinc-400 mt-0.5 block">
-                      Applied {new Date(entry.applied_date + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                    </span>
-                  )}
+                  <div className="relative shrink-0">
+                    <select
+                      value={entry.status}
+                      onChange={(e) => updateStatus(entry.id, e.target.value)}
+                      disabled={updating === entry.id}
+                      className={`appearance-none text-[11px] font-medium pl-2.5 pr-6 py-1 rounded-full border-0 cursor-pointer ${statusStyles[entry.status] || statusStyles.applied} ${updating === entry.id ? "opacity-50" : ""}`}
+                    >
+                      {statusOptions.map((s) => (
+                        <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-1.5 top-1/2 -translate-y-1/2 h-3 w-3 pointer-events-none text-current opacity-60" />
+                  </div>
                 </div>
-
-                <div className="relative shrink-0">
-                  <select
-                    value={entry.status}
-                    onChange={(e) => updateStatus(entry.id, e.target.value)}
-                    disabled={updating === entry.id}
-                    className={`appearance-none text-[11px] font-medium pl-2.5 pr-6 py-1 rounded-full border-0 cursor-pointer ${statusStyles[entry.status] || statusStyles.applied} ${updating === entry.id ? "opacity-50" : ""}`}
-                  >
-                    {statusOptions.map((s) => (
-                      <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
-                    ))}
-                  </select>
-                  <ChevronDown className="absolute right-1.5 top-1/2 -translate-y-1/2 h-3 w-3 pointer-events-none text-current opacity-60" />
-                </div>
+                {entry.applied_date && (
+                  <p className="text-[11px] text-zinc-400 mt-1.5">
+                    Applied {new Date(entry.applied_date + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -219,13 +218,13 @@ export function PipelineBacklog({ entries: initialEntries, tasks: initialTasks }
               <div
                 key={task.id}
                 onClick={() => toggleTask(task.id)}
-                className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                className={`flex items-start gap-3 px-4 py-3 rounded-xl border transition-all cursor-pointer ${
                   task.done
                     ? "border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 opacity-60"
                     : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:border-teal-300 dark:hover:border-teal-700"
                 }`}
               >
-                <div className="shrink-0">
+                <div className="shrink-0 mt-0.5">
                   {task.done ? (
                     <CheckCircle2 className="h-5 w-5 text-teal-500" />
                   ) : (
@@ -233,13 +232,13 @@ export function PipelineBacklog({ entries: initialEntries, tasks: initialTasks }
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">{categoryEmoji[task.category] || "\ud83d\udccc"}</span>
-                    <span className={`text-sm font-medium truncate ${task.done ? "line-through text-zinc-400" : "text-zinc-900 dark:text-zinc-100"}`}>
+                  <div className="flex items-start gap-2">
+                    <span className="text-base shrink-0 leading-5">{categoryEmoji[task.category] || "\ud83d\udccc"}</span>
+                    <span className={`text-sm font-medium leading-snug ${task.done ? "line-through text-zinc-400" : "text-zinc-900 dark:text-zinc-100"}`}>
                       {task.task}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 ml-7 mt-0.5">
+                  <div className="flex items-center gap-2 ml-7 mt-1">
                     {task.company && (
                       <span className="text-xs text-zinc-500">{task.company}</span>
                     )}

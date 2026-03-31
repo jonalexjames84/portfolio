@@ -15,6 +15,7 @@ type Task = {
   done: boolean;
   blocked_by: string | null;
   is_blocked: boolean;
+  notes: string | null;
 };
 
 const categoryEmoji: Record<string, string> = {
@@ -43,11 +44,16 @@ export function TaskList({ tasks: initialTasks, backlogCount: initialBacklog, al
   const [tasks, setTasks] = useState(initialTasks);
   const [backlogCount, setBacklogCount] = useState(initialBacklog);
   const [pullingFuture, setPullingFuture] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const done = tasks.filter((t) => t.done).length;
   const total = tasks.length;
   const allDone = total > 0 && done === total;
   const today = new Date().toISOString().split("T")[0];
+
+  function toggleExpand(id: string) {
+    setExpandedId((prev) => (prev === id ? null : id));
+  }
 
   async function toggleComplete(id: string) {
     const task = tasks.find((t) => t.id === id);
@@ -62,7 +68,17 @@ export function TaskList({ tasks: initialTasks, backlogCount: initialBacklog, al
         return t;
       })
     );
+    // Collapse card when marking done from the card
+    if (newDone && expandedId === id) {
+      setExpandedId(null);
+    }
     await fetch(`/api/job-search/tasks/${id}/complete`, { method: "POST" });
+  }
+
+  async function snoozeTask(id: string) {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+    setExpandedId(null);
+    await fetch(`/api/job-search/tasks/${id}/snooze`, { method: "POST" });
   }
 
   async function pullFutureTask() {
@@ -108,73 +124,174 @@ export function TaskList({ tasks: initialTasks, backlogCount: initialBacklog, al
 
       <div className="space-y-2">
         <AnimatePresence>
-          {tasks.map((task) => (
-            <motion.div
-              key={task.id}
-              layout
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
-                task.is_blocked
-                  ? "bg-zinc-50 border-zinc-100 dark:bg-zinc-900/50 dark:border-zinc-800 opacity-50 cursor-not-allowed"
-                  : task.done
-                    ? "bg-zinc-50 border-zinc-100 dark:bg-zinc-900/50 dark:border-zinc-800 opacity-60 cursor-pointer"
-                    : "bg-white border-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 hover:border-teal-300 dark:hover:border-teal-700 cursor-pointer"
-              }`}
-              onClick={() => toggleComplete(task.id)}
-            >
-              <div className="mt-0.5 shrink-0">
-                {task.is_blocked ? (
-                  <Lock className="h-5 w-5 text-zinc-300 dark:text-zinc-600" />
-                ) : task.done ? (
-                  <CheckCircle2 className="h-5 w-5 text-teal-500" />
-                ) : (
-                  <Circle className="h-5 w-5 text-zinc-300 dark:text-zinc-600" />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">{categoryEmoji[task.category]}</span>
-                  <span className={`text-sm font-medium ${task.done ? "line-through text-zinc-400" : "text-zinc-900 dark:text-zinc-100"}`}>
-                    {task.task}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 ml-7 mt-0.5">
-                  {task.company && (
-                    <span className="text-xs text-zinc-500">{task.company}</span>
-                  )}
-                  {task.is_blocked && (
-                    <span className="inline-flex items-center gap-0.5 text-[10px] text-zinc-400">
-                      <Lock className="h-3 w-3" />
-                      do {tasks.find((t) => t.id === task.blocked_by)?.task.split(" ").slice(0, 4).join(" ") || "prerequisite"} first
-                    </span>
-                  )}
-                  {!task.is_blocked && isFromPastDay(task) && !task.done && (
-                    <span className="inline-flex items-center gap-0.5 text-[10px] text-amber-600 dark:text-amber-400">
-                      <Clock className="h-3 w-3" />
-                      rolled over
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${impactStyles[task.impact]}`}>
-                  {task.impact}
-                </span>
-                {task.link && (
-                  <a
-                    href={task.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-teal-500 hover:text-teal-600"
+          {tasks.map((task) => {
+            const isExpanded = expandedId === task.id;
+            return (
+              <motion.div
+                key={task.id}
+                layout
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`rounded-xl border transition-all overflow-hidden ${
+                  isExpanded
+                    ? "border-teal-500 dark:border-teal-600 shadow-md"
+                    : task.is_blocked
+                      ? "bg-zinc-50 border-zinc-100 dark:bg-zinc-900/50 dark:border-zinc-800 opacity-50"
+                      : task.done
+                        ? "bg-zinc-50 border-zinc-100 dark:bg-zinc-900/50 dark:border-zinc-800 opacity-60"
+                        : "bg-white border-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 hover:border-teal-300 dark:hover:border-teal-700"
+                }`}
+              >
+                {/* Header row */}
+                <div
+                  className={`flex items-start gap-3 px-4 py-3 cursor-pointer ${
+                    isExpanded ? "border-b border-zinc-100 dark:border-zinc-800" : ""
+                  }`}
+                  onClick={() => !task.is_blocked && toggleExpand(task.id)}
+                >
+                  <div
+                    className="mt-0.5 shrink-0"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleComplete(task.id);
+                    }}
                   >
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                )}
-              </div>
-            </motion.div>
-          ))}
+                    {task.is_blocked ? (
+                      <Lock className="h-5 w-5 text-zinc-300 dark:text-zinc-600" />
+                    ) : task.done ? (
+                      <CheckCircle2 className="h-5 w-5 text-teal-500" />
+                    ) : (
+                      <Circle className="h-5 w-5 text-zinc-300 dark:text-zinc-600 hover:text-teal-400 transition-colors" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start gap-2">
+                      <span className="text-base shrink-0 leading-5">{categoryEmoji[task.category]}</span>
+                      <span className={`text-sm font-medium leading-snug ${task.done ? "line-through text-zinc-400" : "text-zinc-900 dark:text-zinc-100"}`}>
+                        {task.task}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 ml-7 mt-1">
+                      {task.company && (
+                        <span className="text-xs text-zinc-500">{task.company}</span>
+                      )}
+                      {task.is_blocked && (
+                        <span className="inline-flex items-center gap-0.5 text-[10px] text-zinc-400">
+                          <Lock className="h-3 w-3" />
+                          do {tasks.find((t) => t.id === task.blocked_by)?.task.split(" ").slice(0, 4).join(" ") || "prerequisite"} first
+                        </span>
+                      )}
+                      {!task.is_blocked && isFromPastDay(task) && !task.done && (
+                        <span className="inline-flex items-center gap-0.5 text-[10px] text-amber-600 dark:text-amber-400">
+                          <Clock className="h-3 w-3" />
+                          rolled over
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${impactStyles[task.impact]}`}>
+                      {task.impact}
+                    </span>
+                    {task.link && !isExpanded && (
+                      <a
+                        href={task.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-teal-500 hover:text-teal-600"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Expanded card body */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-4 space-y-3">
+                        {/* Company */}
+                        {task.company && (
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">Company</span>
+                            <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{task.company}</span>
+                          </div>
+                        )}
+
+                        {/* Notes */}
+                        {task.notes && (
+                          <div className="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg p-3">
+                            <div className="text-[11px] font-medium text-zinc-400 uppercase tracking-wide mb-1">Notes</div>
+                            <div className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">{task.notes}</div>
+                          </div>
+                        )}
+
+                        {/* Blocked indicator */}
+                        {task.is_blocked && (
+                          <div className="flex items-center gap-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2">
+                            <Lock className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+                            <span className="text-xs text-amber-700 dark:text-amber-300">
+                              Blocked by: <strong>{tasks.find((t) => t.id === task.blocked_by)?.task || "prerequisite"}</strong>
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Action buttons */}
+                        <div className="flex gap-2 pt-1">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleComplete(task.id);
+                            }}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                              task.done
+                                ? "bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300"
+                                : "bg-teal-500 text-white hover:bg-teal-600"
+                            }`}
+                          >
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            {task.done ? "Undo" : "Mark Done"}
+                          </button>
+                          {task.link && (
+                            <a
+                              href={task.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5" />
+                              Open Link
+                            </a>
+                          )}
+                          {!task.done && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                snoozeTask(task.id);
+                              }}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-zinc-50 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
+                            >
+                              <Clock className="h-3.5 w-3.5" />
+                              Snooze
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </AnimatePresence>
       </div>
 
