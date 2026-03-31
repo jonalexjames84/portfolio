@@ -1,4 +1,5 @@
 const DASHBOARD_URL = "https://portfolio.jonnymartin.blog/dashboard/job-search";
+const HUB_URL = "https://portfolio.jonnymartin.blog/job-search";
 
 export const TARGETS = {
   applications_sent: 5,
@@ -18,6 +19,7 @@ export function emailWrapper(title: string, subtitle: string, body: string): str
       ${body}
       <div style="padding: 16px 0; text-align: center;">
         <a href="${DASHBOARD_URL}" style="display: inline-block; background: #0d9488; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">Open Dashboard</a>
+        <a href="${HUB_URL}" style="display: inline-block; background: #6366f1; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; margin-left: 8px;">Job Search Hub</a>
       </div>
     </div>
   `;
@@ -89,6 +91,73 @@ export function signalBox(signals: string[]): string {
     <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
       <h2 style="font-size: 15px; font-weight: 600; color: #92400e; margin: 0 0 8px;">Signals</h2>
       ${signals.map((s) => `<p style="color: #78350f; font-size: 13px; margin: 4px 0;">${s}</p>`).join("")}
+    </div>
+  `;
+}
+
+export function followUpSection(connections: { name: string; company_name: string | null; next_action: string | null; last_contact: string | null }[]): string {
+  if (connections.length === 0) return "";
+  const rows = connections.slice(0, 5).map((c) => {
+    const daysAgo = c.last_contact
+      ? Math.floor((Date.now() - new Date(c.last_contact).getTime()) / 86400000)
+      : null;
+    return `
+      <tr>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #f3f4f6;">
+          <div style="font-weight: 600; color: #111827; font-size: 14px;">${c.name}</div>
+          <div style="color: #6b7280; font-size: 12px;">${c.company_name || "—"}</div>
+        </td>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #f3f4f6; font-size: 13px; color: #374151;">${c.next_action || ""}</td>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #f3f4f6; font-size: 12px; color: ${daysAgo && daysAgo > 14 ? "#ef4444" : "#6b7280"}; text-align: right; white-space: nowrap;">${daysAgo ? `${daysAgo}d ago` : "—"}</td>
+      </tr>`;
+  }).join("");
+
+  return `
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 16px;">
+      <div style="padding: 16px 16px 0;">
+        <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0;">🔄 Follow-ups Due</h2>
+        <p style="font-size: 12px; color: #6b7280; margin: 4px 0 0;">${connections.length} contact${connections.length !== 1 ? "s" : ""} need follow-up</p>
+      </div>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">${rows}</table>
+    </div>
+  `;
+}
+
+export function spotlightSection(companies: { name: string; industry: string | null; product_focus: string | null; rank: number | null }[]): string {
+  if (companies.length === 0) return "";
+  const cards = companies.slice(0, 3).map((c) => `
+    <div style="flex: 1; padding: 12px; background: #f0f9ff; border-radius: 8px; min-width: 0;">
+      <div style="font-size: 14px; font-weight: 700; color: #1e40af;">#${c.rank} ${c.name}</div>
+      <div style="font-size: 11px; color: #3b82f6; margin-top: 2px;">${c.industry || ""}</div>
+      <div style="font-size: 12px; color: #374151; margin-top: 4px; line-height: 1.4;">${(c.product_focus || "").slice(0, 80)}${(c.product_focus || "").length > 80 ? "…" : ""}</div>
+    </div>
+  `).join("");
+
+  return `
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 12px;">🎯 Target Spotlight</h2>
+      <div style="display: flex; gap: 8px;">${cards}</div>
+    </div>
+  `;
+}
+
+export function networkGrowthSection(stats: { newConnections: number; referralChanges: number; materialsCreated: number }): string {
+  const items = [
+    { label: "New Connections", value: stats.newConnections, color: "#10b981" },
+    { label: "Referral Updates", value: stats.referralChanges, color: "#8b5cf6" },
+    { label: "Materials Created", value: stats.materialsCreated, color: "#3b82f6" },
+  ];
+  return `
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 12px;">This Week's Activity</h2>
+      <div style="display: flex; gap: 12px; text-align: center;">
+        ${items.map((i) => `
+          <div style="flex: 1; padding: 8px; background: ${i.color}10; border-radius: 8px;">
+            <div style="font-size: 24px; font-weight: 700; color: ${i.color};">${i.value}</div>
+            <div style="font-size: 11px; color: #6b7280;">${i.label}</div>
+          </div>
+        `).join("")}
+      </div>
     </div>
   `;
 }

@@ -5,6 +5,7 @@ import {
   emailWrapper,
   scorecardSection,
   signalBox,
+  networkGrowthSection,
   checkAuth,
   getWeekBounds,
   TARGETS,
@@ -33,7 +34,7 @@ async function handleWeeklyRecap(request: NextRequest) {
   const lastWeekStartStr = lastWeekStart.toISOString().split("T")[0];
   const lastWeekEndStr = new Date(lastWeekStart.getTime() + 6 * 86400000).toISOString().split("T")[0];
 
-  const [thisWeekResult, lastWeekResult, allTasksResult, pipelineResult, pipelineMovedResult] = await Promise.all([
+  const [thisWeekResult, lastWeekResult, allTasksResult, pipelineResult, pipelineMovedResult, newConnectionsResult, materialsResult] = await Promise.all([
     supabase
       .from("job_daily_tasks")
       .select("category, done")
@@ -56,6 +57,14 @@ async function handleWeeklyRecap(request: NextRequest) {
       .from("job_pipeline_entries")
       .select("status, last_update")
       .gte("last_update", weekStartStr),
+    supabase
+      .from("job_connections")
+      .select("id, referral_status")
+      .gte("created_at", weekStartStr),
+    supabase
+      .from("job_materials")
+      .select("id")
+      .gte("created_at", weekStartStr),
   ]);
 
   const thisWeekCompleted = thisWeekResult.data || [];
@@ -63,6 +72,9 @@ async function handleWeeklyRecap(request: NextRequest) {
   const allTasks = allTasksResult.data || [];
   const pipelineEntries = pipelineResult.data || [];
   const pipelineMoved = pipelineMovedResult.data || [];
+  const newConnections = newConnectionsResult.data || [];
+  const newMaterials = materialsResult.data || [];
+  const referralChanges = newConnections.filter((c) => c.referral_status !== "none").length;
 
   const total = allTasks.length;
   const completedCount = allTasks.filter((t) => t.done).length;
@@ -211,7 +223,8 @@ async function handleWeeklyRecap(request: NextRequest) {
 
   // --- Assemble ---
   const weekLabel = `Week of ${new Date(weekStartStr).toLocaleDateString("en-US", { month: "long", day: "numeric" })}`;
-  const body = summarySection + scorecardSection(counts) + deltaSection + pipelineSection + signalBox(signals)
+  const activitySection = networkGrowthSection({ newConnections: newConnections.length, referralChanges, materialsCreated: newMaterials.length });
+  const body = summarySection + scorecardSection(counts) + deltaSection + pipelineSection + activitySection + signalBox(signals)
     + `<p style="color: #9ca3af; font-size: 12px; text-align: center;">${completedCount}/${total} tasks completed (${completionPct}%)</p>`;
 
   const html = emailWrapper("Weekly Review", weekLabel, body);

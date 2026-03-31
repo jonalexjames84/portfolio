@@ -6,6 +6,8 @@ import {
   scorecardSection,
   pipelineBoxes,
   signalBox,
+  followUpSection,
+  spotlightSection,
   checkAuth,
   getWeekBounds,
   categoryEmoji,
@@ -31,8 +33,16 @@ async function handleDailyDigest(request: NextRequest) {
   const today = new Date().toISOString().split("T")[0];
   const { weekStartStr, weekEndStr, weekdaysPassed } = getWeekBounds();
 
-  // Fetch today's tasks, week's completed tasks, and pipeline in parallel
-  const [todayResult, weekResult, pipelineResult] = await Promise.all([
+  // Fetch today's tasks, week's completed tasks, pipeline, follow-ups, and spotlight companies
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  const sevenDaysAgoStr = sevenDaysAgo.toISOString().split("T")[0];
+
+  // Rotate spotlight: use day-of-year to pick a starting offset into top companies
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
+  const spotlightOffset = (dayOfYear * 3) % 30; // rotate through top 30
+
+  const [todayResult, weekResult, pipelineResult, followUpsResult, spotlightResult] = await Promise.all([
     supabase
       .from("job_daily_tasks")
       .select("*")
@@ -45,11 +55,26 @@ async function handleDailyDigest(request: NextRequest) {
       .lte("date", weekEndStr)
       .eq("done", true),
     supabase.from("job_pipeline_entries").select("status"),
+    supabase
+      .from("job_connections")
+      .select("name, company_name, next_action, last_contact")
+      .lt("last_contact", sevenDaysAgoStr)
+      .not("next_action", "is", null)
+      .order("last_contact", { ascending: true })
+      .limit(5),
+    supabase
+      .from("job_target_companies")
+      .select("name, industry, product_focus, rank")
+      .eq("hiring_status", "active")
+      .order("rank", { ascending: true })
+      .range(spotlightOffset, spotlightOffset + 2),
   ]);
 
   const tasks = todayResult.data || [];
   const weekCompleted = weekResult.data || [];
   const pipelineEntries = pipelineResult.data || [];
+  const followUps = followUpsResult.data || [];
+  const spotlightCompanies = spotlightResult.data || [];
 
   // Count completed tasks by category for scorecard
   const counts: Record<string, number> = {};
@@ -124,7 +149,7 @@ async function handleDailyDigest(request: NextRequest) {
   }
 
   const dayLabel = `Day ${weekdaysPassed} of 5`;
-  const body = taskSection + scorecardSection(counts, dayLabel) + pipelineBoxes(funnel) + signalBox(signals);
+  const body = taskSection + followUpSection(followUps) + scorecardSection(counts, dayLabel) + pipelineBoxes(funnel) + spotlightSection(spotlightCompanies) + signalBox(signals);
 
   const weekday = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   const html = emailWrapper("Today's Game Plan", weekday, body);
