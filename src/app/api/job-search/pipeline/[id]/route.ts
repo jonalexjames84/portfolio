@@ -8,9 +8,12 @@ export async function PATCH(
   const { id } = await params;
   const body = await request.json();
 
-  const updates: Record<string, string> = {};
+  const updates: Record<string, unknown> = {};
   if (body.status) updates.status = body.status;
   if (body.notes !== undefined) updates.notes = body.notes;
+  if (body.job_url !== undefined) updates.job_url = body.job_url;
+  if (body.fit_score !== undefined) updates.fit_score = body.fit_score;
+  if (body.ats_result !== undefined) updates.ats_result = body.ats_result;
   updates.last_update = new Date().toISOString().split("T")[0];
 
   const { data, error } = await supabase
