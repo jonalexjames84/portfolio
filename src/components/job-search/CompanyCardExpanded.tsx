@@ -130,9 +130,33 @@ export function CompanyCardExpanded({
               )}
             </div>
           </div>
+        ) : company.job_title ? (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                {company.job_title}
+              </span>
+              <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                open
+              </span>
+            </div>
+            {company.job_url && (
+              <a
+                href={company.job_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                <ExternalLink className="h-3 w-3" /> View Job Posting
+              </a>
+            )}
+            <p className="text-xs text-zinc-400">
+              Run <code className="bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-xs">/app-tracker add</code> to track your application.
+            </p>
+          </div>
         ) : (
           <p className="text-sm text-zinc-400 italic">
-            No application tracked yet. Run <code className="bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-xs">/app-tracker add</code> to start.
+            No job listing added. Run <code className="bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-xs">/app-tracker add</code> to start.
           </p>
         )}
       </div>

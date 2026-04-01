@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, ExternalLink } from "lucide-react";
 import type { EnrichedCompany, PipelineEntry, ConnectionEntry } from "@/app/job-search/companies/page";
 import { CompanyCardExpanded } from "./CompanyCardExpanded";
 
@@ -203,7 +203,7 @@ export function CompanyCards({ companies: initial }: { companies: EnrichedCompan
                     <span className="text-xs text-zinc-400 ml-2">{company.stage}</span>
                   )}
                 </div>
-                {company.pipeline && (
+                {company.pipeline ? (
                   <>
                     <span className="hidden sm:inline text-xs text-zinc-500 dark:text-zinc-400 max-w-[200px] truncate">
                       {company.pipeline.role}
@@ -212,7 +212,27 @@ export function CompanyCards({ companies: initial }: { companies: EnrichedCompan
                       {company.pipeline.status}
                     </span>
                   </>
-                )}
+                ) : company.job_title ? (
+                  <>
+                    <span className="hidden sm:inline text-xs text-zinc-500 dark:text-zinc-400 max-w-[200px] truncate">
+                      {company.job_title}
+                    </span>
+                    {company.job_url && (
+                      <a
+                        href={company.job_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-blue-500 hover:text-blue-600 shrink-0"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    )}
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                      open
+                    </span>
+                  </>
+                ) : null}
                 {outreachStage && (
                   <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${outreachColors[outreachStage] || "bg-zinc-400"}`} title={`Outreach: ${outreachStage}`} />
                 )}

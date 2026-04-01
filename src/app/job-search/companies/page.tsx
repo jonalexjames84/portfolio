@@ -45,6 +45,8 @@ export type EnrichedCompany = {
   hiring_status: string | null;
   recent_news: string | null;
   notes: string | null;
+  job_title: string | null;
+  job_url: string | null;
   updated_at: string;
   pipeline: PipelineEntry | null;
   connections: ConnectionEntry[];
