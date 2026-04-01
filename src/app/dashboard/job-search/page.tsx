@@ -2,7 +2,7 @@ import { TaskList } from "@/components/job-search/TaskList";
 import { WeeklyScorecard } from "@/components/job-search/WeeklyScorecard";
 import { FunnelHealth } from "@/components/job-search/FunnelHealth";
 import { PortfolioKPIs } from "@/components/job-search/PortfolioKPIs";
-import { PipelineBacklog } from "@/components/job-search/PipelineBacklog";
+import { PipelineBoard } from "@/components/job-search/PipelineBoard";
 import { HubNav } from "@/components/job-search/HubNav";
 import { supabase } from "@/lib/supabase";
 
@@ -134,21 +134,11 @@ async function getPipeline() {
   return { funnel, conversionRates, total: entries.length, entries };
 }
 
-async function getBacklogTasks() {
-  const { data } = await supabase
-    .from("job_daily_tasks")
-    .select("id, task, category, impact, company, date, done")
-    .neq("category", "apply")
-    .order("date", { ascending: true });
-  return data || [];
-}
-
 export default async function JobSearchDashboard() {
-  const [taskData, metricsData, pipelineData, backlogTasks] = await Promise.all([
+  const [taskData, metricsData, pipelineData] = await Promise.all([
     getTodaysTasks(),
     getMetrics(),
     getPipeline(),
-    getBacklogTasks(),
   ]);
 
   return (
@@ -179,9 +169,9 @@ export default async function JobSearchDashboard() {
         </div>
       </div>
 
-      {/* Layer 3: Backlog (applications + tasks) */}
-      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
-        <PipelineBacklog entries={pipelineData.entries || []} tasks={backlogTasks} />
+      {/* Layer 3: Pipeline board */}
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm overflow-hidden">
+        <PipelineBoard entries={pipelineData.entries || []} />
       </div>
 
       {/* Layer 4: Portfolio KPIs */}
