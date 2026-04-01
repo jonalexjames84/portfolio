@@ -8,6 +8,7 @@ import {
   signalBox,
   followUpSection,
   spotlightSection,
+  briefingSection,
   checkAuth,
   getWeekBounds,
   categoryEmoji,
@@ -42,7 +43,7 @@ async function handleDailyDigest(request: NextRequest) {
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
   const spotlightOffset = (dayOfYear * 3) % 30; // rotate through top 30
 
-  const [todayResult, weekResult, pipelineResult, followUpsResult, spotlightResult] = await Promise.all([
+  const [todayResult, weekResult, pipelineResult, followUpsResult, spotlightResult, briefingResult] = await Promise.all([
     supabase
       .from("job_daily_tasks")
       .select("*")
@@ -68,6 +69,11 @@ async function handleDailyDigest(request: NextRequest) {
       .eq("hiring_status", "active")
       .order("rank", { ascending: true })
       .range(spotlightOffset, spotlightOffset + 2),
+    supabase
+      .from("job_briefings")
+      .select("top_roles, other_roles")
+      .eq("date", today)
+      .single(),
   ]);
 
   const tasks = todayResult.data || [];
@@ -75,6 +81,7 @@ async function handleDailyDigest(request: NextRequest) {
   const pipelineEntries = pipelineResult.data || [];
   const followUps = followUpsResult.data || [];
   const spotlightCompanies = spotlightResult.data || [];
+  const briefing = briefingResult.data;
 
   // Count completed tasks by category for scorecard
   const counts: Record<string, number> = {};
@@ -149,7 +156,10 @@ async function handleDailyDigest(request: NextRequest) {
   }
 
   const dayLabel = `Day ${weekdaysPassed} of 5`;
-  const body = taskSection + followUpSection(followUps) + scorecardSection(counts, dayLabel) + pipelineBoxes(funnel) + spotlightSection(spotlightCompanies) + signalBox(signals);
+  const briefingHtml = briefing
+    ? briefingSection(briefing.top_roles || [], briefing.other_roles || [])
+    : "";
+  const body = briefingHtml + taskSection + followUpSection(followUps) + scorecardSection(counts, dayLabel) + pipelineBoxes(funnel) + spotlightSection(spotlightCompanies) + signalBox(signals);
 
   const weekday = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   const html = emailWrapper("Today's Game Plan", weekday, body);

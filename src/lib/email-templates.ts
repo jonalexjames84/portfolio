@@ -180,6 +180,56 @@ export function getWeekBounds(): { weekStartStr: string; weekEndStr: string; day
   return { weekStartStr, weekEndStr, dayOfWeek, weekdaysPassed };
 }
 
+type TopRole = {
+  role: string;
+  company: string;
+  score: number;
+  summary: string;
+  referral: string;
+  work_product_prompt: string;
+  url?: string;
+};
+
+export function briefingSection(topRoles: TopRole[], otherRoles: { company: string; role: string; score: number; action: string }[]): string {
+  if (topRoles.length === 0) return "";
+
+  const roleCards = topRoles.map((r, i) => {
+    const scoreColor = r.score >= 85 ? "#10b981" : r.score >= 70 ? "#3b82f6" : "#f59e0b";
+    return `
+      <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+          <div>
+            <div style="font-size: 15px; font-weight: 700; color: #111827;">#${i + 1} ${r.role}</div>
+            <div style="font-size: 13px; color: #6b7280;">${r.company}</div>
+          </div>
+          <div style="background: ${scoreColor}15; color: ${scoreColor}; padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: 700;">${r.score}/100</div>
+        </div>
+        <p style="font-size: 13px; color: #374151; line-height: 1.5; margin: 0 0 8px;">${r.summary}</p>
+        <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">Referral: ${r.referral}</div>
+        ${r.url ? `<a href="${r.url}" style="color: #0d9488; text-decoration: none; font-size: 12px; font-weight: 600;">View posting &rarr;</a>` : ""}
+      </div>
+    `;
+  }).join("");
+
+  const otherRows = otherRoles.length > 0
+    ? `<div style="margin-top: 8px;">
+        <p style="font-size: 12px; font-weight: 600; color: #6b7280; margin: 0 0 6px;">Also reviewed:</p>
+        ${otherRoles.map((r) => {
+          const actionColor = r.action.includes("APPLY") ? "#10b981" : r.action.includes("REFERRAL") ? "#f59e0b" : "#6b7280";
+          return `<p style="font-size: 12px; color: #374151; margin: 2px 0;">${r.company} — ${r.role} (${r.score}) <span style="color: ${actionColor}; font-weight: 500;">${r.action}</span></p>`;
+        }).join("")}
+      </div>`
+    : "";
+
+  return `
+    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #166534; margin: 0 0 12px;">Today's Top Roles</h2>
+      ${roleCards}
+      ${otherRows}
+    </div>
+  `;
+}
+
 export const categoryEmoji: Record<string, string> = {
   apply: "\ud83d\udcdd",
   outreach: "\ud83d\udce7",
