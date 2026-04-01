@@ -7,6 +7,7 @@ import { ActivationFunnel } from "./components/ActivationFunnel";
 import { WallCard } from "./components/WallCard";
 import { RecommendationCard } from "./components/RecommendationCard";
 import { ClosingCTA } from "./components/ClosingCTA";
+import { ScrollDepthTracker } from "./components/ScrollDepthTracker";
 
 export const metadata: Metadata = {
   title: "PostHog Onboarding for Solo Builders — Product Analysis",
@@ -29,6 +30,7 @@ export const metadata: Metadata = {
 export default function PostHogPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-8">
+      <ScrollDepthTracker />
       <PostHogHeader />
       <Hero />
       <ExecSummary />

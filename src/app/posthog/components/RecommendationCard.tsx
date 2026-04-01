@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import posthog from "posthog-js";
 
 function DashboardVisual() {
   return (
@@ -99,7 +100,16 @@ export function RecommendationCard({
     >
       <button
         type="button"
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          const willOpen = !open;
+          setOpen(willOpen);
+          if (willOpen) {
+            posthog.capture("posthog_recommendation_expanded", {
+              recommendation_number: number,
+              recommendation_title: title,
+            });
+          }
+        }}
         className={`w-full rounded-xl border text-left transition-all ${
           open
             ? "border-[#2563eb]/40 bg-[#2563eb]/5 shadow-md dark:border-[#2563eb]/30 dark:bg-[#2563eb]/5"

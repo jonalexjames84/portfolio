@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatedSection } from "@/components/AnimatedSection";
+import posthog from "posthog-js";
 
 export function ClosingCTA() {
   return (
@@ -15,6 +16,12 @@ export function ClosingCTA() {
           <a
             href="https://www.linkedin.com/in/jonmartin-pm/"
             className="text-sm font-medium text-[#2563eb] transition-colors hover:text-[#1d4ed8]"
+            onClick={() =>
+              posthog.capture("posthog_cta_clicked", {
+                cta_type: "linkedin",
+                source: "posthog_page",
+              })
+            }
           >
             Connect on LinkedIn
           </a>
@@ -22,6 +29,12 @@ export function ClosingCTA() {
           <a
             href="mailto:jonalexjames@gmail.com"
             className="text-sm font-medium text-[#2563eb] transition-colors hover:text-[#1d4ed8]"
+            onClick={() =>
+              posthog.capture("posthog_cta_clicked", {
+                cta_type: "email",
+                source: "posthog_page",
+              })
+            }
           >
             jonalexjames@gmail.com
           </a>
