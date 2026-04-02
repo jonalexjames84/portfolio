@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { supabase } from "@/lib/supabase";
 import { MaterialsGrid } from "@/components/job-search/MaterialsGrid";
 

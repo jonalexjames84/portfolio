@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { TaskList } from "@/components/job-search/TaskList";
 import { WeeklyScorecard } from "@/components/job-search/WeeklyScorecard";
 import { FunnelHealth } from "@/components/job-search/FunnelHealth";

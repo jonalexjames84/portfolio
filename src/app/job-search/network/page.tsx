@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { supabase } from "@/lib/supabase";
 import { ConnectionsList } from "@/components/job-search/ConnectionsList";
 

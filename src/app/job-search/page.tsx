@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { Building2, Users, FileText, MessageSquare } from "lucide-react";
