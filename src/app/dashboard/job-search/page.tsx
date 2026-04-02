@@ -134,11 +134,20 @@ async function getPipeline() {
   return { funnel, conversionRates, total: entries.length, entries };
 }
 
+async function getSubtasks() {
+  const { data } = await supabase
+    .from("job_pipeline_subtasks")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  return data || [];
+}
+
 export default async function JobSearchDashboard() {
-  const [taskData, metricsData, pipelineData] = await Promise.all([
+  const [taskData, metricsData, pipelineData, subtasks] = await Promise.all([
     getTodaysTasks(),
     getMetrics(),
     getPipeline(),
+    getSubtasks(),
   ]);
 
   return (
@@ -171,7 +180,7 @@ export default async function JobSearchDashboard() {
 
       {/* Layer 3: Pipeline board */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm overflow-hidden">
-        <PipelineBoard entries={pipelineData.entries || []} />
+        <PipelineBoard entries={pipelineData.entries || []} subtasks={subtasks} />
       </div>
 
       {/* Layer 4: Portfolio KPIs */}
