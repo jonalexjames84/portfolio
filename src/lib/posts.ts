@@ -35,6 +35,7 @@ export const posts: Post[] = [
     date: "2026-03-30",
     tags: ["AI", "Product Management", "Leadership", "Agents"],
     source: "Berkeley ProductCon, 2026",
+    image: "/blog/managing-agents.jpg",
     content: [
       "At the Berkeley AI Conference, Box CTO Ben Haines said something that stopped me cold: \"A really good programmer used to be very good at writing code. Nowadays, a really good programmer is very good at managing agents to write good code.\"",
 
@@ -96,6 +97,7 @@ export const posts: Post[] = [
     date: "2026-03-30",
     tags: ["AI", "Strategy", "Product Management", "Transformation"],
     source: "Berkeley ProductCon, 2026",
+    image: "/blog/rip-everything-up.jpg",
     content: [
       "At the Berkeley AI Conference, an Intercom leader described something I've never heard a company at their scale admit publicly: the weekend after ChatGPT launched, their leadership team got together and decided to rip everything up. Not the roadmap. Not the Q1 plan. Everything. The roadmap, the company strategy, the metrics they tracked, the organizational structure, the company values. They essentially restarted the company.",
 
@@ -165,6 +167,7 @@ export const posts: Post[] = [
     date: "2026-03-30",
     tags: ["AI", "Growth", "Strategy", "Startups"],
     source: "Berkeley ProductCon, 2026",
+    image: "/blog/speed-is-the-moat.jpg",
     content: [
       "\"If we are not ahead of their product roadmap, if they're copying us instead of the other way around, you can go ahead and pronounce us dead.\"",
 
@@ -233,6 +236,7 @@ export const posts: Post[] = [
     date: "2026-03-30",
     tags: ["AI", "Product Management", "Career", "Leadership"],
     source: "Berkeley ProductCon, 2026",
+    image: "/blog/pm-role-splitting.jpg",
     content: [
       "At the Berkeley AI Conference, a question came up that I've been chewing on for months: how important is a technical background for product managers compared to a background in customer research and discovery?",
 
@@ -297,6 +301,7 @@ export const posts: Post[] = [
     date: "2026-03-30",
     tags: ["AI", "Enterprise", "Strategy", "Product Management"],
     source: "Berkeley ProductCon, 2026",
+    image: "/blog/ai-pilots-fail.jpg",
     content: [
       "Someone at the Berkeley AI Conference asked Box CTO Ben Haines a rapid-fire question: what percent of enterprise AI pilots are failing right now?",
 
