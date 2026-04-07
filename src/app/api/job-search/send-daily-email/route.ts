@@ -3,169 +3,210 @@ import { Resend } from "resend";
 import { supabase } from "@/lib/supabase";
 import {
   emailWrapper,
-  scorecardSection,
-  pipelineBoxes,
-  signalBox,
-  followUpSection,
-  spotlightSection,
-  briefingSection,
+  newJobsSection,
+  weekViewSection,
+  metricsSection,
+  signalsSection,
   checkAuth,
   getWeekBounds,
-  categoryEmoji,
-  impactColor,
   TARGETS,
+  type NewJob,
+  type WeekDay,
+  type MetricRow,
 } from "@/lib/email-templates";
+import { computeSignals } from "@/lib/job-search/signals";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const DAY_LABELS = ["MON", "TUE", "WED", "THU", "FRI"];
+
+function addDays(dateStr: string, days: number): string {
+  const d = new Date(dateStr + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().split("T")[0];
+}
+
 export async function GET(request: NextRequest) {
-  return handleDailyDigest(request);
+  return run(request);
 }
-
 export async function POST(request: NextRequest) {
-  return handleDailyDigest(request);
+  return run(request);
 }
 
-async function handleDailyDigest(request: NextRequest) {
+async function run(request: NextRequest) {
   if (!checkAuth(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const today = new Date().toISOString().split("T")[0];
   const { weekStartStr, weekEndStr, weekdaysPassed } = getWeekBounds();
+  const oneDayAgo = new Date();
+  oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+  const oneDayAgoIso = oneDayAgo.toISOString();
 
-  // Fetch today's tasks, week's completed tasks, pipeline, follow-ups, and spotlight companies
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-  const sevenDaysAgoStr = sevenDaysAgo.toISOString().split("T")[0];
+  // 1. New jobs in last 24h
+  const { data: newJobsData } = await supabase
+    .from("job_pipeline_entries")
+    .select("id, company, role, fit_score, fit_score_auto, score_breakdown, job_url")
+    .eq("status", "saved")
+    .gte("created_at", oneDayAgoIso);
 
-  // Rotate spotlight: use day-of-year to pick a starting offset into top companies
-  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
-  const spotlightOffset = (dayOfYear * 3) % 30; // rotate through top 30
+  const newJobs: NewJob[] = (newJobsData || [])
+    .map((j) => {
+      const manual = j.fit_score;
+      const auto = j.fit_score_auto || 0;
+      return {
+        id: j.id,
+        company: j.company,
+        role: j.role,
+        score: manual ?? auto,
+        scoreSource: (manual != null ? "manual" : "auto") as "manual" | "auto",
+        breakdown: j.score_breakdown ?? null,
+        job_url: j.job_url,
+      };
+    })
+    .sort((a, b) => b.score - a.score);
 
-  const [todayResult, weekResult, pipelineResult, followUpsResult, spotlightResult, briefingResult] = await Promise.all([
-    supabase
-      .from("job_daily_tasks")
-      .select("*")
-      .eq("date", today)
-      .order("impact", { ascending: true }),
-    supabase
-      .from("job_daily_tasks")
-      .select("category, done")
-      .gte("date", weekStartStr)
-      .lte("date", weekEndStr)
-      .eq("done", true),
-    supabase.from("job_pipeline_entries").select("status"),
-    supabase
-      .from("job_connections")
-      .select("name, company_name, next_action, last_contact")
-      .lt("last_contact", sevenDaysAgoStr)
-      .not("next_action", "is", null)
-      .order("last_contact", { ascending: true })
-      .limit(5),
-    supabase
-      .from("job_target_companies")
-      .select("name, industry, product_focus, rank")
-      .eq("hiring_status", "active")
-      .order("rank", { ascending: true })
-      .range(spotlightOffset, spotlightOffset + 2),
-    supabase
-      .from("job_briefings")
-      .select("top_roles, other_roles")
-      .eq("date", today)
-      .single(),
-  ]);
+  // 2. This week's tasks (full M-F)
+  const { data: weekTasks } = await supabase
+    .from("job_daily_tasks")
+    .select("*")
+    .gte("date", weekStartStr)
+    .lte("date", weekEndStr)
+    .order("impact", { ascending: true });
 
-  const tasks = todayResult.data || [];
-  const weekCompleted = weekResult.data || [];
-  const pipelineEntries = pipelineResult.data || [];
-  const followUps = followUpsResult.data || [];
-  const spotlightCompanies = spotlightResult.data || [];
-  const briefing = briefingResult.data;
+  const days: WeekDay[] = DAY_LABELS.map((label, i) => {
+    const date = addDays(weekStartStr, i);
+    return {
+      date,
+      label,
+      isToday: date === today,
+      tasks: (weekTasks || [])
+        .filter((t) => t.date === date)
+        .map((t) => ({
+          id: t.id,
+          task: t.task,
+          company: t.company,
+          category: t.category,
+          impact: t.impact,
+          done: t.done,
+        })),
+    };
+  });
 
-  // Count completed tasks by category for scorecard
-  const counts: Record<string, number> = {};
-  for (const t of weekCompleted) {
-    counts[t.category] = (counts[t.category] || 0) + 1;
-  }
+  // 3. Metrics (current + last 4 weeks)
+  const fourWeeksAgo = addDays(weekStartStr, -28);
+  const { data: metricsHistory } = await supabase
+    .from("job_weekly_metrics")
+    .select("*")
+    .gte("week_start", fourWeeksAgo)
+    .order("week_start", { ascending: true });
 
-  // Build funnel from pipeline
-  const statuses = pipelineEntries.map((p) => p.status);
-  const funnel = {
-    applied: statuses.filter((s) => s === "applied").length,
-    screen: statuses.filter((s) => s === "screen").length,
-    interview: statuses.filter((s) => s === "interview").length,
-    offer: statuses.filter((s) => s === "offer").length,
-  };
+  const history = metricsHistory || [];
+  const current =
+    history.find((h) => h.week_start === weekStartStr) ||
+    {
+      applications_sent: 0,
+      outreach_sent: 0,
+      response_rate: 0,
+      active_pipeline_count: 0,
+      interviews_completed: 0,
+    };
 
-  // Build task rows HTML
-  let taskSection: string;
-  if (tasks.length === 0) {
-    taskSection = `
-      <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-        <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 8px;">Today's Tasks</h2>
-        <p style="color: #6b7280; font-size: 14px;">No tasks scheduled for today.</p>
-      </div>
-    `;
-  } else {
-    const taskRows = tasks
-      .map(
-        (t) => `
-      <tr>
-        <td style="padding: 12px 16px; border-bottom: 1px solid #f3f4f6;">
-          <span style="font-size: 20px;">${categoryEmoji[t.category] || "\ud83d\udccb"}</span>
-        </td>
-        <td style="padding: 12px 16px; border-bottom: 1px solid #f3f4f6;">
-          <div style="font-weight: 600; color: #111827; font-size: 15px;">${t.task}</div>
-          ${t.company ? `<div style="color: #6b7280; font-size: 13px; margin-top: 2px;">${t.company}</div>` : ""}
-          ${t.link ? `<div style="margin-top: 4px;"><a href="${t.link}" style="color: #0d9488; text-decoration: none; font-size: 13px;">Open link &rarr;</a></div>` : ""}
-        </td>
-        <td style="padding: 12px 16px; border-bottom: 1px solid #f3f4f6; text-align: right;">
-          <span style="background: ${impactColor[t.impact]}15; color: ${impactColor[t.impact]}; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 500;">${t.impact}</span>
-        </td>
-      </tr>
-    `
-      )
-      .join("");
+  const series = (key: keyof typeof current) =>
+    history.map((h) => Number(h[key]) || 0);
 
-    taskSection = `
-      <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 16px;">
-        <div style="padding: 16px 16px 0;">
-          <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0;">Today's Tasks</h2>
-        </div>
-        <table style="width: 100%; border-collapse: collapse;">${taskRows}</table>
-      </div>
-    `;
-  }
+  const metricRows: MetricRow[] = [
+    {
+      label: "Applications",
+      current: Number(current.applications_sent) || 0,
+      target: TARGETS.applications_sent,
+      history: series("applications_sent"),
+    },
+    {
+      label: "Outreach",
+      current: Number(current.outreach_sent) || 0,
+      target: TARGETS.outreach_sent,
+      history: series("outreach_sent"),
+    },
+    {
+      label: "Response rate",
+      current: Number(current.response_rate) || 0,
+      target: null,
+      history: series("response_rate"),
+      unit: "%",
+    },
+    {
+      label: "Active pipeline",
+      current: Number(current.active_pipeline_count) || 0,
+      target: null,
+      history: series("active_pipeline_count"),
+    },
+    {
+      label: "Interviews",
+      current: Number(current.interviews_completed) || 0,
+      target: null,
+      history: series("interviews_completed"),
+    },
+  ];
 
-  // Mid-week signals
-  const signals: string[] = [];
-  if (weekdaysPassed >= 3) {
-    const appPace = (counts.apply || 0) / weekdaysPassed;
-    if (appPace * 5 < TARGETS.applications_sent) {
-      const daysLeft = 5 - weekdaysPassed;
-      signals.push(`\ud83d\udfe1 Below pace on applications \u2014 ${counts.apply || 0}/${TARGETS.applications_sent} with ${daysLeft} day${daysLeft !== 1 ? "s" : ""} left`);
-    }
-    const outreachPace = (counts.outreach || 0) / weekdaysPassed;
-    if (outreachPace * 5 < TARGETS.outreach_sent) {
-      signals.push(`\ud83d\udfe1 Outreach behind \u2014 ${counts.outreach || 0}/${TARGETS.outreach_sent} this week`);
-    }
-  }
-  if (funnel.interview > 0) {
-    signals.push(`\ud83d\udfe2 ${funnel.interview} active interview${funnel.interview !== 1 ? "s" : ""} in pipeline \u2014 prep time is high-leverage`);
-  }
+  // 4. Signals
+  const { data: pipelineRows } = await supabase
+    .from("job_pipeline_entries")
+    .select("id, company, status, last_update");
 
-  const dayLabel = `Day ${weekdaysPassed} of 5`;
-  const briefingHtml = briefing
-    ? briefingSection(briefing.top_roles || [], briefing.other_roles || [])
-    : "";
-  const body = briefingHtml + taskSection + followUpSection(followUps) + scorecardSection(counts, dayLabel) + pipelineBoxes(funnel) + spotlightSection(spotlightCompanies) + signalBox(signals);
+  // Last 10 outreach: connections most recently contacted, count those that replied
+  const { data: recentOutreach } = await supabase
+    .from("job_connections")
+    .select("id, replied_at")
+    .not("last_contact", "is", null)
+    .order("last_contact", { ascending: false })
+    .limit(10);
+  const last10OutreachReplies = (recentOutreach || []).filter(
+    (c) => c.replied_at != null
+  ).length;
 
-  const weekday = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
-  const html = emailWrapper("Today's Game Plan", weekday, body);
+  const savedCount = (pipelineRows || []).filter((p) => p.status === "saved").length;
+  const staleActive = (pipelineRows || [])
+    .filter((p) => p.status === "screen" || p.status === "interview")
+    .map((p) => {
+      const days = Math.floor(
+        (Date.now() - new Date(p.last_update).getTime()) / 86400000
+      );
+      return { id: p.id, company: p.company, daysSince: days };
+    })
+    .filter((p) => p.daysSince > 10);
 
-  const highCount = tasks.filter((t) => t.impact === "high").length;
-  const subject = `${new Date().toLocaleDateString("en-US", { weekday: "short" })}: ${tasks.length} tasks \u2014 ${highCount} high impact | ${counts.apply || 0}/${TARGETS.applications_sent} apps this week`;
+  const newTopTier = newJobs
+    .filter((j) => j.score >= 90)
+    .map((j) => ({ id: j.id, company: j.company, role: j.role, score: j.score }));
+
+  const signals = computeSignals({
+    weekdaysPassed,
+    appsThisWeek: Number(current.applications_sent) || 0,
+    appsTarget: TARGETS.applications_sent,
+    last10OutreachReplies,
+    staleActiveRoles: staleActive,
+    interviewsThisWeek: Number(current.interviews_completed) || 0,
+    savedCount,
+    newTopTierJobs: newTopTier,
+  });
+
+  // Compose body
+  const body =
+    newJobsSection(newJobs) +
+    weekViewSection(days) +
+    metricsSection(metricRows) +
+    signalsSection(signals);
+
+  const weekday = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+  const html = emailWrapper("Job Search — Daily Brief", weekday, body);
+
+  const subject = `${new Date().toLocaleDateString("en-US", { weekday: "short" })}: ${newJobs.length} new jobs · ${current.applications_sent || 0}/${TARGETS.applications_sent} apps`;
 
   const { error } = await resend.emails.send({
     from: "Job Search <onboarding@resend.dev>",
@@ -178,5 +219,10 @@ async function handleDailyDigest(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ sent: true, taskCount: tasks.length });
+  return NextResponse.json({
+    sent: true,
+    newJobs: newJobs.length,
+    weekTaskCount: weekTasks?.length || 0,
+    signals: signals.length,
+  });
 }
