@@ -41,3 +41,9 @@ yarn-error.log*
 next-env.d.ts
 # Large audio files
 documents/AI Conference/*.wav
+
+# Claude Code / Superpowers local state
+.superpowers/
+
+# Supabase CLI local temp
+supabase/.temp/
