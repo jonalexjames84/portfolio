@@ -62,84 +62,12 @@ export function scorecardSection(counts: Record<string, number>, headerExtra?: s
   `;
 }
 
-export function pipelineBoxes(funnel: { applied: number; screen: number; interview: number; offer: number }): string {
-  return `
-    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-      <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 12px;">Pipeline</h2>
-      <div style="display: flex; gap: 12px; text-align: center;">
-        <div style="flex: 1; padding: 8px; background: #eff6ff; border-radius: 8px;">
-          <div style="font-size: 24px; font-weight: 700; color: #3b82f6;">${funnel.applied}</div>
-          <div style="font-size: 11px; color: #6b7280;">Applied</div>
-        </div>
-        <div style="flex: 1; padding: 8px; background: #fefce8; border-radius: 8px;">
-          <div style="font-size: 24px; font-weight: 700; color: #eab308;">${funnel.screen}</div>
-          <div style="font-size: 11px; color: #6b7280;">Screens</div>
-        </div>
-        <div style="flex: 1; padding: 8px; background: #f0fdf4; border-radius: 8px;">
-          <div style="font-size: 24px; font-weight: 700; color: #22c55e;">${funnel.interview}</div>
-          <div style="font-size: 11px; color: #6b7280;">Interviews</div>
-        </div>
-        <div style="flex: 1; padding: 8px; background: #fdf2f8; border-radius: 8px;">
-          <div style="font-size: 24px; font-weight: 700; color: #ec4899;">${funnel.offer}</div>
-          <div style="font-size: 11px; color: #6b7280;">Offers</div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
 export function signalBox(signals: string[]): string {
   if (signals.length === 0) return "";
   return `
     <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
       <h2 style="font-size: 15px; font-weight: 600; color: #92400e; margin: 0 0 8px;">Signals</h2>
       ${signals.map((s) => `<p style="color: #78350f; font-size: 13px; margin: 4px 0;">${s}</p>`).join("")}
-    </div>
-  `;
-}
-
-export function followUpSection(connections: { name: string; company_name: string | null; next_action: string | null; last_contact: string | null }[]): string {
-  if (connections.length === 0) return "";
-  const rows = connections.slice(0, 5).map((c) => {
-    const daysAgo = c.last_contact
-      ? Math.floor((Date.now() - new Date(c.last_contact).getTime()) / 86400000)
-      : null;
-    return `
-      <tr>
-        <td style="padding: 8px 12px; border-bottom: 1px solid #f3f4f6;">
-          <div style="font-weight: 600; color: #111827; font-size: 14px;">${c.name}</div>
-          <div style="color: #6b7280; font-size: 12px;">${c.company_name || "—"}</div>
-        </td>
-        <td style="padding: 8px 12px; border-bottom: 1px solid #f3f4f6; font-size: 13px; color: #374151;">${c.next_action || ""}</td>
-        <td style="padding: 8px 12px; border-bottom: 1px solid #f3f4f6; font-size: 12px; color: ${daysAgo && daysAgo > 14 ? "#ef4444" : "#6b7280"}; text-align: right; white-space: nowrap;">${daysAgo ? `${daysAgo}d ago` : "—"}</td>
-      </tr>`;
-  }).join("");
-
-  return `
-    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 16px;">
-      <div style="padding: 16px 16px 0;">
-        <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0;">🔄 Follow-ups Due</h2>
-        <p style="font-size: 12px; color: #6b7280; margin: 4px 0 0;">${connections.length} contact${connections.length !== 1 ? "s" : ""} need follow-up</p>
-      </div>
-      <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">${rows}</table>
-    </div>
-  `;
-}
-
-export function spotlightSection(companies: { name: string; industry: string | null; product_focus: string | null; rank: number | null }[]): string {
-  if (companies.length === 0) return "";
-  const cards = companies.slice(0, 3).map((c) => `
-    <div style="flex: 1; padding: 12px; background: #f0f9ff; border-radius: 8px; min-width: 0;">
-      <div style="font-size: 14px; font-weight: 700; color: #1e40af;">#${c.rank} ${c.name}</div>
-      <div style="font-size: 11px; color: #3b82f6; margin-top: 2px;">${c.industry || ""}</div>
-      <div style="font-size: 12px; color: #374151; margin-top: 4px; line-height: 1.4;">${(c.product_focus || "").slice(0, 80)}${(c.product_focus || "").length > 80 ? "…" : ""}</div>
-    </div>
-  `).join("");
-
-  return `
-    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
-      <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 12px;">🎯 Target Spotlight</h2>
-      <div style="display: flex; gap: 8px;">${cards}</div>
     </div>
   `;
 }
@@ -181,56 +109,6 @@ export function getWeekBounds(): { weekStartStr: string; weekEndStr: string; day
   const weekEndStr = new Date(weekStart.getTime() + 6 * 86400000).toISOString().split("T")[0];
   const weekdaysPassed = dayOfWeek === 0 ? 5 : Math.min(dayOfWeek, 5);
   return { weekStartStr, weekEndStr, dayOfWeek, weekdaysPassed };
-}
-
-type TopRole = {
-  role: string;
-  company: string;
-  score: number;
-  summary: string;
-  referral: string;
-  work_product_prompt: string;
-  url?: string;
-};
-
-export function briefingSection(topRoles: TopRole[], otherRoles: { company: string; role: string; score: number; action: string }[]): string {
-  if (topRoles.length === 0) return "";
-
-  const roleCards = topRoles.map((r, i) => {
-    const scoreColor = r.score >= 85 ? "#10b981" : r.score >= 70 ? "#3b82f6" : "#f59e0b";
-    return `
-      <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 12px;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-          <div>
-            <div style="font-size: 15px; font-weight: 700; color: #111827;">#${i + 1} ${r.role}</div>
-            <div style="font-size: 13px; color: #6b7280;">${r.company}</div>
-          </div>
-          <div style="background: ${scoreColor}15; color: ${scoreColor}; padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: 700;">${r.score}/100</div>
-        </div>
-        <p style="font-size: 13px; color: #374151; line-height: 1.5; margin: 0 0 8px;">${r.summary}</p>
-        <div style="font-size: 12px; color: #6b7280; margin-bottom: 4px;">Referral: ${r.referral}</div>
-        ${r.url ? `<a href="${r.url}" style="color: #0d9488; text-decoration: none; font-size: 12px; font-weight: 600;">View posting &rarr;</a>` : ""}
-      </div>
-    `;
-  }).join("");
-
-  const otherRows = otherRoles.length > 0
-    ? `<div style="margin-top: 8px;">
-        <p style="font-size: 12px; font-weight: 600; color: #6b7280; margin: 0 0 6px;">Also reviewed:</p>
-        ${otherRoles.map((r) => {
-          const actionColor = r.action.includes("APPLY") ? "#10b981" : r.action.includes("REFERRAL") ? "#f59e0b" : "#6b7280";
-          return `<p style="font-size: 12px; color: #374151; margin: 2px 0;">${r.company} — ${r.role} (${r.score}) <span style="color: ${actionColor}; font-weight: 500;">${r.action}</span></p>`;
-        }).join("")}
-      </div>`
-    : "";
-
-  return `
-    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
-      <h2 style="font-size: 15px; font-weight: 600; color: #166534; margin: 0 0 12px;">Today's Top Roles</h2>
-      ${roleCards}
-      ${otherRows}
-    </div>
-  `;
 }
 
 export const categoryEmoji: Record<string, string> = {
