@@ -1,156 +1,219 @@
 export const dynamic = "force-dynamic";
 
-import { TaskList } from "@/components/job-search/TaskList";
-import { WeeklyScorecard } from "@/components/job-search/WeeklyScorecard";
+import { NewJobsBlock } from "@/components/job-search/NewJobsBlock";
+import { WeekView } from "@/components/job-search/WeekView";
+import { MetricsBlock } from "@/components/job-search/MetricsBlock";
+import { SignalsBlock } from "@/components/job-search/SignalsBlock";
 import { FunnelHealth } from "@/components/job-search/FunnelHealth";
 import { PortfolioKPIs } from "@/components/job-search/PortfolioKPIs";
 import { PipelineBoard } from "@/components/job-search/PipelineBoard";
 import { HubNav } from "@/components/job-search/HubNav";
 import { supabase } from "@/lib/supabase";
+import { computeSignals } from "@/lib/job-search/signals";
+import {
+  TARGETS,
+  type NewJob,
+  type WeekDay,
+  type MetricRow,
+} from "@/lib/email-templates";
 
-const MAX_TASKS = 5;
-const IMPACT_ORDER = ["high", "medium", "low"];
+const DAY_LABELS = ["MON", "TUE", "WED", "THU", "FRI"];
 
-function sortByImpactThenDate(a: { impact: string; date: string }, b: { impact: string; date: string }) {
-  const impactDiff = IMPACT_ORDER.indexOf(a.impact) - IMPACT_ORDER.indexOf(b.impact);
-  if (impactDiff !== 0) return impactDiff;
-  return a.date.localeCompare(b.date);
+function addDays(dateStr: string, days: number): string {
+  const d = new Date(dateStr + "T00:00:00Z");
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().split("T")[0];
 }
 
-async function getTodaysTasks() {
-  const today = new Date().toISOString().split("T")[0];
-
-  const [{ data: todayTasks }, { data: pastUnfinished }] = await Promise.all([
-    supabase.from("job_daily_tasks").select("*").eq("date", today),
-    supabase.from("job_daily_tasks").select("*").lt("date", today).eq("done", false).order("date", { ascending: true }),
-  ]);
-
-  const todaySorted = (todayTasks || []).sort(sortByImpactThenDate);
-  const pastSorted = (pastUnfinished || []).sort(sortByImpactThenDate);
-
-  const visible = [...todaySorted];
-  const remaining = [...pastSorted];
-
-  while (visible.length < MAX_TASKS && remaining.length > 0) {
-    visible.push(remaining.shift()!);
-  }
-
-  const backlogCount = remaining.length;
-
-  // Resolve blocked status
-  const allTaskIds = new Set(visible.map((t) => t.id));
-  const blockerIds = visible
-    .filter((t) => t.blocked_by && !allTaskIds.has(t.blocked_by))
-    .map((t) => t.blocked_by);
-
-  let externalBlockers: Record<string, boolean> = {};
-  if (blockerIds.length > 0) {
-    const { data: blockers } = await supabase
-      .from("job_daily_tasks")
-      .select("id, done")
-      .in("id", blockerIds);
-    for (const b of blockers || []) {
-      externalBlockers[b.id] = b.done;
-    }
-  }
-
-  const tasksWithBlockedStatus = visible.map((t) => {
-    if (!t.blocked_by) return { ...t, is_blocked: false };
-    const visibleBlocker = visible.find((v) => v.id === t.blocked_by);
-    if (visibleBlocker) return { ...t, is_blocked: !visibleBlocker.done };
-    if (t.blocked_by in externalBlockers) return { ...t, is_blocked: !externalBlockers[t.blocked_by] };
-    return { ...t, is_blocked: false };
-  });
-
-  const actionable = tasksWithBlockedStatus.filter((t) => !t.is_blocked);
-  const allDone = actionable.length > 0 && actionable.every((t) => t.done);
-
-  return { tasks: tasksWithBlockedStatus, backlogCount, allDone };
-}
-
-async function getMetrics() {
+function getWeekBounds() {
   const now = new Date();
   const dayOfWeek = now.getDay();
   const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
   const weekStart = new Date(now);
   weekStart.setDate(now.getDate() + mondayOffset);
   const weekStartStr = weekStart.toISOString().split("T")[0];
-
-  const { data: currentWeek } = await supabase
-    .from("job_weekly_metrics")
-    .select("*")
-    .eq("week_start", weekStartStr)
-    .single();
-
-  const targets = { applications_sent: 5, outreach_sent: 5, follow_ups_sent: 3, linkedin_posts: 3, conversations: 2 };
-
-  if (!currentWeek) {
-    const weekEnd = new Date(weekStart);
-    weekEnd.setDate(weekStart.getDate() + 6);
-    const weekEndStr = weekEnd.toISOString().split("T")[0];
-
-    const { data: tasks } = await supabase
-      .from("job_daily_tasks")
-      .select("category, done")
-      .gte("date", weekStartStr)
-      .lte("date", weekEndStr)
-      .eq("done", true);
-
-    const counts = { applications_sent: 0, outreach_sent: 0, follow_ups_sent: 0, linkedin_posts: 0, conversations: 0 };
-    for (const t of tasks || []) {
-      if (t.category === "apply") counts.applications_sent++;
-      if (t.category === "outreach") counts.outreach_sent++;
-      if (t.category === "follow_up") counts.follow_ups_sent++;
-      if (t.category === "linkedin_post") counts.linkedin_posts++;
-    }
-
-    return { current: { week_start: weekStartStr, ...counts, phone_screens: 0, interviews: 0, offers: 0 }, targets };
-  }
-
-  return { current: currentWeek, targets };
+  const weekEndStr = addDays(weekStartStr, 4);
+  const weekdaysPassed = dayOfWeek === 0 ? 5 : Math.min(dayOfWeek, 5);
+  return { weekStartStr, weekEndStr, weekdaysPassed };
 }
 
-async function getPipeline() {
-  const { data } = await supabase
-    .from("job_pipeline_entries")
-    .select("*")
-    .order("last_update", { ascending: false });
+async function loadData() {
+  const today = new Date().toISOString().split("T")[0];
+  const { weekStartStr, weekEndStr, weekdaysPassed } = getWeekBounds();
+  const oneDayAgo = new Date();
+  oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+  const oneDayAgoIso = oneDayAgo.toISOString();
+  const fourWeeksAgo = addDays(weekStartStr, -28);
 
-  const entries = data || [];
-  const funnel = {
-    saved: entries.filter((e) => e.status === "saved").length,
-    applied: entries.filter((e) => e.status === "applied").length,
-    screen: entries.filter((e) => e.status === "screen").length,
-    interview: entries.filter((e) => e.status === "interview").length,
-    offer: entries.filter((e) => e.status === "offer").length,
-    rejected: entries.filter((e) => e.status === "rejected").length,
-    passed: entries.filter((e) => e.status === "passed").length,
+  const [newJobsRes, weekTasksRes, metricsRes, pipelineRes, subtasksRes, recentOutreachRes] =
+    await Promise.all([
+      supabase
+        .from("job_pipeline_entries")
+        .select("id, company, role, fit_score, fit_score_auto, score_breakdown, job_url")
+        .eq("status", "saved")
+        .gte("created_at", oneDayAgoIso),
+      supabase
+        .from("job_daily_tasks")
+        .select("*")
+        .gte("date", weekStartStr)
+        .lte("date", weekEndStr),
+      supabase
+        .from("job_weekly_metrics")
+        .select("*")
+        .gte("week_start", fourWeeksAgo)
+        .order("week_start", { ascending: true }),
+      supabase
+        .from("job_pipeline_entries")
+        .select("*")
+        .order("last_update", { ascending: false }),
+      supabase
+        .from("job_pipeline_subtasks")
+        .select("*")
+        .order("sort_order", { ascending: true }),
+      supabase
+        .from("job_connections")
+        .select("id, replied_at")
+        .not("last_contact", "is", null)
+        .order("last_contact", { ascending: false })
+        .limit(10),
+    ]);
+
+  const last10OutreachReplies = (recentOutreachRes.data || []).filter(
+    (c) => c.replied_at != null
+  ).length;
+
+  const newJobs: NewJob[] = (newJobsRes.data || [])
+    .map((j) => ({
+      id: j.id,
+      company: j.company,
+      role: j.role,
+      score: j.fit_score ?? j.fit_score_auto ?? 0,
+      scoreSource: (j.fit_score != null ? "manual" : "auto") as "manual" | "auto",
+      breakdown: j.score_breakdown ?? null,
+      job_url: j.job_url,
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  const days: WeekDay[] = DAY_LABELS.map((label, i) => {
+    const date = addDays(weekStartStr, i);
+    return {
+      date,
+      label,
+      isToday: date === today,
+      tasks: (weekTasksRes.data || [])
+        .filter((t) => t.date === date)
+        .map((t) => ({
+          id: t.id,
+          task: t.task,
+          company: t.company,
+          category: t.category,
+          impact: t.impact,
+          done: t.done,
+        })),
+    };
+  });
+
+  const history = metricsRes.data || [];
+  const current =
+    history.find((h) => h.week_start === weekStartStr) ||
+    {
+      applications_sent: 0,
+      outreach_sent: 0,
+      response_rate: 0,
+      active_pipeline_count: 0,
+      interviews_completed: 0,
+    };
+
+  const series = (key: string) =>
+    history.map((h) => Number((h as Record<string, unknown>)[key]) || 0);
+
+  const metricRows: MetricRow[] = [
+    {
+      label: "Applications",
+      current: Number(current.applications_sent) || 0,
+      target: TARGETS.applications_sent,
+      history: series("applications_sent"),
+    },
+    {
+      label: "Outreach",
+      current: Number(current.outreach_sent) || 0,
+      target: TARGETS.outreach_sent,
+      history: series("outreach_sent"),
+    },
+    {
+      label: "Response rate",
+      current: Number(current.response_rate) || 0,
+      target: null,
+      history: series("response_rate"),
+      unit: "%",
+    },
+    {
+      label: "Active pipeline",
+      current: Number(current.active_pipeline_count) || 0,
+      target: null,
+      history: series("active_pipeline_count"),
+    },
+    {
+      label: "Interviews",
+      current: Number(current.interviews_completed) || 0,
+      target: null,
+      history: series("interviews_completed"),
+    },
+  ];
+
+  const pipelineEntries = pipelineRes.data || [];
+  const savedCount = pipelineEntries.filter((p) => p.status === "saved").length;
+  const staleActive = pipelineEntries
+    .filter((p) => p.status === "screen" || p.status === "interview")
+    .map((p) => ({
+      id: p.id,
+      company: p.company,
+      daysSince: Math.floor(
+        (Date.now() - new Date(p.last_update).getTime()) / 86400000
+      ),
+    }))
+    .filter((p) => p.daysSince > 10);
+
+  const newTopTier = newJobs
+    .filter((j) => j.score >= 90)
+    .map((j) => ({ id: j.id, company: j.company, role: j.role, score: j.score }));
+
+  const signals = computeSignals({
+    weekdaysPassed,
+    appsThisWeek: Number(current.applications_sent) || 0,
+    appsTarget: TARGETS.applications_sent,
+    last10OutreachReplies,
+    staleActiveRoles: staleActive,
+    interviewsThisWeek: Number(current.interviews_completed) || 0,
+    savedCount,
+    newTopTierJobs: newTopTier,
+  });
+
+  // Only pass the fields FunnelHealth expects
+  const funnelData = {
+    funnel: {
+      applied: pipelineEntries.filter((e) => e.status === "applied").length,
+      screen: pipelineEntries.filter((e) => e.status === "screen").length,
+      interview: pipelineEntries.filter((e) => e.status === "interview").length,
+      offer: pipelineEntries.filter((e) => e.status === "offer").length,
+      rejected: pipelineEntries.filter((e) => e.status === "rejected").length,
+    },
+    conversionRates: { app_to_screen: 0, screen_to_interview: 0, interview_to_offer: 0 },
   };
 
-  const conversionRates = {
-    app_to_screen: funnel.applied > 0 ? Math.round(((funnel.screen + funnel.interview + funnel.offer) / (funnel.applied + funnel.screen + funnel.interview + funnel.offer)) * 100) : 0,
-    screen_to_interview: (funnel.screen + funnel.interview + funnel.offer) > 0 ? Math.round(((funnel.interview + funnel.offer) / (funnel.screen + funnel.interview + funnel.offer)) * 100) : 0,
-    interview_to_offer: (funnel.interview + funnel.offer) > 0 ? Math.round((funnel.offer / (funnel.interview + funnel.offer)) * 100) : 0,
+  return {
+    newJobs,
+    days,
+    metricRows,
+    signals,
+    funnelData,
+    pipelineEntries,
+    subtasks: subtasksRes.data || [],
   };
-
-  return { funnel, conversionRates, total: entries.length, entries };
-}
-
-async function getSubtasks() {
-  const { data } = await supabase
-    .from("job_pipeline_subtasks")
-    .select("*")
-    .order("sort_order", { ascending: true });
-  return data || [];
 }
 
 export default async function JobSearchDashboard() {
-  const [taskData, metricsData, pipelineData, subtasks] = await Promise.all([
-    getTodaysTasks(),
-    getMetrics(),
-    getPipeline(),
-    getSubtasks(),
-  ]);
+  const data = await loadData();
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-8 space-y-6">
@@ -159,33 +222,44 @@ export default async function JobSearchDashboard() {
           Job Search
         </h1>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
+          {new Date().toLocaleDateString("en-US", {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}
         </p>
       </div>
 
       <HubNav />
 
-      {/* Layer 1: Today's tasks */}
+      {/* Block 1: New Jobs */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
-        <TaskList tasks={taskData.tasks || []} backlogCount={taskData.backlogCount || 0} allDone={taskData.allDone || false} />
+        <NewJobsBlock jobs={data.newJobs} />
       </div>
 
-      {/* Layer 2: Weekly scorecard + Pipeline side by side on desktop */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
-          <WeeklyScorecard metrics={metricsData.current} targets={metricsData.targets} />
-        </div>
-        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
-          <FunnelHealth data={pipelineData} />
-        </div>
+      {/* Block 2: This Week */}
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
+        <WeekView days={data.days} />
       </div>
 
-      {/* Layer 3: Pipeline board */}
+      {/* Block 3: Metrics */}
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
+        <MetricsBlock rows={data.metricRows} />
+      </div>
+
+      {/* Block 4: Signals (only if any) */}
+      <SignalsBlock signals={data.signals} />
+
+      {/* Below the four blocks: existing pipeline tools */}
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
+        <FunnelHealth data={data.funnelData} />
+      </div>
+
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm overflow-hidden">
-        <PipelineBoard entries={pipelineData.entries || []} subtasks={subtasks} />
+        <PipelineBoard entries={data.pipelineEntries} subtasks={data.subtasks} />
       </div>
 
-      {/* Layer 4: Portfolio KPIs */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
         <PortfolioKPIs />
       </div>
