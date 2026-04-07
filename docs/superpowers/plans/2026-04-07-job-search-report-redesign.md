@@ -2941,4 +2941,82 @@ git commit -m "refactor: remove deprecated email sections after redesign"
 
 ## Schema Audit Results
 
-_(Engineer fills this in during Task 0.)_
+_Audited 2026-04-07 using service role key against `https://lohuzsjnztefixqbaoqf.supabase.co`._
+
+### job_pipeline_entries
+Existing columns: `id`, `company`, `role`, `status`, `applied_date`, `last_update`, `notes`, `created_at`, `job_url`, `fit_score`, `ats_result`
+
+**Migration notes:**
+- `fit_score_auto` — does not exist (there is a `fit_score` column; rename or add new)
+- `fit_score_manual` — does not exist
+- `score_breakdown` — does not exist
+- **Gap**: No `location` field and no `jd_text` field. Auto-score location red flag and keyword matching will need JD text. Add both columns or adapt algorithm.
+- **Gap**: No `interview_date` field. Weekly plan generator needs this to schedule prep tasks. Add column.
+- **Gap**: No `industry` or `stage` fields on the entry itself (industry/stage fit signals use `job_target_companies` lookup by company name instead, or require adding columns).
+
+### job_daily_tasks
+Existing columns: `id`, `task`, `category`, `impact`, `company`, `link`, `date`, `done`, `completed_at`, `created_at`, `blocked_by`, `notes`
+
+**Migration notes:**
+- `probability_lift` — does not exist, add it
+- `source` — does not exist, add it
+- `carried_over` — does not exist, add it
+
+### job_weekly_metrics
+Existing columns: `id`, `week_start`, `outreach_sent`, `created_at`, `updated_at`, `applications_sent`, `interviews`, `offers`
+
+**Migration notes (table was empty; columns probed individually):**
+- `response_rate` — does not exist, add it
+- `active_pipeline_count` — does not exist, add it
+- `interviews_completed` — does not exist; `interviews` column already exists — confirm if `interviews` = interviews_completed or rename/alias needed
+- **Name mismatch**: Spec refers to `applications_sent`; table has `applications_sent` (matches). Spec also references `apps_sent` in some places — confirm it maps to `applications_sent`.
+- `week_end` — does not exist (only `week_start` present); add if rollup job needs it
+
+### job_connections
+Existing columns: `id`, `name`, `company_id`, `company_name`, `linkedin_url`, `linkedin_connected`, `met_in_person`, `meeting_notes`, `referral_status`, `referral_role`, `last_contact`, `next_action`, `created_at`, `updated_at`, `outreach_stage`
+
+**Migration notes:**
+- No new columns required by the spec for this table
+- **Gap**: No `last_reply` column. Spec's response rate formula uses `last_reply` to detect replies. Add `last_reply` (date, nullable) or change computation to count rows where `outreach_stage` indicates a reply.
+
+### job_briefings
+Existing columns: `id`, `date`, `part`, `top_roles`, `other_roles`, `networking_html`, `coaching_html`, `raw_markdown`, `created_at`
+
+**Migration notes:** No new columns required by the redesign spec. This table is consumed read-only by the old email sections being removed.
+
+### job_target_companies
+Existing columns: `id`, `rank`, `name`, `stage`, `industry`, `product_focus`, `hiring_status`, `recent_news`, `connections_count`, `notes`, `created_at`, `updated_at`, `job_title`, `job_url`
+
+**Migration notes:** No new columns required. `stage` and `industry` fields exist and can be used for auto-score industry/stage fit signals via company name lookup.
+
+---
+
+### Summary of columns to ADD in Task 2 migration
+
+| Table | Column | Type | Notes |
+|---|---|---|---|
+| `job_pipeline_entries` | `fit_score_auto` | int default 0 | New; `fit_score` (existing) is different — keep both for now |
+| `job_pipeline_entries` | `fit_score_manual` | int nullable | New |
+| `job_pipeline_entries` | `score_breakdown` | jsonb nullable | New |
+| `job_pipeline_entries` | `jd_text` | text nullable | Gap — needed for keyword scoring |
+| `job_pipeline_entries` | `location` | text nullable | Gap — needed for location red flag |
+| `job_pipeline_entries` | `interview_date` | timestamptz nullable | Gap — needed for weekly plan generator |
+| `job_daily_tasks` | `probability_lift` | int default 5 | New |
+| `job_daily_tasks` | `source` | text nullable | New |
+| `job_daily_tasks` | `carried_over` | bool default false | New |
+| `job_weekly_metrics` | `response_rate` | numeric default 0 | New |
+| `job_weekly_metrics` | `active_pipeline_count` | int default 0 | New |
+| `job_weekly_metrics` | `week_end` | date nullable | New — add if rollup needs it |
+| `job_connections` | `last_reply` | date nullable | Gap — needed for response rate |
+
+### Columns that already exist (do NOT add)
+
+- `job_pipeline_entries.fit_score` — exists (different from `fit_score_auto`; keep)
+- `job_pipeline_entries.created_at` — exists
+- `job_daily_tasks.blocked_by` — exists
+- `job_daily_tasks.done` — exists
+- `job_weekly_metrics.applications_sent` — exists (spec sometimes writes `apps_sent`)
+- `job_weekly_metrics.outreach_sent` — exists
+- `job_weekly_metrics.interviews` — exists (clarify vs. `interviews_completed`)
+- `job_target_companies.stage` — exists
+- `job_target_companies.industry` — exists
