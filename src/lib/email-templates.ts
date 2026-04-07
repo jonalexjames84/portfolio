@@ -1,3 +1,6 @@
+import { renderSparklineSvg } from "@/lib/job-search/sparkline";
+import type { Signal } from "@/lib/job-search/signals";
+
 const DASHBOARD_URL = "https://portfolio.jonnymartin.blog/dashboard/job-search";
 const HUB_URL = "https://portfolio.jonnymartin.blog/job-search";
 
@@ -245,3 +248,187 @@ export const impactColor: Record<string, string> = {
   medium: "#f59e0b",
   low: "#6b7280",
 };
+
+export type NewJob = {
+  id: string;
+  company: string;
+  role: string;
+  score: number;
+  scoreSource: "manual" | "auto";
+  breakdown: {
+    title_match: number;
+    seniority_fit: number;
+    keyword_match: number;
+    industry_fit: number;
+    stage_fit: number;
+    red_flags: number;
+  } | null;
+  job_url: string | null;
+};
+
+export function newJobsSection(jobs: NewJob[]): string {
+  if (jobs.length === 0) {
+    return `
+      <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+        <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 8px;">🆕 New Jobs (last 24h)</h2>
+        <p style="color: #6b7280; font-size: 14px; margin: 0;">No new jobs in the last 24h.</p>
+      </div>
+    `;
+  }
+
+  const top = jobs.slice(0, 5);
+  const rest = jobs.slice(5);
+
+  const cards = top
+    .map((j, i) => {
+      const color = j.score >= 80 ? "#10b981" : j.score >= 65 ? "#3b82f6" : "#f59e0b";
+      const breakdownLine = j.breakdown
+        ? `<div style="font-size: 11px; color: #6b7280; margin-top: 4px;">Title ${j.breakdown.title_match} · Seniority ${j.breakdown.seniority_fit} · Keywords ${j.breakdown.keyword_match} · Industry ${j.breakdown.industry_fit} · Stage ${j.breakdown.stage_fit}${j.breakdown.red_flags ? ` · Flags ${j.breakdown.red_flags}` : ""}</div>`
+        : "";
+      const sourceTag =
+        j.scoreSource === "auto"
+          ? `<span style="font-size: 10px; color: #9ca3af; margin-left: 6px;">auto</span>`
+          : "";
+      return `
+        <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <div style="font-size: 14px; font-weight: 700; color: #111827;">#${i + 1} ${j.role}</div>
+              <div style="font-size: 12px; color: #6b7280;">${j.company}</div>
+            </div>
+            <div style="background: ${color}15; color: ${color}; padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: 700;">${j.score}/100${sourceTag}</div>
+          </div>
+          ${breakdownLine}
+          ${j.job_url ? `<a href="${j.job_url}" style="display: inline-block; margin-top: 8px; color: #0d9488; text-decoration: none; font-size: 12px; font-weight: 600;">View posting →</a>` : ""}
+        </div>
+      `;
+    })
+    .join("");
+
+  const restLine =
+    rest.length > 0
+      ? `<p style="font-size: 12px; color: #6b7280; margin: 8px 0 0;"><strong>Also found:</strong> ${rest.map((j) => `${j.company} ${j.role} (${j.score})`).join(" · ")}</p>`
+      : "";
+
+  return `
+    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #166534; margin: 0 0 12px;">🆕 New Jobs (last 24h, ranked by fit)</h2>
+      ${cards}
+      ${restLine}
+    </div>
+  `;
+}
+
+export type WeekViewTask = {
+  id: string;
+  task: string;
+  company: string | null;
+  category: string;
+  impact: "high" | "medium" | "low";
+  done: boolean;
+};
+
+export type WeekDay = {
+  date: string;
+  label: string;     // "MON", "TUE", etc.
+  isToday: boolean;
+  tasks: WeekViewTask[];
+};
+
+export function weekViewSection(days: WeekDay[]): string {
+  const dayBlocks = days
+    .map((d) => {
+      const doneCount = d.tasks.filter((t) => t.done).length;
+      const headerBg = d.isToday ? "#0d9488" : "#f3f4f6";
+      const headerColor = d.isToday ? "white" : "#374151";
+      const taskRows = d.tasks
+        .map((t) => {
+          const emoji = categoryEmoji[t.category] || "📋";
+          const checkbox = t.done ? "☑" : "☐";
+          const strike = t.done ? "text-decoration: line-through; color: #9ca3af;" : "color: #111827;";
+          const impactBadge = `<span style="background: ${impactColor[t.impact]}15; color: ${impactColor[t.impact]}; padding: 1px 6px; border-radius: 10px; font-size: 10px; font-weight: 600; margin-left: 6px;">${t.impact.toUpperCase()}</span>`;
+          return `
+            <div style="font-size: 13px; margin: 4px 0; ${strike}">
+              ${checkbox} ${emoji} ${t.task}${t.company ? ` <span style="color: #6b7280;">— ${t.company}</span>` : ""}${impactBadge}
+            </div>
+          `;
+        })
+        .join("");
+      const empty =
+        d.tasks.length === 0
+          ? `<div style="font-size: 12px; color: #9ca3af; padding: 4px 0;">No tasks</div>`
+          : "";
+      return `
+        <div style="margin-bottom: 12px;">
+          <div style="background: ${headerBg}; color: ${headerColor}; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; display: flex; justify-content: space-between;">
+            <span>${d.label}${d.isToday ? " (today)" : ""}</span>
+            <span>${doneCount}/${d.tasks.length}</span>
+          </div>
+          <div style="padding: 6px 10px;">${taskRows}${empty}</div>
+        </div>
+      `;
+    })
+    .join("");
+
+  return `
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 12px;">📅 This Week's Tasks</h2>
+      ${dayBlocks}
+    </div>
+  `;
+}
+
+export type MetricRow = {
+  label: string;
+  current: number;
+  target: number | null;
+  history: number[]; // 5 values: last 4 weeks + this week
+  unit?: "" | "%" | "/wk";
+};
+
+function deltaArrow(history: number[]): string {
+  if (history.length < 2) return "—";
+  const cur = history[history.length - 1];
+  const prev = history[history.length - 2];
+  if (cur > prev) return `<span style="color: #10b981;">↑</span>`;
+  if (cur < prev) return `<span style="color: #ef4444;">↓</span>`;
+  return `<span style="color: #6b7280;">flat</span>`;
+}
+
+export function metricsSection(rows: MetricRow[]): string {
+  const rowsHtml = rows
+    .map((r) => {
+      const display =
+        r.unit === "%"
+          ? `${Math.round(r.current * 100)}%`
+          : r.target
+          ? `${r.current}/${r.target}`
+          : `${r.current}`;
+      return `
+        <tr>
+          <td style="padding: 8px 0; font-size: 13px; color: #374151;">${r.label}</td>
+          <td style="padding: 8px 0; font-size: 13px; color: #111827; font-weight: 600;">${display}</td>
+          <td style="padding: 8px 0;">${renderSparklineSvg(r.history)}</td>
+          <td style="padding: 8px 0; font-size: 12px; text-align: right;">${deltaArrow(r.history)}</td>
+        </tr>
+      `;
+    })
+    .join("");
+
+  return `
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 12px;">📊 Metrics</h2>
+      <table style="width: 100%; border-collapse: collapse;">${rowsHtml}</table>
+    </div>
+  `;
+}
+
+export function signalsSection(signals: Signal[]): string {
+  if (signals.length === 0) return "";
+  return `
+    <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #92400e; margin: 0 0 8px;">⚠️ Signals</h2>
+      ${signals.map((s) => `<p style="color: #78350f; font-size: 13px; margin: 4px 0;">${s.message}</p>`).join("")}
+    </div>
+  `;
+}
