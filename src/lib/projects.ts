@@ -291,9 +291,97 @@ export const projects: Project[] = [
       "Target customer: SMB restaurant franchises with under 10 locations — first market entry in Austin, Chicago, and Atlanta. Competitive landscape: Indeed and ZipRecruiter own job posting but stop at the hire. When I Work and Homebase own scheduling but don't touch hiring. No platform connects who you hire to how you schedule them. Go-to-market: Lead with the swipe-to-match hiring tool as a free wedge, the sharpest demo and easiest close. Once a manager hires through Swob, expand into scheduling and shift-swap. The candidate dashboard creates a two-sided network effect. Business model: Free hiring tool, paid scheduling suite with per-location pricing. The prototype suite is designed to close contracts and raise capital simultaneously.",
   },
   {
-    slug: "health-dashboard",
+    slug: "fitness",
+    title: "Fitness",
+    subtitle: "Unified Training & Body Composition Analytics",
+    screenshot:
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/strava-integration.png",
+    screenshots: [
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/strava-integration.png",
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/data-sources.png",
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/dexa-integration.png",
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/progress.png",
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/scan-summary.png",
+      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/body-composition.png",
+    ],
+    liveUrl: "https://health.jonnymartin.blog/",
+    description:
+      "This project came from my own weightlifting and body recomposition journey. I found a system of fat reduction and muscle increase that helped me get tremendous results in 6 months, and I wanted to help others do the same. Fitness data is scattered across apps that don't talk to each other. Strava tracks your runs, COROS logs your heart rate, and a DEXA scan lives in a PDF. Fitness pulls it all into one dashboard and makes it actionable with training load analytics, body composition trends, and injury risk indicators. I'm now testing it within our gym community called Everfit Motion.",
+    pitch:
+      "After 6 months of weightlifting and body recomposition, I'd found a system that actually worked: fat reduction and muscle increase with measurable results. But the tools were all disconnected. Strava told me my pace, COROS told me my heart rate, and my DEXA scan was a PDF I never looked at. So I built a dashboard that married all these data sources together. The value isn't more charts, it's surfacing insights no single app can provide: training load ratios that predict injury, body composition trends that show whether your program is actually working, and recovery metrics that tell you when to push and when to rest. I'm now testing it with our gym community, Everfit Motion.",
+    problem:
+      "People pursuing body recomposition generate data across 5+ apps with no unified view. Strava doesn't know your body composition. Your DEXA scan doesn't factor into your training plan. Training load calculations require manual spreadsheets. The result: people collect data they never act on because synthesizing it takes more effort than the workout itself.",
+    tags: ["Fitness", "Data Viz", "Integrations"],
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "Supabase",
+      "Strava API",
+      "Recharts",
+      "TailwindCSS",
+    ],
+    featured: true,
+    callout: "3 data sources unified · Training load injury risk detection",
+    category: "software",
+    repos: [{ name: "health", role: "Fitness analytics dashboard" }],
+    highlights: [
+      "Strava webhook integration for real-time activity syncing without manual imports",
+      "DEXA scan PDF parser that extracts body composition data into trackable trends",
+      "COROS .FIT file decoder for heart rate zones, training load, and recovery metrics",
+      "Training load analytics: ACWR ratios, monotony scoring, and polarization analysis",
+      "Body composition dashboard with regional fat distribution and muscle balance tracking",
+    ],
+    outcomes: [
+      "3 data sources unified into one dashboard, replacing manual spreadsheet tracking entirely",
+      "Strava webhooks processing activities in real-time, with zero manual data entry after initial setup",
+      "DEXA PDF parser extracting 20+ body composition data points from unstructured scan reports",
+      "Training load dashboard surfacing injury risk indicators (ACWR > 1.5) that were invisible before",
+    ],
+    decisions: [
+      "Used Strava webhooks instead of polling for real-time sync with no rate limit issues and instant dashboard updates after a workout",
+      "Built a custom DEXA PDF parser instead of manual entry. Scans have a consistent format, so regex extraction is reliable and saves 15 minutes per scan",
+      "Built with Recharts instead of D3 because the charts are standard (line, bar, scatter) and Recharts integrates natively with React, saving weeks of custom SVG work",
+      "Stored everything in Supabase/Postgres instead of a time-series DB. The data volume is personal-scale, and Postgres's JSON columns handle the varied schemas from different devices",
+    ],
+    teamContext:
+      "Built to solve my own problem during a 6-month body recomposition program. Designed the data model, built all integrations (Strava, DEXA, COROS), and use the dashboard daily. Now testing with members of Everfit Motion, our gym community, to validate whether the same systems that worked for me can help others achieve similar results. The API integration architecture mirrors challenges I faced at Treasure DAO, where I led the launch of a new blockchain on Arbitrum and shipped a gaming NFT marketplace, both of which required orchestrating multiple third-party APIs and data sources into a coherent product. The analytics dashboard design draws from my experience at Bandai Namco (PAC-MAN franchise, 10M+ weekly installs) and Big Fish Games, where I built analytics pipelines from scratch and used data visualization to drive product decisions.",
+    userResearch: [
+      "Dogfooding: Used the dashboard daily throughout my own 6-month body recomposition, and every design decision came from hitting my own pain points as a real user",
+      "DEXA scan data was the most valuable and least accessible. Everyone I talked to had scans but never looked at the results more than once because the PDFs are dense and clinical. Making that data visual and trackable over time was the breakthrough insight",
+    ],
+    failures: [
+      "First version tried to auto-import data from 6 different sources including Apple Health and Garmin. The integration complexity was unsustainable. Each API had different auth flows, rate limits, and data formats. Cut to 3 core sources (Strava, DEXA, COROS) that covered 90% of the value with 50% of the effort",
+      "Originally displayed all metrics on a single dashboard page. Information overload made it useless. I couldn't find what I needed quickly. Reorganized into focused views: Training, Body Composition, and a daily summary. Usage went from checking once a week to checking daily",
+    ],
+    strategy:
+      "Target customer: People pursuing body recomposition, specifically fat reduction and muscle increase, who track data across multiple devices and want actionable insights, not just more charts. Competitive landscape: Strava is social but not analytical. TrainingPeaks has deep analytics but no body composition. No product unifies training load with body composition tracking. Product thesis: The value isn't in collecting data, it's in connecting data across sources to surface insights no single app can provide. Current status: Testing with Everfit Motion gym community after proving the system on myself with 6 months of results.",
+    features: [
+      {
+        title: "Body Composition Tracking",
+        description:
+          "Most fitness apps track weight, but weight alone is misleading during recomposition because you can gain muscle and lose fat while the scale barely moves. The progress dashboard shows body fat percentage, lean mass gained, and fat lost separately. The scan summary calculates net recomposition and weekly fat loss rate so you can see if your program is actually working.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/progress.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/scan-summary.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/body-composition.png",
+        ],
+      },
+      {
+        title: "Data Source Integrations",
+        description:
+          "Fitness data lives in silos. Strava knows your cardio, COROS has your heart rate zones, and BodySpec has your DEXA scans. I built integrations for all three so everything feeds into one dashboard. Strava syncs automatically via webhooks, COROS imports via .FIT files, and DEXA scans are parsed directly from PDF. Zero manual entry after initial setup.",
+        screenshots: [
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/strava-integration.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/data-sources.png",
+          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/dexa-integration.png",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "macro-chef",
     title: "Macro Chef",
-    subtitle: "AI-Powered Fitness & Nutrition Analytics",
+    subtitle: "AI-Powered Meal Planning & Nutrition Tracker",
     screenshot:
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/landing-hero.png",
     screenshots: [
@@ -304,12 +392,6 @@ export const projects: Project[] = [
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/meal-plan-settings.png",
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/pantry.png",
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/shopping-list.png",
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/progress.png",
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/scan-summary.png",
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/body-composition.png",
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/strava-integration.png",
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/data-sources.png",
-      "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/dexa-integration.png",
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/food-preferences.png",
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/preferred-proteins.png",
       "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/health-goals.png",
@@ -319,62 +401,51 @@ export const projects: Project[] = [
     ],
     liveUrl: "https://health.jonnymartin.blog/",
     description:
-      "This project came from my own weightlifting and body recomposition journey. I found a system of fat reduction and muscle increase that helped me get tremendous results in 6 months, and I wanted to help others do the same. Fitness data is scattered across apps that don't talk to each other. Strava tracks your runs, COROS logs your heart rate, a DEXA scan lives in a PDF, and your meals are in a spreadsheet. Health Dashboard pulls it all into one place and makes it actionable, with an AI-generated meal planner that matches your specific goals, one of the hardest things to get right. I'm now testing it within our gym community called Everfit Motion.",
+      "Nutrition is where most body recomposition programs fail. People know they need to hit their macros but don't know what to cook. Macro Chef is an AI-powered meal planner that takes your exact macro targets, dietary restrictions, and available ingredients, then generates recipes that actually fit. Three modes (Quick Meal, Meal Prep, Pantry Raid) for different needs on Tuesday night vs. Sunday afternoon. I built it because the #1 question from our gym community was 'What should I eat to hit my goals?' and nothing on the market answered it.",
     pitch:
-      "After 6 months of weightlifting and body recomposition, I'd found a system that actually worked: fat reduction and muscle increase with measurable results. But the tools were all disconnected. Strava told me my pace, COROS told me my heart rate, my DEXA scan was a PDF I never looked at, and my nutrition tracking was a guess. So I built a platform that married all these systems together. The killer feature is an AI-generated meal planner that matches your specific goals, because nutrition is the hardest part of any body recomposition program and most people give up there. I'm now testing it with our gym community, Everfit Motion, to help others use the same systems I used.",
+      "The hardest part of any body recomposition program isn't the workout, it's the nutrition. Most people give up because they can't figure out what to eat to match their specific goals. Macro Chef solves this with AI: tell it your macro targets, dietary restrictions, and what's in your pantry, and it generates personalized recipes in under 3 seconds. Describe what you ate in plain text and the AI extracts the macros. No barcode scanning, no food database searching, just talk to it like a person. I'm testing it with our gym community, Everfit Motion.",
     problem:
-      "People pursuing body recomposition generate data across 5+ apps with no unified view. Strava doesn't know your body composition. Your DEXA scan doesn't factor into your meal plan. Training load calculations require manual spreadsheets. And the hardest part, knowing what to eat to match your specific fat loss and muscle gain goals, is left entirely to guesswork. The result: people collect data they never act on because synthesizing it takes more effort than the workout itself.",
-    tags: ["Health", "AI", "Data Viz", "Integrations"],
+      "Knowing what to eat to match your specific fat loss and muscle gain goals is left entirely to guesswork. MyFitnessPal tracks food but doesn't generate plans. Generic meal plans fail because everyone has different dietary constraints, preferences, and goals. The result: people know their macro targets but have no idea what to cook to hit them, and the friction of manual logging means most give up within a week.",
+    tags: ["AI", "Nutrition", "Claude API"],
     stack: [
       "Next.js",
       "TypeScript",
       "Supabase",
       "Anthropic Claude API",
-      "Strava API",
-      "Recharts",
       "TailwindCSS",
     ],
     featured: true,
-    callout: "4 data sources unified · AI meal plans in under 3 seconds",
+    callout: "AI meal plans in under 3 seconds · Plain-text macro logging",
     category: "software",
-    repos: [{ name: "health", role: "Full health analytics dashboard" }],
+    repos: [{ name: "health", role: "AI meal planning engine" }],
     highlights: [
       "Claude-powered meal planning: generates recipes based on macros, goals, and available ingredients",
-      "Strava webhook integration for real-time activity syncing without manual imports",
-      "DEXA scan PDF parser that extracts body composition data into trackable trends",
-      "COROS .FIT file decoder for heart rate zones, training load, and recovery metrics",
-      "Training load analytics: ACWR ratios, monotony scoring, and polarization analysis",
-      "Body composition dashboard with regional fat distribution and muscle balance tracking",
+      "Three planning modes (Quick Meal, Meal Prep, Pantry Raid) for different contexts",
+      "Plain-text meal logging: describe what you ate and AI extracts the macros",
+      "Personalization engine: dietary restrictions, cuisine preferences, spice tolerance, preferred proteins, and cooking skill all fed into the AI prompt",
+      "Weekly meal prep with consolidated, recipe-grouped shopping lists",
     ],
     outcomes: [
-      "4 data sources unified into one dashboard, replacing manual spreadsheet tracking entirely",
       "AI meal planning generating nutritionally-targeted recipes in under 3 seconds via Claude API",
-      "Strava webhooks processing activities in real-time, with zero manual data entry after initial setup",
-      "DEXA PDF parser extracting 20+ body composition data points from unstructured scan reports",
-      "Training load dashboard surfacing injury risk indicators (ACWR > 1.5) that were invisible before",
+      "Meal logging time reduced from 5 minutes to 30 seconds with plain-text AI extraction",
+      "Full personalization system ensuring every generated recipe matches user constraints and preferences",
     ],
     decisions: [
-      "Used Strava webhooks instead of polling for real-time sync with no rate limit issues and instant dashboard updates after a workout",
-      "Built a custom DEXA PDF parser instead of manual entry. Scans have a consistent format, so regex extraction is reliable and saves 15 minutes per scan",
       "Chose Claude over GPT for meal planning because of longer context windows. The prompt includes full macro targets, dietary restrictions, available ingredients, and recent meal history",
-      "Built with Recharts instead of D3 because the charts are standard (line, bar, scatter) and Recharts integrates natively with React, saving weeks of custom SVG work",
-      "Stored everything in Supabase/Postgres instead of a time-series DB. The data volume is personal-scale, and Postgres's JSON columns handle the varied schemas from different devices",
+      "Replaced barcode scanning with plain-text AI extraction after dogfooding showed the friction of manual logging killed adherence",
+      "Three distinct planning modes instead of one generic planner because the use case is fundamentally different when you need dinner in 20 minutes vs. prepping meals for the week",
     ],
     teamContext:
-      "Built to solve my own problem during a 6-month body recomposition program. Designed the data model, built all integrations (Strava, DEXA, COROS, Claude), and use the dashboard daily. Now testing with members of Everfit Motion, our gym community, to validate whether the same systems that worked for me can help others achieve similar results. The API integration architecture mirrors challenges I faced at Treasure DAO, where I led the launch of a new blockchain on Arbitrum and shipped a gaming NFT marketplace, both of which required orchestrating multiple third-party APIs and data sources into a coherent product. The analytics dashboard design draws from my experience at Bandai Namco (PAC-MAN franchise, 10M+ weekly installs) and Big Fish Games, where I built analytics pipelines from scratch and used data visualization to drive product decisions.",
+      "Built as the nutrition companion to my fitness dashboard during a 6-month body recomposition program. The AI integration work draws on my experience orchestrating third-party APIs at Treasure DAO and building data-driven product features at Bandai Namco and Big Fish Games.",
     userResearch: [
-      "Dogfooding: Used the dashboard daily throughout my own 6-month body recomposition, and every design decision came from hitting my own pain points as a real user",
-      "Talked to members of Everfit Motion (our gym community), and most tracked nutrition in spreadsheets or not at all. The gap wasn't motivation, it was that existing tools (MyFitnessPal, Cronometer) don't connect nutrition to training load and body composition goals",
-      "DEXA scan data was the most valuable and least accessible. Everyone I talked to had scans but never looked at the results more than once because the PDFs are dense and clinical. Making that data visual and trackable over time was the breakthrough insight",
+      "Talked to members of Everfit Motion (our gym community), and most tracked nutrition in spreadsheets or not at all. The gap wasn't motivation, it was that existing tools (MyFitnessPal, Cronometer) don't generate plans matched to your specific goals",
       "The #1 question from gym members was 'What should I eat to hit my goals?' Meal planning matched to specific macro targets and body recomposition phases was the killer feature they couldn't find anywhere else",
     ],
     failures: [
-      "First version tried to auto-import data from 6 different sources including Apple Health and Garmin. The integration complexity was unsustainable. Each API had different auth flows, rate limits, and data formats. Cut to 3 core sources (Strava, DEXA, COROS) that covered 90% of the value with 50% of the effort",
       "Built an elaborate meal logging UI with barcode scanning and food database search. Never used it because there was too much friction during a busy training day. Replaced it with a Claude-powered approach: describe what you ate in plain text, and AI extracts the macros. Logging time went from 5 minutes to 30 seconds",
-      "Originally displayed all metrics on a single dashboard page. Information overload made it useless. I couldn't find what I needed quickly. Reorganized into focused views: Training, Nutrition, Body Composition, and a daily summary. Usage went from checking once a week to checking daily",
     ],
     strategy:
-      "Target customer: People pursuing body recomposition, specifically fat reduction and muscle increase, who track data across multiple devices and want actionable insights, not just more charts. Competitive landscape: Strava is social but not analytical. TrainingPeaks has deep analytics but no nutrition or body composition. MyFitnessPal tracks food but is disconnected from training. No product unifies all three. Product thesis: The value isn't in collecting data, it's in connecting data across sources to surface insights no single app can provide. The AI meal planner is the differentiator: nutrition matched to your specific body composition goals is the hardest problem to solve and the one most people give up on. Current status: Testing with Everfit Motion gym community after proving the system on myself with 6 months of results.",
+      "Target customer: People pursuing body recomposition who know their macro targets but struggle with what to actually eat. Competitive landscape: MyFitnessPal tracks food but doesn't generate plans. Cronometer is detailed but doesn't connect to goals. No product generates personalized meal plans matched to specific body composition targets. Product thesis: The AI meal planner is the differentiator: nutrition matched to your specific goals is the hardest problem to solve and the one most people give up on. Current status: Testing with Everfit Motion gym community.",
     features: [
       {
         title: "AI Meal Planning Engine",
@@ -394,26 +465,6 @@ export const projects: Project[] = [
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/meal-plan-settings.png",
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/pantry.png",
           "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/shopping-list.png",
-        ],
-      },
-      {
-        title: "Body Composition Tracking",
-        description:
-          "Most fitness apps track weight, but weight alone is misleading during recomposition because you can gain muscle and lose fat while the scale barely moves. The progress dashboard shows body fat percentage, lean mass gained, and fat lost separately. The scan summary calculates net recomposition and weekly fat loss rate so you can see if your nutrition strategy is actually working.",
-        screenshots: [
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/progress.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/scan-summary.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/body-composition.png",
-        ],
-      },
-      {
-        title: "Data Source Integrations",
-        description:
-          "Fitness data lives in silos. Strava knows your cardio, MacroFactor knows your nutrition, BodySpec has your DEXA scans. I built integrations for all three so everything feeds into one dashboard. Strava syncs automatically via webhooks, MacroFactor imports via CSV, and DEXA scans are parsed directly from PDF. Zero manual entry after initial setup.",
-        screenshots: [
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/strava-integration.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/data-sources.png",
-          "https://lohuzsjnztefixqbaoqf.supabase.co/storage/v1/object/public/portfolio-screenshots/macrochef/dexa-integration.png",
         ],
       },
       {
