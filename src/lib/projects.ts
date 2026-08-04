@@ -34,6 +34,246 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "memorang-pm-os",
+    title: "An AI Operating System for a PM Job",
+    subtitle: "51 Claude Code Skills, Nightly Automation, and a Quality Gate",
+    description:
+      "As founding technical PM at an AI edtech infrastructure company, I built the system that ran my own job. A library of 51 Claude Code skills encoded how the company actually works — how tickets get scoped, how PRDs get written, how status gets reported — so the standards executed themselves instead of living in my head. On top of it: nightly automation that assembled tomorrow's status before I opened my laptop, and a human-in-the-loop gate that graded every outbound write before it landed.",
+    pitch:
+      "Most PMs carry their operating standards in their head and re-apply them by hand, inconsistently, under deadline pressure. I encoded mine as executable skills. Fifty-one of them, covering scoping, PRD drafting, ticket hygiene, meeting notes, launch readiness, and status reporting — each one a written standard that an agent follows the same way every time. Ninety-four memory files held the company context the skills needed: the glossary, the delivery norms, the named anti-patterns, the corrections I'd been given. The result was a job that got more consistent as it got busier, not less.",
+    problem:
+      "I joined a company running four concurrent customer launches with overwhelming inbound demand and a small shared engineering bench. The failure mode of that environment is well known: standards erode under load, status goes stale, and the PM becomes a passthrough who relays information without adding judgment. Writing the standards down in a doc doesn't fix it, because nobody reads docs at 6pm on a launch week.",
+    tags: ["AI Tooling", "Claude Code", "Agentic Workflows", "Internal Tools"],
+    stack: [
+      "Claude Code",
+      "Node.js",
+      "TypeScript",
+      "launchd",
+      "MCP",
+    ],
+    featured: true,
+    callout: "51 skills · 94 memory files · Nightly automation · Quality gate",
+    category: "software",
+    metrics: [
+      { value: "51", label: "Claude Code Skills" },
+      { value: "94", label: "Context Memory Files" },
+      { value: "7pm", label: "Nightly Status Job" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Authored 51 Claude Code skills encoding the company's operating standards — scoping and minimum-feasible-version discipline, PRD drafting, ticket structure, meeting notes, launch readiness, and status reporting — so each one executed identically every time instead of depending on my attention that day",
+      "Built a 94-file memory layer holding company context an agent needs to be useful: product glossary, delivery norms, communication standards, and every correction I'd received, so mistakes were made once rather than repeatedly",
+      "Shipped a nightly automation job that pulled the last 72 hours of ticket activity across every active launch, bucketed it into completed / blockers / open questions / next steps, and wrote it to a private page before the morning standup",
+      "Built the WWYD Gate: a pre-write hook that intercepts every agent write to the ticket tracker, docs, and chat, grades the payload against a written quality rubric, and holds it in a review dashboard for approval or rejection with a fix prompt returned to the terminal",
+    ],
+    decisions: [
+      "Made the quality gate fail-open rather than fail-closed. If the grading server isn't running, writes proceed normally. A safety system that blocks work when it breaks gets disabled within a week, and a disabled gate protects nothing",
+      "Kept the whole system files-first rather than building it inside the company's own tools. During the volatile early weeks the information architecture changed constantly, and restructuring with mv and grep beat migrating a schema every time",
+      "Made the agent read-only against the ticket tracker after an early scare. It drafts tickets for me to file myself. The cost is a few minutes of copying; the benefit is that no automated system can corrupt the team's shared source of truth",
+      "Kept my private daily brief entirely local with no sync to the company workspace. Mirroring unfiltered working notes into a space where leadership browses is a bell you can't un-ring, and I hadn't yet learned the etiquette",
+    ],
+    teamContext:
+      "Built solo, as the founding technical PM reporting directly to the founder. The company ran distributed across two continents with two daily overlap windows, which meant most coordination was asynchronous and most status had to be assembled rather than asked for.",
+    userResearch: [
+      "The system's design came from observing my own failure modes first: two specific misses in the first six weeks (a triage doc that went stale, and client feedback I caught a day late) defined exactly which lane needed automation",
+      "Skills were written after being corrected, not before. Each correction from the founder became a written rule, which is why the library reflects how the company actually operated rather than how a generic PM playbook says it should",
+    ],
+    failures: [
+      "My first instinct was to automate the daily status into a cloud-scheduled agent. It couldn't reach local files, and pushing the repo to the cloud to fix that would have reintroduced the exact privacy problem I'd already decided against. I rebuilt it as a local scheduled job instead",
+      "The first version of the automation pulled ticket data with archived items included by default. It surfaced stale, closed work as live blockers and badly miscounted an entire project's status. I now verify every count against the live source before trusting a generated snapshot",
+    ],
+    strategy:
+      "The premise is that a PM's real product is judgment applied consistently, and consistency is exactly what degrades under load. So rather than trying to be more disciplined, I made the discipline executable. Standards became skills, context became memory, status became automation, and quality became a gate. The system was designed to be most useful precisely when I had the least attention to give it.",
+    strategyPoints: [
+      { label: "Standards as Code", text: "51 skills encoding how work actually gets scoped, written, and reported — executed identically every time rather than reconstructed from memory." },
+      { label: "Context Layer", text: "94 memory files holding glossary, norms, and every correction received, so the same mistake isn't made twice." },
+      { label: "Push, Not Pull", text: "A nightly job assembles tomorrow's status before the day starts, instead of requiring me to go ask four systems what happened." },
+      { label: "Fail-Open Gate", text: "Every outbound write graded against a rubric and held for approval — but writes proceed normally if the gate is down, so it never blocks real work." },
+    ],
+  },
+  {
+    slug: "memorang-launch-program",
+    title: "Four Launches, One Engineering Bench",
+    subtitle: "Prioritization Frameworks for a Capacity-Constrained Program",
+    description:
+      "Four white-label learning apps, built for global testing and credentialing organizations, all targeting launch inside the same nine-week window — against one shared QA owner and an engineering bench split across every project. I owned launch readiness across the portfolio: the frameworks that decided what got built, the dashboards that made delivery state legible, and the analysis that identified what was actually blocking us.",
+    pitch:
+      "When four launches converge on one date and no project has dedicated capacity, the real work isn't tracking status. It's deciding what not to do, out loud, and being right often enough that people trust the call. I authored two frameworks for that: a Launch Gate that resolves any single piece of work in four questions, and a WSJF-light stack rank for allocating the next free engineer. Then I built the reporting surfaces that showed whether the calls were working.",
+    problem:
+      "Four customer programs, each proving a different layer of the platform to a different marquee partner, all with binding or near-binding dates in the same window. The bottleneck wasn't any individual project's backlog. It was that the same handful of people appeared on all four critical paths simultaneously, and no surface in the company made that visible until a date was already at risk.",
+    tags: ["Program Management", "Prioritization", "Launch Readiness", "Edtech"],
+    stack: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind",
+      "Linear / Notion",
+    ],
+    featured: true,
+    callout: "4 concurrent launches · 9-week window · Shared QA bench",
+    category: "software",
+    metrics: [
+      { value: "4", label: "Concurrent Launches" },
+      { value: "8M+", label: "Annual Test-Takers" },
+      { value: "9wk", label: "Convergent Window" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Authored the Launch Gate, a four-question decision rule that resolves any ticket, request, or 'should I do this' by stopping at the first yes — signed and date-binding beats strategic and unsigned, every time, until the contract closes",
+      "Built a WSJF-light stack rank for allocating the next free engineer across the portfolio, using open-issue count as an effort proxy and flagging that proxy as a data gap rather than hiding it",
+      "Shipped a QA/UAT program dashboard: a portfolio overview with a health pill and top risk per launch, drilling into a client-facing swim-lane board that showed partners what was in our inbox, in flight, and resolved",
+      "Ran the capacity analysis that identified the actual constraint — one QA owner carrying the sign-off pass on three launches inside the same nine-day window, plus two engineers split across two-plus projects each — and reframed the conversation from per-project status to shared-bench sequencing",
+      "Consolidated cross-project delivery hygiene into batch fixes after finding the same three gaps repeating on every launch, so nine separate to-dos collapsed into three",
+    ],
+    decisions: [
+      "Published the WSJF ranking with an explicit warning that it was wrong in one specific way: the formula rewards 'cheapest to finish,' which floated a nearly-done project above the flagship launch with the nearest binding date. Naming the flaw made the framework usable; hiding it would have made it a liability the first time someone followed it off a cliff",
+      "Overrode the ranking with the Launch Gate where a date was genuinely immovable, and said so in writing. A prioritization framework that can't be overridden by judgment is a bureaucracy, not a tool",
+      "Designed the QA dashboard to read from agent-refreshed snapshot files rather than a live API. Snapshots meant a partner-facing board could never surface a half-written ticket, and refreshing was a deliberate act with a human in the loop",
+      "Kept the dashboard local-only and declined to deploy it, because the same view that made delivery legible internally also aggregated information that should not sit behind a shareable URL",
+      "Logged client-owned blockers as tracked dependencies with an internal chaser assigned, rather than leaving them as verbal 'waiting on the customer.' It made the board honest about who the action was actually on",
+    ],
+    teamContext:
+      "Founding technical PM, reporting directly to the founder. I owned launch readiness across the portfolio while individual launches had their own engineering leads; my lane was the seam between them — sequencing, cross-project dependencies, and the reporting that made the whole program legible at once.",
+    userResearch: [
+      "Read the same three hygiene gaps — stale status updates, unreconciled launch dates, and unassigned client-decision tickets — repeating across all four launches, which reframed them as one systemic problem rather than twelve individual ones",
+      "Traced a launch date that read as three different values across three systems, which is the clearest possible signal that no one had a shared definition of 'done'",
+      "Found that severity labels had stopped being meaningful because the team had been asked to stop over-flagging, so most real bugs sat at no priority. Any dashboard inferring severity from labels alone would have been confidently wrong",
+    ],
+    failures: [
+      "My first portfolio snapshot pulled ticket data with archived items included, which surfaced closed work as live P0s and inflated one project's untriaged count by an order of magnitude. Shipping a wrong number to a stakeholder costs more trust than shipping no number, so verification against the live source became a hard step",
+      "I initially built per-project status views, which is the intuitive structure and the wrong one. It made every project look independently manageable and completely hid the shared-capacity constraint that was the actual risk",
+    ],
+    strategy:
+      "A portfolio of launches converging on one window is not four projects. It's one capacity problem wearing four costumes. The frameworks existed to make tradeoffs decidable in the moment rather than escalated, and the dashboards existed to make the shared constraint visible before it became a missed date. Both were built so that the person who disagreed with a call could see exactly what reasoning produced it.",
+    strategyPoints: [
+      { label: "Launch Gate", text: "Four questions, stop at the first yes. Signed and date-binding beats strategic and unsigned until the contract closes." },
+      { label: "WSJF-Light", text: "A stack rank for the next free engineer, published with its own known flaw stated up front." },
+      { label: "Legible Delivery", text: "A program overview drilling into per-launch swim lanes, built so a partner could read it without translation." },
+      { label: "Find the Real Constraint", text: "Per-project views hid the shared bench. Portfolio-level analysis found the one person on three critical paths." },
+    ],
+  },
+  {
+    slug: "memorang-prototypes",
+    title: "Prototypes as Specs",
+    subtitle: "Clickable Builds That Replaced Written Handoffs",
+    description:
+      "At an AI edtech company running a POC-driven engineering culture, I built prototypes instead of writing specs. A clickable user-acceptance-testing app that let partners review flows before engineering hardened them, a self-service client onboarding portal targeting the slowest step in every launch, a CMS concept, an end-to-end test suite, and an access-gated roadmap viewer. Each one was simultaneously a demo, an alignment artifact, and a living engineering spec.",
+    pitch:
+      "A written spec describes an experience. A prototype is one. In a culture where sprint plans reliably got blown up by day four and the standard was 'time-box a POC and see how far you get by 5pm,' the fastest path to alignment was building the thing at low fidelity and putting it in front of people. I shipped five of them across UAT review, client onboarding, content management, testing, and roadmap communication.",
+    problem:
+      "Handoff documents were losing to reality. Design specs ran to dozens of screens that were mostly responsive variants and state permutations of the same surface, so engineers had to reverse-engineer the actual architecture from a flat screen list. Meanwhile the single slowest step in every customer launch was client onboarding — work that sat open for months, almost all of it blocked on a customer handing over usable files with no way to know they were wrong until someone manually checked.",
+    tags: ["Prototyping", "React", "Design Systems", "Multi-Tenant"],
+    stack: [
+      "React 19",
+      "TypeScript",
+      "Vite",
+      "Tailwind 4",
+      "Playwright",
+      "Supabase",
+    ],
+    featured: false,
+    callout: "5 prototypes · 38-screen spec → 6 routed surfaces",
+    category: "software",
+    metrics: [
+      { value: "5", label: "Prototypes Shipped" },
+      { value: "38→6", label: "Screens to Routes" },
+      { value: "3", label: "Tenant Skins" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Built a clickable UAT prototype that collapsed a 38-screen design spec into 6 routed surfaces plus one polymorphic test player, after recognizing that roughly half the 'screens' were responsive variants, component state matrices, or in-session states of the same shell",
+      "Implemented multi-tenant theming as a CSS-variable swap on a single theme provider rather than parallel route trees, so three customer brand skins shared one codebase",
+      "Shipped a self-service client onboarding portal prototype targeting the un-built depth of an in-flight initiative: content-completeness validation at submit time, self-serve DNS with live verification, and a 'what good looks like' exemplar layer",
+      "Built a Playwright end-to-end suite covering authenticated smoke paths and core user flows for one of the launch apps",
+      "Shipped an access-gated roadmap viewer behind magic-link auth with an email allowlist, served no-index and no-store so an internal planning artifact could be shared with named people without becoming a public URL",
+    ],
+    decisions: [
+      "Shipped one clickable golden path end to end before building any breadth. It exercised every architectural seam — router, shell, modal, polymorphic player, results — without exhausting the question-format permutations, which meant the structure was reviewable days earlier",
+      "Treated the test player as one route and one component with three swappable subsystems, rather than the twenty-odd screens the spec implied. The spec itself had named the shared-shell pattern; the screen list just obscured it",
+      "Built the onboarding portal to deliberately target what the existing initiative had not built, rather than rebuilding what shipped. A prototype that duplicates working software teaches nothing",
+      "Kept prototypes at scripted fidelity with canned fixtures and no real parsing. The question they had to answer was 'is this the right experience,' and real data pipelines would have delayed that answer by weeks",
+      "Kept prototype work out of the formal spec process entirely. The canonical requirements doc already existed; adding a parallel design doc for a two-day build would have been ceremony, not clarity",
+    ],
+    teamContext:
+      "Built solo as founding technical PM, inside an engineering culture that explicitly favored many small POCs over sprint planning, on the reasoning that AI capability was shifting faster than a two-week plan could survive. Prototypes fed the hardening process rather than replacing it.",
+    userResearch: [
+      "Audited why client onboarding was the slowest workstream and found the work sat open for months across customers, nearly always blocked on the client handing over unusable files with no validation until manual review",
+      "Reviewed the existing onboarding initiative's shipped phases before designing, specifically to find the gaps rather than duplicate the working parts",
+      "Learned to trust design screenshots over exported PDFs after PDF exports repeatedly showed wrong brand palettes and dropped content",
+    ],
+    failures: [
+      "I initially read the 38-screen spec literally and started scaffolding toward that count. Recognizing that half of them were variants of one shell saved a large amount of work, but I should have found the pattern in the first read rather than the second",
+    ],
+    strategy:
+      "In a POC-driven culture, the artifact that moves a decision is the one people can click. Every prototype was scoped to answer one question fast and cheaply, at whatever fidelity that question required — which was almost always lower than it felt like it should be. The prototypes then survived as living specs, because an engineer reading working code learns more than an engineer reading a document about code.",
+    strategyPoints: [
+      { label: "Golden Path First", text: "One end-to-end flow before any breadth, so every architectural seam is reviewable within days." },
+      { label: "Find the Real Surface", text: "38 spec screens collapsed to 6 routes plus one polymorphic player once variants and state matrices were separated out." },
+      { label: "Target the Gap", text: "The onboarding portal built only what the shipped initiative hadn't, rather than duplicating working software." },
+      { label: "Fidelity to Fit", text: "Canned fixtures, no real parsing. The question was whether the experience was right, not whether the pipeline worked." },
+    ],
+  },
+  {
+    slug: "memorang-curriculum-model",
+    title: "The Learner Curriculum Model",
+    subtitle: "Product Design for High-Stakes Test Prep",
+    description:
+      "Every test-prep program the company launched shared one underlying learning model: a short diagnostic that places the learner, a study pack that teaches daily, and full-length practice tests that benchmark readiness. I defined and documented that model as the canonical product spec across programs, including the single design call that mattered most — that studying and testing must feel like different products.",
+    pitch:
+      "When you're launching four test-prep apps for different exams on the same platform, the temptation is to treat each as bespoke. The better move is to find the one model underneath all of them and make the items the only thing that differs. I defined that model: three components, three learner personas with distinct onboarding paths, and one universal core loop that recalibrates until exam day.",
+    problem:
+      "Test-prep products fail in a specific, repeatable way: they conflate studying with testing. When practice questions carry a timer and a score, learners feel judged during the part that's supposed to teach them. When practice tests offer hints and instant feedback, learners walk into the real exam having never experienced its actual conditions. Both failures come from one screen being ambiguous about which mode it belongs to.",
+    tags: ["Product Strategy", "Edtech", "Learning Design", "Assessment"],
+    stack: [
+      "Knowledge Graphs",
+      "Adaptive Selection",
+      "Notion",
+      "Figma",
+    ],
+    featured: false,
+    callout: "3 components · 3 personas · 1 universal core loop",
+    category: "software",
+    metrics: [
+      { value: "3", label: "Model Components" },
+      { value: "3", label: "Onboarding Paths" },
+      { value: "8wk", label: "Reference Plan" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Defined the canonical three-component model — a ~20-item diagnostic for placement, a study pack sized several times a full test for daily learning, and full-length practice tests for periodic benchmarking — generalized so the same shape held across every exam program",
+      "Established the formative/summative split as the highest-leverage design decision: study packs run untimed with immediate per-question feedback, an always-available assistant, adaptive item selection, and per-topic mastery; practice tests run with an enforced exam-matching timer, a fixed form, no assistant until post-test review, and a single score with percentile",
+      "Set the hard rule that practice-test items must be disjoint from the study-pack bank, because reusing items turns a readiness benchmark into a memory check",
+      "Designed three persona onboarding paths — returning test taker, new test taker with a date, and explorer — each collecting different inputs and routing differently, including skipping the diagnostic entirely when a concrete prior score already exists",
+      "Specified the universal core loop and an eight-week reference plan that compresses for shorter timelines, giving every program a default study schedule rather than a blank calendar",
+      "Captured the model as a reusable skill so any scoping or design review on any program could be checked against it, rather than relying on the spec being remembered",
+    ],
+    decisions: [
+      "Made 'which mode does this screen belong to' the first question in any design review. Nearly every scoping mistake in test prep traces back to a screen that was ambiguous about whether it was teaching or measuring",
+      "Positioned the platform as reorganizing a customer's existing curriculum into a learner-first structure rather than replacing it. Credentialing bodies own their content and their standards; a product that implies otherwise doesn't get bought",
+      "Allowed a concrete prior score to skip the diagnostic. Making a returning learner who already knows their band sit through a placement test is friction that buys nothing",
+      "Sequenced the content pipeline as import-then-decompose: bring customer lessons in as-is for launch and modernize images without changing intent, then decompose into reusable tagged artifacts afterward. Full knowledge-graph tagging before a binding launch date would have been the wrong trade",
+      "Maintained an explicit list of items requiring customer sign-off before scope could lock — diagnostic length and composition, which items are eligible for which component, per-item metadata, and what the session report shows before the paywall",
+    ],
+    teamContext:
+      "Defined as founding technical PM working with the founder and the engineering leads on each program. The model had to serve both the apps under construction and the platform layer underneath, which meant it needed to be specific enough to design against and general enough to survive the next exam program.",
+    userResearch: [
+      "Mapped three distinct entry states — a returning taker who knows their score, a new taker with a fixed exam date, and an explorer with neither — and found each needs different information collected and a different first session",
+      "Identified the session report shown before the paywall as one of the highest-leverage surfaces in the product, since it's where a learner decides whether the assessment understood them",
+      "Traced the underlying question behind three separate open design threads across programs and found they were the same one: what does a score mean, and what should the learner do next",
+    ],
+    failures: [
+      "Deep adaptivity and full knowledge-graph tagging were both scoped out of the initial launches. That was the right call against binding dates, but it meant the first releases shipped a simpler item-selection model than the design describes, and I'd rather state that plainly than let the spec imply otherwise",
+    ],
+    strategy:
+      "One learning model, many exams. The components, the personas, and the core loop stay fixed; only the item bank and the exam-specific question types change. That's what makes a fourth program cheaper to launch than the first, and it's the difference between a platform and four bespoke apps that happen to share a login.",
+    strategyPoints: [
+      { label: "Three Components", text: "Diagnostic places the learner, study pack teaches daily, practice tests benchmark readiness. Same shape across every exam." },
+      { label: "Formative vs Summative", text: "Studying and testing must feel like different products. Identify a screen's mode before designing it." },
+      { label: "Disjoint Item Banks", text: "Practice-test items never appear in the study pack, or the benchmark measures memory instead of readiness." },
+      { label: "Reorganize, Don't Replace", text: "Customers own their curriculum and standards. The platform restructures it into a learner-first system." },
+    ],
+  },
+  {
     slug: "cluck",
     title: "Cluck: Escape the Line",
     subtitle: "GTM Website & CRM Platform",

@@ -10,6 +10,21 @@ export type Role = {
 
 export const career: Role[] = [
   {
+    company: "Memorang",
+    title: "Founding Technical Product Manager",
+    period: "May 2026 – Jul 2026",
+    startYear: 2026,
+    context: "Right hand to the founder at an AI edtech infrastructure company building the platform that testing and credentialing organizations run their learning products on. Owned delivery across four concurrent white-label app launches, and built the AI tooling the program ran on.",
+    highlights: [
+      "Drove launch readiness for 4 concurrent white-label learning apps built for global testing and credentialing organizations, all landing inside the same 9-week window",
+      "Authored the prioritization frameworks the team ran on: a 4-question Launch Gate for individual work and a WSJF-light stack rank for allocating the next free engineer",
+      "Built a 51-skill Claude Code operating system plus nightly automation that turned scattered ticket, doc, and channel state into a single morning read",
+      "Shipped clickable prototypes as living specs, replacing written handoffs on UAT flows, client onboarding, and CMS work",
+      "Defined the learner curriculum model (diagnostic → study pack → practice test) applied across every program, including the formative/summative split that shaped the app architecture",
+    ],
+    tags: ["AI Edtech", "Agentic Systems", "Multi-Tenant Launches", "Eval-Driven Dev"],
+  },
+  {
     company: "Frame Story",
     title: "Co-Founder & Director of Product",
     period: "Feb 2025 – Present",
@@ -34,7 +49,7 @@ export const career: Role[] = [
       "Shipped a full product ecosystem solo using AI-native development (Claude Code, Claude API): native mobile app, marketing site, analytics dashboards, and internal docs",
       "Running a structured early access beta with 150 members: tracking D1/D7 retention cohorts, activation funnels, and PMF surveys to validate product-market fit",
       "Prioritized by killing scope ruthlessly: cut a planned marketplace after user interviews, pivoted the home screen when engagement data contradicted the hypothesis, reduced 40 onboarding quests to 8",
-      "15+ repos, 59 migrations, 19 edge functions across React Native, Next.js, Supabase, Stripe, and PostHog. Full-stack development from zero to production using AI-assisted workflows",
+      "Owned the full stack end to end across React Native, Next.js, Supabase, Stripe, and PostHog, taking features from zero to production using AI-assisted workflows",
     ],
     tags: ["AI-Native Dev", "Early Access Beta", "150 Beta Members"],
   },
@@ -182,7 +197,7 @@ export const metrics = [
   { value: "15+", label: "Years Shipping Products" },
   { value: "10M+", label: "Installs/Week Launched" },
   { value: "$50M", label: "Revenue Driven" },
-  { value: "$100K/wk", label: "E-Commerce Revenue" },
+  { value: "8M+", label: "Annual Test-Takers Reached" },
   { value: "6M", label: "Users Reached" },
   { value: "1M+", label: "DAU at Scale" },
 ];
@@ -206,6 +221,16 @@ export const companies: Company[] = [
 ];
 
 export const skillCategories = [
+  {
+    name: "AI Product & Agentic Systems",
+    skills: [
+      "Eval-Driven Development",
+      "Agent Workflow Design",
+      "Claude Code Skill Authoring",
+      "Prototype-as-Spec Practice",
+      "Knowledge Graphs & Content Modeling",
+    ],
+  },
   {
     name: "Product Leadership",
     skills: [

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Sparkles, Quote, User } from "lucide-react";
+import { ArrowRight, Gamepad2, Trophy, Globe, Rocket, Wrench, Heart, Target, Sparkles, Quote, User, Bot } from "lucide-react";
 import { motion } from "framer-motion";
 import { useThemeAnimations } from "@/lib/animations";
 
@@ -45,14 +45,24 @@ const sections = [
   },
   {
     icon: Wrench,
-    title: "The Last Year",
+    title: "Building On My Own",
     gradient: "from-emerald-500 to-teal-500",
     content: [
       "I didn't jump back into the job market. I took a few months to decompress: lifting weights, overhauling my nutrition, fighting through anxiety and depression. And then I started building.",
       "I co-founded Frame Story, a collaborative game studio modeled after Finji and Raw Fury, with recently laid-off developers and designers. Not just a creative project: I incorporated the company, set up banking and payment processing, wrote contributor agreements and IP assignments, and built the financial model from scratch. Five-year projections, investor pitch materials, a SAFE structure at a $3M cap, and a phased fundraising strategy spanning grants (Epic MegaGrant, Wings Fund), angel investors, and a planned Kickstarter.",
       "I designed the go-to-market pipeline for our first title, Cluck: Steam Next Fest demos, indie festival submissions, content creator partnerships, and a marketing roadmap that ties wishlist campaigns to funding milestones. I wrote the 90-day operational plan covering business formation, MVP scoping, community growth, and live ops. Six months in, I was a full founder: zero-to-one with no salary safety net.",
       "I also started freelancing for my local pottery studio, which planted the seed for Pottery Friends. After embedding at the studio six days a week for a year, I identified an unowned vertical: no one has built purpose-built software for craft studio communities. So I built it myself, a native mobile app, marketing site, analytics dashboards, and internal docs, using AI-assisted development with Claude Code to ship production features in days, not sprints.",
-      "150 beta members. Fifteen repos. Fifty-nine database migrations. Currently running structured user testing to validate product-market fit. All of it conceived, designed, built, and shipped by one PM proving that modern AI tooling changes what a single builder can do.",
+      "150 beta members, running structured user testing to validate product-market fit. All of it conceived, designed, built, and shipped by one PM proving that modern AI tooling changes what a single builder can do.",
+    ],
+  },
+  {
+    icon: Bot,
+    title: "Doing It At Scale",
+    gradient: "from-violet-500 to-purple-500",
+    content: [
+      "In May 2026 I joined Memorang, an AI edtech infrastructure company, as founding technical PM reporting to the founder. The pitch was the thing I'd spent a year proving I could do: absorb the prioritization and prototyping load at a company with more customer demand than capacity.",
+      "I owned launch readiness across four concurrent white-label learning apps built for global testing and credentialing organizations, all converging on the same nine-week window against one shared engineering bench. I wrote the prioritization frameworks the team ran on, built the dashboards that made delivery state legible to partners, and shipped clickable prototypes as living specs instead of handoff documents.",
+      "And I built the system that ran my own job: 51 Claude Code skills encoding how the company actually scopes, writes, and reports; 94 memory files holding the context those skills needed; a nightly job that assembled tomorrow's status before I opened my laptop; and a quality gate that graded every outbound write before it landed. Same conviction as Pottery Friends, applied to a company instead of a product. AI tooling doesn't just change what one builder can ship. It changes what one PM can hold.",
     ],
   },
   {
@@ -133,7 +143,7 @@ export default function AboutPage() {
         className="mb-12 theme-grid grid grid-cols-2 sm:grid-cols-4"
       >
         {[
-          { value: "2009", label: "First day at Zynga", gradient: "from-indigo-500 to-violet-500" },
+          { value: "51", label: "Claude Code skills built", gradient: "from-indigo-500 to-violet-500" },
           { value: "10+", label: "Companies shipped at", gradient: "from-violet-500 to-purple-500" },
           { value: "$50M", label: "Product revenue (Jam City)", gradient: "from-amber-500 to-orange-500" },
           { value: "150", label: "Pottery Friends beta members", gradient: "from-emerald-500 to-teal-500" },
