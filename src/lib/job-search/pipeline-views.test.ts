@@ -2,7 +2,9 @@ import { describe, it, expect } from "vitest";
 import {
   buildPipelineViews,
   daysBetween,
+  formatAge,
   groupByCompany,
+  recencyOf,
   isFresh,
   urgencyOf,
   type ApplicationRow,
@@ -19,6 +21,7 @@ function row(over: Partial<ApplicationRow> & { id: string }): ApplicationRow {
     jobUrl: null,
     score: 70,
     createdDate: TODAY,
+    postedDate: null,
     lastUpdate: TODAY,
     ...over,
   };
@@ -301,5 +304,141 @@ describe("groupByCompany", () => {
 
   it("returns nothing for an empty list", () => {
     expect(groupByCompany([])).toEqual([]);
+  });
+});
+
+describe("formatAge", () => {
+  it("says today rather than 0d", () => {
+    expect(formatAge(TODAY, TODAY)).toBe("today");
+  });
+
+  it("counts days for the first month, where the number drives action", () => {
+    expect(formatAge("2026-08-04", TODAY)).toBe("1d");
+    expect(formatAge("2026-07-24", TODAY)).toBe("12d");
+    expect(formatAge("2026-07-08", TODAY)).toBe("28d");
+  });
+
+  it("switches to a calendar date past a month, since nobody converts 127d", () => {
+    expect(formatAge("2026-03-31", TODAY)).toBe("Mar 31");
+    expect(formatAge("2026-04-01", TODAY)).toBe("Apr 1");
+  });
+
+  it("marks the year when it is not the current one", () => {
+    expect(formatAge("2025-11-15", TODAY)).toBe("Nov 15 '25");
+  });
+
+  it("does not render a negative age if a row is somehow dated ahead", () => {
+    expect(formatAge("2026-08-10", TODAY)).toBe("scheduled");
+  });
+
+  it("does not drift a day at a month boundary", () => {
+    expect(formatAge("2026-08-01", "2026-08-05")).toBe("4d");
+    expect(formatAge("2026-07-31", "2026-08-01")).toBe("1d");
+  });
+});
+
+describe("recency ordering", () => {
+  const rows = [
+    row({ id: "old", company: "Old", createdDate: "2026-06-01", score: 99 }),
+    row({ id: "new", company: "New", createdDate: "2026-08-05", score: 10 }),
+    row({ id: "mid", company: "Mid", createdDate: "2026-07-01", score: 50 }),
+  ];
+
+  it("puts the newest role first in a status group, not the best-scoring one", () => {
+    const saved = buildPipelineViews(rows, TODAY).groups.find(
+      (g) => g.status === "saved"
+    )!;
+    expect(saved.rows.map((r) => r.company)).toEqual(["New", "Mid", "Old"]);
+  });
+
+  it("breaks a same-day tie on fit score", () => {
+    const saved = buildPipelineViews(
+      [
+        row({ id: "a", company: "Lower", createdDate: TODAY, score: 60 }),
+        row({ id: "b", company: "Higher", createdDate: TODAY, score: 95 }),
+      ],
+      TODAY
+    ).groups.find((g) => g.status === "saved")!;
+    expect(saved.rows.map((r) => r.company)).toEqual(["Higher", "Lower"]);
+  });
+
+  it("orders the new view newest first too", () => {
+    const fresh = buildPipelineViews(
+      [
+        row({ id: "a", company: "Older", createdDate: "2026-08-03", score: 99 }),
+        row({ id: "b", company: "Newer", createdDate: "2026-08-05", score: 10 }),
+      ],
+      TODAY
+    ).fresh;
+    expect(fresh.map((r) => r.company)).toEqual(["Newer", "Older"]);
+  });
+
+  it("leaves the urgent queue oldest-first — it is a work queue, not a feed", () => {
+    const urgent = buildPipelineViews(
+      [
+        row({ id: "a", company: "Recent", status: "applied", createdDate: "2026-07-20", lastUpdate: "2026-07-20" }),
+        row({ id: "b", company: "Ancient", status: "applied", createdDate: "2026-06-01", lastUpdate: "2026-06-01" }),
+      ],
+      TODAY
+    ).urgent;
+    expect(urgent.map((r) => r.company)).toEqual(["Ancient", "Recent"]);
+  });
+});
+
+describe("recencyOf", () => {
+  it("prefers the board's posting date over when the ingest saw it", () => {
+    const r = recencyOf(
+      row({ id: "a", createdDate: "2026-08-05", postedDate: "2026-06-10" })
+    );
+    expect(r).toEqual({ date: "2026-06-10", isPosted: true });
+  });
+
+  it("falls back to the added date for a hand-entered row", () => {
+    const r = recencyOf(row({ id: "a", createdDate: "2026-04-01", postedDate: null }));
+    expect(r).toEqual({ date: "2026-04-01", isPosted: false });
+  });
+});
+
+describe("posting date drives recency", () => {
+  it("keeps a role posted in June out of New even when scraped today", () => {
+    // One night's ingest stamped 263 rows with the same created_at, which made
+    // every one of them read as new.
+    expect(
+      isFresh(row({ id: "a", createdDate: TODAY, postedDate: "2026-06-10" }), TODAY)
+    ).toBe(false);
+  });
+
+  it("keeps a role posted yesterday in New", () => {
+    expect(
+      isFresh(row({ id: "a", createdDate: TODAY, postedDate: "2026-08-04" }), TODAY)
+    ).toBe(true);
+  });
+
+  it("sorts by posting date, not by when the row was created", () => {
+    const saved = buildPipelineViews(
+      [
+        row({ id: "a", company: "Scraped today, posted in June", createdDate: TODAY, postedDate: "2026-06-10" }),
+        row({ id: "b", company: "Posted yesterday", createdDate: TODAY, postedDate: "2026-08-04" }),
+      ],
+      TODAY
+    ).groups.find((g) => g.status === "saved")!;
+    expect(saved.rows[0].company).toBe("Posted yesterday");
+  });
+
+  it("still chases a strong saved lead by how long Jon has held it", () => {
+    // The posting being old says nothing about his neglect, so this rule keeps
+    // measuring from the created date.
+    expect(
+      urgencyOf(
+        row({
+          id: "a",
+          status: "saved",
+          score: 92,
+          createdDate: "2026-08-01",
+          postedDate: "2026-07-01",
+        }),
+        TODAY
+      )?.reason
+    ).toBe("92 fit going stale");
   });
 });

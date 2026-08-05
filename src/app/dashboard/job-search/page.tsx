@@ -38,7 +38,7 @@ async function loadData() {
     supabase
       .from("job_pipeline_entries")
       .select(
-        "id, company, role, status, job_url, fit_score, fit_score_auto, created_at, last_update, applied_date, channel"
+        "id, company, role, status, job_url, fit_score, fit_score_auto, created_at, posted_at, last_update, applied_date, channel"
       )
       .order("last_update", { ascending: false }),
     supabase
@@ -69,6 +69,10 @@ async function loadData() {
     // calendar-day one in Jon's timezone, so it is resolved here rather than
     // letting a UTC evening read as tomorrow.
     createdDate: localDateStr(new Date(e.created_at)),
+    // The board's own posting date when it gave us one — 247 of 321 rows. It is
+    // what "most recent" means; `created_at` only says when the ingest ran, and
+    // one night's run stamped 263 rows with the same value.
+    postedDate: e.posted_at ? localDateStr(new Date(e.posted_at)) : null,
     lastUpdate: e.last_update ?? null,
   }));
 

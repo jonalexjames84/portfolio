@@ -5,7 +5,9 @@ import { ChevronDown, ChevronRight, ExternalLink, Linkedin } from "lucide-react"
 import { localDateStr } from "@/lib/job-search/dates";
 import {
   buildPipelineViews,
+  formatAge,
   groupByCompany,
+  recencyOf,
   STATUS_LABELS,
   STATUS_ORDER,
   type ApplicationRow,
@@ -112,10 +114,34 @@ function Referrals({ contacts }: { contacts: Contact[] }) {
   );
 }
 
-function RoleLine({ row, note }: { row: ApplicationRow; note?: string }) {
+function Age({ row, today }: { row: ApplicationRow; today: string }) {
+  const { date, isPosted } = recencyOf(row);
+  return (
+    <span
+      className="shrink-0 tabular-nums text-zinc-400"
+      // Which date this is matters: "posted 2d ago" is a live req, "added 2d
+      // ago" only says when Jon saw it.
+      title={isPosted ? `Posted ${date}` : `Added ${date} — no posting date`}
+    >
+      {formatAge(date, today)}
+      {!isPosted && <span className="text-zinc-300 dark:text-zinc-600">*</span>}
+    </span>
+  );
+}
+
+function RoleLine({
+  row,
+  today,
+  note,
+}: {
+  row: ApplicationRow;
+  today: string;
+  note?: string;
+}) {
   return (
     <>
       <span className="truncate">{row.role}</span>
+      <Age row={row} today={today} />
       {row.jobUrl ? (
         <a
           href={row.jobUrl}
@@ -143,12 +169,14 @@ function RoleLine({ row, note }: { row: ApplicationRow; note?: string }) {
 /** A company with exactly one role: company, role and status on one line. */
 function SingleRow({
   row,
+  today,
   note,
   contacts,
   pending,
   onChange,
 }: {
   row: ApplicationRow;
+  today: string;
   note?: string;
   contacts: Contact[];
   pending: boolean;
@@ -169,7 +197,7 @@ function SingleRow({
           {contacts.length > 0 && <Referrals contacts={contacts} />}
         </div>
         <div className="flex items-baseline gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-          <RoleLine row={row} note={note} />
+          <RoleLine row={row} today={today} note={note} />
         </div>
       </div>
       <StatusSelect row={row} pending={pending} onChange={onChange} />
@@ -185,12 +213,14 @@ function SingleRow({
  */
 function CompanyRows({
   group,
+  today,
   noteOf,
   contacts,
   pendingId,
   onChange,
 }: {
   group: CompanyGroup<ApplicationRow>;
+  today: string;
   noteOf?: (row: ApplicationRow) => string | undefined;
   contacts: Contact[];
   pendingId: string | null;
@@ -202,6 +232,10 @@ function CompanyRows({
     -1
   );
   const statuses = [...new Set(group.rows.map((r) => r.status))];
+  const newest = group.rows.reduce(
+    (max, r) => (recencyOf(r).date > max ? recencyOf(r).date : max),
+    recencyOf(group.rows[0]).date
+  );
 
   return (
     <li className="py-2">
@@ -228,8 +262,11 @@ function CompanyRows({
             {contacts.length > 0 && <Referrals contacts={contacts} />}
           </span>
           <span className="block text-xs text-zinc-500 dark:text-zinc-400">
-            {group.rows.length} roles ·{" "}
-            {statuses.map((s) => STATUS_LABELS[s]).join(", ")}
+            {/* The newest role's age, because that is what put the company at
+                this position in the list. */}
+            {`${group.rows.length} roles · ${statuses
+              .map((s) => STATUS_LABELS[s])
+              .join(", ")} · newest ${formatAge(newest, today)}`}
           </span>
         </span>
       </button>
@@ -239,7 +276,7 @@ function CompanyRows({
           {group.rows.map((row) => (
             <li key={row.id} className="flex items-center gap-2 py-1">
               <span className="flex min-w-0 flex-1 items-baseline gap-1.5 text-xs text-zinc-600 dark:text-zinc-300">
-                <RoleLine row={row} note={noteOf?.(row)} />
+                <RoleLine row={row} today={today} note={noteOf?.(row)} />
               </span>
               <StatusSelect
                 row={row}
@@ -256,12 +293,14 @@ function CompanyRows({
 
 function RowList({
   rows,
+  today,
   noteOf,
   contactsFor,
   pendingId,
   onChange,
 }: {
   rows: ApplicationRow[];
+  today: string;
   noteOf?: (row: ApplicationRow) => string | undefined;
   contactsFor: (key: string) => Contact[];
   pendingId: string | null;
@@ -282,6 +321,7 @@ function RowList({
             <SingleRow
               key={group.key}
               row={group.rows[0]}
+              today={today}
               note={noteOf?.(group.rows[0])}
               contacts={contactsFor(group.key)}
               pending={pendingId === group.rows[0].id}
@@ -291,6 +331,7 @@ function RowList({
             <CompanyRows
               key={group.key}
               group={group}
+              today={today}
               noteOf={noteOf}
               contacts={contactsFor(group.key)}
               pendingId={pendingId}
@@ -394,7 +435,7 @@ export function ApplicationTable({
     }
   }
 
-  const listProps = { contactsFor, pendingId, onChange };
+  const listProps = { today, contactsFor, pendingId, onChange };
 
   return (
     <div className="space-y-4">
@@ -420,8 +461,8 @@ export function ApplicationTable({
       <Section
         title="New"
         count={fresh.length}
-        hint="Added in the last three days."
-        empty="No new roles in the last three days."
+        hint="Posted in the last three days. A * marks a row with no posting date, dated from when it was added instead."
+        empty="Nothing posted in the last three days."
       >
         <RowList rows={fresh} {...listProps} />
       </Section>
