@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { ExternalLink, CheckCircle2, Circle, ChevronDown, ChevronRight } from "lucide-react";
+import { localDateStr } from "@/lib/job-search/dates";
+import { CHANNELS, CHANNEL_LABELS, type Channel } from "@/lib/job-search/types";
 
 type PipelineEntry = {
   id: string;
@@ -13,6 +15,7 @@ type PipelineEntry = {
   notes: string | null;
   job_url: string | null;
   fit_score: number | null;
+  channel: Channel | null;
 };
 
 type Subtask = {
@@ -103,12 +106,14 @@ function EntryCard({
   entry,
   subtasks,
   onStatusChange,
+  onChannelChange,
   onToggleSubtask,
   updating,
 }: {
   entry: PipelineEntry;
   subtasks: Subtask[];
   onStatusChange: (id: string, status: string) => void;
+  onChannelChange: (id: string, channel: string) => void;
   onToggleSubtask: (id: string, done: boolean) => void;
   updating: boolean;
 }) {
@@ -221,6 +226,34 @@ function EntryCard({
       {/* Expanded subtasks */}
       {expanded && (
         <div className="px-3 pb-3 border-t border-zinc-100 dark:border-zinc-800 pt-2 space-y-3">
+          {/* Attribution. Unattributed rows are excluded from every channel
+              rate, so an unset value is a real gap in the report, not cosmetic. */}
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[10px] uppercase tracking-wide text-zinc-400">
+              Channel
+            </span>
+            <select
+              value={entry.channel ?? ""}
+              onChange={(e) => {
+                e.stopPropagation();
+                onChannelChange(entry.id, e.target.value);
+              }}
+              onClick={(e) => e.stopPropagation()}
+              className={`text-[10px] font-medium bg-zinc-100 dark:bg-zinc-800 border-0 rounded px-1.5 py-0.5 cursor-pointer ${
+                entry.channel
+                  ? "text-zinc-500 dark:text-zinc-400"
+                  : "text-amber-600 dark:text-amber-500"
+              }`}
+            >
+              <option value="">Unattributed</option>
+              {CHANNELS.map((c) => (
+                <option key={c} value={c}>
+                  {CHANNEL_LABELS[c]}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {allPhaseKeys.map((phaseKey) => {
             const phaseTasks = subtasksByPhase.get(phaseKey);
             if (!phaseTasks || phaseTasks.length === 0) return null;
@@ -290,7 +323,7 @@ export function PipelineBoard({ entries: initial, subtasks: initialSubtasks }: {
     setUpdating(id);
     setEntries((prev) =>
       prev.map((e) =>
-        e.id === id ? { ...e, status: newStatus, last_update: new Date().toISOString().split("T")[0] } : e
+        e.id === id ? { ...e, status: newStatus, last_update: localDateStr(new Date()) } : e
       )
     );
 
@@ -299,6 +332,25 @@ export function PipelineBoard({ entries: initial, subtasks: initialSubtasks }: {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
+      });
+      if (!res.ok) setEntries(initial);
+    } finally {
+      setUpdating(null);
+    }
+  }
+
+  async function handleChannelChange(id: string, newChannel: string) {
+    const channel = (newChannel || null) as Channel | null;
+    setUpdating(id);
+    setEntries((prev) =>
+      prev.map((e) => (e.id === id ? { ...e, channel } : e))
+    );
+
+    try {
+      const res = await fetch(`/api/job-search/pipeline/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ channel: newChannel }),
       });
       if (!res.ok) setEntries(initial);
     } finally {
@@ -362,6 +414,7 @@ export function PipelineBoard({ entries: initial, subtasks: initialSubtasks }: {
                     entry={entry}
                     subtasks={getSubtasksForEntry(entry.id)}
                     onStatusChange={handleStatusChange}
+                    onChannelChange={handleChannelChange}
                     onToggleSubtask={handleToggleSubtask}
                     updating={updating === entry.id}
                   />

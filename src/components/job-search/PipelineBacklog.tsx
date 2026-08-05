@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle2, Circle, ChevronDown } from "lucide-react";
+import { localDateStr } from "@/lib/job-search/dates";
 
 type PipelineEntry = {
   id: string;
@@ -92,7 +93,7 @@ export function PipelineBacklog({ entries: initialEntries, tasks: initialTasks }
       if (res.ok) {
         setEntries((prev) =>
           prev.map((e) =>
-            e.id === id ? { ...e, status: newStatus, last_update: new Date().toISOString().split("T")[0] } : e
+            e.id === id ? { ...e, status: newStatus, last_update: localDateStr(new Date()) } : e
           )
         );
       }

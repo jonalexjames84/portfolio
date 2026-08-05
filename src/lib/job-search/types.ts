@@ -18,6 +18,37 @@ export type TaskCategory =
 
 export type TaskImpact = "high" | "medium" | "low";
 
+/**
+ * How a role was reached. Distinct from `source`, which records the ingestion
+ * mechanism (manual vs ats_ingest); this records where the opportunity came
+ * from, which is what decides where the next hour goes.
+ */
+export type Channel =
+  | "ats_direct"
+  | "linkedin"
+  | "referral"
+  | "inbound"
+  | "cold_outreach"
+  | "other";
+
+export const CHANNELS: Channel[] = [
+  "ats_direct",
+  "linkedin",
+  "referral",
+  "inbound",
+  "cold_outreach",
+  "other",
+];
+
+export const CHANNEL_LABELS: Record<Channel, string> = {
+  ats_direct: "Company board",
+  linkedin: "LinkedIn",
+  referral: "Referral",
+  inbound: "Inbound",
+  cold_outreach: "Cold outreach",
+  other: "Other",
+};
+
 export type TaskSource =
   | "interview_prep"
   | "stale_pipeline"
@@ -43,6 +74,8 @@ export interface PipelineEntry {
   location: string | null;
   interview_date: string | null;
   notes: string | null;
+  /** Null means unattributed — a real state, not a missing value. */
+  channel: Channel | null;
 }
 
 export interface ScoreBreakdown {

@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { addDays, localDateStr, weekBounds } from "@/lib/job-search/dates";
 
 export async function GET() {
-  const now = new Date();
-  const dayOfWeek = now.getDay();
-  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-  const weekStart = new Date(now);
-  weekStart.setDate(now.getDate() + mondayOffset);
-  const weekStartStr = weekStart.toISOString().split("T")[0];
+  // PT, not the server's UTC clock — after 5pm PT the UTC date is already
+  // tomorrow, which on a Sunday evening reported the wrong week entirely.
+  const { weekStartStr } = weekBounds(localDateStr(new Date()));
 
   const { data: currentWeek } = await supabase
     .from("job_weekly_metrics")
@@ -16,9 +14,7 @@ export async function GET() {
     .single();
 
   if (!currentWeek) {
-    const weekEnd = new Date(weekStart);
-    weekEnd.setDate(weekStart.getDate() + 6);
-    const weekEndStr = weekEnd.toISOString().split("T")[0];
+    const weekEndStr = addDays(weekStartStr, 6);
 
     const { data: tasks } = await supabase
       .from("job_daily_tasks")
@@ -48,13 +44,12 @@ export async function GET() {
     });
   }
 
-  const fourWeeksAgo = new Date(weekStart);
-  fourWeeksAgo.setDate(weekStart.getDate() - 28);
+  const fourWeeksAgo = addDays(weekStartStr, -28);
 
   const { data: history } = await supabase
     .from("job_weekly_metrics")
     .select("*")
-    .gte("week_start", fourWeeksAgo.toISOString().split("T")[0])
+    .gte("week_start", fourWeeksAgo)
     .order("week_start", { ascending: true });
 
   return NextResponse.json({

@@ -5,21 +5,7 @@ import {
   generateWeeklyPlan,
   type PlanInput,
 } from "@/lib/job-search/weekly-plan-generator";
-
-function nextMondayDateStr(): string {
-  const now = new Date();
-  const day = now.getDay(); // 0=Sun
-  const daysUntilMonday = day === 0 ? 1 : 8 - day;
-  const monday = new Date(now);
-  monday.setDate(now.getDate() + daysUntilMonday);
-  return monday.toISOString().split("T")[0];
-}
-
-function addDays(dateStr: string, days: number): string {
-  const d = new Date(dateStr + "T00:00:00Z");
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().split("T")[0];
-}
+import { addDays, localDateStr, upcomingMonday } from "@/lib/job-search/dates";
 
 export async function GET(request: NextRequest) {
   return run(request);
@@ -33,14 +19,22 @@ async function run(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const weekStartDate = nextMondayDateStr();
+  // Dates resolved in PT, not UTC. The cron fires 06:00 UTC Monday, which is
+  // 23:00 PT Sunday — reading the server's UTC weekday made this plan the
+  // *following* week and prune the current week's tasks as "last week's".
+  const today = localDateStr(new Date());
+  const weekStartDate = upcomingMonday(today);
   const weekEndDate = addDays(weekStartDate, 4);
-  const today = new Date().toISOString().split("T")[0];
   const sevenDaysAgo = addDays(today, -7);
 
-  // Carry forward last week's high-impact unfinished
+  // Carry forward last week's high-impact unfinished.
+  //
+  // The window is the full Monday–Sunday week before this one. It used to be
+  // `lastWeekEnd - 4`, which starts on a Wednesday and silently left last
+  // Monday's and Tuesday's unfinished tasks behind — never carried, never
+  // pruned, just stranded in the table.
   const lastWeekEnd = addDays(weekStartDate, -1);
-  const lastWeekStart = addDays(lastWeekEnd, -4);
+  const lastWeekStart = addDays(weekStartDate, -7);
   const { data: lastWeekTasks } = await supabase
     .from("job_daily_tasks")
     .select("*")

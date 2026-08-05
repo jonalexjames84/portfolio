@@ -9,6 +9,7 @@ function input(overrides: Partial<RollupInput> = {}): RollupInput {
     connectionsContactedLast14d: 0,
     connectionsRepliedLast14d: 0,
     interviewsCompletedThisWeek: 0,
+    applicationsFromPipelineThisWeek: 0,
     ...overrides,
   };
 }
@@ -19,6 +20,33 @@ describe("computeWeeklyMetrics", () => {
       input({ completedTasksByCategory: { apply: 4 } })
     );
     expect(row.applications_sent).toBe(4);
+  });
+
+  it("counts applications from pipeline applied_date when no tasks were ticked", () => {
+    const row = computeWeeklyMetrics(
+      input({ applicationsFromPipelineThisWeek: 6 })
+    );
+    expect(row.applications_sent).toBe(6);
+  });
+
+  it("takes the higher of ticked apply tasks and pipeline applications", () => {
+    expect(
+      computeWeeklyMetrics(
+        input({
+          completedTasksByCategory: { apply: 2 },
+          applicationsFromPipelineThisWeek: 5,
+        })
+      ).applications_sent
+    ).toBe(5);
+
+    expect(
+      computeWeeklyMetrics(
+        input({
+          completedTasksByCategory: { apply: 7 },
+          applicationsFromPipelineThisWeek: 3,
+        })
+      ).applications_sent
+    ).toBe(7);
   });
 
   it("counts outreach + follow-ups + linkedin", () => {

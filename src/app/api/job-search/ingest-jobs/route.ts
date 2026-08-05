@@ -3,7 +3,9 @@ import { supabase } from "@/lib/supabase";
 import { checkAuth } from "@/lib/email-templates";
 import { computeAutoFitScore } from "@/lib/job-search/fit-score";
 import { fetchBoard, mapPool, type AtsBoard, type AtsType } from "@/lib/job-search/ats";
+import { canonicalJobKey, normalizeCompany } from "@/lib/job-search/application-guard";
 import type { PipelineEntry } from "@/lib/job-search/types";
+import { localDateStr } from "@/lib/job-search/dates";
 
 export const maxDuration = 300;
 
@@ -70,13 +72,28 @@ async function run(request: NextRequest) {
   // 2. Everything already in the pipeline, so we never re-add a posting.
   const { data: existingRows } = await supabase
     .from("job_pipeline_entries")
-    .select("job_url, company, role");
+    .select("job_url, company, role, external_id");
 
   const seenUrls = new Set(
     (existingRows || []).map((r) => r.job_url).filter(Boolean) as string[]
   );
   const seenPairs = new Set(
     (existingRows || []).map((r) => `${lc(r.company)}|${lc(r.role)}`)
+  );
+
+  // Canonical identity, which the raw-URL set above cannot supply: the same
+  // Greenhouse req reaches us as job-boards.greenhouse.io/{board}/jobs/{id} from
+  // one source and {employer}.com/careers?gh_jid={id} from another. Both are one
+  // req and must collapse to one row.
+  const seenKeys = new Set(
+    (existingRows || []).map((r) =>
+      canonicalJobKey({
+        company: r.company,
+        role: r.role,
+        jobUrl: r.job_url,
+        externalId: r.external_id,
+      })
+    )
   );
 
   // 3. Pull every board in parallel.
@@ -105,6 +122,8 @@ async function run(request: NextRequest) {
     posted_at: string | null;
     score: number;
     breakdown: ReturnType<typeof computeAutoFitScore>["breakdown"];
+    dedupe_key: string;
+    company_key: string;
   };
 
   const candidates: Candidate[] = [];
@@ -125,12 +144,20 @@ async function run(request: NextRequest) {
       }
 
       const pairKey = `${lc(board.company)}|${lc(p.title)}`;
-      if (seenUrls.has(p.url) || seenPairs.has(pairKey)) {
+      const dedupeKey = canonicalJobKey({
+        company: board.company,
+        role: p.title,
+        jobUrl: p.url,
+        externalId: p.externalId,
+        atsType: board.atsType,
+      });
+      if (seenUrls.has(p.url) || seenPairs.has(pairKey) || seenKeys.has(dedupeKey)) {
         skippedDuplicate++;
         continue;
       }
       seenUrls.add(p.url);
       seenPairs.add(pairKey);
+      seenKeys.add(dedupeKey);
 
       const entry = {
         role: p.title,
@@ -154,6 +181,8 @@ async function run(request: NextRequest) {
         posted_at: p.postedAt,
         score: total,
         breakdown,
+        dedupe_key: dedupeKey,
+        company_key: normalizeCompany(board.company),
       });
     }
   }
@@ -186,7 +215,7 @@ async function run(request: NextRequest) {
 
   // 6. Insert as saved pipeline entries — the daily brief reads exactly this.
   // last_update is a `date` column, not a timestamp.
-  const today = new Date().toISOString().split("T")[0];
+  const today = localDateStr(new Date());
   const rows = selected.map((c) => ({
     company: c.company,
     role: c.role,
@@ -202,6 +231,8 @@ async function run(request: NextRequest) {
     external_id: c.external_id,
     posted_at: c.posted_at,
     last_update: today,
+    dedupe_key: c.dedupe_key,
+    company_key: c.company_key,
   }));
 
   let inserted = 0;
@@ -212,7 +243,10 @@ async function run(request: NextRequest) {
     const chunk = rows.slice(i, i + 25);
     const { data, error } = await supabase
       .from("job_pipeline_entries")
-      .upsert(chunk, { onConflict: "job_url", ignoreDuplicates: true })
+      // Conflict on the canonical key, not the raw URL. The URL index let one
+      // req in three times under three spellings; dedupe_key is the same value
+      // no matter which board handed it to us.
+      .upsert(chunk, { onConflict: "dedupe_key", ignoreDuplicates: true })
       .select("id");
     if (error) {
       insertErrors.push(error.message);

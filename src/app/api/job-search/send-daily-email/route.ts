@@ -19,6 +19,7 @@ import {
   type MetricRow,
 } from "@/lib/email-templates";
 import { computeSignals } from "@/lib/job-search/signals";
+import { localDateStr } from "@/lib/job-search/dates";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -42,7 +43,7 @@ async function run(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = localDateStr(new Date());
   const { weekStartStr, weekEndStr, weekdaysPassed } = getWeekBounds();
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - 1);

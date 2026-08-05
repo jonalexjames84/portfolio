@@ -3,13 +3,14 @@ export const dynamic = "force-dynamic";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { Building2, Users, FileText, MessageSquare } from "lucide-react";
+import { localDateStr } from "@/lib/job-search/dates";
 
 async function getStats() {
   const [companies, connections, materials, interviews] = await Promise.all([
     supabase.from("job_target_companies").select("id", { count: "exact", head: true }),
     supabase.from("job_connections").select("id", { count: "exact", head: true }),
     supabase.from("job_materials").select("id", { count: "exact", head: true }),
-    supabase.from("job_interviews").select("id", { count: "exact", head: true }).gte("date", new Date().toISOString().split("T")[0]),
+    supabase.from("job_interviews").select("id", { count: "exact", head: true }).gte("date", localDateStr(new Date())),
   ]);
 
   return {

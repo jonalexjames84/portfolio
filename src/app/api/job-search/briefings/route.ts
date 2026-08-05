@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { checkAuth } from "@/lib/email-templates";
+import { localDateStr } from "@/lib/job-search/dates";
 
 export async function GET(request: NextRequest) {
   if (!checkAuth(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const date = request.nextUrl.searchParams.get("date") || new Date().toISOString().split("T")[0];
+  const date = request.nextUrl.searchParams.get("date") || localDateStr(new Date());
 
   const { data, error } = await supabase
     .from("job_briefings")
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const today = new Date().toISOString().split("T")[0];
+  const today = localDateStr(new Date());
 
   const { data, error } = await supabase
     .from("job_briefings")

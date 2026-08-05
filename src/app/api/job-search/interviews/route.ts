@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { localDateStr } from "@/lib/job-search/dates";
 
 function checkAuth(request: NextRequest): boolean {
   const auth = request.headers.get("authorization");
@@ -15,7 +16,7 @@ export async function GET(request: NextRequest) {
 
   if (company) query = query.eq("company", company);
   if (upcoming === "true") {
-    query = query.gte("date", new Date().toISOString().split("T")[0]).order("date", { ascending: true });
+    query = query.gte("date", localDateStr(new Date())).order("date", { ascending: true });
   } else {
     query = query.order("date", { ascending: false });
   }

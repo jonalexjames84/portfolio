@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { localDateStr } from "@/lib/job-search/dates";
 
 function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -21,7 +22,7 @@ function sortByImpactThenDate(a: { impact: string; date: string }, b: { impact: 
 }
 
 export async function GET(request: NextRequest) {
-  const today = request.nextUrl.searchParams.get("date") || new Date().toISOString().split("T")[0];
+  const today = request.nextUrl.searchParams.get("date") || localDateStr(new Date());
   const pullFuture = request.nextUrl.searchParams.get("pull_future") === "true";
 
   // 1. Today's tasks (done and undone)
@@ -123,7 +124,7 @@ export async function POST(request: NextRequest) {
     impact: t.impact || "medium",
     company: t.company || null,
     link: t.link || null,
-    date: t.date || new Date().toISOString().split("T")[0],
+    date: t.date || localDateStr(new Date()),
     blocked_by: t.blocked_by || null,
   }));
 

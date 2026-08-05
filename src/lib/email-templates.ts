@@ -1,5 +1,11 @@
 import { renderSparklineSvg } from "@/lib/job-search/sparkline";
 import type { Signal } from "@/lib/job-search/signals";
+import { localDateStr, weekBounds } from "@/lib/job-search/dates";
+import {
+  MIN_SAMPLE,
+  UNATTRIBUTED,
+  type ChannelReport,
+} from "@/lib/job-search/channel-attribution";
 
 const DASHBOARD_URL = "https://portfolio.jonnymartin.blog/dashboard/job-search";
 const HUB_URL = "https://portfolio.jonnymartin.blog/job-search";
@@ -94,6 +100,56 @@ export function networkGrowthSection(stats: { newConnections: number; referralCh
 }
 
 /**
+ * Where the applications went and what came back, by channel.
+ *
+ * Lives in the Friday recap rather than the daily brief: it only says anything
+ * once a week's worth of applications have landed, and it is a
+ * where-do-I-spend-next-week decision, not a today decision.
+ *
+ * Channels below MIN_SAMPLE show a dash instead of a rate. A single reply on a
+ * single application is 100%, and putting that number in an email is how you
+ * end up rebuilding the whole week around noise.
+ */
+export function channelSection(report: ChannelReport): string {
+  const ranked = report.stats.filter((s) => s.applied > 0);
+  if (ranked.length === 0) return "";
+
+  const rows = ranked
+    .map((s) => {
+      const rate =
+        s.applied >= MIN_SAMPLE
+          ? `<span style="font-weight: 700; color: ${s.responseRate >= 20 ? "#10b981" : s.responseRate >= 10 ? "#f59e0b" : "#ef4444"};">${s.responseRate}%</span>`
+          : `<span style="color: #9ca3af;">&mdash;</span>`;
+      return `
+        <tr>
+          <td style="padding: 6px 0; font-size: 13px; color: ${s.channel === UNATTRIBUTED ? "#9ca3af" : "#374151"};">${s.label}</td>
+          <td style="padding: 6px 0; font-size: 12px; color: #6b7280; text-align: right;">${s.applied} applied</td>
+          <td style="padding: 6px 0; font-size: 13px; text-align: right; width: 52px;">${rate}</td>
+        </tr>`;
+    })
+    .join("");
+
+  const verdict = report.bestChannel
+    ? `<strong>${report.bestChannel.label}</strong> is converting best &mdash; ${report.bestChannel.responseRate}% on ${report.bestChannel.applied} applications. Weight next week toward it.`
+    : `No channel has ${MIN_SAMPLE}+ applications yet, so these rates are still noise. Keep going before cutting anything.`;
+
+  const unattributed =
+    report.unattributedCount > 0
+      ? `<div style="font-size: 11px; color: #9ca3af; margin-top: 8px;">${report.unattributedCount} role${report.unattributedCount > 1 ? "s" : ""} unattributed &mdash; set a channel on the board to sharpen this.</div>`
+      : "";
+
+  return `
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 4px;">Where It's Coming From</h2>
+      <p style="font-size: 12px; color: #6b7280; margin: 0 0 12px;">${verdict}</p>
+      <table style="width: 100%; border-collapse: collapse;">${rows}</table>
+      ${unattributed}
+      <div style="font-size: 11px; color: #9ca3af; margin-top: 8px;">Counts current status only &mdash; a role rejected after a screen reads as no response, so these are a floor.</div>
+    </div>
+  `;
+}
+
+/**
  * Sender for the job-search briefs.
  *
  * jonnymartin.blog is verified in Resend, so it delivers normally. The old
@@ -109,16 +165,16 @@ export function checkAuth(request: { headers: { get: (name: string) => string | 
   return false;
 }
 
+/**
+ * This week's Monday–Sunday bounds, in PT.
+ *
+ * Resolved through @/lib/job-search/dates rather than the server's UTC clock:
+ * rollup-metrics fires at 07:00 UTC, which during PST is 23:00 the previous
+ * day, so a UTC reading rolled up the week that had just *started* instead of
+ * the one that had just ended.
+ */
 export function getWeekBounds(): { weekStartStr: string; weekEndStr: string; dayOfWeek: number; weekdaysPassed: number } {
-  const now = new Date();
-  const dayOfWeek = now.getDay();
-  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-  const weekStart = new Date(now);
-  weekStart.setDate(now.getDate() + mondayOffset);
-  const weekStartStr = weekStart.toISOString().split("T")[0];
-  const weekEndStr = new Date(weekStart.getTime() + 6 * 86400000).toISOString().split("T")[0];
-  const weekdaysPassed = dayOfWeek === 0 ? 5 : Math.min(dayOfWeek, 5);
-  return { weekStartStr, weekEndStr, dayOfWeek, weekdaysPassed };
+  return weekBounds(localDateStr(new Date()));
 }
 
 export const categoryEmoji: Record<string, string> = {

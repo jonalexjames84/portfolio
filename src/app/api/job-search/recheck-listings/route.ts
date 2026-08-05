@@ -7,6 +7,7 @@ import {
   extractListingUrl,
   titlesDiverge,
 } from "@/lib/job-search/listing-liveness";
+import { localDateStr } from "@/lib/job-search/dates";
 
 /**
  * Re-check saved postings and retire the ones whose reqs have closed.
@@ -87,7 +88,7 @@ async function run(request: NextRequest) {
 
   const dead = results.filter((r) => r.liveness === "dead");
   const unknown = results.filter((r) => r.liveness === "unknown");
-  const today = new Date().toISOString().split("T")[0];
+  const today = localDateStr(new Date());
 
   if (!dryRun) {
     for (const d of dead) {

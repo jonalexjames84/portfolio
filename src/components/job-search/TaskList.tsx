@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CheckCircle2, Circle, ExternalLink, Flame, Clock, Lock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { localDateStr } from "@/lib/job-search/dates";
 
 type Task = {
   id: string;
@@ -49,7 +50,7 @@ export function TaskList({ tasks: initialTasks, backlogCount: initialBacklog, al
   const done = tasks.filter((t) => t.done).length;
   const total = tasks.length;
   const allDone = total > 0 && done === total;
-  const today = new Date().toISOString().split("T")[0];
+  const today = localDateStr(new Date());
 
   function toggleExpand(id: string) {
     setExpandedId((prev) => (prev === id ? null : id));

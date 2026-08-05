@@ -6,12 +6,14 @@ import {
   scorecardSection,
   signalBox,
   networkGrowthSection,
+  channelSection,
   checkAuth,
   EMAIL_FROM,
   EMAIL_TO,
   getWeekBounds,
   TARGETS,
 } from "@/lib/email-templates";
+import { computeChannelStats } from "@/lib/job-search/channel-attribution";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -54,7 +56,9 @@ async function handleWeeklyRecap(request: NextRequest) {
       .select("done")
       .gte("date", weekStartStr)
       .lte("date", weekEndStr),
-    supabase.from("job_pipeline_entries").select("status"),
+    // Channel attribution reads the whole pipeline, not just this week — a
+    // response rate needs history to mean anything.
+    supabase.from("job_pipeline_entries").select("status, channel, applied_date"),
     supabase
       .from("job_pipeline_entries")
       .select("status, last_update")
@@ -92,6 +96,8 @@ async function handleWeeklyRecap(request: NextRequest) {
   for (const t of lastWeekCompleted) {
     lastCounts[t.category] = (lastCounts[t.category] || 0) + 1;
   }
+
+  const channelReport = computeChannelStats(pipelineEntries);
 
   // Current funnel
   const statuses = pipelineEntries.map((p) => p.status);
@@ -226,7 +232,8 @@ async function handleWeeklyRecap(request: NextRequest) {
   // --- Assemble ---
   const weekLabel = `Week of ${new Date(weekStartStr).toLocaleDateString("en-US", { month: "long", day: "numeric" })}`;
   const activitySection = networkGrowthSection({ newConnections: newConnections.length, referralChanges, materialsCreated: newMaterials.length });
-  const body = summarySection + scorecardSection(counts) + deltaSection + pipelineSection + activitySection + signalBox(signals)
+  const body = summarySection + scorecardSection(counts) + deltaSection + pipelineSection
+    + channelSection(channelReport) + activitySection + signalBox(signals)
     + `<p style="color: #9ca3af; font-size: 12px; text-align: center;">${completedCount}/${total} tasks completed (${completionPct}%)</p>`;
 
   const html = emailWrapper("Weekly Review", weekLabel, body);
