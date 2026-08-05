@@ -42,7 +42,11 @@ export function middleware(request: NextRequest) {
       if (pathname.startsWith("/api/")) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
-      return NextResponse.redirect(new URL("/", request.url));
+      // Send them to sign in and back to where they were aiming, rather than
+      // dropping them on the marketing homepage with no explanation.
+      const login = new URL("/login", request.url);
+      login.searchParams.set("redirect", pathname + request.nextUrl.search);
+      return NextResponse.redirect(login);
     }
   }
 

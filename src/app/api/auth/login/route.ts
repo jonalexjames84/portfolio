@@ -10,7 +10,12 @@ export async function GET(request: NextRequest) {
   const redirectTo = request.nextUrl.searchParams.get("redirect") || "/dashboard/job-search";
 
   if (email !== ALLOWED_EMAIL || token !== AUTH_SECRET) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // A wrong token from the sign-in form should land back on the form, not on
+    // raw JSON. Direct API callers still get a 401 body via the same path.
+    const back = new URL("/login", request.url);
+    back.searchParams.set("error", "1");
+    if (redirectTo) back.searchParams.set("redirect", redirectTo);
+    return NextResponse.redirect(back, { status: 303 });
   }
 
   const response = NextResponse.redirect(new URL(redirectTo, request.url));
