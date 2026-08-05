@@ -17,6 +17,10 @@
       "schedule": "0 7 * * *"
     },
     {
+      "path": "/api/job-search/recheck-listings",
+      "schedule": "30 5 * * *"
+    },
+    {
       "path": "/api/job-search/rollup-metrics",
       "schedule": "0 7 * * *"
     },
