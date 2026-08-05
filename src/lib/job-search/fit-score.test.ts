@@ -21,6 +21,7 @@ function entry(overrides: Partial<PipelineEntry> = {}): PipelineEntry {
     location: null,
     interview_date: null,
     notes: null,
+    channel: null,
     ...overrides,
   };
 }
@@ -114,5 +115,56 @@ describe("computeAutoFitScore", () => {
       stage_fit: 10,
       red_flags: 0,
     });
+  });
+});
+
+describe("computeAutoFitScore — gaming roles", () => {
+  it("credits a producer title on a gaming board, which scored 0 before", () => {
+    const { breakdown } = computeAutoFitScore(
+      entry({ role: "Senior Producer", industry: "Gaming" })
+    );
+    expect(breakdown.title_match).toBeGreaterThan(0);
+  });
+
+  it("credits production, program and live-ops titles in gaming", () => {
+    for (const role of [
+      "Production Director",
+      "Executive Producer",
+      "Senior Technical Program Manager",
+      "Live Ops Manager",
+    ]) {
+      const { breakdown } = computeAutoFitScore(entry({ role, industry: "Gaming" }));
+      expect(breakdown.title_match, role).toBeGreaterThan(0);
+    }
+  });
+
+  it("scores gaming-native JD signals Jon actually has", () => {
+    const { breakdown } = computeAutoFitScore(
+      entry({
+        role: "Senior Producer",
+        industry: "Gaming",
+        jd_text: "Own live ops, monetization and player retention for a free-to-play mobile title.",
+      })
+    );
+    expect(breakdown.keyword_match).toBeGreaterThan(0);
+  });
+
+  it("treats Gaming as a target industry", () => {
+    const { breakdown } = computeAutoFitScore(
+      entry({ role: "Senior Producer", industry: "Gaming" })
+    );
+    expect(breakdown.industry_fit).toBeGreaterThan(0);
+  });
+
+  it("does not credit a producer title outside gaming", () => {
+    const { breakdown } = computeAutoFitScore(
+      entry({ role: "Senior Producer", industry: "AI/ML" })
+    );
+    expect(breakdown.title_match).toBe(0);
+  });
+
+  it("leaves the existing PM scoring untouched", () => {
+    expect(computeAutoFitScore(entry({ role: "Product Manager" })).total).toBe(25);
+    expect(computeAutoFitScore(entry({ role: "Senior Product Manager" })).total).toBe(40);
   });
 });
