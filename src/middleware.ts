@@ -8,7 +8,14 @@ const RATE_LIMITS: Record<string, { maxRequests: number; windowMs: number }> = {
 const requestLog = new Map<string, number[]>();
 
 const COOKIE_NAME = "job_search_auth";
-const AUTH_SECRET = process.env.JOB_SEARCH_AUTH_SECRET || "jon-job-search-2026";
+/**
+ * No fallback on purpose. This used to default to a literal string, which meant
+ * the gate on Jon's pipeline, comp targets and connection tracker was a
+ * password published in a public repo. An unset secret must deny everyone, so
+ * the `!AUTH_SECRET` check below is load-bearing: without it, an undefined
+ * secret compares equal to a missing cookie and the gate opens for anyone.
+ */
+const AUTH_SECRET = process.env.JOB_SEARCH_AUTH_SECRET;
 
 // Prune expired entries every 5 minutes
 let lastPrune = Date.now();
@@ -38,7 +45,7 @@ export function middleware(request: NextRequest) {
     (pathname.startsWith("/api/job-search") && !request.headers.get("authorization"))
   ) {
     const cookie = request.cookies.get(COOKIE_NAME);
-    if (cookie?.value !== AUTH_SECRET) {
+    if (!AUTH_SECRET || cookie?.value !== AUTH_SECRET) {
       if (pathname.startsWith("/api/")) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }

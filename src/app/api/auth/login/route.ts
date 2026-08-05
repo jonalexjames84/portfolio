@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const ALLOWED_EMAIL = "jonalexjames@gmail.com";
-const AUTH_SECRET = process.env.JOB_SEARCH_AUTH_SECRET || "jon-job-search-2026";
+// No fallback — see the note in src/middleware.ts. An unset secret issues no
+// cookie at all rather than minting one from a published default.
+const AUTH_SECRET = process.env.JOB_SEARCH_AUTH_SECRET;
 const COOKIE_NAME = "job_search_auth";
 
 export async function GET(request: NextRequest) {
@@ -9,7 +11,7 @@ export async function GET(request: NextRequest) {
   const email = request.nextUrl.searchParams.get("email");
   const redirectTo = request.nextUrl.searchParams.get("redirect") || "/dashboard/job-search";
 
-  if (email !== ALLOWED_EMAIL || token !== AUTH_SECRET) {
+  if (!AUTH_SECRET || email !== ALLOWED_EMAIL || token !== AUTH_SECRET) {
     // A wrong token from the sign-in form should land back on the form, not on
     // raw JSON. Direct API callers still get a 401 body via the same path.
     const back = new URL("/login", request.url);
