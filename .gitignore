@@ -39,8 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-# Large audio files
-documents/AI Conference/*.wav
+
+# Personal job-search material — this repo is PUBLIC.
+# Resumes, cover letters, application queues, screening answers, and company
+# intel live here and stay local. Untracked 2026-08-05; earlier commits still
+# contain them, so treat anything added before that date as already published.
+# Already excluded from deploys via .vercelignore.
+documents/
 
 # Claude Code / Superpowers local state
 .superpowers/

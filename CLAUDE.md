@@ -30,6 +30,30 @@ This repo exists as **context about Jon** — his career, skills, projects, writ
 - Salary negotiation and offer evaluation
 - Any other career or professional task
 
+## Applying To Jobs — Claim First
+
+Multiple agents run this job search at once. **Stedi received three applications**
+— three roles, three agents, one ~100-person company — because nothing recorded
+that an application had happened.
+
+Before writing a cover letter, tailoring a resume, or opening an ATS form:
+
+```bash
+.claude/skills/one-application-per-company/apply-guard.ts claim \
+  --agent "$CLAUDE_AGENT_ID" --company "<name>" --role "<title>" --url "<url>"
+```
+
+Exit 1 means stop and pick a different role. The rules:
+
+- **One application per req, ever.** URL spelling does not create a new job.
+- **One open application per company**, unless it is large enough to have
+  genuinely separate product orgs (Google, Amazon, Roblox: 3; Anthropic, OpenAI,
+  Figma: 2). Everything else is 1.
+- A rejection frees the company slot. It never reopens the req.
+
+Full rules in the `one-application-per-company` skill. Do not mark a pipeline row
+`applied` without a matching ledger record.
+
 ## Key Reference Files
 
 | File | What It Contains |
@@ -39,6 +63,7 @@ This repo exists as **context about Jon** — his career, skills, projects, writ
 | `src/lib/posts.ts` | Blog posts — conference takeaways, AI/PM thinking |
 | `src/app/about/page.tsx` | Career narrative and testimonials |
 | `documents/` | Resumes (PDF), AI conference notes/transcripts from Berkeley |
+| `src/lib/job-search/application-guard.ts` | Canonical job keys, per-company application caps |
 
 ## Jon's Positioning
 
