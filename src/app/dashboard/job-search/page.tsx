@@ -5,6 +5,8 @@ import { WeekView } from "@/components/job-search/WeekView";
 import { MetricsBlock } from "@/components/job-search/MetricsBlock";
 import { SignalsBlock } from "@/components/job-search/SignalsBlock";
 import { FunnelHealth } from "@/components/job-search/FunnelHealth";
+import { ChannelBreakdown } from "@/components/job-search/ChannelBreakdown";
+import { ApplicationLedger } from "@/components/job-search/ApplicationLedger";
 import { PortfolioKPIs } from "@/components/job-search/PortfolioKPIs";
 import { PipelineBoard } from "@/components/job-search/PipelineBoard";
 import { HubNav } from "@/components/job-search/HubNav";
@@ -16,30 +18,23 @@ import {
   type WeekDay,
   type MetricRow,
 } from "@/lib/email-templates";
+import { addDays, localDateStr, weekBounds } from "@/lib/job-search/dates";
+import { computeChannelStats } from "@/lib/job-search/channel-attribution";
+import {
+  buildLedgerReport,
+  type LedgerRow,
+} from "@/lib/job-search/application-ledger";
 
 const DAY_LABELS = ["MON", "TUE", "WED", "THU", "FRI"];
 
-function addDays(dateStr: string, days: number): string {
-  const d = new Date(dateStr + "T00:00:00Z");
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().split("T")[0];
-}
-
-function getWeekBounds() {
-  const now = new Date();
-  const dayOfWeek = now.getDay();
-  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-  const weekStart = new Date(now);
-  weekStart.setDate(now.getDate() + mondayOffset);
-  const weekStartStr = weekStart.toISOString().split("T")[0];
-  const weekEndStr = addDays(weekStartStr, 4);
-  const weekdaysPassed = dayOfWeek === 0 ? 5 : Math.min(dayOfWeek, 5);
-  return { weekStartStr, weekEndStr, weekdaysPassed };
-}
-
 async function loadData() {
-  const today = new Date().toISOString().split("T")[0];
-  const { weekStartStr, weekEndStr, weekdaysPassed } = getWeekBounds();
+  // Rendered on the server, so `new Date()` is UTC. Resolve the calendar date
+  // in PT first, or an evening visit shows tomorrow — and a Sunday-evening one
+  // shows next week.
+  const today = localDateStr(new Date());
+  const { weekStartStr, weekdaysPassed } = weekBounds(today);
+  // The board shows the working week, Monday–Friday.
+  const weekEndStr = addDays(weekStartStr, 4);
   const oneDayAgo = new Date();
   oneDayAgo.setDate(oneDayAgo.getDate() - 1);
   const oneDayAgoIso = oneDayAgo.toISOString();
@@ -77,6 +72,14 @@ async function loadData() {
         .order("last_contact", { ascending: false })
         .limit(10),
     ]);
+
+  // The ledger is a separate table from the pipeline on purpose: it records
+  // that an application *happened*, which pipeline status alone never did.
+  const ledgerRes = await supabase
+    .from("job_applications")
+    .select(
+      "id, company, company_key, role, job_url, status, agent_id, claimed_at, prepared_at, submitted_at, closed_at, notes"
+    );
 
   const last10OutreachReplies = (recentOutreachRes.data || []).filter(
     (c) => c.replied_at != null
@@ -201,12 +204,24 @@ async function loadData() {
     conversionRates: { app_to_screen: 0, screen_to_interview: 0, interview_to_offer: 0 },
   };
 
+  const channelReport = computeChannelStats(pipelineEntries);
+  // Saved roles tell the ledger whether a cap is actually costing anything.
+  const savedRoles = pipelineEntries
+    .filter((p) => p.status === "saved" && p.company_key)
+    .map((p) => ({ companyKey: p.company_key as string, role: p.role }));
+
+  const ledgerReport = buildLedgerReport((ledgerRes.data || []) as LedgerRow[], {
+    savedRoles,
+  });
+
   return {
     newJobs,
     days,
     metricRows,
     signals,
     funnelData,
+    channelReport,
+    ledgerReport,
     pipelineEntries,
     subtasks: subtasksRes.data || [],
   };
@@ -238,6 +253,11 @@ export default async function JobSearchDashboard() {
         <NewJobsBlock jobs={data.newJobs} />
       </div>
 
+      {/* Applications — sits above the week because it is the actionable list */}
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
+        <ApplicationLedger report={data.ledgerReport} />
+      </div>
+
       {/* Block 2: This Week */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
         <WeekView days={data.days} />
@@ -254,6 +274,10 @@ export default async function JobSearchDashboard() {
       {/* Below the four blocks: existing pipeline tools */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
         <FunnelHealth data={data.funnelData} />
+      </div>
+
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
+        <ChannelBreakdown report={data.channelReport} />
       </div>
 
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm overflow-hidden">
