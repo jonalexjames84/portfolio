@@ -93,6 +93,16 @@ export function networkGrowthSection(stats: { newConnections: number; referralCh
   `;
 }
 
+/**
+ * Sender for the job-search briefs.
+ *
+ * jonnymartin.blog is verified in Resend, so it delivers normally. The old
+ * default (onboarding@resend.dev) is Resend's shared sandbox sender, which only
+ * ever reaches the account owner and is heavily rate limited.
+ */
+export const EMAIL_FROM = process.env.JOB_SEARCH_EMAIL_FROM || "Job Search <jobs@jonnymartin.blog>";
+export const EMAIL_TO = process.env.JOB_SEARCH_EMAIL_TO || "jonalexjames@gmail.com";
+
 export function checkAuth(request: { headers: { get: (name: string) => string | null } }): boolean {
   if (request.headers.get("authorization") === `Bearer ${process.env.CRON_SECRET}`) return true;
   if (request.headers.get("authorization") === `Bearer ${process.env.JOB_SEARCH_API_KEY}`) return true;
@@ -144,12 +154,28 @@ export type NewJob = {
   job_url: string | null;
 };
 
-export function newJobsSection(jobs: NewJob[]): string {
+/**
+ * @param jobs    Postings ingested in the last 24h.
+ * @param backlog Highest-scoring saved roles Jon hasn't applied to yet. Shown
+ *                when no new postings landed, so the brief always gives him
+ *                something to act on instead of an empty box.
+ */
+export function newJobsSection(jobs: NewJob[], backlog: NewJob[] = []): string {
   if (jobs.length === 0) {
+    if (backlog.length === 0) {
+      return `
+        <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+          <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 8px;">🆕 New Jobs (last 24h)</h2>
+          <p style="color: #6b7280; font-size: 14px; margin: 0;">No new postings today, and your saved queue is empty. Worth widening the target company list.</p>
+        </div>
+      `;
+    }
     return `
-      <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-        <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 8px;">🆕 New Jobs (last 24h)</h2>
-        <p style="color: #6b7280; font-size: 14px; margin: 0;">No new jobs in the last 24h.</p>
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+        <h2 style="font-size: 15px; font-weight: 600; color: #92400e; margin: 0 0 4px;">📋 From your queue (no new postings today)</h2>
+        <p style="font-size: 12px; color: #92400e; margin: 0 0 12px;">Top-scoring saved roles you haven't applied to yet.</p>
+        ${jobCards(backlog.slice(0, 5))}
+        ${alsoFoundLine(backlog.slice(5))}
       </div>
     `;
   }
@@ -157,7 +183,17 @@ export function newJobsSection(jobs: NewJob[]): string {
   const top = jobs.slice(0, 5);
   const rest = jobs.slice(5);
 
-  const cards = top
+  return `
+    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #166534; margin: 0 0 12px;">🆕 New Jobs (last 24h, ranked by fit)</h2>
+      ${jobCards(top)}
+      ${alsoFoundLine(rest)}
+    </div>
+  `;
+}
+
+function jobCards(jobs: NewJob[]): string {
+  return jobs
     .map((j, i) => {
       const color = j.score >= 80 ? "#10b981" : j.score >= 65 ? "#3b82f6" : "#f59e0b";
       const breakdownLine = j.breakdown
@@ -182,17 +218,93 @@ export function newJobsSection(jobs: NewJob[]): string {
       `;
     })
     .join("");
+}
 
-  const restLine =
-    rest.length > 0
-      ? `<p style="font-size: 12px; color: #6b7280; margin: 8px 0 0;"><strong>Also found:</strong> ${rest.map((j) => `${j.company} ${j.role} (${j.score})`).join(" · ")}</p>`
-      : "";
+function alsoFoundLine(rest: NewJob[]): string {
+  if (rest.length === 0) return "";
+  return `<p style="font-size: 12px; color: #6b7280; margin: 8px 0 0;"><strong>Also found:</strong> ${rest
+    .map((j) => `${j.company} ${j.role} (${j.score})`)
+    .join(" · ")}</p>`;
+}
+
+export type AppliedRole = {
+  id: string;
+  company: string;
+  role: string;
+  status: string;
+  applied_date: string;
+  daysSince: number;
+  job_url: string | null;
+};
+
+/**
+ * Roles submitted recently, newest first. The brief used to report applications
+ * as a bare count in the metrics table, so there was no way to see *which*
+ * companies were in flight or which had gone quiet long enough to chase.
+ *
+ * @param applied   Roles with an applied_date inside the lookback window.
+ * @param followUpAfterDays Days of silence before a role is flagged to chase.
+ */
+export function appliedSection(
+  applied: AppliedRole[],
+  followUpAfterDays = 7
+): string {
+  if (applied.length === 0) {
+    return `
+      <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+        <h2 style="font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 8px;">✉️ Applications (last 14 days)</h2>
+        <p style="color: #6b7280; font-size: 14px; margin: 0;">Nothing submitted in the last two weeks. Your queue is the fastest thing to act on — top of the list is the highest-fit role you haven't sent.</p>
+      </div>
+    `;
+  }
+
+  const stale = applied.filter(
+    (a) => a.daysSince >= followUpAfterDays && a.status === "applied"
+  );
+
+  const rows = applied
+    .map((a) => {
+      const needsChase =
+        a.daysSince >= followUpAfterDays && a.status === "applied";
+      const statusColor =
+        a.status === "interview" || a.status === "offer"
+          ? "#10b981"
+          : a.status === "screen"
+            ? "#3b82f6"
+            : a.status === "rejected" || a.status === "passed"
+              ? "#9ca3af"
+              : "#0d9488";
+      const ageLabel =
+        a.daysSince === 0
+          ? "today"
+          : a.daysSince === 1
+            ? "1 day ago"
+            : `${a.daysSince} days ago`;
+      return `
+        <div style="background: white; border: 1px solid ${needsChase ? "#fde68a" : "#e5e7eb"}; border-radius: 12px; padding: 14px; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <div style="font-size: 14px; font-weight: 700; color: #111827;">${a.role}</div>
+              <div style="font-size: 12px; color: #6b7280;">${a.company} · applied ${ageLabel}</div>
+            </div>
+            <div style="background: ${statusColor}15; color: ${statusColor}; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase;">${a.status}</div>
+          </div>
+          ${needsChase ? `<div style="font-size: 12px; color: #92400e; margin-top: 6px; font-weight: 600;">⏰ ${a.daysSince} days silent — time to follow up</div>` : ""}
+          ${a.job_url ? `<a href="${a.job_url}" style="display: inline-block; margin-top: 8px; color: #0d9488; text-decoration: none; font-size: 12px; font-weight: 600;">View posting →</a>` : ""}
+        </div>
+      `;
+    })
+    .join("");
+
+  const staleLine = stale.length
+    ? `<p style="font-size: 12px; color: #92400e; margin: 0 0 12px; font-weight: 600;">${stale.length} waiting ${followUpAfterDays}+ days with no movement.</p>`
+    : "";
 
   return `
-    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
-      <h2 style="font-size: 15px; font-weight: 600; color: #166534; margin: 0 0 12px;">🆕 New Jobs (last 24h, ranked by fit)</h2>
-      ${cards}
-      ${restLine}
+    <div style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+      <h2 style="font-size: 15px; font-weight: 600; color: #115e59; margin: 0 0 4px;">✉️ Applications (last 14 days) — ${applied.length}</h2>
+      ${staleLine}
+      ${rows}
     </div>
   `;
 }

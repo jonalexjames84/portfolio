@@ -7,6 +7,8 @@ import {
   signalBox,
   networkGrowthSection,
   checkAuth,
+  EMAIL_FROM,
+  EMAIL_TO,
   getWeekBounds,
   TARGETS,
 } from "@/lib/email-templates";
@@ -238,8 +240,8 @@ async function handleWeeklyRecap(request: NextRequest) {
   const subject = `Week of ${new Date(weekStartStr).toLocaleDateString("en-US", { month: "short", day: "numeric" })}: ${completedCount}/${total} tasks done \u2014 ${notable}`;
 
   const { error } = await resend.emails.send({
-    from: "Job Search <onboarding@resend.dev>",
-    to: "jonalexjames@gmail.com",
+    from: EMAIL_FROM,
+    to: EMAIL_TO,
     subject,
     html,
   });

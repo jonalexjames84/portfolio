@@ -7,6 +7,14 @@ export interface RollupInput {
   connectionsContactedLast14d: number;
   connectionsRepliedLast14d: number;
   interviewsCompletedThisWeek: number;
+  /**
+   * Pipeline rows whose applied_date falls in this week. This is the real
+   * record of what was submitted; the completed "apply" task count is only a
+   * record of whether a checkbox got ticked, and had read 0 for weeks while
+   * applications were actually going out. Whichever source is higher wins, so
+   * ticking a task still counts for an application logged nowhere else.
+   */
+  applicationsFromPipelineThisWeek: number;
 }
 
 const ACTIVE_STATUSES: PipelineStatus[] = ["saved", "applied", "screen", "interview"];
@@ -26,7 +34,10 @@ export function computeWeeklyMetrics(
 
   return {
     week_start: input.weekStart,
-    applications_sent: c.apply || 0,
+    applications_sent: Math.max(
+      c.apply || 0,
+      input.applicationsFromPipelineThisWeek || 0
+    ),
     outreach_sent: c.outreach || 0,
     follow_ups_sent: c.follow_up || 0,
     linkedin_posts: c.linkedin_post || 0,

@@ -21,8 +21,14 @@ async function run(request: NextRequest) {
   fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
   const fourteenDaysAgoStr = fourteenDaysAgo.toISOString().split("T")[0];
 
-  const [tasksRes, pipelineRes, contactedRes, repliedRes, interviewsRes] =
-    await Promise.all([
+  const [
+    tasksRes,
+    pipelineRes,
+    contactedRes,
+    repliedRes,
+    interviewsRes,
+    appliedThisWeekRes,
+  ] = await Promise.all([
       supabase
         .from("job_daily_tasks")
         .select("category, done")
@@ -44,6 +50,13 @@ async function run(request: NextRequest) {
         .eq("status", "interview")
         .gte("last_update", weekStartStr)
         .lte("last_update", weekEndStr),
+      supabase
+        .from("job_pipeline_entries")
+        .select("id")
+        .not("applied_date", "is", null)
+        .neq("status", "saved")
+        .gte("applied_date", weekStartStr)
+        .lte("applied_date", weekEndStr),
     ]);
 
   const completedTasksByCategory: Record<string, number> = {};
@@ -59,6 +72,7 @@ async function run(request: NextRequest) {
     connectionsContactedLast14d: (contactedRes.data || []).length,
     connectionsRepliedLast14d: (repliedRes.data || []).length,
     interviewsCompletedThisWeek: (interviewsRes.data || []).length,
+    applicationsFromPipelineThisWeek: (appliedThisWeekRes.data || []).length,
   });
 
   const { error } = await supabase
