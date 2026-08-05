@@ -370,3 +370,25 @@ describe("titlesDiverge", () => {
     expect(titlesDiverge("Product Manager", null)).toBe(false);
   });
 });
+
+describe("routeListing — gh_jid on a Greenhouse-hosted URL", () => {
+  it("takes the board from the path, not the subdomain", () => {
+    // Regression: the gh_jid branch ran first and derived the board from the
+    // hostname, so job-boards.greenhouse.io/scopely/jobs/123?gh_jid=123 queried
+    // board "job-boards", 404'd, and reported a live A-tier req as DEAD.
+    const r = routeListing(
+      "https://job-boards.greenhouse.io/scopely/jobs/5287656008?gh_jid=5287656008"
+    );
+    expect(r).toEqual({ kind: "greenhouse", board: "scopely", id: "5287656008" });
+  });
+
+  it("still routes an employer-fronted careers site by subdomain", () => {
+    const r = routeListing("https://careers.roblox.com/jobs/8014742?gh_jid=8014742");
+    expect(r).toEqual({ kind: "greenhouse", board: "roblox", id: "8014742" });
+  });
+
+  it("handles boards.greenhouse.io with a redundant gh_jid too", () => {
+    const r = routeListing("https://boards.greenhouse.io/2k/jobs/7655914003?gh_jid=7655914003");
+    expect(r).toEqual({ kind: "greenhouse", board: "2k", id: "7655914003" });
+  });
+});

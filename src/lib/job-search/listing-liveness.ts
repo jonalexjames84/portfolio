@@ -208,17 +208,23 @@ export function routeListing(url: string): AtsRoute {
   const host = u.hostname.toLowerCase();
   const path = u.pathname;
 
+  let m: RegExpMatchArray | null;
+
+  // Greenhouse's own hosts carry the board in the path. This must be checked
+  // BEFORE the gh_jid fallback below: Greenhouse appends a redundant
+  // ?gh_jid=<same id> to its own links, and deriving the board from the
+  // subdomain there yields "job-boards", which 404s and reports a live req as
+  // DEAD. That bug retired nothing only because it was caught the same day.
+  if (host.endsWith("greenhouse.io") && (m = path.match(/^\/([\w-]+)\/jobs\/(\d+)/))) {
+    return { kind: "greenhouse", board: m[1], id: m[2] };
+  }
+
   const ghJid = u.searchParams.get("gh_jid");
   if (ghJid) {
     // careers.roblox.com/jobs/123?gh_jid=123 — the employer's own site fronting
     // a Greenhouse board. The subdomain is the board name often enough to try.
     const board = host.split(".").filter((s) => s !== "www" && s !== "careers")[0];
     if (board) return { kind: "greenhouse", board, id: ghJid };
-  }
-
-  let m: RegExpMatchArray | null;
-  if (host.endsWith("greenhouse.io") && (m = path.match(/^\/([\w-]+)\/jobs\/(\d+)/))) {
-    return { kind: "greenhouse", board: m[1], id: m[2] };
   }
   if (host.endsWith("ashbyhq.com") && (m = path.match(/^\/([^/]+)\/([0-9a-f-]{36})/i))) {
     return { kind: "ashby", org: m[1], id: m[2] };
