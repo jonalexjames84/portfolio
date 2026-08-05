@@ -113,8 +113,11 @@ export function ChannelBreakdown({ report }: { report: ChannelReport }) {
 
       {unattributedCount > 0 && (
         <p className="text-[11px] text-zinc-400 mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800">
-          {unattributedCount} role{unattributedCount > 1 && "s"} have no channel
-          set. Attribute them on the pipeline board to sharpen this.
+          {/* One string, not three children: JSX puts a space between them, so
+              the old form rendered "209 role s have no channel set". */}
+          {`${unattributedCount} role${unattributedCount === 1 ? "" : "s"} ${
+            unattributedCount === 1 ? "has" : "have"
+          } no channel set, and unattributed rows are excluded from every rate above.`}
         </p>
       )}
 

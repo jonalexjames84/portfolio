@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   buildPipelineViews,
   daysBetween,
+  groupByCompany,
   isFresh,
   urgencyOf,
   type ApplicationRow,
@@ -102,10 +103,39 @@ describe("urgencyOf", () => {
     ).toBeNull();
   });
 
-  it("does not chase a weak saved role however long it sits", () => {
+  it("stops asking for a follow-up once silence is the answer", () => {
+    // The live shape on 2026-08-05: five applications from March sat at the top
+    // of Do next reading "no reply in 127d — follow up".
     expect(
       urgencyOf(
-        row({ id: "s", status: "saved", score: 60, createdDate: "2026-05-01" }),
+        row({ id: "a", status: "applied", lastUpdate: "2026-03-31" }),
+        TODAY
+      )
+    ).toBeNull();
+  });
+
+  it("still asks for a follow-up on the last day before the cutoff", () => {
+    expect(
+      urgencyOf(
+        row({ id: "a", status: "applied", lastUpdate: "2026-05-07" }),
+        TODAY
+      )?.reason
+    ).toBe("no reply in 90d — follow up");
+  });
+
+  it("stops chasing a saved role once the posting is four months old", () => {
+    expect(
+      urgencyOf(
+        row({ id: "s", status: "saved", score: 95, createdDate: "2026-03-01" }),
+        TODAY
+      )
+    ).toBeNull();
+  });
+
+  it("does not chase a weak saved role that is still well inside the window", () => {
+    expect(
+      urgencyOf(
+        row({ id: "s", status: "saved", score: 60, createdDate: "2026-07-01" }),
         TODAY
       )
     ).toBeNull();
@@ -201,11 +231,75 @@ describe("buildPipelineViews", () => {
     expect(saved.rows.map((r) => r.company)).toEqual(["Middle", "Apple", "Zebra"]);
   });
 
+  it("orders follow-ups oldest first, not by fit score", () => {
+    const urgent = buildPipelineViews(
+      [
+        row({ id: "a", company: "Newer", status: "applied", score: 95, lastUpdate: "2026-07-20" }),
+        row({ id: "b", company: "Oldest", status: "applied", score: 20, lastUpdate: "2026-06-01" }),
+        row({ id: "c", company: "Middle", status: "applied", score: 60, lastUpdate: "2026-07-01" }),
+      ],
+      TODAY
+    ).urgent;
+    expect(urgent.map((u) => u.company)).toEqual(["Oldest", "Middle", "Newer"]);
+  });
+
   it("returns three empty views for an empty board", () => {
     expect(buildPipelineViews([], TODAY)).toEqual({
       urgent: [],
       fresh: [],
       groups: [],
     });
+  });
+});
+
+describe("groupByCompany", () => {
+  it("leaves a one-role company as a group of one", () => {
+    const groups = groupByCompany([row({ id: "a", company: "Figma" })]);
+    expect(groups).toHaveLength(1);
+    expect(groups[0].rows).toHaveLength(1);
+  });
+
+  it("collects a company's roles into one group", () => {
+    const groups = groupByCompany([
+      row({ id: "a", company: "Scopely", role: "Senior Director, Product" }),
+      row({ id: "b", company: "Figma" }),
+      row({ id: "c", company: "Scopely", role: "Production Director" }),
+    ]);
+    expect(groups.map((g) => [g.company, g.rows.length])).toEqual([
+      ["Scopely", 2],
+      ["Figma", 1],
+    ]);
+  });
+
+  it("merges spellings that name the same employer", () => {
+    const groups = groupByCompany([
+      row({ id: "a", company: "Assort Health" }),
+      row({ id: "b", company: "assort-health" }),
+      row({ id: "c", company: "Assort Health, Inc." }),
+    ]);
+    expect(groups).toHaveLength(1);
+    expect(groups[0].rows).toHaveLength(3);
+  });
+
+  it("shows the first spelling the sorted list used", () => {
+    const groups = groupByCompany([
+      row({ id: "a", company: "Assort Health" }),
+      row({ id: "b", company: "assort-health" }),
+    ]);
+    expect(groups[0].company).toBe("Assort Health");
+  });
+
+  it("keeps a company at the position of its best row", () => {
+    // The caller has already sorted; grouping must not reshuffle.
+    const groups = groupByCompany([
+      row({ id: "a", company: "Best", score: 99 }),
+      row({ id: "b", company: "Mid", score: 80 }),
+      row({ id: "c", company: "Best", score: 10 }),
+    ]);
+    expect(groups.map((g) => g.company)).toEqual(["Best", "Mid"]);
+  });
+
+  it("returns nothing for an empty list", () => {
+    expect(groupByCompany([])).toEqual([]);
   });
 });

@@ -1,19 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink } from "lucide-react";
+import { ChevronDown, ChevronRight, ExternalLink, Linkedin } from "lucide-react";
 import { localDateStr } from "@/lib/job-search/dates";
 import {
   buildPipelineViews,
+  groupByCompany,
   STATUS_LABELS,
   STATUS_ORDER,
   type ApplicationRow,
+  type CompanyGroup,
   type UrgentRow,
 } from "@/lib/job-search/pipeline-views";
+import type { Contact } from "@/lib/job-search/referrals";
 import type { PipelineStatus } from "@/lib/job-search/types";
 
 /**
- * The whole dashboard: one table of applications, shown three ways.
+ * The action plan: one table of applications, shown three ways.
  *
  * State lives here rather than in each section so that changing a status in
  * "Do next" moves the row in "All applications" in the same click — the three
@@ -31,6 +34,11 @@ const STATUS_STYLES: Record<PipelineStatus, string> = {
   passed: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400",
 };
 
+/** How many companies a list shows before it needs asking. */
+const CAP = 10;
+
+type ChangeHandler = (id: string, status: PipelineStatus) => void;
+
 function StatusSelect({
   row,
   pending,
@@ -38,7 +46,7 @@ function StatusSelect({
 }: {
   row: ApplicationRow;
   pending: boolean;
-  onChange: (id: string, status: PipelineStatus) => void;
+  onChange: ChangeHandler;
 }) {
   return (
     <select
@@ -46,7 +54,7 @@ function StatusSelect({
       disabled={pending}
       onChange={(e) => onChange(row.id, e.target.value as PipelineStatus)}
       aria-label={`Status for ${row.role} at ${row.company}`}
-      className={`shrink-0 cursor-pointer appearance-none rounded-full border-0 py-1 pl-2.5 pr-2.5 text-xs font-medium ${
+      className={`shrink-0 cursor-pointer appearance-none rounded-full border-0 px-2.5 py-1 text-xs font-medium ${
         STATUS_STYLES[row.status]
       } ${pending ? "opacity-50" : ""}`}
     >
@@ -59,16 +67,92 @@ function StatusSelect({
   );
 }
 
-function Row({
+/**
+ * The referral prompt. Rendered at company level, not role level: Jon asks a
+ * person about a company once, however many of its reqs he is watching.
+ */
+function Referrals({ contacts }: { contacts: Contact[] }) {
+  const fresh = contacts.filter((c) => !c.contacted);
+  const shown = (fresh.length > 0 ? fresh : contacts).slice(0, 2);
+  const hidden = (fresh.length > 0 ? fresh : contacts).length - shown.length;
+
+  return (
+    <span className="inline-flex flex-wrap items-center gap-1">
+      <span className="rounded bg-teal-50 px-1.5 py-0.5 text-[10px] font-medium text-teal-700 dark:bg-teal-950/40 dark:text-teal-300">
+        {fresh.length > 0
+          ? `${fresh.length} to ask`
+          : `${contacts.length} contacted`}
+      </span>
+      {shown.map((c) => (
+        <a
+          key={c.id}
+          href={c.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={
+            c.isProfile
+              ? `Message ${c.name} on LinkedIn`
+              : `No profile on file — search LinkedIn for ${c.name}`
+          }
+          className={`inline-flex items-center gap-0.5 text-[10px] hover:underline ${
+            c.isProfile
+              ? "text-teal-700 dark:text-teal-300"
+              : "text-zinc-500 dark:text-zinc-400"
+          }`}
+        >
+          <Linkedin className="h-2.5 w-2.5" />
+          {c.name}
+          {!c.isProfile && "?"}
+        </a>
+      ))}
+      {hidden > 0 && (
+        <span className="text-[10px] text-zinc-400">+{hidden}</span>
+      )}
+    </span>
+  );
+}
+
+function RoleLine({ row, note }: { row: ApplicationRow; note?: string }) {
+  return (
+    <>
+      <span className="truncate">{row.role}</span>
+      {row.jobUrl ? (
+        <a
+          href={row.jobUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Open the posting"
+          onClick={(e) => e.stopPropagation()}
+          className="shrink-0 text-zinc-400 hover:text-blue-500"
+        >
+          <ExternalLink className="h-3 w-3" />
+        </a>
+      ) : (
+        // Said out loud rather than left blank: a row with no posting cannot be
+        // re-checked for liveness, which is why the March cohort went stale
+        // unnoticed.
+        <span className="shrink-0 text-[10px] text-amber-600 dark:text-amber-500">
+          no link
+        </span>
+      )}
+      {note && <span className="shrink-0 text-zinc-400">· {note}</span>}
+    </>
+  );
+}
+
+/** A company with exactly one role: company, role and status on one line. */
+function SingleRow({
   row,
   note,
+  contacts,
   pending,
   onChange,
 }: {
   row: ApplicationRow;
   note?: string;
+  contacts: Contact[];
   pending: boolean;
-  onChange: (id: string, status: PipelineStatus) => void;
+  onChange: ChangeHandler;
 }) {
   return (
     <li className="flex items-center gap-3 py-2">
@@ -77,28 +161,15 @@ function Row({
           <span className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
             {row.company}
           </span>
-          {row.jobUrl && (
-            <a
-              href={row.jobUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Open the posting"
-              className="shrink-0 text-zinc-400 hover:text-blue-500"
-            >
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          )}
           {row.score != null && (
             <span className="shrink-0 text-[11px] tabular-nums text-zinc-400">
               {row.score}
             </span>
           )}
+          {contacts.length > 0 && <Referrals contacts={contacts} />}
         </div>
-        <div className="truncate text-xs text-zinc-500 dark:text-zinc-400">
-          {row.role}
-          {note && (
-            <span className="text-zinc-400 dark:text-zinc-500"> · {note}</span>
-          )}
+        <div className="flex items-baseline gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+          <RoleLine row={row} note={note} />
         </div>
       </div>
       <StatusSelect row={row} pending={pending} onChange={onChange} />
@@ -107,44 +178,137 @@ function Row({
 }
 
 /**
- * How many rows a list shows before it needs asking.
+ * A company with several roles, collapsed to one line.
  *
- * Not cosmetic: the ATS ingest can add 250+ saved roles in one night, and an
- * uncapped "everything by status" is a longer page than the eleven panels this
- * replaced. Rows are sorted by fit score, so the cap keeps the best ones.
+ * Scopely has eleven, Brex and Roblox ten each. Flat, three companies filled
+ * the whole list; collapsed, the company is one line until asked.
  */
-const CAP = 10;
+function CompanyRows({
+  group,
+  noteOf,
+  contacts,
+  pendingId,
+  onChange,
+}: {
+  group: CompanyGroup<ApplicationRow>;
+  noteOf?: (row: ApplicationRow) => string | undefined;
+  contacts: Contact[];
+  pendingId: string | null;
+  onChange: ChangeHandler;
+}) {
+  const [open, setOpen] = useState(false);
+  const best = group.rows.reduce(
+    (max, r) => Math.max(max, r.score ?? -1),
+    -1
+  );
+  const statuses = [...new Set(group.rows.map((r) => r.status))];
+
+  return (
+    <li className="py-2">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex w-full items-center gap-2 text-left"
+      >
+        {open ? (
+          <ChevronDown className="h-3.5 w-3.5 shrink-0 text-zinc-400" />
+        ) : (
+          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-zinc-400" />
+        )}
+        <span className="min-w-0 flex-1">
+          <span className="flex flex-wrap items-baseline gap-1.5">
+            <span className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
+              {group.company}
+            </span>
+            {best >= 0 && (
+              <span className="shrink-0 text-[11px] tabular-nums text-zinc-400">
+                {best}
+              </span>
+            )}
+            {contacts.length > 0 && <Referrals contacts={contacts} />}
+          </span>
+          <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+            {group.rows.length} roles ·{" "}
+            {statuses.map((s) => STATUS_LABELS[s]).join(", ")}
+          </span>
+        </span>
+      </button>
+
+      {open && (
+        <ul className="ml-5 mt-1 space-y-1 border-l border-zinc-200 pl-3 dark:border-zinc-800">
+          {group.rows.map((row) => (
+            <li key={row.id} className="flex items-center gap-2 py-1">
+              <span className="flex min-w-0 flex-1 items-baseline gap-1.5 text-xs text-zinc-600 dark:text-zinc-300">
+                <RoleLine row={row} note={noteOf?.(row)} />
+              </span>
+              <StatusSelect
+                row={row}
+                pending={pendingId === row.id}
+                onChange={onChange}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
 
 function RowList({
   rows,
   noteOf,
-  rowProps,
+  contactsFor,
+  pendingId,
+  onChange,
 }: {
   rows: ApplicationRow[];
   noteOf?: (row: ApplicationRow) => string | undefined;
-  rowProps: (row: ApplicationRow) => Omit<
-    React.ComponentProps<typeof Row>,
-    "note"
-  >;
+  contactsFor: (key: string) => Contact[];
+  pendingId: string | null;
+  onChange: ChangeHandler;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? rows : rows.slice(0, CAP);
+  const companies = groupByCompany(rows);
+  const visible = expanded ? companies : companies.slice(0, CAP);
+  const hiddenRoles = companies
+    .slice(CAP)
+    .reduce((n, g) => n + g.rows.length, 0);
 
   return (
     <>
       <ul className="divide-y divide-zinc-100 dark:divide-zinc-800">
-        {visible.map((row) => (
-          <Row key={row.id} {...rowProps(row)} note={noteOf?.(row)} />
-        ))}
+        {visible.map((group) =>
+          group.rows.length === 1 ? (
+            <SingleRow
+              key={group.key}
+              row={group.rows[0]}
+              note={noteOf?.(group.rows[0])}
+              contacts={contactsFor(group.key)}
+              pending={pendingId === group.rows[0].id}
+              onChange={onChange}
+            />
+          ) : (
+            <CompanyRows
+              key={group.key}
+              group={group}
+              noteOf={noteOf}
+              contacts={contactsFor(group.key)}
+              pendingId={pendingId}
+              onChange={onChange}
+            />
+          )
+        )}
       </ul>
-      {rows.length > CAP && (
+      {companies.length > CAP && (
         <button
           onClick={() => setExpanded((v) => !v)}
           className="mt-1.5 text-[11px] text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
         >
           {expanded
-            ? `Show top ${CAP}`
-            : `Show all ${rows.length} — ${rows.length - CAP} more`}
+            ? `Show top ${CAP} companies`
+            : `Show all ${companies.length} companies — ${hiddenRoles} more role${
+                hiddenRoles === 1 ? "" : "s"
+              }`}
         </button>
       )}
     </>
@@ -187,20 +351,24 @@ function Section({
 export function ApplicationTable({
   rows: initial,
   today,
+  contacts,
 }: {
   rows: ApplicationRow[];
   today: string;
+  /** Company key → contacts, from `buildContactIndex`. */
+  contacts: Record<string, Contact[]>;
 }) {
   const [rows, setRows] = useState(initial);
-  const [pending, setPending] = useState<string | null>(null);
-  const [failed, setFailed] = useState<string | null>(null);
+  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
 
   const { urgent, fresh, groups } = buildPipelineViews(rows, today);
+  const contactsFor = (key: string) => contacts[key] ?? [];
 
-  async function handleStatusChange(id: string, status: PipelineStatus) {
-    const previous = rows;
-    setPending(id);
-    setFailed(null);
+  async function onChange(id: string, status: PipelineStatus) {
+    const before = rows.find((r) => r.id === id);
+    setPendingId(id);
+    setFailed(false);
     // `last_update` is bumped locally too, or a row Jon just touched would keep
     // showing the follow-up reason it was flagged with a second ago.
     setRows((prev) =>
@@ -215,24 +383,18 @@ export function ApplicationTable({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
       });
-      if (!res.ok) throw new Error(`${res.status}`);
+      if (!res.ok) throw new Error(String(res.status));
     } catch {
-      // Roll back only this row's change rather than the whole array, so a
-      // failure cannot discard edits Jon made while the request was in flight.
-      setRows((prev) =>
-        prev.map((r) => (r.id === id ? previous.find((p) => p.id === id) || r : r))
-      );
-      setFailed(id);
+      // Roll back only this row rather than the whole array, so a failure
+      // cannot discard edits made while the request was in flight.
+      setRows((prev) => prev.map((r) => (r.id === id && before ? before : r)));
+      setFailed(true);
     } finally {
-      setPending(null);
+      setPendingId(null);
     }
   }
 
-  const rowProps = (row: ApplicationRow) => ({
-    row,
-    pending: pending === row.id,
-    onChange: handleStatusChange,
-  });
+  const listProps = { contactsFor, pendingId, onChange };
 
   return (
     <div className="space-y-4">
@@ -245,13 +407,13 @@ export function ApplicationTable({
       <Section
         title="Do next"
         count={urgent.length}
-        hint="Live conversations first, then applications that have gone quiet."
+        hint="Live conversations first, then the applications that have waited longest."
         empty="Nothing urgent. Apply to something from New or Saved below."
       >
         <RowList
           rows={urgent}
-          rowProps={rowProps}
           noteOf={(row) => (row as UrgentRow).reason}
+          {...listProps}
         />
       </Section>
 
@@ -261,7 +423,7 @@ export function ApplicationTable({
         hint="Added in the last three days."
         empty="No new roles in the last three days."
       >
-        <RowList rows={fresh} rowProps={rowProps} />
+        <RowList rows={fresh} {...listProps} />
       </Section>
 
       <Section
@@ -280,7 +442,7 @@ export function ApplicationTable({
                   {group.rows.length}
                 </span>
               </div>
-              <RowList rows={group.rows} rowProps={rowProps} />
+              <RowList rows={group.rows} {...listProps} />
             </div>
           ))}
         </div>

@@ -1,3 +1,4 @@
+import { normalizeCompany } from "./application-guard";
 import type { PipelineStatus } from "./types";
 
 /**
@@ -73,6 +74,17 @@ export const FRESH_DAYS = 3;
 /** Applied and silent for this long is a follow-up, not a wait. */
 export const FOLLOW_UP_DAYS = 10;
 
+/**
+ * Past this, silence is an answer.
+ *
+ * Without the ceiling the follow-up rule had no upper bound, so five
+ * applications from March sat at the top of "Do next" reading "no reply in
+ * 127d — follow up". Nobody follows up on a four-month-old application; the
+ * posting is filled and the req is closed. A row this old is archived, not
+ * actioned.
+ */
+export const STALE_DAYS = 90;
+
 /** A saved role this strong should not sit unapplied. */
 export const STRONG_FIT = 85;
 
@@ -95,31 +107,33 @@ export function daysBetween(from: string, to: string): number {
 export function urgencyOf(
   row: ApplicationRow,
   today: string
-): { reason: string; rank: number } | null {
-  if (row.status === "offer") {
-    return { reason: "offer on the table", rank: 0 };
-  }
-  if (row.status === "interview") {
-    return { reason: "interview in flight", rank: 1 };
-  }
-  if (row.status === "screen") {
-    return { reason: "screen in flight", rank: 2 };
-  }
-
+): { reason: string; rank: number; days: number } | null {
   // `last_update` is nullable in practice; fall back to the created date so a
   // row missing one still ages rather than sitting silently forever.
   const since = daysBetween(row.lastUpdate || row.createdDate, today);
 
-  if (row.status === "applied" && since >= FOLLOW_UP_DAYS) {
-    return { reason: `no reply in ${since}d — follow up`, rank: 3 };
+  if (row.status === "offer") {
+    return { reason: "offer on the table", rank: 0, days: since };
   }
+  if (row.status === "interview") {
+    return { reason: "interview in flight", rank: 1, days: since };
+  }
+  if (row.status === "screen") {
+    return { reason: "screen in flight", rank: 2, days: since };
+  }
+
+  if (row.status === "applied" && since >= FOLLOW_UP_DAYS && since <= STALE_DAYS) {
+    return { reason: `no reply in ${since}d — follow up`, rank: 3, days: since };
+  }
+  const age = daysBetween(row.createdDate, today);
   if (
     row.status === "saved" &&
     row.score != null &&
     row.score >= STRONG_FIT &&
-    daysBetween(row.createdDate, today) >= FRESH_DAYS
+    age >= FRESH_DAYS &&
+    age <= STALE_DAYS
   ) {
-    return { reason: `${row.score} fit going stale`, rank: 4 };
+    return { reason: `${row.score} fit going stale`, rank: 4, days: age };
   }
 
   return null;
@@ -141,14 +155,26 @@ export function buildPipelineViews(
   rows: ApplicationRow[],
   today: string
 ): PipelineViews {
+  type Scored = {
+    row: ApplicationRow;
+    urgency: { reason: string; rank: number; days: number };
+  };
+
   const urgent = rows
     .map((row) => {
       const urgency = urgencyOf(row, today);
       return urgency ? { row, urgency } : null;
     })
-    .filter((x): x is { row: ApplicationRow; urgency: { reason: string; rank: number } } => x !== null)
+    .filter((x): x is Scored => x !== null)
+    // Oldest first inside a rank, not highest score. A follow-up list is a
+    // queue of neglect, and ordering five of them by fit score printed
+    // 125d, 127d, 126d, 126d, 127d down the page — which reads as no order
+    // at all. Score only breaks a tie between rows of the same age.
     .sort(
-      (a, b) => a.urgency.rank - b.urgency.rank || byScoreThenCompany(a.row, b.row)
+      (a, b) =>
+        a.urgency.rank - b.urgency.rank ||
+        b.urgency.days - a.urgency.days ||
+        byScoreThenCompany(a.row, b.row)
     )
     .map(({ row, urgency }) => ({ ...row, reason: urgency.reason }));
 
@@ -163,4 +189,39 @@ export function buildPipelineViews(
   })).filter((group) => group.rows.length > 0);
 
   return { urgent, fresh, groups };
+}
+
+/** One company's roles, kept in the order the list already sorted them. */
+export interface CompanyGroup<T extends ApplicationRow = ApplicationRow> {
+  /** Normalized, so "Assort Health" and "assort-health" are one employer. */
+  key: string;
+  /** The spelling to show — the first one the sorted list used. */
+  company: string;
+  rows: T[];
+}
+
+/**
+ * Collapse a sorted list so a company appears once.
+ *
+ * Scopely has eleven open roles, Brex and Roblox ten each. Listed flat they
+ * bury everything else, and the ordering already established by the caller is
+ * what decides where the company sits — so groups keep the position of their
+ * best row rather than being re-sorted here.
+ */
+export function groupByCompany<T extends ApplicationRow>(
+  rows: T[]
+): CompanyGroup<T>[] {
+  const groups = new Map<string, CompanyGroup<T>>();
+
+  for (const row of rows) {
+    const key = normalizeCompany(row.company) || row.company.toLowerCase();
+    const existing = groups.get(key);
+    if (existing) {
+      existing.rows.push(row);
+    } else {
+      groups.set(key, { key, company: row.company, rows: [row] });
+    }
+  }
+
+  return [...groups.values()];
 }
