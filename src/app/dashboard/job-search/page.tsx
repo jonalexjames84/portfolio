@@ -24,6 +24,10 @@ import {
   buildLedgerReport,
   type LedgerRow,
 } from "@/lib/job-search/application-ledger";
+import { NorthStar } from "@/components/job-search/NorthStar";
+import { NextActions } from "@/components/job-search/NextActions";
+import { buildFunnel } from "@/lib/job-search/funnel";
+import { rankNextActions } from "@/lib/job-search/next-actions";
 
 const DAY_LABELS = ["MON", "TUE", "WED", "THU", "FRI"];
 
@@ -75,11 +79,17 @@ async function loadData() {
 
   // The ledger is a separate table from the pipeline on purpose: it records
   // that an application *happened*, which pipeline status alone never did.
-  const ledgerRes = await supabase
-    .from("job_applications")
-    .select(
-      "id, company, company_key, role, job_url, status, agent_id, claimed_at, prepared_at, submitted_at, closed_at, notes"
-    );
+  // The connections query is deliberately unfiltered — `recentOutreachRes`
+  // above only returns contacts already reached, so it cannot see the gap that
+  // matters here: contacts on record who have never been approached.
+  const [ledgerRes, connectionsRes] = await Promise.all([
+    supabase
+      .from("job_applications")
+      .select(
+        "id, company, company_key, role, job_url, status, agent_id, claimed_at, prepared_at, submitted_at, closed_at, notes"
+      ),
+    supabase.from("job_connections").select("id, last_contact"),
+  ]);
 
   const last10OutreachReplies = (recentOutreachRes.data || []).filter(
     (c) => c.replied_at != null
@@ -214,6 +224,34 @@ async function loadData() {
     savedRoles,
   });
 
+  // The funnel counts applications from the ledger, not the pipeline: the
+  // ledger is the record that an application happened, which is the whole
+  // reason it exists.
+  const ledgerRows = (ledgerRes.data || []) as LedgerRow[];
+  const submittedRows = ledgerRows.filter((r) => r.status === "submitted");
+  const firstApplicationDate = submittedRows
+    .map((r) => r.submitted_at)
+    .filter((d): d is string => Boolean(d))
+    .sort()[0];
+
+  const funnelReport = buildFunnel({
+    applications: submittedRows.length,
+    screens: pipelineEntries.filter((e) => e.status === "screen").length,
+    interviews: pipelineEntries.filter((e) => e.status === "interview").length,
+    offers: pipelineEntries.filter((e) => e.status === "offer").length,
+    firstApplicationDate,
+  });
+
+  const connections = connectionsRes.data || [];
+  const nextActions = rankNextActions({
+    preparedCount: ledgerReport.waiting.length,
+    uncontactedConnections: connections.filter((c) => !c.last_contact).length,
+    totalConnections: connections.length,
+    followUpsDue: ledgerReport.submitted.filter((s) => s.followUpDue).length,
+    staleActive: staleActive.length,
+    interviewsInFlight: funnelReport.interviewsInFlight,
+  });
+
   return {
     newJobs,
     days,
@@ -222,6 +260,8 @@ async function loadData() {
     funnelData,
     channelReport,
     ledgerReport,
+    funnelReport,
+    nextActions,
     pipelineEntries,
     subtasks: subtasksRes.data || [],
   };
@@ -248,12 +288,28 @@ export default async function JobSearchDashboard() {
 
       <HubNav />
 
+      {/* The first screen: one number, the chain that produces it, and the
+          ranked list of what moves it. Everything else is below the divider. */}
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
+        <NorthStar report={data.funnelReport} />
+      </div>
+
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
+        <NextActions actions={data.nextActions} />
+      </div>
+
+      <div className="flex items-center gap-3 pt-4">
+        <span className="text-[11px] font-semibold uppercase tracking-widest text-zinc-400">
+          Details
+        </span>
+        <span className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
+      </div>
+
       {/* Block 1: New Jobs */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
         <NewJobsBlock jobs={data.newJobs} />
       </div>
 
-      {/* Applications — sits above the week because it is the actionable list */}
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm">
         <ApplicationLedger report={data.ledgerReport} />
       </div>
