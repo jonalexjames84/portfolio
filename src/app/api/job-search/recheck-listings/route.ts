@@ -3,9 +3,9 @@ import { supabase } from "@/lib/supabase";
 import { checkAuth } from "@/lib/email-templates";
 import { mapPool } from "@/lib/job-search/ats";
 import {
-  classifyListing,
+  checkListing,
   extractListingUrl,
-  type Liveness,
+  titlesDiverge,
 } from "@/lib/job-search/listing-liveness";
 
 /**
@@ -19,13 +19,15 @@ import {
  *
  * Only `saved` rows are touched. Once you've applied, the posting coming down
  * usually means the req is progressing, not that your application evaporated.
+ *
+ * The liveness logic lives in @/lib/job-search/listing-liveness and is shared
+ * verbatim with the verifying-job-listings skill CLI, so the nightly sweep and
+ * the hand-run check can never disagree.
  */
 
 const DEFAULT_LIMIT = 60;
 const CONCURRENCY = 6;
 const FETCH_TIMEOUT_MS = 20_000;
-const UA =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
 
 export async function GET(request: NextRequest) {
   return run(request);
@@ -34,36 +36,13 @@ export async function POST(request: NextRequest) {
   return run(request);
 }
 
-async function probe(url: string): Promise<{
-  liveness: Liveness;
-  reason: string;
-}> {
+/** checkListing with a timeout, so one hung board cannot stall the sweep. */
+function probe(url: string) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-  try {
-    const res = await fetch(url, {
-      redirect: "follow",
-      signal: controller.signal,
-      headers: { "user-agent": UA, accept: "text/html,application/xhtml+xml" },
-    });
-    // Cap the read — some boards ship very large pages and we only need to
-    // pattern-match a closure notice.
-    const body = (await res.text()).slice(0, 250_000);
-    return classifyListing({
-      originalUrl: url,
-      finalUrl: res.url || url,
-      httpStatus: res.status,
-      body,
-    });
-  } catch (e) {
-    // Network failure, DNS, timeout — never enough to retire a role.
-    return {
-      liveness: "unknown",
-      reason: `fetch failed: ${e instanceof Error ? e.message : String(e)}`,
-    };
-  } finally {
-    clearTimeout(timer);
-  }
+  const timed: typeof fetch = (input, init) =>
+    fetch(input, { ...init, signal: controller.signal });
+  return checkListing(url, timed).finally(() => clearTimeout(timer));
 }
 
 async function run(request: NextRequest) {
@@ -149,6 +128,19 @@ async function run(request: NextRequest) {
       role: u.row.role,
       reason: u.reason,
     })),
+    // Live, but the ATS calls it something else. Never auto-changed — a title
+    // drift can be a harmless rename or a link pointing at an entirely
+    // different job, and only a human can tell which. The 2026-08-04 queue had
+    // an "Anthropic, PM Claude Code" row whose req was "PM, Claude Tag"; every
+    // liveness check passed while the cover letter argued for the wrong role.
+    titleMismatches: results
+      .filter((r) => r.liveness === "live" && titlesDiverge(r.row.role as string | null, r.title))
+      .map((r) => ({
+        company: r.row.company,
+        queuedAs: r.row.role,
+        atsTitle: r.title,
+        url: r.url,
+      })),
     // Rows with no URL at all can never be auto-verified. Left untouched and
     // reported, so they show up as a data-quality problem instead of silently
     // aging into the pipeline as if they were still open.

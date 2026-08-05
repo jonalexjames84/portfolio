@@ -186,3 +186,187 @@ describe("board handoff to an employer careers site", () => {
     ).toBe("dead");
   });
 });
+
+import { routeListing, checkListing, titlesDiverge } from "./listing-liveness";
+
+/** Minimal Response stand-in so these tests never touch the network. */
+function res(body: unknown, { status = 200, url = "" } = {}) {
+  const text = typeof body === "string" ? body : JSON.stringify(body);
+  return {
+    ok: status >= 200 && status < 300,
+    status,
+    url,
+    json: async () => JSON.parse(text),
+    text: async () => text,
+  } as unknown as Response;
+}
+const stub = (map: Record<string, Response>) => async (u: string) => {
+  const hit = Object.entries(map).find(([k]) => u.includes(k));
+  if (!hit) throw new Error(`unstubbed fetch: ${u}`);
+  return hit[1];
+};
+
+describe("routeListing", () => {
+  it("routes each ATS to its own API", () => {
+    expect(routeListing("https://job-boards.greenhouse.io/webflow/jobs/8097749")).toEqual({
+      kind: "greenhouse",
+      board: "webflow",
+      id: "8097749",
+    });
+    expect(
+      routeListing("https://jobs.ashbyhq.com/stedi/65b38320-75df-4386-b5e5-25b411e7a6a4")
+    ).toEqual({ kind: "ashby", org: "stedi", id: "65b38320-75df-4386-b5e5-25b411e7a6a4" });
+    expect(
+      routeListing("https://www.ycombinator.com/companies/artisan/jobs/9a5WFVO-product-manager")
+    ).toEqual({ kind: "yc", company: "artisan", slug: "9a5WFVO-product-manager" });
+    expect(routeListing("https://builtin.com/job/product-manager/7570967").kind).toBe("aggregator");
+    expect(routeListing("https://vercel.com/careers/senior-pm-4547564004").kind).toBe("generic");
+  });
+
+  // An employer careers site fronting a Greenhouse board still has a real
+  // Greenhouse req behind it — worth far more than scraping their HTML.
+  it("recovers the Greenhouse board from a gh_jid on an employer domain", () => {
+    expect(routeListing("https://careers.roblox.com/jobs/8014742?gh_jid=8014742")).toEqual({
+      kind: "greenhouse",
+      board: "roblox",
+      id: "8014742",
+    });
+  });
+
+  it("does not throw on an unparseable URL", () => {
+    expect(routeListing("not a url").kind).toBe("generic");
+  });
+});
+
+describe("checkListing", () => {
+  it("returns the canonical title for a live Greenhouse req", async () => {
+    const v = await checkListing(
+      "https://job-boards.greenhouse.io/webflow/jobs/8097749",
+      stub({
+        "/jobs/8097749": res({
+          title: "Senior Product Manager, AI",
+          location: { name: "U.S. Remote" },
+        }),
+      })
+    );
+    expect(v.liveness).toBe("live");
+    expect(v.title).toBe("Senior Product Manager, AI");
+    expect(v.via).toBe("greenhouse");
+  });
+
+  // Regression: Baselayer. The req 404'd but the role was open under a new id,
+  // so the reason must point at the re-post rather than read as "role gone".
+  it("flags a 404 as a dead req id and counts what else is on the board", async () => {
+    const v = await checkListing(
+      "https://job-boards.greenhouse.io/baselayer/jobs/5288970008",
+      stub({
+        "/jobs/5288970008": res("", { status: 404 }),
+        "/boards/baselayer/jobs": res({ jobs: new Array(16).fill({ id: 1 }) }),
+      })
+    );
+    expect(v.liveness).toBe("dead");
+    expect(v.reason).toContain("16 other reqs open");
+    expect(v.reason).toContain("re-post");
+  });
+
+  // Regression: ZoomInfo. A 403 is bot-blocking, not closure.
+  it("never retires on a non-404 error status", async () => {
+    const v = await checkListing(
+      "https://job-boards.greenhouse.io/zoominfo/jobs/1",
+      stub({ "/jobs/1": res("", { status: 403 }) })
+    );
+    expect(v.liveness).toBe("unknown");
+  });
+
+  it("treats absence from the Ashby board as dead", async () => {
+    const ID = "7a3b9337-ac67-4255-8db5-08bb3d57541e";
+    const live = await checkListing(
+      `https://jobs.ashbyhq.com/harvey/${ID}`,
+      stub({
+        "job-board/harvey": res({
+          jobs: [{ id: ID, title: "Senior Product Manager, Command Center", location: "SF" }],
+        }),
+      })
+    );
+    expect(live.liveness).toBe("live");
+    expect(live.title).toBe("Senior Product Manager, Command Center");
+
+    const gone = await checkListing(
+      "https://jobs.ashbyhq.com/harvey/00000000-0000-0000-0000-000000000000",
+      stub({ "job-board/harvey": res({ jobs: [{ id: ID }] }) })
+    );
+    expect(gone.liveness).toBe("dead");
+    expect(gone.reason).toContain("1 open postings");
+  });
+
+  it("uses the YC company index, not the job page that outlives the role", async () => {
+    const index = (slugs: string[]) =>
+      res(slugs.map((s) => `<a href="/companies/tailor/jobs/${s}">x</a>`).join(""));
+    const open = await checkListing(
+      "https://www.ycombinator.com/companies/tailor/jobs/CCOEa0I-forward-deployed-product-manager",
+      stub({ "/companies/tailor/jobs": index(["CCOEa0I-forward-deployed-product-manager"]) })
+    );
+    expect(open.liveness).toBe("live");
+    const closed = await checkListing(
+      "https://www.ycombinator.com/companies/tailor/jobs/CCOEa0I-forward-deployed-product-manager",
+      stub({ "/companies/tailor/jobs": index(["zzz-some-other-role"]) })
+    );
+    expect(closed.liveness).toBe("dead");
+  });
+
+  // Regression: Kilo Code, live "Apply Now" button over an expired post.
+  it("retires an aggregator post whose validThrough has passed", async () => {
+    const v = await checkListing(
+      "https://builtin.com/job/product-manager/7570967",
+      stub({ builtin: res('<script>{"validThrough":"2025-12-03T12:15:45+00:00"}</script>') })
+    );
+    expect(v.liveness).toBe("dead");
+    expect(v.reason).toContain("validThrough");
+  });
+
+  it("reports unknown rather than dead when the network fails", async () => {
+    const v = await checkListing("https://job-boards.greenhouse.io/x/jobs/1", async () => {
+      throw new Error("ECONNRESET");
+    });
+    expect(v.liveness).toBe("unknown");
+    expect(v.reason).toContain("ECONNRESET");
+  });
+});
+
+describe("titlesDiverge", () => {
+  // Regression: the queue said "Claude Code", the live req was "Claude Tag".
+  it("catches a link pointing at a different job", () => {
+    expect(titlesDiverge("Product Manager, Claude Code", "Product Manager, Claude Tag")).toBe(true);
+  });
+
+  // Regression: the first dry run of the deduped route flagged this real pair
+  // as a mismatch. "PM" and "Product Manager" are the same job.
+  it("expands the PM abbreviation rather than reporting it as drift", () => {
+    expect(
+      titlesDiverge("Senior PM, Command Center", "Senior Product Manager, Command Center")
+    ).toBe(false);
+  });
+
+  // Same dry run, the genuine catch: different seniority AND different scope.
+  it("still flags a real scope change", () => {
+    expect(
+      titlesDiverge(
+        "Principal Product Manager, Engineering Efficiency",
+        "Senior Product Manager, Engineering Acceleration"
+      )
+    ).toBe(true);
+  });
+
+  it("tolerates ordinary rewording", () => {
+    expect(titlesDiverge("Sr. Product Manager", "Senior Product Manager")).toBe(false);
+    expect(
+      titlesDiverge("Senior Product Manager, User Lifecycle", "Senior Product Manager, User Life Cycle: Engagement")
+    ).toBe(false);
+    expect(titlesDiverge("Product Manager", "Product Manager")).toBe(false);
+  });
+
+  it("stays quiet when either side is missing", () => {
+    expect(titlesDiverge(null, "Product Manager")).toBe(false);
+    expect(titlesDiverge("Product Manager", null)).toBe(false);
+  });
+});

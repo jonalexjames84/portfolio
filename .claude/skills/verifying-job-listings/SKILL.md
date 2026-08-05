@@ -20,12 +20,15 @@ Run this on every new batch, and on any queue older than a few days.
 ## Quick Reference
 
 ```bash
-.claude/skills/verifying-job-listings/verify.mjs <url> [url...]
-cat urls.txt | .claude/skills/verifying-job-listings/verify.mjs
-.claude/skills/verifying-job-listings/verify.mjs --json <url>   # for scripting
+.claude/skills/verifying-job-listings/verify.ts <url> [url...]
+cat urls.txt | .claude/skills/verifying-job-listings/verify.ts
+.claude/skills/verifying-job-listings/verify.ts --json <url>              # for scripting
+.claude/skills/verifying-job-listings/verify.ts --expect "<title>" <url>  # also flag title drift
 ```
 
-Exits 1 if anything is DEAD, so it can gate a queue build. It routes each URL to the right authority:
+Exits 1 if anything is DEAD, so it can gate a queue build. It is a thin CLI over
+`src/lib/job-search/listing-liveness.ts` — **the same module the nightly cron
+uses**, so the two can never disagree. It routes each URL to the right authority:
 
 | Source | Authority | Dead when |
 |---|---|---|
@@ -48,7 +51,14 @@ Exits 1 if anything is DEAD, so it can gate a queue build. It routes each URL to
 
 The queue said `Anthropic — Product Manager, Claude Code`. The link was live, so it passed. The req behind it was **Product Manager, Claude Tag** — a different job. The cover letter argued for the wrong role.
 
-A LIVE verdict answers "does this req exist," not "is this the job you think it is." Diff the returned title against the queued one every time.
+A LIVE verdict answers "does this req exist," not "is this the job you think it is." Diff the returned title against the queued one every time — pass `--expect "<queued title>"` and the script does it for you:
+
+```
+LIVE    Product Manager, Claude Tag
+        ⚠ TITLE DRIFT — you queued this as "Product Manager, Claude Code"
+```
+
+The nightly cron reports the same thing in its `titleMismatches` array. It never auto-corrects: a drift is either a harmless rename or a link to a different job, and only a human can tell which.
 
 ## A 404 Kills the Req ID, Not the Role
 
@@ -94,5 +104,5 @@ Exact or near-exact title match → **relink the row**, keep it in the queue. No
 
 ## Related
 
-- `src/lib/job-search/listing-liveness.ts` — the same logic used by the nightly `/api/job-search/recheck-listings` cron, which sweeps `saved` rows. This skill is the front door for **new** batches; the cron is the backstop for rows that sit.
+- `src/lib/job-search/listing-liveness.ts` — the single implementation. `verify.ts` and the nightly `/api/job-search/recheck-listings` cron both import it; there is no second copy to drift. This skill is the front door for **new** batches, the cron is the backstop for rows that sit.
 - `job-search-os/context-library/app-tracker.md` — where audit results get recorded.
