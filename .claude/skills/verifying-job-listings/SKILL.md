@@ -71,7 +71,16 @@ curl -s "https://boards-api.greenhouse.io/v1/boards/{board}/jobs" \
   | python3 -c "import json,sys;[print(j['id'],j['title']) for j in json.load(sys.stdin)['jobs'] if 'product manager' in j['title'].lower()]"
 ```
 
-Exact or near-exact title match → **relink the row**, keep it in the queue. No match anywhere on the board → retire it. Fuzzy matching lies: it paired "Account Security" with "AI Content Safety." Require the titles to actually correspond.
+Exact or near-exact title match → **relink the row**, keep it in the queue. No match anywhere on the board → retire it.
+
+**Do not automate the match.** Both directions of loose matching have already produced wrong answers on this data:
+
+- *Too loose outward:* token-overlap scoring paired "Account Security" with "AI Content Safety."
+- *Too loose inward:* `titlesDiverge` is containment-based, which is right for flagging drift on a known req but wrong here — a **generic stored title matches everything**. Hunting a re-post for Harvey's "Staff Product Manager" returned four candidates, including "Innovation Product Manager," because every one of them contains "product manager." A human picked the one that was actually the same job.
+
+Read the candidates and choose. If the stored title is generic, the board will happily offer you a role that is not the one you saved.
+
+**Watch for duplicates when relinking.** 2K Games' "Sr. Technical Product Manager" resolved to "Senior Technical Product Manager, Data Science" — which was already its own row in the pipeline. That is a retire-as-superseded, not a relink; relinking would have created two rows pointing at one req.
 
 ## After Verifying
 
@@ -95,7 +104,7 @@ Exact or near-exact title match → **relink the row**, keep it in the queue. No
 
 ## Red Flags — Stop and Verify
 
-- About to write or tailor anything for a role you have not run through `verify.mjs`
+- About to write or tailor anything for a role you have not run through `verify.ts`
 - Ranking or scoring a batch whose links you have not checked today
 - Marking a role closed because a page 404'd, without pulling the board
 - Marking a role closed on a timeout, a 403, or a redirect
