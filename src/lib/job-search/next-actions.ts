@@ -12,6 +12,7 @@
 
 export type ActionKey =
   | "send_prepared"
+  | "referral_live"
   | "referral_gap"
   | "follow_up"
   | "stale_active"
@@ -36,6 +37,21 @@ export interface NextActionInput {
   uncontactedConnections: number;
   /** Total connections, used to phrase the referral gap honestly. */
   totalConnections: number;
+  /**
+   * Uncontacted contacts who work somewhere an application is already live.
+   *
+   * These are worth far more than the rest of the list and must not be averaged
+   * into it. On 2026-08-05 the contact list had 26 names and covered exactly one
+   * of seventeen companies with a live application — "reach out to 26 contacts"
+   * was the wrong instruction, and a raw count is what made it look right.
+   */
+  uncontactedAtLiveCompanies?: number;
+  /**
+   * How many distinct employers those contacts represent. Kept separate
+   * because the two numbers differ a lot — 8 contacts across 2 companies — and
+   * labelling contacts as companies overstates the reach considerably.
+   */
+  liveCompaniesWithContacts?: number;
   /** Submitted, past the follow-up window, no reply. */
   followUpsDue: number;
   /** Live screens/interviews with no movement in >10 days. */
@@ -68,18 +84,39 @@ export function rankNextActions(input: NextActionInput): NextAction[] {
     });
   }
 
-  // A referral outperforms a cold application by a wide margin, so a contact
-  // list at zero outreach is the largest structural gap in the search.
-  if (input.uncontactedConnections > 0) {
+  // A referral where an application is already in flight is the single highest
+  // -converting move available, so it is ranked and phrased separately from the
+  // rest of the contact list rather than folded into one count.
+  const atLive = input.uncontactedAtLiveCompanies ?? 0;
+  const liveCompanies = input.liveCompaniesWithContacts ?? 0;
+  if (atLive > 0) {
+    const where =
+      liveCompanies > 0
+        ? `${liveCompanies} ${plural(liveCompanies, "company", "companies")} you've applied to`
+        : "a company you've applied to";
+    candidates.push({
+      key: "referral_live",
+      label: `Get a referral at ${where}`,
+      rationale: `${atLive} ${plural(atLive, "contact", "contacts")} there, none contacted. An application already in flight plus someone inside beats anything else on this list.`,
+      count: atLive,
+      weight: 3,
+      href: "/job-search/connections",
+    });
+  }
+
+  // The remainder of the list can only produce introductions, not referrals —
+  // a weaker and slower play, so it sits a tier down.
+  const coldOnly = Math.max(0, input.uncontactedConnections - atLive);
+  if (coldOnly > 0) {
     candidates.push({
       key: "referral_gap",
-      label: `Reach out to ${input.uncontactedConnections} ${plural(input.uncontactedConnections, "contact", "contacts")}`,
+      label: `Ask ${coldOnly} ${plural(coldOnly, "contact", "contacts")} for intros`,
       rationale:
         input.uncontactedConnections === input.totalConnections
-          ? `Every contact on record is uncontacted. A referral beats a cold application; this channel is at zero.`
-          : `Warm intros convert far better than cold applications.`,
-      count: input.uncontactedConnections,
-      weight: 3,
+          ? "Nobody on the list has been contacted. None of them work where you've applied, so the ask is an introduction — name the companies."
+          : "None of these work at a company you've applied to. Ask for an intro, not a referral.",
+      count: coldOnly,
+      weight: 2,
       href: "/job-search/connections",
     });
   }

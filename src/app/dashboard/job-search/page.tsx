@@ -28,6 +28,7 @@ import { NorthStar } from "@/components/job-search/NorthStar";
 import { NextActions } from "@/components/job-search/NextActions";
 import { buildFunnel } from "@/lib/job-search/funnel";
 import { rankNextActions } from "@/lib/job-search/next-actions";
+import { normalizeCompany } from "@/lib/job-search/application-guard";
 
 const DAY_LABELS = ["MON", "TUE", "WED", "THU", "FRI"];
 
@@ -88,7 +89,7 @@ async function loadData() {
       .select(
         "id, company, company_key, role, job_url, status, agent_id, claimed_at, prepared_at, submitted_at, closed_at, notes"
       ),
-    supabase.from("job_connections").select("id, last_contact"),
+    supabase.from("job_connections").select("id, last_contact, company_name"),
   ]);
 
   const last10OutreachReplies = (recentOutreachRes.data || []).filter(
@@ -243,9 +244,29 @@ async function loadData() {
   });
 
   const connections = connectionsRes.data || [];
+  const uncontacted = connections.filter((c) => !c.last_contact);
+
+  // Which of them work somewhere an application is already in flight. Matched
+  // through the same company key the ledger uses, so "Assort Health" and
+  // "assort-health" resolve to one employer.
+  const liveCompanyKeys = new Set(
+    ledgerRows
+      .filter((r) => r.status === "submitted" || r.status === "prepared")
+      .map((r) => r.company_key)
+  );
+  const atLive = uncontacted.filter((c) =>
+    liveCompanyKeys.has(normalizeCompany(c.company_name))
+  );
+  const uncontactedAtLiveCompanies = atLive.length;
+  const liveCompaniesWithContacts = new Set(
+    atLive.map((c) => normalizeCompany(c.company_name))
+  ).size;
+
   const nextActions = rankNextActions({
     preparedCount: ledgerReport.waiting.length,
-    uncontactedConnections: connections.filter((c) => !c.last_contact).length,
+    uncontactedConnections: uncontacted.length,
+    uncontactedAtLiveCompanies,
+    liveCompaniesWithContacts,
     totalConnections: connections.length,
     followUpsDue: ledgerReport.submitted.filter((s) => s.followUpDue).length,
     staleActive: staleActive.length,

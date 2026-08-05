@@ -80,22 +80,88 @@ describe("rankNextActions", () => {
     expect(actions).toHaveLength(MAX_ACTIONS);
   });
 
-  it("names the zero-outreach case explicitly when no contact has been reached", () => {
+  it("separates a referral where an application is live from the cold remainder", () => {
+    // The 2026-08-05 shape: 26 contacts, but only Anthropic overlaps the 17
+    // companies with a live application.
+    const actions = rankNextActions({
+      ...EMPTY,
+      uncontactedConnections: 26,
+      totalConnections: 26,
+      uncontactedAtLiveCompanies: 1,
+    });
+    const live = actions.find((a) => a.key === "referral_live")!;
+    const cold = actions.find((a) => a.key === "referral_gap")!;
+
+    expect(live.count).toBe(1);
+    expect(live.weight).toBe(3);
+    expect(live.weight).toBe(3);
+    // The remaining 25 must not be double-counted as referral targets.
+    expect(cold.count).toBe(25);
+    expect(cold.weight).toBe(2);
+    expect(actions.indexOf(live)).toBeLessThan(actions.indexOf(cold));
+  });
+
+  it("omits the live-referral row when no contact works where he applied", () => {
+    const actions = rankNextActions({
+      ...EMPTY,
+      uncontactedConnections: 26,
+      totalConnections: 26,
+    });
+    expect(actions.some((a) => a.key === "referral_live")).toBe(false);
+    expect(actions.find((a) => a.key === "referral_gap")!.count).toBe(26);
+  });
+
+  it("tells him to ask for an intro, not a referral, when there is no overlap", () => {
     const [action] = rankNextActions({
       ...EMPTY,
       uncontactedConnections: 26,
       totalConnections: 26,
     });
-    expect(action.rationale).toContain("Every contact on record is uncontacted");
+    expect(action.rationale).toContain("introduction");
   });
 
-  it("uses the softer rationale once some outreach has happened", () => {
+  it("counts companies in the label and contacts in the rationale", () => {
+    // The live shape: 8 contacts across only 2 employers. Labelling the 8 as
+    // companies overstates the reach four-fold.
     const [action] = rankNextActions({
       ...EMPTY,
-      uncontactedConnections: 20,
+      uncontactedConnections: 8,
       totalConnections: 26,
+      uncontactedAtLiveCompanies: 8,
+      liveCompaniesWithContacts: 2,
     });
-    expect(action.rationale).not.toContain("Every contact on record");
+    expect(action.label).toBe("Get a referral at 2 companies you've applied to");
+    expect(action.rationale).toContain("8 contacts there");
+  });
+
+  it("falls back to vague phrasing rather than a wrong number", () => {
+    const [action] = rankNextActions({
+      ...EMPTY,
+      uncontactedConnections: 3,
+      totalConnections: 3,
+      uncontactedAtLiveCompanies: 3,
+    });
+    expect(action.label).toBe("Get a referral at a company you've applied to");
+  });
+
+  it("does not emit a cold row when every contact is at a live company", () => {
+    const actions = rankNextActions({
+      ...EMPTY,
+      uncontactedConnections: 3,
+      totalConnections: 3,
+      uncontactedAtLiveCompanies: 3,
+    });
+    expect(actions.some((a) => a.key === "referral_gap")).toBe(false);
+  });
+
+  it("never produces a negative cold count if the inputs disagree", () => {
+    const actions = rankNextActions({
+      ...EMPTY,
+      uncontactedConnections: 1,
+      totalConnections: 1,
+      uncontactedAtLiveCompanies: 5,
+    });
+    expect(actions.some((a) => a.key === "referral_gap")).toBe(false);
   });
 
   it("writes singular labels for a count of one", () => {
