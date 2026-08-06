@@ -67,7 +67,7 @@ export default async function CompaniesPage() {
         .select(
           "id, company, role, status, applied_date, last_update, job_url, fit_score, ats_result"
         )
-        .or("gate_result.is.null,gate_result->>pass.eq.true")
+        .or("gate_result.is.null,gate_result->>pass.eq.true,status.neq.saved")
         .order("last_update", { ascending: false }),
       supabase
         .from("job_connections")
