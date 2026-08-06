@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Building2, Users, FileText, MessageSquare, Search, LayoutDashboard } from "lucide-react";
+import { Building2, Users, FileText, MessageSquare, Search, LayoutDashboard, Compass } from "lucide-react";
 
 const tabs = [
+  // Strategy leads: it is the page that says whether the work on the dashboard
+  // is the right work. `exact` on the dashboard keeps /strategy from lighting
+  // both tabs.
+  { href: "/dashboard/job-search/strategy", label: "Strategy", icon: Compass },
   { href: "/dashboard/job-search", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/job-search", label: "Overview", icon: Search, exact: true },
   { href: "/job-search/companies", label: "Companies", icon: Building2 },
