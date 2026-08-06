@@ -56,6 +56,35 @@ describe("onsiteDays", () => {
     // means something else entirely.
     expect(onsiteDays("Suite 4 days a week onsite required")).toBeNull();
   });
+
+  it("reads a marker-before-number cadence over a later, unrelated 'days a week'", () => {
+    // "Onsite 1 day" is the true cadence; "remote 4 days a week" describes
+    // the remote days, not the onsite days. Every specific pattern used to
+    // expect number-then-marker, so this fell through to the generic
+    // pattern and grabbed the wrong (remote) figure — a false rejection on
+    // a role that's actually well within the 3-day cap.
+    expect(onsiteDays("Onsite 1 day, remote 4 days a week")).toBe(1);
+  });
+
+  it("reads 'In office N days per week' (marker before number)", () => {
+    expect(onsiteDays("In office 2 days per week")).toBe(2);
+  });
+
+  it("reads 'On-site N days' (marker before number, no 'a/per week' suffix)", () => {
+    expect(onsiteDays("On-site 3 days")).toBe(3);
+  });
+
+  it("still reads the real cadence past an unrelated reference number followed by a comma", () => {
+    // "No. 4" / "Level 4" / "Door 4" are reference numbers, not a schedule,
+    // but none of them sits directly against a cadence word — a comma and
+    // the real "3 days a week onsite" phrase always intervene. No pattern
+    // can match on the "4" at all, so the genuine cadence (3) is what's
+    // read; this isn't a case of getting fooled into the right answer by
+    // luck of position, it's the only number the patterns can reach.
+    expect(onsiteDays("No. 4, 3 days a week onsite")).toBe(3);
+    expect(onsiteDays("Level 4, 3 days a week onsite")).toBe(3);
+    expect(onsiteDays("Door 4, 3 days a week onsite")).toBe(3);
+  });
 });
 
 describe("locationGate", () => {
@@ -137,5 +166,20 @@ describe("locationGate", () => {
     );
     expect(r.pass).toBe(true);
     expect(r.reason).toBe("cadence_assumed");
+  });
+
+  it("passes a Bay Area role phrased marker-before-number instead of rejecting on the remote figure", () => {
+    // "Onsite 1 day, remote 4 days a week" is a 1-day-onsite role. Before
+    // the marker-before-number pattern existed, this fell through to the
+    // generic pattern and read 4 (the remote day count) instead of 1,
+    // silently rejecting a role well within the 3-day cap.
+    const r = locationGate(
+      input({
+        location: "San Francisco, CA",
+        jd_text: "Onsite 1 day, remote 4 days a week.",
+      }),
+    );
+    expect(r.pass).toBe(true);
+    expect(r.reason).toBeNull();
   });
 });

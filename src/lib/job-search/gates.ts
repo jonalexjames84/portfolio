@@ -59,14 +59,26 @@ export const MAX_ONSITE_DAYS = 3;
 const DIGIT = String.raw`(?<!\b(?:suite|ste|apt|apartment|unit|floor|fl|bldg|building|room|rm)\.?\s)(?<!#)(?<!\d)(\d)(?!\d)`;
 
 /**
+ * An onsite marker phrased before the number ("Onsite 1 day", "In office 2
+ * days per week", "On-site 3 days"). Postings write cadence both ways round;
+ * without this, marker-before-number phrasing falls through every specific
+ * pattern (which all expect number-then-marker) straight to the generic
+ * "N days a week" — which then happily grabs a *different* number's day
+ * count out of the same sentence (the remote days, not the onsite days).
+ */
+const ONSITE_MARKER = String.raw`(?:in\s*(?:the\s*)?office|on[-\s]?site)`;
+
+/**
  * Ordered most-specific-first. A phrase that explicitly ties the number to
- * an onsite marker ("in office", "onsite") must win over the generic
- * "N days a week" form, or a sentence like "1 day in office, other 4 days a
- * week remote" gets read as 4 instead of 1 — array order alone decides which
- * pattern reports the number when more than one matches.
+ * an onsite marker ("in office", "onsite") — in either word order — must win
+ * over the generic "N days a week" form, or a sentence like "1 day in
+ * office, other 4 days a week remote" gets read as 4 instead of 1, and
+ * "Onsite 1 day, remote 4 days a week" the same way. Array order alone
+ * decides which pattern reports the number when more than one matches.
  */
 const CADENCE_PATTERNS: RegExp[] = [
   new RegExp(String.raw`${DIGIT}\s*days?\s*in\s*(?:the\s*)?office`, "i"),
+  new RegExp(String.raw`${ONSITE_MARKER}\s*${DIGIT}\s*days?`, "i"),
   new RegExp(String.raw`${DIGIT}\s*days?\s*(?:in|on)[-\s]?site`, "i"),
   new RegExp(String.raw`${DIGIT}\s*x\s*\/?\s*(?:a\s*)?week`, "i"),
   new RegExp(String.raw`${DIGIT}\s*(?:\+)?\s*days?\s*(?:a|per)\s*week`, "i"),
