@@ -64,6 +64,48 @@ Full rules in the `one-application-per-company` skill. Do not mark a pipeline ro
 | `src/app/about/page.tsx` | Career narrative and testimonials |
 | `documents/` | Resumes (PDF), AI conference notes/transcripts from Berkeley |
 | `src/lib/job-search/application-guard.ts` | Canonical job keys, per-company application caps |
+| `scripts/render-pdfs.mjs` | Renders cover letter and resume PDFs from source |
+| `scripts/sync-materials.mjs` | Pushes `documents/` into the Materials tab |
+
+## The Materials Tab
+
+`/job-search/materials` is backed by the `job_materials` table, not the
+filesystem. `documents/` is gitignored and `.vercelignore`'d because this repo
+is public, so the deployed site can never read a resume off disk.
+
+`scripts/sync-materials.mjs` bridges the gap. It walks `documents/resumes/` and
+`documents/applications/cover-letters/`, pairs each markdown body with its
+rendered PDF, upserts one row per material keyed on `source_path`, and uploads
+the PDFs to the private `job-materials` Supabase Storage bucket. The tab serves
+them back through short-lived signed URLs at
+`/api/job-search/materials/[id]/file`.
+
+Every material is a **one-page PDF**. `scripts/render-pdfs.mjs` builds them:
+cover letters from their markdown through a Helvetica Neue template that matches
+the letters Jon has already sent, and the `.html` resume variants by printing
+them with their own `@page` rules. Letters are measured and rendered at the
+loosest of four densities that still fits one page; resumes that overrun by a
+line get a 2% scale nudge rather than a near-empty second page.
+
+**The rule that matters:** a letter's markdown opens with notes written *to Jon*
+— JD verification, comp, "honest gap," "you already applied here." The renderer
+drops everything above the `---` rule, and **refuses to render a letter that has
+no `---`** rather than risk printing those notes on something Jon sends. Never
+remove that separator from a letter.
+
+**You don't have to run any of it.** `.claude/hooks/sync-materials.sh` fires on
+PostToolUse and Stop, renders any missing PDF, then syncs. It exits in
+milliseconds unless something under `documents/` actually changed. By hand:
+`npm run materials:sync`, `npm run materials:check` for a dry run, or
+`npm run materials:render:all` after changing the letter template.
+
+Two things worth knowing before you touch it:
+
+- Rows carry `origin`. `repo` rows are owned by the sync and are **deleted when
+  their file disappears**. Rows POSTed by the `/cover-letter` and
+  `/resume-tailor` skills are `origin='agent'` and survive the prune.
+- To pull in another folder (screening answers, conference notes), add one entry
+  to `SOURCES` at the top of the script. Everything else keys off that.
 
 ## Jon's Positioning
 

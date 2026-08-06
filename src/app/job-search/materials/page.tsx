@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { supabase } from "@/lib/supabase";
-import { MaterialsGrid } from "@/components/job-search/MaterialsGrid";
+import { MaterialsGrid, type Material } from "@/components/job-search/MaterialsGrid";
 
 export const metadata = { title: "Materials" };
 
@@ -11,5 +11,5 @@ export default async function MaterialsPage() {
     .select("*")
     .order("created_at", { ascending: false });
 
-  return <MaterialsGrid materials={data || []} />;
+  return <MaterialsGrid materials={(data || []) as Material[]} />;
 }

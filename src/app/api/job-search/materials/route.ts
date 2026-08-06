@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
-
-function checkAuth(request: NextRequest): boolean {
-  const auth = request.headers.get("authorization");
-  return auth === `Bearer ${process.env.JOB_SEARCH_API_KEY}`;
-}
+import { isAuthorized } from "@/lib/job-search/request-auth";
 
 export async function GET(request: NextRequest) {
+  // Cover letters and resumes are personal material. The middleware gate steps
+  // aside whenever an authorization header is present, so this route has to
+  // verify the caller itself.
+  if (!isAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { searchParams } = request.nextUrl;
   const company = searchParams.get("company");
   const type = searchParams.get("type");
@@ -26,7 +29,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!checkAuth(request)) {
+  if (!isAuthorized(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

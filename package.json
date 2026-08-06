@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "materials:sync": "node scripts/render-pdfs.mjs && node scripts/sync-materials.mjs",
+    "materials:check": "node scripts/render-pdfs.mjs --dry-run && node scripts/sync-materials.mjs --dry-run",
+    "materials:render": "node scripts/render-pdfs.mjs",
+    "materials:render:all": "node scripts/render-pdfs.mjs --all"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.3.2",
