@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { findHealthIssues, JOB_STALE_HOURS, type JobLastRun } from "./run-log";
+import {
+  findHealthIssues,
+  JOB_STALE_HOURS,
+  recordRun,
+  type JobLastRun,
+  type RunLogDeps,
+} from "./run-log";
 
 const NOW = new Date("2026-08-06T16:00:00Z");
 
@@ -146,5 +152,85 @@ describe("findHealthIssues", () => {
       "send-daily-email",
       "send-weekly-review",
     ]);
+  });
+});
+
+function fakeDeps() {
+  const opened: string[] = [];
+  const closed: Array<{ id: string; status: string; counts: unknown; error: string | null }> = [];
+  const deps: RunLogDeps = {
+    open: async (jobName) => {
+      opened.push(jobName);
+      return `run-${opened.length}`;
+    },
+    close: async (id, status, counts, error) => {
+      closed.push({ id, status, counts, error });
+    },
+  };
+  return { deps, opened, closed };
+}
+
+describe("recordRun", () => {
+  it("opens a run, returns the function's value, and closes it ok", async () => {
+    const { deps, opened, closed } = fakeDeps();
+
+    const result = await recordRun("ingest-jobs", async () => "done", deps);
+
+    expect(result).toBe("done");
+    expect(opened).toEqual(["ingest-jobs"]);
+    expect(closed).toHaveLength(1);
+    expect(closed[0].status).toBe("ok");
+    expect(closed[0].error).toBeNull();
+  });
+
+  it("passes a mutable counts object through to the close call", async () => {
+    const { deps, closed } = fakeDeps();
+
+    await recordRun("ingest-jobs", async (counts) => {
+      counts.scanned = 120;
+      counts.inserted = 3;
+    }, deps);
+
+    expect(closed[0].counts).toEqual({ scanned: 120, inserted: 3 });
+  });
+
+  it("closes the run as errored and rethrows when the function throws", async () => {
+    const { deps, closed } = fakeDeps();
+
+    await expect(
+      recordRun("ingest-jobs", async () => {
+        throw new Error("board 502");
+      }, deps),
+    ).rejects.toThrow("board 502");
+
+    expect(closed).toHaveLength(1);
+    expect(closed[0].status).toBe("error");
+    expect(closed[0].error).toContain("board 502");
+  });
+
+  it("still runs the function when opening the run record fails", async () => {
+    const deps: RunLogDeps = {
+      open: async () => {
+        throw new Error("db down");
+      },
+      close: async () => {},
+    };
+
+    await expect(recordRun("ingest-jobs", async () => "done", deps)).resolves.toBe("done");
+  });
+
+  it("does not mask the function's own error when closing fails", async () => {
+    const deps: RunLogDeps = {
+      open: async () => "run-1",
+      close: async () => {
+        throw new Error("close failed");
+      },
+    };
+
+    await expect(
+      recordRun("ingest-jobs", async () => {
+        throw new Error("real failure");
+      }, deps),
+    ).rejects.toThrow("real failure");
   });
 });

@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { checkAuth } from "@/lib/email-templates";
 import { computeAutoFitScore } from "@/lib/job-search/fit-score";
 import type { PipelineEntry } from "@/lib/job-search/types";
+import { withRunLog } from "@/lib/job-search/run-log-db";
 
 export async function GET(request: NextRequest) {
   return run(request);
@@ -16,6 +17,7 @@ async function run(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  return withRunLog("score-new-jobs", async (counts) => {
   const { data, error } = await supabase
     .from("job_pipeline_entries")
     .select("*")
@@ -37,5 +39,8 @@ async function run(request: NextRequest) {
     if (!updErr) scored++;
   }
 
+  counts.scored = scored;
+
   return NextResponse.json({ scored, total: entries.length });
+  });
 }

@@ -8,6 +8,7 @@ import {
   titlesDiverge,
 } from "@/lib/job-search/listing-liveness";
 import { localDateStr } from "@/lib/job-search/dates";
+import { withRunLog } from "@/lib/job-search/run-log-db";
 
 /**
  * Re-check saved postings and retire the ones whose reqs have closed.
@@ -51,6 +52,7 @@ async function run(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  return withRunLog("recheck-listings", async (counts) => {
   const params = request.nextUrl.searchParams;
   const dryRun = params.get("dryRun") === "1";
   const limit = Math.min(Number(params.get("limit")) || DEFAULT_LIMIT, 200);
@@ -111,6 +113,9 @@ async function run(request: NextRequest) {
     }
   }
 
+  counts.checked = checked.length;
+  counts.dead = dead.length;
+
   return NextResponse.json({
     dryRun,
     checked: checked.length,
@@ -146,5 +151,6 @@ async function run(request: NextRequest) {
     // reported, so they show up as a data-quality problem instead of silently
     // aging into the pipeline as if they were still open.
     unlinked: unlinked.map((u) => ({ company: u.row.company, role: u.row.role })),
+  });
   });
 }

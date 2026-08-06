@@ -6,6 +6,7 @@ import {
   type PlanInput,
 } from "@/lib/job-search/weekly-plan-generator";
 import { addDays, localDateStr, upcomingMonday } from "@/lib/job-search/dates";
+import { withRunLog } from "@/lib/job-search/run-log-db";
 
 export async function GET(request: NextRequest) {
   return run(request);
@@ -19,6 +20,7 @@ async function run(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  return withRunLog("generate-weekly-plan", async (counts) => {
   // Dates resolved in PT, not UTC. The cron fires 06:00 UTC Monday, which is
   // 23:00 PT Sunday — reading the server's UTC weekday made this plan the
   // *following* week and prune the current week's tasks as "last week's".
@@ -157,9 +159,12 @@ async function run(request: NextRequest) {
     }
   }
 
+  counts.tasks = generated.length;
+
   return NextResponse.json({
     ok: true,
     weekStartDate,
     inserted: generated.length,
+  });
   });
 }

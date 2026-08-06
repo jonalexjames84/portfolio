@@ -107,3 +107,58 @@ export function findHealthIssues(rows: JobLastRun[], now: Date): HealthIssue[] {
 
   return issues;
 }
+
+export interface RunLogDeps {
+  open: (jobName: string) => Promise<string>;
+  close: (
+    id: string,
+    status: Exclude<RunStatus, "running">,
+    counts: RunCounts,
+    error: string | null,
+  ) => Promise<void>;
+}
+
+/**
+ * Wrap a cron body so its execution is recorded whatever happens.
+ *
+ * Logging must never be the reason a cron fails. If opening the record throws,
+ * the work still runs — an unlogged successful run is a far better outcome
+ * than a skipped one, and the stall detector will surface the gap anyway.
+ * Likewise a failure to close is swallowed, so it can never replace the real
+ * error the caller needs to see.
+ */
+export async function recordRun<T>(
+  jobName: string,
+  fn: (counts: RunCounts) => Promise<T>,
+  deps: RunLogDeps,
+): Promise<T> {
+  const counts: RunCounts = {};
+  let runId: string | null = null;
+
+  try {
+    runId = await deps.open(jobName);
+  } catch {
+    runId = null;
+  }
+
+  const finish = async (
+    status: Exclude<RunStatus, "running">,
+    error: string | null,
+  ) => {
+    if (runId === null) return;
+    try {
+      await deps.close(runId, status, counts, error);
+    } catch {
+      // Never let bookkeeping mask the outcome.
+    }
+  };
+
+  try {
+    const result = await fn(counts);
+    await finish("ok", null);
+    return result;
+  } catch (err) {
+    await finish("error", err instanceof Error ? err.message : String(err));
+    throw err;
+  }
+}

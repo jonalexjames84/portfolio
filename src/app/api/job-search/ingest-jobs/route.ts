@@ -6,6 +6,7 @@ import { fetchBoard, mapPool, type AtsBoard, type AtsType } from "@/lib/job-sear
 import { canonicalJobKey, normalizeCompany } from "@/lib/job-search/application-guard";
 import type { PipelineEntry } from "@/lib/job-search/types";
 import { localDateStr } from "@/lib/job-search/dates";
+import { withRunLog } from "@/lib/job-search/run-log-db";
 
 export const maxDuration = 300;
 
@@ -37,6 +38,7 @@ async function run(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  return withRunLog("ingest-jobs", async (counts) => {
   const params = request.nextUrl.searchParams;
   const sinceDays = Number(params.get("sinceDays")) || DEFAULT_SINCE_DAYS;
   const limit = Number(params.get("limit")) || DEFAULT_LIMIT;
@@ -194,6 +196,8 @@ async function run(request: NextRequest) {
     .slice(0, limit);
 
   if (dryRun) {
+    counts.scanned = candidates.length;
+    counts.inserted = 0;
     return NextResponse.json({
       dryRun: true,
       boardsChecked: boards.length,
@@ -255,6 +259,9 @@ async function run(request: NextRequest) {
     }
   }
 
+  counts.scanned = candidates.length;
+  counts.inserted = inserted;
+
   return NextResponse.json({
     boardsChecked: boards.length,
     failedBoards,
@@ -265,6 +272,7 @@ async function run(request: NextRequest) {
     inserted,
     insertErrors,
     topInserted: selected.slice(0, 10).map((c) => `${c.company} — ${c.role} (${c.score})`),
+  });
   });
 }
 

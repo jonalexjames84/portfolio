@@ -14,6 +14,7 @@ import {
   TARGETS,
 } from "@/lib/email-templates";
 import { computeChannelStats } from "@/lib/job-search/channel-attribution";
+import { withRunLog } from "@/lib/job-search/run-log-db";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -30,6 +31,7 @@ async function handleWeeklyRecap(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  return withRunLog("send-weekly-review", async (runCounts) => {
   const { weekStartStr, weekEndStr } = getWeekBounds();
 
   // Last week bounds
@@ -257,5 +259,8 @@ async function handleWeeklyRecap(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  runCounts.sent = 1;
+
   return NextResponse.json({ sent: true });
+  });
 }

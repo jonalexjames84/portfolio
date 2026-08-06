@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { checkAuth, getWeekBounds } from "@/lib/email-templates";
 import { computeWeeklyMetrics } from "@/lib/job-search/metrics-rollup";
 import type { PipelineStatus } from "@/lib/job-search/types";
+import { withRunLog } from "@/lib/job-search/run-log-db";
 
 export async function GET(request: NextRequest) {
   return run(request);
@@ -16,6 +17,7 @@ async function run(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  return withRunLog("rollup-metrics", async (counts) => {
   const { weekStartStr, weekEndStr } = getWeekBounds();
   const fourteenDaysAgo = new Date();
   fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
@@ -83,5 +85,8 @@ async function run(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  counts.weeks = 1;
+
   return NextResponse.json({ ok: true, row });
+  });
 }
