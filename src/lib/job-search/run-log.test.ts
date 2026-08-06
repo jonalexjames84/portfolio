@@ -233,4 +233,34 @@ describe("recordRun", () => {
       }, deps),
     ).rejects.toThrow("real failure");
   });
+
+  it("records an error when the callback resolves a non-ok Response instead of throwing", async () => {
+    const { deps, closed } = fakeDeps();
+
+    const result = await recordRun(
+      "ingest-jobs",
+      async () => new Response(JSON.stringify({ error: "board down" }), { status: 500 }),
+      deps,
+    );
+
+    expect(result.status).toBe(500);
+    expect(closed).toHaveLength(1);
+    expect(closed[0].status).toBe("error");
+    expect(closed[0].error).toContain("500");
+  });
+
+  it("records ok when the callback resolves a 2xx Response", async () => {
+    const { deps, closed } = fakeDeps();
+
+    const result = await recordRun(
+      "ingest-jobs",
+      async () => new Response(JSON.stringify({ ok: true }), { status: 200 }),
+      deps,
+    );
+
+    expect(result.status).toBe(200);
+    expect(closed).toHaveLength(1);
+    expect(closed[0].status).toBe("ok");
+    expect(closed[0].error).toBeNull();
+  });
 });

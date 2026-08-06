@@ -119,6 +119,26 @@ export interface RunLogDeps {
 }
 
 /**
+ * Detect a failure that resolved instead of throwing.
+ *
+ * Every route this wraps returns a `NextResponse` for a failure exactly as
+ * often as it throws one — a Supabase query error, "no ATS-configured
+ * companies", a rejected Resend send all resolve with a non-2xx status rather
+ * than raising. `NextResponse` is a real `Response` under the hood, and
+ * `Response` is a web-standard global (Node 18+), not a Next.js import — so
+ * checking `instanceof Response` here catches every one of those cases with
+ * zero changes to the six call sites, while keeping this module free of any
+ * framework dependency. Anything that isn't a `Response` (a plain value, an
+ * object a non-route caller resolves with) is untouched and always "ok".
+ */
+function describeFailure(result: unknown): string | null {
+  if (typeof Response !== "undefined" && result instanceof Response && !result.ok) {
+    return `HTTP ${result.status}`;
+  }
+  return null;
+}
+
+/**
  * Wrap a cron body so its execution is recorded whatever happens.
  *
  * Logging must never be the reason a cron fails. If opening the record throws,
@@ -155,7 +175,12 @@ export async function recordRun<T>(
 
   try {
     const result = await fn(counts);
-    await finish("ok", null);
+    const failure = describeFailure(result);
+    if (failure !== null) {
+      await finish("error", failure);
+    } else {
+      await finish("ok", null);
+    }
     return result;
   } catch (err) {
     await finish("error", err instanceof Error ? err.message : String(err));
