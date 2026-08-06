@@ -42,7 +42,12 @@ async function loadStrategy(): Promise<StrategyInput> {
   ] = await Promise.all([
     supabase
       .from("job_pipeline_entries")
-      .select("id, status, fit_score, fit_score_auto, industry, stage, channel, company_key"),
+      .select("id, status, fit_score, fit_score_auto, industry, stage, channel, company_key")
+      // A gate-failed row must not count toward the backlog this page argues
+      // is being left on the table — but a role Jon has already applied to
+      // must keep counting regardless of its gate verdict, so the exclusion
+      // is scoped to status='saved' only.
+      .or("gate_result.is.null,gate_result->>pass.eq.true,status.neq.saved"),
     supabase
       .from("job_applications")
       .select("pipeline_entry_id, company, company_key, status"),

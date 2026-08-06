@@ -28,19 +28,19 @@ export interface CronRun {
  *
  * Weekly jobs get eight days rather than seven: a job that runs Monday is
  * six days old by Sunday, and a seven-day window would alarm every weekend.
- * The local agent gets 48 hours because it only runs when the Mac is awake,
- * and a single closed laptop is not a fault worth shouting about.
  */
 export const JOB_STALE_HOURS: Record<string, number> = {
   "ingest-jobs": 36,
   "recheck-listings": 36,
   "score-new-jobs": 36,
   "rollup-metrics": 36,
-  "draft-applications": 36,
   "send-daily-email": 36,
   "generate-weekly-plan": 24 * 8,
   "send-weekly-review": 24 * 8,
-  "apply-batch": 48,
+  // Add a job here only once it is actually running (a route, a vercel.json
+  // cron entry, or a script calling recordRun). A monitor for a job that
+  // doesn't exist yet can never clear, and findHealthIssues below will flag
+  // it as never_ran on every single run.
 };
 
 export interface JobLastRun {

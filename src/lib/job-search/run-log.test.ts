@@ -73,22 +73,6 @@ describe("findHealthIssues", () => {
     expect(issues[0].kind).toBe("errored");
   });
 
-  it("gives the local apply agent a 48-hour window, not 36", () => {
-    const at40 = allHealthy({
-      job_name: "apply-batch",
-      last_ok_at: hoursAgo(40),
-      last_started_at: hoursAgo(40),
-    });
-    expect(findHealthIssues(at40, NOW)).toEqual([]);
-
-    const at50 = allHealthy({
-      job_name: "apply-batch",
-      last_ok_at: hoursAgo(50),
-      last_started_at: hoursAgo(50),
-    });
-    expect(findHealthIssues(at50, NOW)).toHaveLength(1);
-  });
-
   it("gives weekly crons an eight-day window so Tuesday is not an alarm", () => {
     const sixDays = allHealthy({
       job_name: "generate-weekly-plan",
@@ -123,7 +107,7 @@ describe("findHealthIssues", () => {
     const issues = findHealthIssues([], NOW);
     expect(issues).toHaveLength(Object.keys(JOB_STALE_HOURS).length);
     expect(issues.every((i) => i.kind === "never_ran")).toBe(true);
-    expect(issues.map((i) => i.jobName)).toContain("apply-batch");
+    expect(issues.map((i) => i.jobName)).toContain("send-daily-email");
   });
 
   it("ignores an unknown job name rather than inventing a threshold", () => {
@@ -142,8 +126,6 @@ describe("findHealthIssues", () => {
 
   it("covers every scheduled job in JOB_STALE_HOURS", () => {
     expect(Object.keys(JOB_STALE_HOURS).sort()).toEqual([
-      "apply-batch",
-      "draft-applications",
       "generate-weekly-plan",
       "ingest-jobs",
       "recheck-listings",
