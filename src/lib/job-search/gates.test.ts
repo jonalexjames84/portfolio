@@ -35,6 +35,27 @@ describe("onsiteDays", () => {
   it("returns null for empty text", () => {
     expect(onsiteDays("")).toBeNull();
   });
+
+  it("prefers a specific 'in office' cadence over a later generic 'days a week'", () => {
+    // The specific onsite marker (1 day in office) is the true cadence; the
+    // generic form later in the sentence describes the remote days, not the
+    // onsite days. Reading this as 4 would reject a role that's actually
+    // well within the 3-day cap.
+    expect(onsiteDays("1 day in office, other 4 days a week remote")).toBe(1);
+  });
+
+  it("does not read a zip code's trailing digit as a cadence", () => {
+    // "94105" is a location artifact, not a schedule. Fabricating 5 here
+    // would reject a role on cadence language that was never stated.
+    expect(onsiteDays("San Francisco, CA 94105 days a week hybrid schedule")).toBeNull();
+  });
+
+  it("does not read an address suite number as a cadence", () => {
+    // "Suite 4" is an address number, not a schedule. Fabricating 4 here
+    // would reject a role right at the edge of the cap on a number that
+    // means something else entirely.
+    expect(onsiteDays("Suite 4 days a week onsite required")).toBeNull();
+  });
 });
 
 describe("locationGate", () => {
@@ -87,5 +108,34 @@ describe("locationGate", () => {
   it("does not treat 'remote-friendly' on a hybrid role as fully remote", () => {
     const r = locationGate(input({ location: "New York, NY", jd_text: "Remote-friendly, hybrid 3 days a week" }));
     expect(r.pass).toBe(false);
+  });
+
+  it("passes a 1-day-onsite Bay Area role even with a zip code sitting right next to the cadence text", () => {
+    // location's zip code butts directly against jd_text's cadence sentence
+    // once haystack() concatenates them. The gate must still find the real
+    // 1-day cadence and not choke on, or misread, the distractor number.
+    const r = locationGate(
+      input({
+        location: "San Francisco, CA 94105",
+        jd_text: "1 day in office, other 4 days a week remote.",
+      }),
+    );
+    expect(r.pass).toBe(true);
+    expect(r.reason).toBeNull();
+  });
+
+  it("does not let a zip code in the location fabricate a cadence", () => {
+    // Concatenated, this reads as "...94105 days a week onsite..." — the
+    // exact shape that used to let a zip code's last digit pass as a
+    // 5-day-a-week cadence. It must fall back to the permissive
+    // cadence-unstated path instead of fabricating a number.
+    const r = locationGate(
+      input({
+        location: "San Francisco, CA 94105",
+        jd_text: "days a week onsite; hybrid schedule still being finalized.",
+      }),
+    );
+    expect(r.pass).toBe(true);
+    expect(r.reason).toBe("cadence_assumed");
   });
 });

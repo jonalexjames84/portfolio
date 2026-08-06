@@ -44,11 +44,32 @@ export const BAY_AREA_HINTS = [
 /** The most onsite days Jon will take in the Bay Area. */
 export const MAX_ONSITE_DAYS = 3;
 
+/**
+ * A cadence digit has to stand on its own to count:
+ *
+ * - Not part of a longer number, so the trailing "5" of a zip code
+ *   ("94105 days a week") can't be read as a 5-day cadence.
+ * - Not immediately preceded by a unit/suite marker, so an address number
+ *   ("Suite 4 days a week onsite") can't be read as a 4-day cadence.
+ *
+ * Both are "N" values that end up sitting next to cadence words purely
+ * because `haystack()` concatenates `location` and `jd_text` with a single
+ * space — they don't describe a work schedule.
+ */
+const DIGIT = String.raw`(?<!\b(?:suite|ste|apt|apartment|unit|floor|fl|bldg|building|room|rm)\.?\s)(?<!#)(?<!\d)(\d)(?!\d)`;
+
+/**
+ * Ordered most-specific-first. A phrase that explicitly ties the number to
+ * an onsite marker ("in office", "onsite") must win over the generic
+ * "N days a week" form, or a sentence like "1 day in office, other 4 days a
+ * week remote" gets read as 4 instead of 1 — array order alone decides which
+ * pattern reports the number when more than one matches.
+ */
 const CADENCE_PATTERNS: RegExp[] = [
-  /(\d)\s*(?:\+)?\s*days?\s*(?:a|per)\s*week/i,
-  /(\d)\s*days?\s*(?:in|on)[-\s]?site/i,
-  /(\d)\s*x\s*\/?\s*(?:a\s*)?week/i,
-  /(\d)\s*days?\s*in\s*(?:the\s*)?office/i,
+  new RegExp(String.raw`${DIGIT}\s*days?\s*in\s*(?:the\s*)?office`, "i"),
+  new RegExp(String.raw`${DIGIT}\s*days?\s*(?:in|on)[-\s]?site`, "i"),
+  new RegExp(String.raw`${DIGIT}\s*x\s*\/?\s*(?:a\s*)?week`, "i"),
+  new RegExp(String.raw`${DIGIT}\s*(?:\+)?\s*days?\s*(?:a|per)\s*week`, "i"),
 ];
 
 export function onsiteDays(text: string): number | null {
