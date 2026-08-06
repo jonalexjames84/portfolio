@@ -226,32 +226,72 @@ const ETHICS_FLAG_TERMS: Record<EthicsFlag, string[]> = {
 };
 
 function identityText(input: GateInput): string {
-  // Company and industry only — the reject decision never reads the JD.
+  // Company and industry only — used by detectFlags, which is allowed to
+  // read across the seam between them (flags carry no score penalty). The
+  // reject decision below does NOT use this: see identityFields.
   return `${input.company} ${input.industry ?? ""}`.toLowerCase();
+}
+
+/**
+ * Company and industry as independent strings, never joined.
+ *
+ * identityText() concatenates them with a single space so a reject term can
+ * match across the seam even though neither field contains it on its own —
+ * {company: "Meta Data", industry: "Broker-free platform"} joins into
+ * "...data broker-free..." and would falsely match "data broker". Checking
+ * each field on its own closes that without weakening multi-word matches
+ * that live inside a single field ("Acme Data Broker LLC" still matches
+ * "data broker" because both words are in `company`).
+ */
+function identityFields(input: GateInput): string[] {
+  return [input.company.toLowerCase(), (input.industry ?? "").toLowerCase()];
+}
+
+function escapeRegExp(term: string): string {
+  return term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * Word-boundary match for a flag term.
+ *
+ * Plain substring matching flags "defi" inside "Deficit" and "slots" inside
+ * "TimeSlots" — noise, since neither word has anything to do with crypto or
+ * gambling. \b on both ends of every term (checked against each entry in
+ * ETHICS_FLAG_TERMS) still matches hyphenated and multi-word terms like
+ * "play-to-earn" and "web3 gaming" correctly, because hyphens and spaces are
+ * already non-word characters that a boundary can sit against; no flag term
+ * needed an exception.
+ */
+function matchesFlagTerm(text: string, term: string): boolean {
+  return new RegExp(`\\b${escapeRegExp(term)}\\b`).test(text);
 }
 
 export function detectFlags(input: GateInput): EthicsFlag[] {
   const text = `${identityText(input)} ${(input.jd_text ?? "").toLowerCase()}`;
   const found: EthicsFlag[] = [];
   for (const [flag, terms] of Object.entries(ETHICS_FLAG_TERMS) as Array<[EthicsFlag, string[]]>) {
-    if (terms.some((t) => text.includes(t))) found.push(flag);
+    if (terms.some((t) => matchesFlagTerm(text, t))) found.push(flag);
   }
   return found;
 }
 
 /**
- * Matches on company and industry only.
+ * Matches on company and industry only, and checks each field
+ * independently rather than a joined string.
  *
  * A fintech JD that says "we do not do predatory lending" must not trip the
  * gate — and a JD is full of sentences about what a company is not. Identity
- * is the reliable signal; prose is not.
+ * is the reliable signal; prose is not. Checking company and industry apart
+ * (identityFields) rather than concatenated (identityText) also stops a
+ * term from matching across the seam between the two fields — see
+ * identityFields' doc comment.
  */
 export function ethicsGate(input: GateInput): GateResult {
-  const text = identityText(input);
+  const targets = identityFields(input);
   const flags = detectFlags(input);
 
   for (const [category, terms] of Object.entries(ETHICS_REJECT)) {
-    const hit = terms.find((t) => text.includes(t));
+    const hit = terms.find((t) => targets.some((field) => field.includes(t)));
     if (hit) {
       return {
         pass: false,

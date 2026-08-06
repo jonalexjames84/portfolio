@@ -217,6 +217,19 @@ describe("ethicsGate", () => {
     );
     expect(r.pass).toBe(true);
   });
+
+  it("does not phantom-match a reject term spanning the company/industry seam", () => {
+    // Joined ("securedata broker analytics"), this would falsely contain
+    // "data broker" even though neither field does on its own.
+    const r = ethicsGate(input({ company: "SecureData", industry: "Broker Analytics" }));
+    expect(r.pass).toBe(true);
+  });
+
+  it("still rejects a multi-word term that lives entirely within one field", () => {
+    const r = ethicsGate(input({ company: "Acme Data Broker LLC", industry: "Analytics" }));
+    expect(r.pass).toBe(false);
+    expect(r.reason).toContain("surveillance");
+  });
 });
 
 describe("detectFlags", () => {
@@ -250,5 +263,18 @@ describe("detectFlags", () => {
 
   it("does not flag the word 'whale' outside a monetization context", () => {
     expect(detectFlags(input({ company: "Whale Shark Labs", industry: "SaaS" }))).toEqual([]);
+  });
+
+  it("does not flag 'defi' as a substring of an unrelated word", () => {
+    expect(detectFlags(input({ company: "Deficit Solutions Inc", industry: "SaaS" }))).toEqual([]);
+  });
+
+  it("does not flag 'slots' as a substring of an unrelated word", () => {
+    expect(detectFlags(input({ company: "TimeSlots App", industry: "SaaS" }))).toEqual([]);
+  });
+
+  it("still flags a legitimate hyphenated/multi-word term at a real word boundary", () => {
+    const i = input({ company: "Some Studio", industry: "Mobile games", jd_text: "Play-to-earn economy design." });
+    expect(detectFlags(i)).toContain("crypto");
   });
 });
