@@ -7,6 +7,8 @@ import { canonicalJobKey, normalizeCompany } from "@/lib/job-search/application-
 import type { PipelineEntry } from "@/lib/job-search/types";
 import { localDateStr } from "@/lib/job-search/dates";
 import { withRunLog } from "@/lib/job-search/run-log-db";
+import { evaluateGates } from "@/lib/job-search/gates";
+import { loadGateOverrides } from "@/lib/job-search/gates-db";
 
 export const maxDuration = 300;
 
@@ -126,7 +128,10 @@ async function run(request: NextRequest) {
     breakdown: ReturnType<typeof computeAutoFitScore>["breakdown"];
     dedupe_key: string;
     company_key: string;
+    gate: ReturnType<typeof evaluateGates>;
   };
+
+  const overrides = await loadGateOverrides();
 
   const candidates: Candidate[] = [];
   let totalFetched = 0;
@@ -171,6 +176,16 @@ async function run(request: NextRequest) {
 
       const { total, breakdown } = computeAutoFitScore(entry);
 
+      const gate = evaluateGates(
+        {
+          company: board.company,
+          industry: board.industry ?? null,
+          location: p.location ?? null,
+          jd_text: p.description ?? null,
+        },
+        overrides,
+      );
+
       candidates.push({
         company: board.company,
         role: p.title,
@@ -185,19 +200,31 @@ async function run(request: NextRequest) {
         breakdown,
         dedupe_key: dedupeKey,
         company_key: normalizeCompany(board.company),
+        gate,
       });
     }
   }
 
-  // 5. Best-scoring first, then cap.
-  const selected = candidates
-    .filter((c) => c.score >= minScore)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
+  // 5. Best-scoring first, then cap. A gate failure is still inserted — the
+  // score floor only ever screens out gated-pass rows — but still counts
+  // against the per-run insert cap.
+  let gatedOut = 0;
+  const selected: Candidate[] = [];
+  for (const c of [...candidates].sort((a, b) => b.score - a.score)) {
+    if (selected.length >= limit) break;
+    if (!c.gate.pass) {
+      gatedOut += 1;
+      // Still insert it — the rejection list is what makes the gates tunable.
+    } else if (c.score < minScore) {
+      continue;
+    }
+    selected.push(c);
+  }
 
   if (dryRun) {
     counts.scanned = candidates.length;
     counts.inserted = 0;
+    counts.gatedOut = gatedOut;
     return NextResponse.json({
       dryRun: true,
       boardsChecked: boards.length,
@@ -207,12 +234,14 @@ async function run(request: NextRequest) {
       skippedDuplicate,
       candidates: candidates.length,
       wouldInsert: selected.length,
+      gatedOut,
       preview: selected.slice(0, 15).map((c) => ({
         company: c.company,
         role: c.role,
         score: c.score,
         location: c.location,
         url: c.job_url,
+        gate_result: c.gate,
       })),
     });
   }
@@ -237,6 +266,7 @@ async function run(request: NextRequest) {
     last_update: today,
     dedupe_key: c.dedupe_key,
     company_key: c.company_key,
+    gate_result: c.gate,
   }));
 
   let inserted = 0;
@@ -261,6 +291,7 @@ async function run(request: NextRequest) {
 
   counts.scanned = candidates.length;
   counts.inserted = inserted;
+  counts.gatedOut = gatedOut;
 
   return NextResponse.json({
     boardsChecked: boards.length,

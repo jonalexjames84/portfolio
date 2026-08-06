@@ -22,6 +22,7 @@ function entry(overrides: Partial<PipelineEntry> = {}): PipelineEntry {
     interview_date: null,
     notes: null,
     channel: null,
+    gate_result: null,
     ...overrides,
   };
 }

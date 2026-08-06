@@ -1,3 +1,5 @@
+import type { GateResult } from "./gates";
+
 export type PipelineStatus =
   | "saved"
   | "applied"
@@ -76,6 +78,12 @@ export interface PipelineEntry {
   notes: string | null;
   /** Null means unattributed — a real state, not a missing value. */
   channel: Channel | null;
+  /**
+   * Hard-gate verdict. Null on rows written before gating existed — treat null
+   * as ungated rather than as passing, so a backfill gap can never masquerade
+   * as approval.
+   */
+  gate_result: GateResult | null;
 }
 
 export interface ScoreBreakdown {
