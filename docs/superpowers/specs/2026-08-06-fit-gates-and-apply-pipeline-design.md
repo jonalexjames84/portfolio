@@ -39,10 +39,35 @@ reject otherwise
 ```
 
 `onsite_days` parses "3 days a week in office", "hybrid — 2 days", "4x/week
-onsite" and similar. When a Bay Area role states hybrid but no cadence, treat
-it as **3** (the permissive read) and set `reason: 'cadence_assumed'` so the
-dashboard can surface it for a human check. When a role is Bay Area with no
-remote or hybrid language at all, treat it as 5 and reject.
+onsite" and similar.
+
+**Unknown is not a rejection.** An earlier version of this spec rejected a Bay
+Area role that never mentioned remote or hybrid (assuming 5 days onsite), and
+rejected any role whose `location` and `jd_text` were both empty. Run against
+346 real rows, that rejected 141 roles on absence of evidence alone — including
+Anthropic, OpenAI, Google, Apple, Figma, Notion and Vercel — and dropped the
+pass rate to 23%.
+
+That contradicts the rule `strategy.ts` already enforces elsewhere in this
+codebase: **absent evidence is not evidence of failure.** It was also
+internally inconsistent, since a Bay Area role saying "hybrid" with no cadence
+number passed while one saying nothing at all was rejected — the same missing
+data, two answers.
+
+So a gate rejects only on a *stated* disqualifying fact:
+
+| Case | Verdict | `reason` |
+|---|---|---|
+| Bay Area, hybrid, no cadence number | pass | `cadence_assumed` |
+| Bay Area, no remote/hybrid language at all | pass | `cadence_unstated` |
+| No `location` and no `jd_text` | pass | `location_unknown` |
+| Bay Area, states > 3 days onsite | **reject** | names the cadence |
+| Stated non-Bay-Area location, not remote | **reject** | names the location |
+| Hybrid, stated non-Bay-Area location | **reject** | names the location |
+
+The three pass-with-reason cases surface on the role card for a human check.
+Jon lives in the Bay Area, so a Bay Area role is geographically fine by
+default; only an explicit cadence above three days disqualifies it.
 
 `BAY_AREA_HINTS` already exists in `fit-score.ts` and moves here.
 
