@@ -5,6 +5,7 @@ export async function GET() {
   const { data, error } = await supabase
     .from("job_pipeline_entries")
     .select("*")
+    .or("gate_result.is.null,gate_result->>pass.eq.true")
     .order("last_update", { ascending: false });
 
   if (error) {

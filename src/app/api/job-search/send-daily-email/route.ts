@@ -58,7 +58,8 @@ async function run(request: NextRequest) {
     .from("job_pipeline_entries")
     .select("id, company, role, fit_score, fit_score_auto, score_breakdown, job_url")
     .eq("status", "saved")
-    .gte("created_at", oneDayAgoIso);
+    .gte("created_at", oneDayAgoIso)
+    .or("gate_result.is.null,gate_result->>pass.eq.true");
 
   const newJobs: NewJob[] = (newJobsData || [])
     .map((j) => {
