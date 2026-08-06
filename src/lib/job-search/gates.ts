@@ -150,18 +150,24 @@ export function locationGate(input: GateInput): GateResult {
 
   if (!bay) {
     if (hybrid) return reject("Hybrid role outside the Bay Area.");
-    if (text.trim() === "") return reject("Not remote and no location stated.");
+    // No stated location at all, and nothing in the JD to go on either — this
+    // is absence of evidence, not a stated disqualifying fact. Reject only on
+    // what the posting actually says; a role we have no data about goes to
+    // the human with a flag instead of being silently dropped.
+    if (text.trim() === "") return pass("location_unknown");
     return reject("Not remote and outside the Bay Area.");
   }
 
   const days = onsiteDays(text);
 
   if (days === null) {
-    // A Bay Area role that says hybrid but not how often gets the permissive
-    // read, flagged for a human. Rejecting on silence would drop good local
-    // roles; passing silently would hide a 5-day commute.
+    // The user lives in the Bay Area, so a Bay Area role is geographically
+    // fine by default. Only a *stated* cadence above the cap disqualifies it
+    // — silence about remote/hybrid language is absence of evidence, not a
+    // disqualifying fact, so it passes too, just under a different reason
+    // than the hybrid-but-no-cadence case so a human can tell them apart.
     if (hybrid) return pass("cadence_assumed");
-    return reject("Bay Area role with no remote or hybrid language; assumed 5 days onsite.");
+    return pass("cadence_unstated");
   }
 
   if (days <= MAX_ONSITE_DAYS) return pass(null);

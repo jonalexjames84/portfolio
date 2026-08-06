@@ -122,16 +122,32 @@ describe("locationGate", () => {
     expect(r.reason).toBe("cadence_assumed");
   });
 
-  it("rejects a Bay Area role with no remote or hybrid language at all", () => {
+  it("passes a Bay Area role with no remote or hybrid language at all, flagged cadence_unstated", () => {
+    // No stated cadence is absence of evidence, not a stated disqualifying
+    // fact. A Bay Area role is geographically fine by default, so this
+    // passes for human review instead of being silently dropped.
     const r = locationGate(input({ location: "Palo Alto, CA", jd_text: "Join us at HQ." }));
-    expect(r.pass).toBe(false);
-    expect(r.reason).toContain("onsite");
+    expect(r.pass).toBe(true);
+    expect(r.reason).toBe("cadence_unstated");
   });
 
-  it("rejects a role with no location signal whatsoever", () => {
+  it("passes a role with no location signal whatsoever, flagged location_unknown", () => {
+    // No location and no JD text is no signal at all — not a stated
+    // disqualifying fact. It must not be silently deleted; it goes to the
+    // human with a flag.
     const r = locationGate(input());
+    expect(r.pass).toBe(true);
+    expect(r.reason).toBe("location_unknown");
+  });
+
+  it("still rejects a stated non-Bay-Area location even when cadence is unknown", () => {
+    // Regression: the loosening above must not leak into the genuinely
+    // disqualified case. A stated non-Bay-Area, non-remote location is a
+    // stated disqualifying fact, cadence or no cadence.
+    const r = locationGate(input({ location: "Austin, TX", jd_text: "Great team, great mission." }));
     expect(r.pass).toBe(false);
-    expect(r.reason).toContain("no location");
+    expect(r.gate).toBe("location");
+    expect(r.reason).toContain("outside");
   });
 
   it("does not treat 'remote-friendly' on a hybrid role as fully remote", () => {
@@ -337,6 +353,19 @@ describe("evaluateGates", () => {
       overrides,
     );
     expect(r.pass).toBe(true);
+  });
+
+  it("carries cadence_unstated and location_unknown forward on the success path", () => {
+    const unstated = evaluateGates(
+      input({ location: "Palo Alto, CA", jd_text: "Join us at HQ.", company: "Linear", industry: "SaaS" }),
+      [],
+    );
+    expect(unstated.pass).toBe(true);
+    expect(unstated.reason).toBe("cadence_unstated");
+
+    const unknown = evaluateGates(input({ company: "Linear", industry: "SaaS" }), []);
+    expect(unknown.pass).toBe(true);
+    expect(unknown.reason).toBe("location_unknown");
   });
 
   it("still reports flags on an overridden role", () => {
