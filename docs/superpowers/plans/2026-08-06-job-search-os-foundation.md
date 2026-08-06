@@ -20,6 +20,14 @@
 - `fit_score_auto` and `computeAutoFitScore` are **not** modified by this plan.
 - No `temperature` or `budget_tokens` anywhere — this plan makes no LLM calls at all.
 - Dates: use `localDateStr` from `@/lib/job-search/dates` for date strings; store timestamps as ISO strings.
+- **No tested module may import `@/lib/supabase`.** That module calls
+  `createClient` at import time and throws `supabaseUrl is required` when the
+  env vars are unset, which they are under Vitest. Verified by probe: a test
+  importing it fails before a single assertion runs. So each pure module has a
+  `-db.ts` sibling holding every Supabase call — `run-log.ts` / `run-log-db.ts`,
+  `gates.ts` / `gates-db.ts`. Tests import only the pure side. This matches the
+  codebase as it already stands: no module under `src/lib/job-search/` imports
+  the client today.
 
 ---
 
@@ -378,7 +386,8 @@ git commit -m "feat: record every cron run and derive health from it"
 ### Task 2: Wrap the existing crons in run records
 
 **Files:**
-- Modify: `src/lib/job-search/run-log.ts` (append the recorder)
+- Modify: `src/lib/job-search/run-log.ts` (append the recorder — stays pure)
+- Create: `src/lib/job-search/run-log-db.ts`
 - Test: `src/lib/job-search/run-log.test.ts` (append a describe block)
 - Modify: `src/app/api/job-search/ingest-jobs/route.ts`
 - Modify: `src/app/api/job-search/recheck-listings/route.ts`
@@ -388,8 +397,8 @@ git commit -m "feat: record every cron run and derive health from it"
 - Modify: `src/app/api/job-search/send-weekly-review/route.ts`
 
 **Interfaces:**
-- Consumes: `RunCounts`, `CronRun` from Task 1.
-- Produces: `recordRun<T>(jobName: string, fn: (counts: RunCounts) => Promise<T>, deps?: RunLogDeps): Promise<T>`, `RunLogDeps`.
+- Consumes: `RunCounts`, `RunStatus` from Task 1.
+- Produces: from `run-log.ts` — `RunLogDeps`, `recordRun<T>(jobName: string, fn: (counts: RunCounts) => Promise<T>, deps: RunLogDeps): Promise<T>` (deps is **required**, so the pure module never reaches for a client). From `run-log-db.ts` — `supabaseRunDeps: RunLogDeps`, `withRunLog<T>(jobName: string, fn: (counts: RunCounts) => Promise<T>): Promise<T>`.
 
 `send-daily-email` is deliberately excluded here — Task 4 rewrites it anyway.
 
@@ -486,13 +495,12 @@ describe("recordRun", () => {
 Run: `npm test -- run-log`
 Expected: FAIL — `recordRun` is not exported.
 
-- [ ] **Step 3: Implement `recordRun`**
+- [ ] **Step 3: Implement `recordRun` (pure)**
 
-Append to `src/lib/job-search/run-log.ts`:
+Append to `src/lib/job-search/run-log.ts`. Note there is **no** Supabase import
+here — see Global Constraints.
 
 ```ts
-import { supabase } from "@/lib/supabase";
-
 export interface RunLogDeps {
   open: (jobName: string) => Promise<string>;
   close: (
@@ -502,29 +510,6 @@ export interface RunLogDeps {
     error: string | null,
   ) => Promise<void>;
 }
-
-const supabaseDeps: RunLogDeps = {
-  open: async (jobName) => {
-    const { data, error } = await supabase
-      .from("job_cron_runs")
-      .insert({ job_name: jobName })
-      .select("id")
-      .single();
-    if (error) throw error;
-    return data.id as string;
-  },
-  close: async (id, status, counts, error) => {
-    await supabase
-      .from("job_cron_runs")
-      .update({
-        finished_at: new Date().toISOString(),
-        status,
-        counts,
-        error,
-      })
-      .eq("id", id);
-  },
-};
 
 /**
  * Wrap a cron body so its execution is recorded whatever happens.
@@ -538,7 +523,7 @@ const supabaseDeps: RunLogDeps = {
 export async function recordRun<T>(
   jobName: string,
   fn: (counts: RunCounts) => Promise<T>,
-  deps: RunLogDeps = supabaseDeps,
+  deps: RunLogDeps,
 ): Promise<T> {
   const counts: RunCounts = {};
   let runId: string | null = null;
@@ -577,20 +562,67 @@ export async function recordRun<T>(
 Run: `npm test -- run-log`
 Expected: PASS, 15 tests.
 
-- [ ] **Step 5: Wrap each cron route**
+- [ ] **Step 5: Create the Supabase-backed wrapper**
+
+Create `src/lib/job-search/run-log-db.ts`. Everything that touches the client
+lives here, so `run-log.ts` stays importable from a test:
+
+```ts
+import { supabase } from "@/lib/supabase";
+import {
+  recordRun,
+  type JobLastRun,
+  type RunCounts,
+  type RunLogDeps,
+  type RunStatus,
+} from "./run-log";
+
+export const supabaseRunDeps: RunLogDeps = {
+  open: async (jobName) => {
+    const { data, error } = await supabase
+      .from("job_cron_runs")
+      .insert({ job_name: jobName })
+      .select("id")
+      .single();
+    if (error) throw error;
+    return data.id as string;
+  },
+  close: async (id, status, counts, error) => {
+    await supabase
+      .from("job_cron_runs")
+      .update({
+        finished_at: new Date().toISOString(),
+        status,
+        counts,
+        error,
+      })
+      .eq("id", id);
+  },
+};
+
+/** What every cron route calls. */
+export function withRunLog<T>(
+  jobName: string,
+  fn: (counts: RunCounts) => Promise<T>,
+): Promise<T> {
+  return recordRun(jobName, fn, supabaseRunDeps);
+}
+```
+
+- [ ] **Step 6: Wrap each cron route**
 
 For each of the six routes listed in **Files**, find the inner `async function run(request: NextRequest)` and wrap its body. The pattern, using `ingest-jobs` as the worked example:
 
 ```ts
 // at the top of the file
-import { recordRun } from "@/lib/job-search/run-log";
+import { withRunLog } from "@/lib/job-search/run-log-db";
 
 async function run(request: NextRequest) {
   if (!checkAuth(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  return recordRun("ingest-jobs", async (counts) => {
+  return withRunLog("ingest-jobs", async (counts) => {
     // ... the entire existing body, unchanged ...
 
     // Before each return of a success payload, record what happened.
@@ -604,7 +636,7 @@ async function run(request: NextRequest) {
 
 Two rules:
 
-- **The auth check stays outside `recordRun`.** An unauthenticated probe is not a run, and logging it would let anyone with the URL flood the table.
+- **The auth check stays outside `withRunLog`.** An unauthenticated probe is not a run, and logging it would let anyone with the URL flood the table.
 - **Set at least one count per route** so the record says what the run did, not just that it happened. Use the names below; the daily email renders them verbatim.
 
 | Route | `jobName` | Counts to set |
@@ -618,15 +650,16 @@ Two rules:
 
 If a route's existing body already computes a differently-named local for one of these, assign it across rather than renaming the local.
 
-- [ ] **Step 6: Typecheck and test**
+- [ ] **Step 7: Typecheck and test**
 
 Run: `npx tsc --noEmit && npm test`
 Expected: no type errors; all tests pass.
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 8: Commit**
 
 ```bash
-git add src/lib/job-search/run-log.ts src/lib/job-search/run-log.test.ts src/app/api/job-search
+git add src/lib/job-search/run-log.ts src/lib/job-search/run-log-db.ts \
+        src/lib/job-search/run-log.test.ts src/app/api/job-search
 git commit -m "feat: wrap the job-search crons in run records"
 ```
 
@@ -637,11 +670,15 @@ git commit -m "feat: wrap the job-search crons in run records"
 **Files:**
 - Modify: `src/lib/email-templates.ts` (append `healthSection`)
 - Test: `src/lib/email-templates.test.ts` (create)
+- Modify: `src/lib/job-search/run-log-db.ts` (append `loadLastRuns`)
 - Modify: `src/app/api/job-search/send-daily-email/route.ts`
 
 **Interfaces:**
-- Consumes: `HealthIssue`, `findHealthIssues`, `JobLastRun`, `recordRun` from Tasks 1–2.
-- Produces: `healthSection(issues: HealthIssue[]): string`, `loadLastRuns(): Promise<JobLastRun[]>` (exported from `run-log.ts`).
+- Consumes: `HealthIssue`, `findHealthIssues`, `JobLastRun`, `RunStatus` from `run-log.ts`; `withRunLog` from `run-log-db.ts`.
+- Produces: `healthSection(issues: HealthIssue[]): string` (from `email-templates.ts`), `loadLastRuns(): Promise<JobLastRun[]>` (from `run-log-db.ts`).
+
+`email-templates.ts` imports only pure modules today and must stay that way —
+its new test imports it directly.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -743,9 +780,10 @@ export function healthSection(issues: HealthIssue[]): string {
 Run: `npm test -- email-templates`
 Expected: PASS, 3 tests.
 
-- [ ] **Step 5: Add the loader to `run-log.ts`**
+- [ ] **Step 5: Add the loader to `run-log-db.ts`**
 
-Append to `src/lib/job-search/run-log.ts`:
+Append to `src/lib/job-search/run-log-db.ts` (not `run-log.ts` — this one
+touches the client):
 
 ```ts
 /**
@@ -801,8 +839,14 @@ export async function loadLastRuns(): Promise<JobLastRun[]> {
 In `src/app/api/job-search/send-daily-email/route.ts`:
 
 1. Add to the existing import from `@/lib/email-templates`: `healthSection`.
-2. Add: `import { findHealthIssues, loadLastRuns, recordRun } from "@/lib/job-search/run-log";`
-3. Wrap the body of `run()` in `recordRun("send-daily-email", async (counts) => { ... })`, keeping the `checkAuth` guard outside it, exactly as in Task 2.
+2. Add both imports:
+
+```ts
+import { findHealthIssues } from "@/lib/job-search/run-log";
+import { loadLastRuns, withRunLog } from "@/lib/job-search/run-log-db";
+```
+
+3. Wrap the body of `run()` in `withRunLog("send-daily-email", async (counts) => { ... })`, keeping the `checkAuth` guard outside it, exactly as in Task 2.
 4. Immediately before the section that assembles the email HTML, add:
 
 ```ts
@@ -839,7 +883,7 @@ Expected: `200`. Because no crons have logged a run yet, the health block will l
 
 ```bash
 git add src/lib/email-templates.ts src/lib/email-templates.test.ts \
-        src/lib/job-search/run-log.ts src/app/api/job-search/send-daily-email/route.ts
+        src/lib/job-search/run-log-db.ts src/app/api/job-search/send-daily-email/route.ts
 git commit -m "feat: lead the daily email with cron health, only when something is wrong"
 ```
 
@@ -1327,11 +1371,14 @@ git commit -m "feat: narrow ethics gate with disclosure flags for Jon's own doma
 **Files:**
 - Create: `supabase/migrations/20260806000002_job_gate_overrides.sql`
 - Modify: `src/lib/job-search/gates.ts`
+- Create: `src/lib/job-search/gates-db.ts`
 - Test: `src/lib/job-search/gates.test.ts`
 
 **Interfaces:**
-- Consumes: `locationGate`, `ethicsGate`, `detectFlags`, `GateInput`, `GateResult` from Tasks 4–5.
-- Produces: `GateOverride`, `evaluateGates(input: GateInput, overrides: GateOverride[]): GateResult`, `loadGateOverrides(): Promise<GateOverride[]>`.
+- Consumes: `locationGate`, `ethicsGate`, `detectFlags`, `GateInput`, `GateResult` from Tasks 4–5; `normalizeCompany` from `application-guard.ts` (already exported, and that module is pure).
+- Produces: from `gates.ts` — `GateOverride`, `evaluateGates(input: GateInput, overrides: GateOverride[]): GateResult`. From `gates-db.ts` — `loadGateOverrides(): Promise<GateOverride[]>`.
+
+`gates.ts` must not import `@/lib/supabase` — its test imports it directly.
 
 - [ ] **Step 1: Write the migration**
 
@@ -1446,7 +1493,6 @@ Append to `src/lib/job-search/gates.ts`:
 
 ```ts
 import { normalizeCompany } from "./application-guard";
-import { supabase } from "@/lib/supabase";
 
 export interface GateOverride {
   company_key: string;
@@ -1483,6 +1529,13 @@ export function evaluateGates(input: GateInput, overrides: GateOverride[]): Gate
   // Carry the location reason forward — 'cadence_assumed' must survive.
   return { pass: true, gate: null, reason: location.reason, flags };
 }
+```
+
+Then create `src/lib/job-search/gates-db.ts`:
+
+```ts
+import { supabase } from "@/lib/supabase";
+import type { GateOverride } from "./gates";
 
 export async function loadGateOverrides(): Promise<GateOverride[]> {
   const { data, error } = await supabase
@@ -1517,7 +1570,8 @@ Expected: `company_key`, `decision`, `gate`, `reason`, `created_at`.
 
 ```bash
 git add supabase/migrations/20260806000002_job_gate_overrides.sql \
-        src/lib/job-search/gates.ts src/lib/job-search/gates.test.ts
+        src/lib/job-search/gates.ts src/lib/job-search/gates-db.ts \
+        src/lib/job-search/gates.test.ts
 git commit -m "feat: combine gates with a per-company override table"
 ```
 
@@ -1531,7 +1585,7 @@ git commit -m "feat: combine gates with a per-company override table"
 - Modify: `src/lib/job-search/types.ts`
 
 **Interfaces:**
-- Consumes: `evaluateGates`, `loadGateOverrides`, `GateResult` from Task 6; `recordRun` from Task 2.
+- Consumes: `evaluateGates`, `GateResult` from `gates.ts`; `loadGateOverrides` from `gates-db.ts`; `withRunLog` from `run-log-db.ts`.
 - Produces: `gate_result` column on `job_pipeline_entries`; `PipelineEntry.gate_result`.
 
 - [ ] **Step 1: Write the migration**
@@ -1586,8 +1640,14 @@ Expected: no type errors; all tests pass.
 
 In `src/app/api/job-search/ingest-jobs/route.ts`:
 
-1. Add: `import { evaluateGates, loadGateOverrides } from "@/lib/job-search/gates";`
-2. Inside the `recordRun` callback added in Task 2, before the loop that maps candidate roles to rows:
+1. Add both imports:
+
+```ts
+import { evaluateGates } from "@/lib/job-search/gates";
+import { loadGateOverrides } from "@/lib/job-search/gates-db";
+```
+
+2. Inside the `withRunLog` callback added in Task 2, before the loop that maps candidate roles to rows:
 
 ```ts
   const overrides = await loadGateOverrides();
