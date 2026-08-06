@@ -1,4 +1,4 @@
-# Spec 1 — Fit Gates & The Apply Pipeline
+# Spec 1 — The Apply Pipeline
 
 **Date:** 2026-08-06
 **Depends on:** nothing. First to build.
@@ -6,23 +6,21 @@
 
 ## Problem
 
-Two failures, one spec.
-
-**Scoring is blind to Jon's actual criteria.** `computeAutoFitScore` scores
-title, seniority, keywords, industry, stage, and two red flags. It cannot see
-work location beyond a crude `-20`, and it cannot see mission, ethics,
-leadership opportunity, sustainable hours, or tenure odds at all. Roles Jon
-would never take rank alongside roles he'd love.
-
 **Nothing ships.** Thirteen applications are finished and unsent. The work of
-tailoring a resume and writing a letter is done; the last mile — opening the
-form, pasting it in — is where it dies.
+tailoring a resume and writing a letter is already done; the last mile —
+opening the form, pasting it in, pressing the button — is where it dies.
+
+Two smaller problems feed that one. Roles Jon would never accept still consume
+review attention, because nothing filters on work location or on the handful of
+industries he won't work in. And nothing records whether any of the seven crons
+actually ran, so a broken pipeline and a slow week look identical.
 
 ## Goal
 
 Roles Jon would refuse never enter the funnel. Roles that survive arrive each
 morning with the resume tailored, the letter written, the screening answers
-drafted, and the form filled to the submit button.
+drafted, and the form filled to the submit button — and if that didn't happen,
+the morning email says so.
 
 ## Part 1 — Gates
 
@@ -111,34 +109,33 @@ disclaiming predatory lending passes; an override row flips each direction.
 Explicitly asserted, because these are the regressions that would quietly shrink
 the funnel: **a social-casino studio passes** with `flags: ['gambling']`; **a
 web3 gaming company passes** with `flags: ['crypto']`; and a flagged role's
-`fit_score_v2` is identical to the same role without the flag.
+`fit_score_auto` is identical to the same role without the flag.
 
-## Part 2 — Soft scoring v2
+## Part 2 — Scoring stays as it is, for now
 
-One `claude-opus-5` call per surviving role, inside `score-new-jobs`. Structured
-output, five dimensions, 0–20 each:
+**Deliberately deferred.** Ranking is a dial that can be turned any week
+without touching the machine around it; automation either runs unattended or it
+doesn't. Building an elaborate rubric before anything ships would be tuning the
+sort order of a list nobody acts on.
 
-| Dimension | Rubric asks |
-|---|---|
-| `role_fit` | Does Jon's record — 15 years, F2P/live-service, AI-native building, founding PM at an edtech infra company — map onto what this role does daily? |
-| `leadership_signal` | Does the role involve mentoring, growing a team, direct reports, or setting practice for others? |
-| `mission_signal` | Is there a stated mission beyond growth, and does the company articulate who it's for and why that matters? Scores what the company *says it is building toward* — it must **not** re-penalize an `ethics_flag` category, or a flagged role gets hit twice for something already disclosed. |
-| `hours_signal` | Does the JD signal sustainable pace, or does it stack crunch markers? Absence of signal scores neutral (10), not high. |
-| `tenure_proxy` | Is this an established team or a net-new speculative one? Is it a backfill? Does the JD describe success at twelve months specifically? |
+So: `fit_score_auto` is unchanged and remains the ordering key. The hard gates
+above do the filtering — that's where the real decisions live, and they're
+deterministic and testable. There is no `fit_score_v2` in this spec.
 
-Each returns a score **and a one-sentence justification**, stored in
-`fit_breakdown_v2` and rendered on the role card. A score with no reasoning is
-not actionable.
+One small addition, because it costs one field and pays for itself in review
+time: the drafting call already reads the whole JD, so it also returns a
+**two-sentence `fit_note`** — why this role fits Jon and the single biggest
+gap. Stored on the draft, rendered on the approval card. Prose a human reads,
+not a number that needs calibrating.
 
-Keyword scoring survives for `title_match` and `seniority_fit` — cheap,
-deterministic, and already correct including the gaming-title handling.
+When there's enough decision data to calibrate against — Jon's approve/skip
+choices, and which applications converted — the retrospective (Spec 4) proposes
+a scoring change like any other parameter. That is the right time to build it,
+with evidence instead of guesses.
 
-`fit_score_v2` = keyword subtotal (40 max) + LLM subtotal (100 max), normalized
-to 100. `fit_score_auto` is left untouched so historical comparisons stay valid.
-
-**Neutral-on-absence is the load-bearing rule.** A JD that says nothing about
-hours is not a JD with good hours. Scoring silence as 10 rather than 20 keeps
-`hours_signal` from becoming a participation trophy.
+The dimensions Jon named — leadership, mission, hours, two-year tenure — are
+recorded here so they aren't lost: they belong in that later scoring pass, and
+`tenure_proxy` in particular still can't be honestly derived from a JD.
 
 ## Part 3 — The apply pipeline
 
@@ -161,7 +158,10 @@ job_application_drafts (
   resume_material_id      uuid references job_materials(id),
   cover_letter_material_id uuid references job_materials(id),
   screening_answers       jsonb,
+  fit_note                text,
   ats_type                text,
+  block_reason            text,
+  attempt_count           int  not null default 0,
   job_url                 text not null,
   drafted_at              timestamptz default now(),
   approved_at             timestamptz,
@@ -175,7 +175,7 @@ One draft per pipeline entry, enforced by a unique index.
 
 ### `draft-applications` (06:00 daily)
 
-1. Select gated-pass entries, `status = 'saved'`, `fit_score_v2 >=
+1. Select gated-pass entries, `status = 'saved'`, `fit_score_auto >=
    FIT_THRESHOLD` (constant, 70), ordered by score. Cap at `DAILY_DRAFT_CAP`
    (constant, 3) — the bottleneck is Jon's review, not generation.
 
@@ -204,8 +204,8 @@ this system can have.
 
 ### `/job-search/approvals`
 
-One card per `drafted` row: company, role, `fit_score_v2` with its five
-justifications, the letter rendered inline, the screening answers, links to both
+One card per `drafted` row: company, role, `fit_score_auto`, the two-sentence
+`fit_note`, any `ethics_flag` badges, the letter rendered inline, the screening answers, links to both
 PDFs. Actions: **Approve**, **Edit** (opens the markdown, re-renders on save),
 **Skip** (requires a reason — the reasons are training data for the
 retrospective).
@@ -224,44 +224,138 @@ because both need context a link cannot carry.
 
 ### The local agent
 
-A Claude Code scheduled agent, 08:00 weekdays, via the `schedule` skill. Per run:
+The automation's weakest link, and therefore the most specified. A Claude Code
+scheduled agent, 08:00 weekdays, created via the `schedule` skill.
 
-1. `GET /api/job-search/drafts?state=approved`
-2. For each: open the job URL in Chrome, fill the form using the
-   `applying-to-jobs` skill and the stored materials.
-3. **Stop at submit.** Leave the tab open. `PATCH` state to
-   `filled_awaiting_submit`.
-4. Post a summary — filled, failed, and why.
+**Auth.** It calls the same API the crons do, using the existing `checkAuth`
+bearer token from `src/lib/email-templates.ts`, read from the local
+environment. No new auth path.
 
-Failure is expected and must be graceful: an ATS that needs a login, a form
-field the skill cannot classify, a CAPTCHA. On failure the row stays `approved`
-with `skip_reason` recording the blocker, and it appears in the next day's email
-as a manual action item. The agent never guesses at a required field.
+**Per run:**
 
-The same run is available as `/apply-batch` for a manual pass when the Mac was
-asleep.
+1. `GET /api/job-search/drafts?state=approved` — ordered oldest first, capped at
+   5 per run. A backlog drains over days rather than opening twenty tabs.
+2. Re-check liveness on each job URL. A listing that closed between drafting and
+   filling is marked and skipped — filling a dead form wastes the tab and the
+   claim.
+3. Open the URL in Chrome. Fill using the `applying-to-jobs` skill and the
+   stored materials, uploading the PDF from the signed-URL endpoint.
+4. **Stop at submit.** Never click it. Leave the tab open.
+5. `PATCH` state to `filled_awaiting_submit` with `filled_at`.
+6. Write a run record and post a summary: filled, blocked, and why.
+
+**Failure taxonomy.** Failure is the expected case often enough that vague
+handling would sink this. Each blocked draft records a typed `block_reason`, and
+the row stays `approved` so the next run retries it:
+
+| `block_reason` | Meaning | Next step |
+|---|---|---|
+| `login_required` | ATS wants an account | Jon logs in once; retries next run |
+| `captcha` | Human challenge | Manual action item |
+| `unknown_field` | A required field the skill can't classify | Manual; the field label is logged so the skill can learn it |
+| `upload_failed` | File input rejected the PDF | Manual |
+| `page_changed` | Form didn't match the expected ATS shape | Manual; likely an `ats.ts` update |
+| `listing_dead` | 404 or closed | Auto-marks the entry, releases the claim |
+
+**The agent never guesses at a required field.** A wrong answer submitted under
+Jon's name is worse than an unfilled form, and unlike an unfilled form it can't
+be undone. Uncertainty always resolves to `unknown_field` and a human.
+
+**Retry ceiling.** Three failed attempts on the same draft stops the retries and
+escalates it to a manual item. Otherwise a permanently broken form is retried
+every morning forever.
+
+**Idempotency.** A draft already `filled_awaiting_submit` is never re-opened,
+so a re-run after a crash is safe.
+
+**Manual fallback.** The identical run is available as `/apply-batch` for when
+the Mac was asleep, which it will often be. The schedule is a convenience; the
+command is the guarantee.
+
+## Part 4 — Knowing whether it ran
+
+Ten crons and a local agent, and today nothing records whether any of them
+executed. A silent failure looks exactly like a quiet week — which is the worst
+possible failure mode for a system whose whole promise is running unattended.
+
+```sql
+job_cron_runs (
+  id         uuid primary key default gen_random_uuid(),
+  job_name   text not null,
+  started_at timestamptz not null default now(),
+  finished_at timestamptz,
+  status     text not null default 'running',   -- running | ok | error
+  counts     jsonb,        -- {scanned: 120, drafted: 3, blocked: 1}
+  error      text
+);
+create index job_cron_runs_recent on job_cron_runs (job_name, started_at desc);
+```
+
+Every cron and the local agent open a row on entry and close it on exit,
+including on error. Cheap, and it turns "is this working?" into a query.
+
+**Stall detection.** The 09:00 email leads with a health line, and only when
+something is wrong:
+
+- any cron with no `ok` run in 36 hours
+- the local agent with no run in 48 hours
+- any cron whose last run was `error`
+
+When everything is healthy the health block is absent entirely. A green
+checkmark every morning trains you to stop reading the email; silence-on-healthy
+keeps the signal meaningful.
+
+**Idempotency across the board.** Every cron must be safe to re-run — Vercel
+retries, and manual re-runs happen during debugging:
+
+| Cron | Guard |
+|---|---|
+| `ingest-jobs` | dedupes on `job_url` (exists) |
+| `draft-applications` | unique index on `job_application_drafts.pipeline_entry_id` |
+| `draft-outreach` | unique index on `(thread_id, touch_number)` (Spec 2) |
+| `send-daily-email` | one send per `(job_name, date)`; a second run that day no-ops |
+
+The email guard matters most. Everything else double-running wastes compute;
+the email double-running lands twice in Jon's inbox and teaches him to ignore
+it.
 
 ## Migration
 
-`20260806000001_job_apply_pipeline.sql` — creates `job_application_drafts` and
-`job_gate_overrides`; adds `gate_result`, `fit_score_v2`, `fit_breakdown_v2` to
-`job_pipeline_entries`; indexes on `state` and `pipeline_entry_id`.
+`20260806000001_job_apply_pipeline.sql` — creates `job_application_drafts`,
+`job_gate_overrides`, and `job_cron_runs`; adds `gate_result` to
+`job_pipeline_entries`; unique index on `job_application_drafts
+(pipeline_entry_id)`; indexes on `state` and `(job_name, started_at desc)`.
+
+No scoring columns. `fit_score_auto` is untouched.
 
 ## Backfill
 
 The 34 saved roles scoring ≥80 and the 13 unsent applications are run through
-the gates and v2 scoring once, by hand, on first deploy. Expect the gates to
-reject some of them — that is the point, and the rejections should be read
-before they are trusted.
+the gates once, by hand, on first deploy. Expect a few rejections — that is the
+point, and they should be read before they are trusted.
+
+## Build order within this spec
+
+Each step is independently useful, so a stall doesn't strand the work:
+
+1. `job_cron_runs` + health line in the daily email. Instrument the seven
+   existing crons first — this is worth having even if nothing else ships, and
+   it makes every later step debuggable.
+2. Gates + override table + tests. Filtering improves immediately.
+3. `draft-applications` + the drafts table. Drafts accumulate, reviewable as raw
+   rows.
+4. `/job-search/approvals` + signed email links. Approval becomes one click.
+5. The local agent + `/apply-batch`. The last mile closes.
 
 ## Non-goals
 
 - Auto-submit. Not in this spec, not in any spec.
 - Comp scoring.
-- Replacing `fit_score_auto`.
+- A new fit score. Explicitly deferred to Spec 4.
 
 ## Success
 
 A weekday morning where Jon opens his laptop to three applications filled to the
-submit button, reads three cover letters, and sends the ones he likes. The
-"finished but unsent" count trends to zero.
+submit button, reads three cover letters, and sends the ones he likes — and a
+morning three weeks later where the email says the local agent hasn't run in
+two days, so he finds out from the system rather than from a quiet inbox.

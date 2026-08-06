@@ -24,10 +24,10 @@ Shipping is not. `src/lib/job-search/strategy.ts` measured the machine on
 Nothing leaves the building. A better search does not fix that; an execution
 engine does.
 
-Separately, `fit-score.ts` scores title, seniority, keywords, industry, stage,
-and red flags. It scores none of the criteria that actually decide whether Jon
-takes and keeps a job: work location, mission and ethics, leadership and
-mentoring, sustainable hours, or the odds he stays two years.
+Two smaller problems compound it. Nothing filters on work location or on the
+industries Jon won't work in, so roles he'd never accept still consume review
+attention. And nothing records whether any of the seven crons ran — a broken
+pipeline and a slow week are indistinguishable from the outside.
 
 ## Goal
 
@@ -48,7 +48,7 @@ SERVER CLOCK — Vercel cron
  05:30  recheck-listings*     kill dead links
  06:00  draft-applications    NEW · LLM writes resume + letter + answers
  06:30  draft-outreach        NEW · cadence engine emits due messages
- 07:00  score-new-jobs*       now LLM-scores the five soft dimensions
+ 07:00  score-new-jobs*       unchanged
  07:00  rollup-metrics*
  09:00  send-daily-email*     + approval queue + action items
  Mon 06 generate-weekly-plan* + coffee dates + events
@@ -75,19 +75,32 @@ the submit button. This supersedes the stored preference "prep, do not submit"
 only in *degree* — materials are now finished and forms pre-filled — not in
 kind. No text goes out under Jon's name unread.
 
-**Soft scores are LLM-scored; hard gates are deterministic.** "Strong mission"
-and "reasonable hours" need reading comprehension, and a `CRUNCH_TERMS` array
-is a bad proxy for either. Since the drafting cron already calls the Anthropic
-API, scoring five dimensions against a written rubric is nearly free and much
-more accurate. Hard gates stay rule-based: they must be cheap, unit-testable,
-and incapable of hallucinating a rejection.
+**Automation first; scoring is deferred.** Ranking is a dial that can be turned
+any week without touching the machine around it. Automation either runs
+unattended or it doesn't, and a beautifully-ranked list that nobody acts on is
+the failure this system already has. So `fit_score_auto` stays as-is and keeps
+ordering the list; the hard gates do the filtering, because that's where the
+real decisions live and they're deterministic and testable.
 
-**`tenure_proxy` is named honestly.** "A job I keep for two years" cannot be
-scored from a JD. Funding runway and layoff history are in no feed this system
-has. What is observable — whether the team is net-new and speculative or
-established, whether the role is a backfill, how specifically the JD describes
-success at twelve months — gets scored under a name that never reads as more
-certain than it is.
+Roles carry a two-sentence `fit_note` — why it fits, and the biggest gap —
+written by the drafting call that already reads the JD. Prose a human reads,
+rather than a number that needs calibrating.
+
+The dimensions Jon named — leadership, mission, sustainable hours, two-year
+tenure — are not dropped. They're deferred to a scoring pass built once there's
+decision data to calibrate against: his approve/skip choices, and which
+applications converted. Spec 4 proposes that change like any other parameter.
+`tenure_proxy` in particular still cannot be honestly derived from a JD, and
+building it early would only make a guess look like a metric.
+
+**Hard gates stay rule-based.** They must be cheap, unit-testable, and
+incapable of hallucinating a rejection.
+
+**The system reports its own health.** Ten crons and a local agent, and nothing
+currently records whether any of them ran. A silent failure is indistinguishable
+from a quiet week — fatal for something whose whole promise is running
+unattended. `job_cron_runs` logs every execution; the daily email leads with a
+health line when, and only when, something is stalled or erroring.
 
 **Nothing changes its own parameters silently.** The retrospective proposes;
 Jon approves. Approved changes land in a config table the crons read, so tuning
@@ -135,7 +148,7 @@ starts.
 
 | # | Spec | Why this order |
 |---|---|---|
-| 1 | Fit gates + apply pipeline | Unblocks the 13 unsent. Gates prevent wasted prep downstream. |
+| 1 | Apply pipeline + gates + health | Unblocks the 13 unsent. Gates prevent wasted prep downstream. |
 | 2 | Outreach engine | Unblocks the 26 untouched. Referrals convert far better than cold applications. |
 | 3 | In-person layer | Needs warmth tiers from #2 to rank anything. |
 | 4 | Retrospective v2 | Needs #1–3 producing data before it has anything real to diagnose. |
@@ -150,10 +163,12 @@ starts.
 | `job_networking_events` | Discovered events with relevance and suggested contacts |
 | `job_strategy_proposals` | Proposed parameter changes awaiting approval |
 | `job_search_config` | Live tunable parameters the crons read |
+| `job_cron_runs` | Execution log for every cron and the local agent |
 
 Altered: `job_connections` gains `warmth_tier`, `warmth_source`,
-`do_not_contact`, `dormant_until`. `job_pipeline_entries` gains `gate_result`,
-`fit_score_v2`, `fit_breakdown_v2`.
+`do_not_contact`, `dormant_until`. `job_pipeline_entries` gains `gate_result`.
+
+No new scoring columns. `fit_score_auto` is untouched.
 
 ## LLM usage
 
