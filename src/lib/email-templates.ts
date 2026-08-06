@@ -6,6 +6,7 @@ import {
   UNATTRIBUTED,
   type ChannelReport,
 } from "@/lib/job-search/channel-attribution";
+import type { HealthIssue } from "./job-search/run-log";
 
 const DASHBOARD_URL = "https://portfolio.jonnymartin.blog/dashboard/job-search";
 const HUB_URL = "https://portfolio.jonnymartin.blog/job-search";
@@ -477,4 +478,45 @@ export function signalsSection(signals: Signal[]): string {
       ${signals.map((s) => `<p style="color: #78350f; font-size: 13px; margin: 4px 0;">${s.message}</p>`).join("")}
     </div>
   `;
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/**
+ * Renders only when something is wrong.
+ *
+ * A green "all systems healthy" banner every morning is read twice and
+ * skipped forever after, which means the one morning it turns red it gets
+ * skipped too. Silence on healthy is what keeps this worth looking at.
+ */
+export function healthSection(issues: HealthIssue[]): string {
+  if (issues.length === 0) return "";
+
+  const rows = issues
+    .map(
+      (i) => `
+      <tr>
+        <td style="padding:6px 10px;font-family:monospace;font-size:13px;color:#7f1d1d;">
+          ${escapeHtml(i.jobName)}
+        </td>
+        <td style="padding:6px 10px;font-size:13px;color:#7f1d1d;">
+          ${escapeHtml(i.detail)}
+        </td>
+      </tr>`,
+    )
+    .join("");
+
+  return `
+    <div style="border:1px solid #fecaca;background:#fef2f2;border-radius:8px;padding:14px;margin:0 0 20px;">
+      <div style="font-weight:600;font-size:14px;color:#991b1b;margin-bottom:8px;">
+        ⚠ ${issues.length} job${issues.length === 1 ? "" : "s"} need attention
+      </div>
+      <table style="width:100%;border-collapse:collapse;">${rows}</table>
+    </div>`;
 }

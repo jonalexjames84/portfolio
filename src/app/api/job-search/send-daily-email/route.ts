@@ -8,6 +8,7 @@ import {
   weekViewSection,
   metricsSection,
   signalsSection,
+  healthSection,
   checkAuth,
   EMAIL_FROM,
   EMAIL_TO,
@@ -20,6 +21,8 @@ import {
 } from "@/lib/email-templates";
 import { computeSignals } from "@/lib/job-search/signals";
 import { localDateStr } from "@/lib/job-search/dates";
+import { findHealthIssues } from "@/lib/job-search/run-log";
+import { loadLastRuns, withRunLog } from "@/lib/job-search/run-log-db";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -43,6 +46,7 @@ async function run(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  return withRunLog("send-daily-email", async (counts) => {
   const today = localDateStr(new Date());
   const { weekStartStr, weekEndStr, weekdaysPassed } = getWeekBounds();
   const oneDayAgo = new Date();
@@ -253,8 +257,13 @@ async function run(request: NextRequest) {
     newTopTierJobs: newTopTier,
   });
 
+  // findHealthIssues is synchronous; only the load is awaited.
+  const healthIssues = findHealthIssues(await loadLastRuns(), new Date());
+  counts.healthIssues = healthIssues.length;
+
   // Compose body
   const body =
+    healthSection(healthIssues) +
     newJobsSection(newJobs, backlogJobs) +
     appliedSection(appliedRoles, FOLLOW_UP_AFTER_DAYS) +
     weekViewSection(days) +
@@ -300,5 +309,6 @@ async function run(request: NextRequest) {
     appliedRoles: appliedRoles.length,
     weekTaskCount: weekTasks?.length || 0,
     signals: signals.length,
+  });
   });
 }
