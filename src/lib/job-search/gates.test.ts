@@ -278,3 +278,75 @@ describe("detectFlags", () => {
     expect(detectFlags(i)).toContain("crypto");
   });
 });
+
+import { evaluateGates, type GateOverride } from "./gates";
+
+describe("evaluateGates", () => {
+  const remoteOk = { location: "Remote (US)" };
+
+  it("passes a role that clears both gates", () => {
+    const r = evaluateGates(input({ ...remoteOk, company: "Linear", industry: "SaaS" }), []);
+    expect(r.pass).toBe(true);
+  });
+
+  it("rejects on location before consulting ethics", () => {
+    const r = evaluateGates(input({ location: "Austin, TX", jd_text: "Hybrid 2 days a week" }), []);
+    expect(r.pass).toBe(false);
+    expect(r.gate).toBe("location");
+  });
+
+  it("rejects on ethics when location passes", () => {
+    const r = evaluateGates(input({ ...remoteOk, company: "Anduril", industry: "Defense contractor" }), []);
+    expect(r.pass).toBe(false);
+    expect(r.gate).toBe("ethics");
+  });
+
+  it("preserves disclosure flags on a passing result", () => {
+    const r = evaluateGates(input({ ...remoteOk, company: "Playtika", industry: "Social casino" }), []);
+    expect(r.pass).toBe(true);
+    expect(r.flags).toContain("gambling");
+  });
+
+  it("an allow override rescues a rejected role", () => {
+    const overrides: GateOverride[] = [
+      { company_key: "anduril", decision: "allow", gate: "ethics", reason: "manual review" },
+    ];
+    const r = evaluateGates(
+      input({ ...remoteOk, company: "Anduril", industry: "Defense contractor" }),
+      overrides,
+    );
+    expect(r.pass).toBe(true);
+    expect(r.reason).toContain("override");
+  });
+
+  it("a deny override rejects a role that would otherwise pass", () => {
+    const overrides: GateOverride[] = [
+      { company_key: "linear", decision: "deny", gate: null, reason: "already applied twice" },
+    ];
+    const r = evaluateGates(input({ ...remoteOk, company: "Linear", industry: "SaaS" }), overrides);
+    expect(r.pass).toBe(false);
+    expect(r.reason).toContain("already applied twice");
+  });
+
+  it("matches overrides on the normalized company key, not raw text", () => {
+    const overrides: GateOverride[] = [
+      { company_key: "anduril", decision: "allow", gate: "ethics", reason: "manual review" },
+    ];
+    const r = evaluateGates(
+      input({ ...remoteOk, company: "Anduril, Inc.", industry: "Defense contractor" }),
+      overrides,
+    );
+    expect(r.pass).toBe(true);
+  });
+
+  it("still reports flags on an overridden role", () => {
+    const overrides: GateOverride[] = [
+      { company_key: "playtika", decision: "deny", gate: null, reason: "not interested" },
+    ];
+    const r = evaluateGates(
+      input({ ...remoteOk, company: "Playtika", industry: "Social casino" }),
+      overrides,
+    );
+    expect(r.flags).toContain("gambling");
+  });
+});

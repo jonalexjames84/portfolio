@@ -304,3 +304,41 @@ export function ethicsGate(input: GateInput): GateResult {
 
   return { pass: true, gate: null, reason: null, flags };
 }
+
+import { normalizeCompany } from "./application-guard";
+
+export interface GateOverride {
+  company_key: string;
+  decision: "allow" | "deny";
+  gate: "location" | "ethics" | null;
+  reason: string;
+}
+
+/**
+ * Location runs first. It is cheaper, it is the more common rejection, and a
+ * role Jon cannot physically take is not worth an ethics opinion.
+ *
+ * Flags are computed regardless of outcome, so a rejected role still shows why
+ * it was interesting — which is what makes the reject list readable when
+ * tuning the gates later.
+ */
+export function evaluateGates(input: GateInput, overrides: GateOverride[]): GateResult {
+  const key = normalizeCompany(input.company);
+  const override = overrides.find((o) => o.company_key === key);
+  const flags = detectFlags(input);
+
+  if (override) {
+    return override.decision === "allow"
+      ? { pass: true, gate: null, reason: `override: ${override.reason}`, flags }
+      : { pass: false, gate: override.gate, reason: `override: ${override.reason}`, flags };
+  }
+
+  const location = locationGate(input);
+  if (!location.pass) return { ...location, flags };
+
+  const ethics = ethicsGate(input);
+  if (!ethics.pass) return ethics;
+
+  // Carry the location reason forward — 'cadence_assumed' must survive.
+  return { pass: true, gate: null, reason: location.reason, flags };
+}
