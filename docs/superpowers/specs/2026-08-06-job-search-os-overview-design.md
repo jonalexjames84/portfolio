@@ -98,13 +98,29 @@ is data rather than a deploy.
 | Gate | Rule |
 |---|---|
 | `location_gate` | Pass if fully remote (US), or Bay Area with onsite ≤ 3 days/week. Reject anything else. |
-| `ethics_gate` | Reject gambling & real-money gaming, defense & weapons, crypto & speculative web3, surveillance & data brokerage. |
+| `ethics_gate` | Reject weapons & defense contracting, military/immigration surveillance, data brokerage & covert consumer surveillance, and predatory lending. Nothing else. |
 
-The ethics gate matches on the **company's business model**, not on Jon's
-history. His time at Treasure DAO, Mythical, Zynga and Jam City still counts as
-experience everywhere else in the system. Stated plainly because the gate does
-cut a real slice of the mobile F2P market — most social-casino studios, and
-most token-led web3 companies — and that tradeoff was chosen deliberately.
+**The ethics floor is deliberately narrow, and indexed on Jon's experience.**
+
+An earlier draft of this spec also hard-rejected gambling, social casino, and
+crypto/web3. That was wrong, for a practical reason that outranks the
+principle: those categories *are* Jon's record. Zynga, Jam City, Treasure DAO,
+Mythical — F2P monetization, live ops, and token economies are where his
+fifteen years actually sit, and they are the roles most likely to return a
+reply. A gate that rejects a candidate's strongest domain buys a cleaner list
+and an empty inbox. Response rate is the binding constraint right now.
+
+So the floor holds only where two things are true at once: **no experience
+overlap, and a line Jon would not cross for any offer.** Weapons, ICE tooling,
+data brokers, and predatory lenders clear that bar. Social casino does not —
+not because it's beyond reproach, but because Jon has shipped it, and a system
+that pretends otherwise is lying about his resume.
+
+Everything demoted from the gate becomes an **`ethics_flag`** — a disclosure
+rendered on the role card, carrying no score penalty. The system says what the
+company does; Jon decides at review time, with the full JD in front of him.
+That is a better place for the judgment than a term list, and it costs nothing
+in responses.
 
 Both gates carry a manual override table, so a false positive is a one-row fix
 rather than a code change.

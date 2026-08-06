@@ -50,19 +50,42 @@ remote or hybrid language at all, treat it as 5 and reject.
 
 ### `ethics_gate`
 
-Four categories, each a term list matched against company name, industry, and
-JD text:
+The floor is narrow by design. It rejects only where Jon has **no experience
+overlap** and there is a line he would not cross for any offer. Everything else
+is disclosed, not blocked — see `ethics_flag` below.
 
 | Category | Signals |
 |---|---|
-| `gambling` | casino, sportsbook, betting, slots, real-money gaming, social casino, loot box economy |
-| `defense` | defense contractor, weapons, munitions, ISR, border enforcement, military surveillance |
-| `crypto_speculative` | token launch, NFT marketplace, DeFi yield, memecoin, play-to-earn, tokenomics-led |
-| `surveillance` | data broker, people search, covert tracking, predatory lending, location-data resale |
+| `defense` | defense contractor, weapons, munitions, ISR, military surveillance, border/immigration enforcement tooling |
+| `surveillance` | data broker, people search, covert location tracking, location-data resale |
+| `predatory_finance` | payday lending, predatory lending, debt-trap products |
 
 A match on **company or industry** rejects. A match on **JD text alone** flags
-for review rather than rejecting — a fintech JD mentioning "we do not do
-predatory lending" must not trip the gate.
+for review rather than rejecting — a fintech JD saying "we do not do predatory
+lending" must not trip the gate.
+
+### `ethics_flag` — disclosure, not rejection
+
+Three categories that were previously gates are now informational. They are
+detected the same way, stored on `gate_result.flags`, rendered as a labeled
+badge on the role card, and **carry no score penalty**:
+
+| Flag | Signals |
+|---|---|
+| `gambling` | casino, sportsbook, betting, slots, real-money gaming, social casino |
+| `crypto` | token launch, NFT marketplace, DeFi, play-to-earn, tokenomics |
+| `aggressive_monetization` | loot box economy, gacha, whale-focused LTV language |
+
+These are Jon's résumé. Zynga and Jam City are social casino and F2P
+monetization; Treasure DAO and Mythical are token economies. Scoring them down
+would penalize the exact record that makes him a strong candidate at those
+companies — and they are among the roles most likely to reply. The flag exists
+so he knows what he is applying to before he reads the letter, not so the
+system can decide for him.
+
+**`aggressive_monetization` is the one to watch.** It fires on language Jon has
+personally shipped, so expect it on roles that are a genuinely good fit. If it
+proves noisy, delete the category — it is the least load-bearing of the three.
 
 ### Overrides
 
@@ -82,8 +105,13 @@ Checked before both gates. A false positive is one row, not a deploy.
 
 `gates.test.ts` covers, at minimum: fully-remote passes; Bay Area 3-day passes;
 Bay Area 4-day rejects; Austin hybrid rejects; hybrid-no-cadence in SF passes
-with `cadence_assumed`; a social-casino studio rejects on industry; a fintech JD
+with `cadence_assumed`; a defense contractor rejects on industry; a fintech JD
 disclaiming predatory lending passes; an override row flips each direction.
+
+Explicitly asserted, because these are the regressions that would quietly shrink
+the funnel: **a social-casino studio passes** with `flags: ['gambling']`; **a
+web3 gaming company passes** with `flags: ['crypto']`; and a flagged role's
+`fit_score_v2` is identical to the same role without the flag.
 
 ## Part 2 — Soft scoring v2
 
@@ -94,7 +122,7 @@ output, five dimensions, 0–20 each:
 |---|---|
 | `role_fit` | Does Jon's record — 15 years, F2P/live-service, AI-native building, founding PM at an edtech infra company — map onto what this role does daily? |
 | `leadership_signal` | Does the role involve mentoring, growing a team, direct reports, or setting practice for others? |
-| `mission_signal` | Is there a stated mission beyond growth, and is the business model non-extractive? |
+| `mission_signal` | Is there a stated mission beyond growth, and does the company articulate who it's for and why that matters? Scores what the company *says it is building toward* — it must **not** re-penalize an `ethics_flag` category, or a flagged role gets hit twice for something already disclosed. |
 | `hours_signal` | Does the JD signal sustainable pace, or does it stack crunch markers? Absence of signal scores neutral (10), not high. |
 | `tenure_proxy` | Is this an established team or a net-new speculative one? Is it a backfill? Does the JD describe success at twelve months specifically? |
 
