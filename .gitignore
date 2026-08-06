@@ -52,3 +52,7 @@ documents/
 
 # Supabase CLI local temp
 supabase/.temp/
+
+# Marks the last successful materials sync so the hook can skip the work when
+# nothing under documents/ has changed. Local timing state, not shared config.
+.claude/.materials-sync-stamp
