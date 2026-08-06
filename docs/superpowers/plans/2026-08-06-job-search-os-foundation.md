@@ -1148,7 +1148,7 @@ export function locationGate(input: GateInput): GateResult {
 - [ ] **Step 4: Run the test to verify it passes**
 
 Run: `npm test -- gates`
-Expected: PASS, 16 tests.
+Expected: PASS, 15 tests (6 `onsiteDays`, 9 `locationGate`).
 
 - [ ] **Step 5: Commit**
 
@@ -1355,7 +1355,7 @@ export function ethicsGate(input: GateInput): GateResult {
 - [ ] **Step 4: Run the test to verify it passes**
 
 Run: `npm test -- gates`
-Expected: PASS, 27 tests.
+Expected: PASS, 26 tests.
 
 - [ ] **Step 5: Commit**
 
@@ -1549,7 +1549,7 @@ export async function loadGateOverrides(): Promise<GateOverride[]> {
 - [ ] **Step 5: Run the test to verify it passes**
 
 Run: `npm test -- gates`
-Expected: PASS, 35 tests.
+Expected: PASS, 34 tests.
 
 If `normalizeCompany` is not exported from `application-guard.ts`, export it rather than duplicating the normalization. One copy, one place to fix — the same rule the dedupe migration follows.
 
@@ -1916,7 +1916,7 @@ git commit -m "feat: backfill gate verdicts and keep rejected roles out of the f
 
 After all eight tasks:
 
-- [ ] `npm test` — all tests pass, including 35 in `gates.test.ts` and 15 in `run-log.test.ts`
+- [ ] `npm test` — all tests pass, including 34 in `gates.test.ts` and 17 in `run-log.test.ts`
 - [ ] `npx tsc --noEmit` — clean
 - [ ] `npm run lint` — clean
 - [ ] `npm run gates:check` — rejection list contains no gaming, social-casino, or web3 company
