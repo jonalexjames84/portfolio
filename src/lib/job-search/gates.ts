@@ -167,3 +167,100 @@ export function locationGate(input: GateInput): GateResult {
   if (days <= MAX_ONSITE_DAYS) return pass(null);
   return reject(`Bay Area role requires ${days} days onsite (max is ${MAX_ONSITE_DAYS}).`);
 }
+
+/**
+ * The rejection floor. Deliberately narrow.
+ *
+ * An earlier draft also rejected gambling, social casino, and crypto. Those
+ * are Jon's actual record — Zynga, Jam City, Treasure DAO, Mythical — and
+ * gating them out removes the roles where fifteen years of experience make him
+ * strongest, and where a reply is most likely. A cleaner list and an empty
+ * inbox is not a trade worth making.
+ *
+ * What is left holds only where both are true: no experience overlap, and a
+ * line he would not cross for any offer.
+ */
+const ETHICS_REJECT: Record<string, string[]> = {
+  defense: [
+    "defense contractor",
+    "defense technology",
+    "weapons",
+    "munitions",
+    "military surveillance",
+    "border enforcement",
+    "immigration enforcement",
+  ],
+  surveillance: [
+    "data broker",
+    "people search",
+    "location data resale",
+    "covert tracking",
+    "mass surveillance",
+  ],
+  predatory_finance: ["payday lend", "payday loan", "predatory lend", "debt trap"],
+};
+
+/**
+ * Disclosure, not rejection. These render as a badge on the role card and
+ * carry no score penalty — Jon decides with the full JD in front of him.
+ */
+const ETHICS_FLAG_TERMS: Record<EthicsFlag, string[]> = {
+  gambling: [
+    "casino",
+    "sportsbook",
+    "sports betting",
+    "real-money gaming",
+    "real money gaming",
+    "slots",
+  ],
+  crypto: [
+    "token launch",
+    "tokenomics",
+    "nft marketplace",
+    "defi",
+    "play-to-earn",
+    "play to earn",
+    "web3 gaming",
+  ],
+  aggressive_monetization: ["loot box", "lootbox", "gacha", "whale spend", "whale monetization"],
+};
+
+function identityText(input: GateInput): string {
+  // Company and industry only — the reject decision never reads the JD.
+  return `${input.company} ${input.industry ?? ""}`.toLowerCase();
+}
+
+export function detectFlags(input: GateInput): EthicsFlag[] {
+  const text = `${identityText(input)} ${(input.jd_text ?? "").toLowerCase()}`;
+  const found: EthicsFlag[] = [];
+  for (const [flag, terms] of Object.entries(ETHICS_FLAG_TERMS) as Array<[EthicsFlag, string[]]>) {
+    if (terms.some((t) => text.includes(t))) found.push(flag);
+  }
+  return found;
+}
+
+/**
+ * Matches on company and industry only.
+ *
+ * A fintech JD that says "we do not do predatory lending" must not trip the
+ * gate — and a JD is full of sentences about what a company is not. Identity
+ * is the reliable signal; prose is not.
+ */
+export function ethicsGate(input: GateInput): GateResult {
+  const text = identityText(input);
+  const flags = detectFlags(input);
+
+  for (const [category, terms] of Object.entries(ETHICS_REJECT)) {
+    const hit = terms.find((t) => text.includes(t));
+    if (hit) {
+      return {
+        pass: false,
+        gate: "ethics",
+        reason: `${category}: matched "${hit}"`,
+        flags,
+      };
+    }
+  }
+
+  return { pass: true, gate: null, reason: null, flags };
+}

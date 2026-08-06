@@ -183,3 +183,72 @@ describe("locationGate", () => {
     expect(r.reason).toBeNull();
   });
 });
+
+import { ethicsGate, detectFlags } from "./gates";
+
+describe("ethicsGate", () => {
+  it("passes an ordinary SaaS company", () => {
+    const r = ethicsGate(input({ company: "Linear", industry: "SaaS" }));
+    expect(r.pass).toBe(true);
+  });
+
+  it("rejects a defense contractor named in the industry", () => {
+    const r = ethicsGate(input({ company: "Anduril", industry: "Defense contractor" }));
+    expect(r.pass).toBe(false);
+    expect(r.gate).toBe("ethics");
+    expect(r.reason).toContain("defense");
+  });
+
+  it("rejects a data broker named in the company", () => {
+    const r = ethicsGate(input({ company: "Acme Data Broker LLC", industry: "Analytics" }));
+    expect(r.pass).toBe(false);
+    expect(r.reason).toContain("surveillance");
+  });
+
+  it("rejects a payday lender", () => {
+    const r = ethicsGate(input({ company: "FastCash", industry: "Payday lending" }));
+    expect(r.pass).toBe(false);
+    expect(r.reason).toContain("predatory_finance");
+  });
+
+  it("does not reject on JD text alone", () => {
+    const r = ethicsGate(
+      input({ company: "Honest Bank", industry: "Fintech", jd_text: "We do not do predatory lending." }),
+    );
+    expect(r.pass).toBe(true);
+  });
+});
+
+describe("detectFlags", () => {
+  it("flags social casino without rejecting", () => {
+    const i = input({ company: "Playtika", industry: "Social casino games" });
+    expect(detectFlags(i)).toContain("gambling");
+    expect(ethicsGate(i).pass).toBe(true);
+  });
+
+  it("flags web3 gaming without rejecting", () => {
+    const i = input({ company: "Treasure", industry: "Web3 gaming", jd_text: "Own our tokenomics." });
+    expect(detectFlags(i)).toContain("crypto");
+    expect(ethicsGate(i).pass).toBe(true);
+  });
+
+  it("flags gacha monetization without rejecting", () => {
+    const i = input({ company: "Some Studio", industry: "Mobile games", jd_text: "Own the gacha economy." });
+    expect(detectFlags(i)).toContain("aggressive_monetization");
+    expect(ethicsGate(i).pass).toBe(true);
+  });
+
+  it("returns no flags for an ordinary company", () => {
+    expect(detectFlags(input({ company: "Linear", industry: "SaaS" }))).toEqual([]);
+  });
+
+  it("carries flags through on a passing ethics result", () => {
+    const r = ethicsGate(input({ company: "Playtika", industry: "Social casino" }));
+    expect(r.pass).toBe(true);
+    expect(r.flags).toContain("gambling");
+  });
+
+  it("does not flag the word 'whale' outside a monetization context", () => {
+    expect(detectFlags(input({ company: "Whale Shark Labs", industry: "SaaS" }))).toEqual([]);
+  });
+});
