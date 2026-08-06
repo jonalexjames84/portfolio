@@ -102,7 +102,8 @@ async function run(request: NextRequest) {
     .from("job_pipeline_entries")
     .select("id, company, role, fit_score, fit_score_auto")
     .eq("status", "saved")
-    .gte("created_at", sevenDaysAgo);
+    .gte("created_at", sevenDaysAgo)
+    .or("gate_result.is.null,gate_result->>pass.eq.true");
 
   const newScoredJobs = (newJobsData || [])
     .map((j) => ({

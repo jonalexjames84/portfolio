@@ -40,6 +40,7 @@ async function loadData() {
       .select(
         "id, company, role, status, job_url, fit_score, fit_score_auto, created_at, posted_at, last_update, applied_date, channel"
       )
+      .or("gate_result.is.null,gate_result->>pass.eq.true")
       .order("last_update", { ascending: false }),
     supabase
       .from("job_weekly_metrics")

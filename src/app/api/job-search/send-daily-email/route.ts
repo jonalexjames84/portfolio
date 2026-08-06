@@ -84,6 +84,7 @@ async function run(request: NextRequest) {
       .from("job_pipeline_entries")
       .select("id, company, role, fit_score, fit_score_auto, score_breakdown, job_url")
       .eq("status", "saved")
+      .or("gate_result.is.null,gate_result->>pass.eq.true")
       .order("fit_score_auto", { ascending: false })
       .limit(8);
 
