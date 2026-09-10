@@ -274,6 +274,365 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "wwe-champions-growth",
+    title: "WWE Champions: The First Dollar",
+    subtitle: "A Growth Diagnosis From 2,945 Player Reviews and 42 Screens of Firsthand Play",
+    screenshot: "/screenshots/wwe-champions-case.jpg",
+    screenshots: [
+      "/screenshots/wwe-champions-case.jpg",
+      "/screenshots/wwe-champions-prototype.jpg",
+    ],
+    liveUrl: "https://wwe-champions-growth.vercel.app",
+    description:
+      "An independent growth analysis of WWE Champions, built from a firsthand new-player playthrough and a quantitative read of 2,945 public player reviews. It ships as three linked artifacts: a structured case, a nine-act evidence page where every claim traces to a source, and an interactive wireframe prototype of the three proposed moves with a before/after toggle. Written as preparation for a Senior Growth PM interview, finished as a public case.",
+    pitch:
+      "ARPDAU has two factors — payers divided by DAU, times ARPPU. On this title ARPPU is at its ceiling and defended, while payer rate has never been worked on. So the opportunity is first-purchase conversion, not extraction and not retention. The evidence sits in two numbers: across 2,945 reviews the word 'fun' appears at essentially the same rate in one-star reviews as in five-star ones, while 'money' is the most-used word in the whole corpus and skews hard negative. The loop is loved and the transaction is hated. And the transaction has almost no bottom rung — the first thing the game asks a new player to buy is a rescue from a defeat.",
+    problem:
+      "Public evidence on a live mobile game is almost entirely qualitative, and the temptation is to treat loud player complaints as a diagnosis. That produces confident recommendations built on a vocal minority. The harder problem is building an argument that survives contact with internal telemetry you don't have — which means naming, up front, exactly which numbers you are missing and which query would settle each one.",
+    tags: ["Growth", "Games", "Data Analysis", "Case Study"],
+    stack: [
+      "Python",
+      "JavaScript",
+      "iTunes & Google Play APIs",
+      "Vercel",
+    ],
+    featured: true,
+    callout: "2,945 reviews · 42 screens of firsthand play · Case, evidence page, and wireframes",
+    category: "software",
+    metrics: [
+      { value: "2,945", label: "Player Reviews Analyzed" },
+      { value: "+$367k", label: "Modeled Annual Lift" },
+      { value: "42", label: "Screens of Firsthand Play" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Shipped three linked artifacts: a case structured situation → cohort → blockers → priority → programme → tradeoffs → recommendation, a nine-act evidence page, and an interactive wireframe prototype of the three moves with a before/after toggle",
+      "Analyzed 2,945 de-duplicated reviews — 474 from the iTunes customer-review feed, 2,471 from Google Play — sampled across newest, highest, lowest, and most-helpful orderings, then ran word frequency, keyword-family reach, and per-rating divergence",
+      "Found the argument in two numbers: 'fun' appears at nearly the same rate in 1–2★ reviews as in 4–5★ reviews, a skew of −1.1 points, while 'money' is the corpus's most-used word and skews +26.7. People who don't care about spending don't talk about money",
+      "Documented the store shelf from firsthand play: at League 2 it leads with a $99.99 pack and its cheapest item is a $14.99 starter pack on a countdown — three to five times the genre's conventional entry price, with nothing beneath it",
+      "Built a transparent ROI model in Python with every input editable in the page. Base case moves ever-pay conversion from 2.00% to 2.80% for +$367k a year and +2.2% ARPDAU, against a retention-led portfolio that scores a bigger revenue number and moves the target metric the wrong way",
+    ],
+    decisions: [
+      "Tagged every claim as verified fact, player-reported signal, or a named data gap requiring internal telemetry. Player sentiment is treated as a hypothesis to validate against funnel and cohort data, never as a measurement",
+      "Priced added payers at the marginal converter's 180-day value rather than the incumbent's, because adding a cheap rung raises conversion and lowers average first-purchase value at the same time. Modeling them at the incumbent's value would have flattered the result",
+      "Excluded every third-party revenue estimate, because the sources behind them sit behind a login and can't be re-verified. The competitive table is built only on store-API fields that re-fetch in a single call",
+      "Shipped the prototype as deliberately low-fidelity wireframes, with the 'before' views as real screenshots shown whole and uncropped. Sequence and layout are the proposal; visual design is explicitly not",
+      "Published the model as a model, not a forecast — every input editable in the page and backed by a committed JSON file, so a reader can disagree with an assumption and immediately see what it costs",
+    ],
+    teamContext:
+      "Built solo as interview preparation for a Senior Growth PM role at Scopely, then finished and published as a standalone public case. Not affiliated with or endorsed by Scopely or WWE; screenshots and review text are reproduced for commentary and analysis.",
+    userResearch: [
+      "A new account was played to League 2 across a firsthand activation session, capturing 42 screenshots of the onboarding and first-purchase window. Every claim in the case cites a specific screen, and captions were re-verified against the images before publishing",
+      "Google Play's full rating histogram — 402,333 ratings at 4.36★ against 50M+ installs — is used as the honest denominator. Only 8.1% of raters write text, which is why the written corpus skews negative and is quoted only for what people say, never for how many feel it",
+      "Onboarding complaints are just 3% of the corpus, which is expected: players who churn on day one don't come back to write reviews. The cohort this case is about is doubly silent, because nobody writes a review about a purchase they didn't make",
+    ],
+    failures: [
+      "The first version recommended a retention-first portfolio. That portfolio grows revenue by growing DAU — the denominator — so it cannot raise ARPDAU. I rewrote the entire analysis around first-purchase conversion. Converting a non-payer buys you retention; retaining a non-payer does not buy you a payer",
+      "An early build claimed the League 2 shelf held only the $99.99 pack. Re-reading the source screenshot turned up a $14.99 starter pack beneath it. One move's modeled lift fell from +0.55 to +0.35 points and the programme's base case from $418k to $367k. The correction is published inside the case rather than quietly patched out",
+      "The inherited model's base DAU of 37,395 only reconciled with the revenue figure if it meant DAU attributable to new installs, not total DAU of roughly 121,000 including a 9.5-year legacy base. Ignorable while the target metric was retention; load-bearing the moment it became ARPDAU",
+      "Stated limitation, published in the case: the whole shelf argument rests on one store, on one account, at League 2, on one day. Storefronts are routinely geo- and cohort-tested. Confirming that observation is the second data pull, and the kill criterion is written into the proposal",
+    ],
+    strategy:
+      "The ordering principle for the whole portfolio is that converting a non-payer buys you retention, while retaining a non-payer does not buy you a payer. Everything else follows from that. The analysis is deliberately problem-first — nothing is prescribed until the cohort, the pain, the evidence, and the confidence level are established — and every number that would normally require internal telemetry is either sourced publicly or named as a gap with the query that would close it.",
+    strategyPoints: [
+      { label: "Two-Factor Framing", text: "ARPDAU = (payers ÷ DAU) × ARPPU. ARPPU is at ceiling and defended; payer rate has never been worked. That's the opportunity." },
+      { label: "Evidence Tiers", text: "Every claim tagged verified fact, player signal, or named data gap. Sentiment is a hypothesis to test, not a measurement." },
+      { label: "Marginal Value", text: "New payers priced at the marginal converter's 180-day value, because a cheaper rung raises conversion and lowers first-purchase value at once." },
+      { label: "Published Corrections", text: "Where the analysis was wrong, the correction and its cost to the model are printed in the case rather than edited away." },
+    ],
+  },
+  {
+    slug: "terra",
+    title: "Terra",
+    subtitle: "A Field Console for a Smallholding That Kept Failing Silently",
+    screenshot: "/screenshots/terra-today.jpg",
+    screenshots: [
+      "/screenshots/terra-today.jpg",
+      "/screenshots/terra-tend.jpg",
+    ],
+    description:
+      "A solution architecture and working prototype for managing a rehabilitating smallholding — 53 plants, two irrigation controllers, and a decade of accumulated guesses. Every failure on the property had the same shape: two kinds of truth drifting apart with nothing comparing them. Terra is built around reconciling them, and around rendering 'I don't know' as a first-class answer instead of a plausible default.",
+    pitch:
+      "There are three independent kinds of truth in a growing system. Intent is what a plant needs, and it changes rarely. Configuration is what you've physically set up, and it changes whenever you touch hardware. Reality is what's actually happening, and it changes continuously. Three pairs, three reconcilers — and most garden software stores only Configuration, which is why it can't detect anything. Terra compares all three, and the design rule underneath it is that every derived number must trace back to an independently-stated Intent value. A number with no anchor cannot be checked, and it will drift.",
+    problem:
+      "An emitter labelled 2 GPH was actually delivering 0.65. Sixteen trees were under-watered for an unknown length of time, and nothing in any tool anyone uses would have caught it, because the label and the reality were never compared. Meanwhile a chlorotic lemon had been treated repeatedly without anyone ever establishing whether the diagnosis was right — apply chelated iron, feel productive, and three seasons later the plant is still yellow.",
+    tags: ["Systems Design", "Solution Architecture", "Prototype"],
+    stack: [
+      "JavaScript",
+      "HTML/CSS",
+      "Claude Code",
+    ],
+    featured: true,
+    callout: "53 plants · 5-layer architecture · Working single-file prototype",
+    category: "software",
+    metrics: [
+      { value: "53", label: "Plants Tracked" },
+      { value: "3", label: "Kinds of Truth Reconciled" },
+      { value: "36", label: "Facts Flagged Unverified" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Wrote a full solution architecture that deliberately excludes schema, API routes, and UI markup — five layers (Record, Reconcile, Observe, Compress, Surface), each depending only on the layers beneath it, so the build order falls out of the structure rather than out of preference",
+      "Built a working single-file prototype: aerial site map with plant placement, a daily view that answers 'what fits in the time you have', a region-by-region tend view, a walk route, and a gaps view — all driven by the same ranked model",
+      "Made provenance cross-cutting rather than decorative. Every fact carries a confidence, a source, and a verification timestamp, and an assumed value propagates its uncertainty to every number derived from it — visible wherever that number appears, not just at the source field",
+      "Designed an attention ranking on cost of delay rather than severity: priority = severity × time sensitivity × irreversibility ÷ effort. The archetype it surfaces is a wire coil against a young trunk — a plant that looks fine today, five minutes of work, and death if ignored. No severity-sorted list finds it",
+      "Made the diagnosis module store the entire differential, not just the chosen cause, so when a treatment fails the operator returns to hypothesis two instead of restarting the reasoning",
+    ],
+    decisions: [
+      "Made the drift warning obstructive rather than informative. Above 30% deviation it is not dismissable — you can act or you can revert, but you cannot acknowledge and move on. The original failure was invisible for an unknown period, so making it visible isn't enough",
+      "Made the follow-up date a mandatory field on every treatment. You cannot log an intervention without committing to check whether it worked, and the system generates that task and asks a specific question. Without it the loop never closes",
+      "Treated map coordinates as an editable working guess rather than a survey, because they were hand-placed from a verbal description. Eight plant identifications are recorded as unknown rather than guessed at",
+      "Kept the delivery calculator as pure functions with no I/O, database, or framework, because it had already failed twice on arithmetic a five-line unit test would have caught",
+      "Drew hard boundaries: the system doesn't decide, doesn't identify plants from photos, doesn't control hardware, and doesn't gamify. Automated writes to an irrigation controller with a drift bug is a way to kill sixteen trees overnight",
+    ],
+    teamContext:
+      "Designed and built solo — problem statement, solution architecture, and prototype — for a property being rehabilitated by one person working roughly twenty minutes at a time, one-handed, often with no signal.",
+    userResearch: [
+      "The weekly capture flow is shaped by the actual constraint: one person, one hand, twenty minutes, no signal. The route is generated by physical position rather than plant ID so there's one circuit and no backtracking, and photos carry a ghost overlay of the previous image so framing matches",
+      "Health is assessed as component sliders with prompts rather than one vague number, and trend is surfaced more prominently than value — a plant at 60 and rising is fine; a plant at 78 that was 90 last month is the one to look at",
+      "Every scheduled task carries its rationale, because 'prune the apricot in late summer' is forgettable and 'prune the apricot in late summer because Eutypa enters through wet-weather wounds' is not. Two rules that are destructive rather than merely suboptimal get blocking treatment",
+    ],
+    failures: [
+      "The failure that started the project: an emitter labelled 2 GPH measured at 0.65, silently under-watering sixteen trees for an unknown period. Configuration and Reality had never been compared, so nothing could have caught it",
+      "The delivery calculator failed twice on arithmetic errors that a trivial unit test would have caught. That is the reason it is now specified as pure functions testable in complete isolation, with no framework anywhere near it",
+      "An earlier attempt stored what the setup was without storing what each plant needed. Requirements existed nowhere as independent data, which is precisely why every numerical failure was undetectable rather than merely undetected",
+    ],
+    strategy:
+      "The thesis is that a rehabilitated system produces more with less, and that the improvement comes from mulch and soil biology rather than irrigation cleverness — which is why the headline outcome metric is gallons of water per pound of food, not acreage or yield alone. The software exists because the signals that matter are slower than human attention: a canopy thinning over two seasons is invisible day to day. Terra's whole job is to compress those gradients into something perceptible, then rank them by what it costs to wait.",
+    strategyPoints: [
+      { label: "Three Truths", text: "Intent, Configuration, and Reality drift apart silently. Three pairs, three reconcilers — that's the entire architecture." },
+      { label: "Anchored Numbers", text: "Every derived figure traces to an independently-stated requirement. A number with no anchor cannot be checked, and it will drift." },
+      { label: "Uncertainty Propagates", text: "'I don't know' is a first-class state. A plausible default is worse than a blank, because a blank prompts investigation." },
+      { label: "Cost of Delay", text: "Attention ranked by severity × time sensitivity × irreversibility ÷ effort — which surfaces the five-minute job that prevents a dead tree." },
+    ],
+  },
+  {
+    slug: "tiger-sisters",
+    title: "Tiger Sisters Tools",
+    subtitle: "Podcast Episodes Rebuilt as Working Software",
+    screenshot: "/screenshots/tiger-sisters-home.jpg",
+    screenshots: ["/screenshots/tiger-sisters-home.jpg"],
+    liveUrl: "https://tiger-sisters-linkedin.vercel.app",
+    description:
+      "Interactive tools built from Tiger Sisters podcast episodes. Each one takes a single episode's framework and attaches input fields to it — the same rules and the same tests, run live against whatever you type. Four tools across two episodes: a LinkedIn About Me builder, an AI onboarding doc builder, a prompt upgrader, and an automation recipe with a readiness gate.",
+    pitch:
+      "Good advice is easy to nod at and harder to actually do. A podcast episode gives you a framework and then it's gone; the listener is left to apply it from memory, badly, three weeks later. So I rebuilt the frameworks as software. Every scoring rule in the code maps to a rule written up in the knowledge docs, and they change together — the tool and the source are one thing in two places. Nothing has a backend, nothing has analytics, and nothing leaves the browser.",
+    problem:
+      "Advice content converts poorly into behavior. The gap isn't comprehension, it's application: people understand 'be specific' and still write a generic profile, because in the moment they have no way to tell whether what they just typed is specific. A live meter that scores the actual draft closes that gap in a way a checklist never does.",
+    tags: ["Next.js", "Interactive Tools", "Brand Systems", "Content"],
+    stack: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind v4",
+      "Vercel",
+    ],
+    featured: true,
+    callout: "4 tools · 2 episodes · No backend, no analytics",
+    category: "software",
+    metrics: [
+      { value: "4", label: "Interactive Tools" },
+      { value: "0", label: "Backends or Trackers" },
+      { value: "100%", label: "Rules Traced to Source" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Built the About Me builder as a three-step flow on Share, Sell, and Search-optimize, with a live specificity meter scoring the draft from 'one of a million' to 'one in a million' on real heuristics — first person, a concrete number, filler-phrase detection, a call to action, a human detail, and length",
+      "Built the onboarding doc builder around the episode's central argument that using an AI tool resembles hiring: three steps for access, day-one context, and success criteria, with a live preview rendered as the markdown file that would sit in the folder the tool reads",
+      "Built the prompt upgrader around six named techniques, with a job picker that resets the toggles to the set that fits and flags any technique that fights the job — asking an unattended automation to interview you, for instance",
+      "Built the automation recipe as a readiness gate rather than a static checklist. It separates blockers from gaps and refuses to say 'ready to schedule' until irreversible-action, human-review, and proven-by-hand criteria are cleared",
+      "Matched the podcast's brand system precisely — the five-colour palette, the button radius with its three rising layers and its tilt on hover, the rotated label chip, the shared easing curve, and the sans-line-then-serif-line headline device",
+    ],
+    decisions: [
+      "Kept every scoring rule paired to a written knowledge doc, with a table in the README mapping each library to its source. The rules are not free-floating heuristics I invented; they're the episode's argument, made executable",
+      "Stored everything in localStorage with no backend and no analytics. These tools ask people to type a draft of how they describe themselves, and the honest version of that is one where nothing is sent anywhere",
+      "Made the prompt upgrader diagnose the rough ask itself before applying any technique, so a one-sentence prompt gets caught rather than dressed up",
+      "Named the licensed brand faces first in the font stack with close free fallbacks shipped, so the site resolves correctly the moment the licences are added and looks right in the meantime without shipping fonts it has no rights to",
+      "Wrote the add-an-episode path into the README as four steps — knowledge doc, episode entry, tool route, catalog entry — so the project grows by convention rather than by archaeology",
+    ],
+    teamContext:
+      "Built solo, from the podcast's published episodes, as an independent companion to the show.",
+    userResearch: [
+      "The specificity meter's heuristics come straight from the episode's own worked examples of weak and strong profiles, rather than from generic copywriting advice — which is what makes the score arguable and therefore useful",
+      "The About Me preview marks where LinkedIn truncates the section to 'see more', because the practical failure mode isn't a bad profile, it's a good profile whose point lands below the fold",
+    ],
+    failures: [
+      "The first pass at the builder section changed colour partway down, which broke the podcast's field-based visual system. Rebuilt it to hold one colour end to end",
+    ],
+    strategy:
+      "The bet is that a framework becomes useful at exactly the moment it can score your actual attempt. So each tool is the smallest possible wrapper around one episode's rules: input fields, a live meter that explains itself, a preview that shows the artifact in the form it will really take, and two output formats. Keeping the scoring rules and the knowledge docs in lockstep means the show and the software can't drift apart — and it makes adding the next episode a matter of writing the doc first.",
+    strategyPoints: [
+      { label: "Rules, Not Vibes", text: "Every check in the code maps to a written rule in the knowledge docs. Change one, change the other." },
+      { label: "Live Scoring", text: "Meters that grade the actual draft and say why, instead of checklists that grade nothing." },
+      { label: "Nothing Leaves", text: "localStorage only. No backend, no analytics, no account — appropriate for a tool people type honestly into." },
+      { label: "Brand Fidelity", text: "Palette, button mechanics, easing, and the sans-then-serif headline device lifted from the podcast's own site." },
+    ],
+  },
+  {
+    slug: "crew-challenges",
+    title: "Crew Challenges",
+    subtitle: "A Shared Habit Board With the Day-Lock Enforced in the Database",
+    liveUrl: "https://july-core-crew.vercel.app",
+    description:
+      "A gamified board where a group takes on challenges together. Anyone can add themselves and join whichever boards they like — no passwords, no accounts. The board auto-advances at midnight Pacific, past days stay open so you can log one late, and future days are locked mystery boxes. Daily check-ins, kudos and reactions, and a live leaderboard with totals and streaks that updates across everyone's devices at once.",
+    pitch:
+      "Group challenge apps fail on two things: signup friction kills the group before it starts, and the rules leak. If the day-lock is a UI conditional, someone opens dev tools or shifts their clock and the leaderboard stops meaning anything. So there are no passwords — you pick your name and it's saved on your device — and the current day is computed server-side per challenge in Pacific time, with row-level security allowing a check-in for any day from one up to today. Catch-up is deliberate and supported; jumping ahead is impossible at the database, not merely hidden in the interface.",
+    problem:
+      "Shared accountability works when the group can see each other, and dies when logging becomes a chore. Existing habit trackers are single-player with a social veneer bolted on, and every one of them wants an account before it will show you anything.",
+    tags: ["Supabase", "Realtime", "Social", "Next.js"],
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Supabase",
+      "Tailwind v4",
+      "Framer Motion",
+    ],
+    featured: false,
+    callout: "No accounts · Day-lock enforced in Postgres · Live leaderboard",
+    category: "software",
+    metrics: [
+      { value: "0", label: "Passwords Required" },
+      { value: "RLS", label: "Rules Enforced In-Database" },
+      { value: "Live", label: "Cross-Device Leaderboard" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Shipped open signup with no passwords — you pick your name, it saves on your device, and you can switch anytime",
+      "Built the day-lock as a Postgres function computing the current day per challenge in America/Los_Angeles, with row-level security policies permitting a check-in for any day from one up to and including today",
+      "Built a live leaderboard over Supabase realtime showing totals, streaks, and kudos received, updating across every participant's device without a refresh",
+      "Added kudos and reactions as the social layer, with confetti and animation on check-in, because the reward for logging has to arrive immediately or people stop logging",
+      "Made the app multi-challenge: challenges are defined in code, the home screen lists them, and members opt in per board",
+    ],
+    decisions: [
+      "Enforced the day-lock in the database rather than the UI. A leaderboard whose rules live in client-side conditionals is a leaderboard nobody can trust, and this one is shared with people who will absolutely try it",
+      "Allowed catch-up on any past day but no access to future days. Missing a day should cost you nothing but the streak; the alternative is people quietly abandoning the board after one bad week",
+      "Skipped accounts entirely. The group is small and known, the stakes are a streak counter, and an auth flow would have cost more participants than it protected",
+      "Prefixed every table for the shared Supabase project rather than standing up a new one, keeping the app out of the way of unrelated projects on the same database",
+    ],
+    teamContext:
+      "Built solo for a group of friends, and running with real participants across multiple challenge boards.",
+    userResearch: [
+      "The catch-up rule came directly from watching how group challenges actually die: one missed day, a locked board, and a participant who never opens it again. Allowing a late log while still refusing future days keeps the record honest without punishing a busy Tuesday",
+    ],
+    failures: [
+      "One table shipped without the shared-project prefix that every other table carries. It's knowingly left alone rather than fixed — renaming a live table that two running challenges read from is a bigger risk than the inconsistency, and it's written down as accepted debt rather than pretended away",
+    ],
+    strategy:
+      "The product is the group, not the tracker. Every decision optimizes for the number of people who are still checking in during week three: no signup wall at the front, no punishment for a missed day, immediate feedback on every log, and a leaderboard whose numbers can be trusted because the rules that produce them are enforced where nobody can reach them.",
+    strategyPoints: [
+      { label: "Zero-Friction Entry", text: "Pick a name, join a board. No account, no password, no email." },
+      { label: "Trustworthy Rules", text: "The current day is computed server-side and enforced by row-level security, not by a client-side conditional." },
+      { label: "Forgiving By Design", text: "Past days stay open so a missed Tuesday doesn't end someone's participation. Future days stay locked." },
+      { label: "Immediate Reward", text: "Confetti, reactions, and a live leaderboard — the feedback for logging arrives before you close the tab." },
+    ],
+  },
+  {
+    slug: "dpt-career-hub",
+    title: "DPT Career Hub",
+    subtitle: "A Single-Screen Planner for a Doctor of Physical Therapy Track",
+    description:
+      "A personal planning app for someone working toward a Doctor of Physical Therapy degree, built from a career roadmap that had been living in a spreadsheet. One screen, seven sections — dashboard, tasks, study hub, program research, fitness projects, milestones, and profile — with section state held in a single client-side store so the whole track is navigable without a page change.",
+    pitch:
+      "A DPT application track spans prerequisites, observation hours, program deadlines, GRE study, and a personal fitness practice, and it usually lives across a spreadsheet, a notes app, and a browser full of program tabs. This pulls the whole roadmap into one screen where the next action is always visible, because the failure mode of a multi-year plan isn't ambition, it's losing track of which of six parallel threads needs attention this week.",
+    problem:
+      "Long-horizon personal goals fragment across tools, and the fragmentation is what kills them. A spreadsheet holds the plan but never surfaces the next step; a task app holds the steps but loses the plan they belong to.",
+    tags: ["Next.js", "Personal Tools", "Planning"],
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Zustand",
+      "Tailwind",
+    ],
+    featured: false,
+    callout: "Seven sections · One screen · Built from a roadmap spreadsheet",
+    category: "software",
+    metrics: [
+      { value: "7", label: "Sections In One View" },
+      { value: "1", label: "Source Roadmap Consolidated" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Consolidated a career roadmap spreadsheet into a working app with dashboard, tasks, study hub, program research, fitness projects, milestones, and profile sections",
+      "Built section switching through a single client-side store so the app is one screen with no route changes, keeping the whole track in view rather than behind navigation",
+      "Structured program research as first-class data alongside tasks, so deadlines and prerequisites for each target program sit next to the work required to meet them",
+    ],
+    decisions: [
+      "Kept it a single screen with in-place section switching rather than routed pages, because the point of the app is seeing the whole track at once and routing would have hidden exactly what needed to stay visible",
+      "Built it as a personal tool for one named user rather than a generalized product. The roadmap it encodes is specific, and generalizing it would have removed the thing that made it useful",
+    ],
+    teamContext:
+      "Built solo as a personal tool for a family member working toward a DPT program.",
+    userResearch: [
+      "The section list came directly from the roadmap spreadsheet's own tabs, rather than from a guess at what a planning app should contain",
+    ],
+    failures: [],
+    strategy:
+      "A multi-year application track is a coordination problem disguised as a motivation problem. The app's only real job is to make the next action visible without requiring the person to reassemble the plan from three tools first — which is why everything lives on one screen and why the sections mirror the roadmap that already existed rather than a generic productivity structure.",
+    strategyPoints: [
+      { label: "One Screen", text: "Seven sections switched in place, so the whole multi-year track stays visible at once." },
+      { label: "Mirrors The Source", text: "Sections come from the roadmap spreadsheet's own structure, not from a generic productivity template." },
+    ],
+  },
+  {
+    slug: "1406-adventures",
+    title: "1406 Adventures",
+    subtitle: "A Variant-Comparison Prototype for a Luxury Travel Advisory",
+    screenshot: "/screenshots/1406-home.png",
+    screenshots: ["/screenshots/1406-home.png"],
+    description:
+      "A marketing site for a luxury travel concierge, built as a comparison prototype rather than a mockup. Three layout systems, four brand-voice shells referenced against established players in the category, and swappable copy tones and photo sets — all live in the running site, so a non-technical client could pick a direction by toggling between real options instead of reviewing static comps. Written up as a PRD first, with two user journeys and an agent-referral attribution path.",
+    pitch:
+      "The usual way to give a client design options is three flat mockups and a meeting. That asks them to imagine the site rather than use it, and they choose on taste rather than on fit. So I built the site as a set of switchable variants: minimal, bold, and magazine layouts; four voice treatments benchmarked against the reference brands in luxury travel; copy tones and photo sets that swap through context providers at runtime. The client picks by clicking, and the decision is made against something real.",
+    problem:
+      "The business runs two entirely different acquisition paths — cold visitors who arrive from search and word of mouth, and warm clients referred by partner travel agents who need to feel acknowledged and whose referrals need to be attributed. A single undifferentiated brochure site serves neither, and the agent side has the additional constraint that partners will not adopt anything requiring a login or a portal.",
+    tags: ["Marketing Site", "PRD", "Design Systems", "Prototyping"],
+    stack: [
+      "React",
+      "Next.js",
+      "Vite",
+      "Tailwind",
+    ],
+    featured: false,
+    callout: "3 layouts · 4 voice treatments · Swappable copy and photo sets",
+    category: "software",
+    metrics: [
+      { value: "3", label: "Layout Systems Built" },
+      { value: "4", label: "Brand Voice Treatments" },
+      { value: "2", label: "User Journeys Specified" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Wrote the PRD first — product summary, business context, two mapped user journeys, and an explicit platform decision made on client maintainability rather than developer preference",
+      "Built three complete layout systems (minimal, bold, magazine) as swappable shells rather than as separate mockups",
+      "Built four brand-voice treatments benchmarked against established luxury travel operators, plus a recommended default, so the direction could be chosen against real category references",
+      "Made copy tone and photo set runtime-switchable through context providers, with every destination represented in each photo set so the comparison tested layout and voice rather than which photos happened to be nicer",
+      "Specified the agent-referral journey as a plain link carrying a referral parameter, with acknowledgment on arrival and attribution captured on submit — no partner login, no portal, nothing for an agent to learn",
+    ],
+    decisions: [
+      "Made the platform decision on who maintains the site rather than on what's most fun to build. The client is non-technical and the site has to be editable without a developer, so the PRD specifies a managed platform even though a custom build is the more impressive artifact",
+      "Built comparison into the running site instead of producing static mockups, because a client choosing between three images chooses on taste and a client choosing between three working sites chooses on fit",
+      "Kept every photo set covering the full destination range, so a variant couldn't win on photo selection when the thing being tested was layout and voice",
+      "Specified referral attribution as a URL parameter with no agent-side login. Partners will forward a link they can remember; they will not maintain credentials for someone else's referral portal",
+    ],
+    teamContext:
+      "Built solo — PRD, design variants, and front end — for a luxury travel advisory that partners with referring travel agents.",
+    userResearch: [
+      "The two journeys came from how the business actually acquires: organic visitors who need credentials and trust-building before they inquire, and agent-referred clients who arrive already warm and need acknowledgment that they're in the right place",
+      "The agent constraints — a simple memorable link, confidence that referrals are tracked, and no login — shaped the attribution design more than any technical consideration did",
+    ],
+    failures: [],
+    strategy:
+      "Two audiences arriving through two doors, one of whom is a partner rather than a customer. The site's job is to serve both without splitting into two sites: shared content and credentials for everyone, a referral acknowledgment and silent attribution for the warm path, and a single inquiry form as the only conversion point. Building the visual and voice options as switchable variants meant the direction was chosen from evidence rather than from a taste argument in a meeting.",
+    strategyPoints: [
+      { label: "Choose By Using", text: "Layouts, voice treatments, copy tones, and photo sets all switchable in the live site — not three flat comps in a meeting." },
+      { label: "Two Doors", text: "Organic visitors and agent-referred clients get the same content, with acknowledgment and attribution on the referred path." },
+      { label: "No Partner Portal", text: "Referral tracking is a link parameter. Agents will forward a link; they will not maintain a login." },
+      { label: "Maintainability First", text: "The platform decision was made on who edits the site after launch, not on what's most interesting to build." },
+    ],
+  },
+  {
     slug: "cluck",
     title: "Cluck: Escape the Line",
     subtitle: "GTM Website & CRM Platform",
@@ -1054,6 +1413,173 @@ export const projects: Project[] = [
     ],
     strategy:
       "Anu's ceramics business is built on personal connection. People buy because they know her story and feel connected to the places that inspire her work. The website extends that personal brand from markets and studio shows to an always-available online storefront. The free shipping threshold encourages larger orders while the newsletter captures visitors who aren't ready to buy yet but want to stay connected.",
+  },
+  {
+    slug: "private-listing-site",
+    title: "A Password-Gated Listing Site",
+    subtitle: "A Brochure Site for a Private Residential Rental",
+    description:
+      "A single-page, password-protected brochure site for a private rental, replacing a third-party listing the owner didn't control. Every route is gated — including the photo files themselves — the whole site is excluded from search three separate ways, and all inquiries route to a domain address so the owner's personal email is never exposed. All copy and photo ordering live in one file, so a content change touches nothing else.",
+    pitch:
+      "The owner had a listing on a third-party site. It worked, but as she put it, it's someone else's page and she'd rather have her own that she can manage and that stays live as long as she wants. So the brief was deliberately modest: same information, her domain, her control. Her framing of the bar was that this is about the photos and communicating the information, not a polished website displaying her work — it's a brochure. Building to that bar rather than past it was the whole job.",
+    problem:
+      "A rental listing needs to be shareable with prospects and invisible to everyone else. Third-party listing sites solve the first and not the second, and they can change, expire, or restructure without warning. But an owner-controlled site introduces the opposite risk: a public page indexed forever, with a home's photos and a personal email address attached to it.",
+    tags: ["Next.js", "Access Control", "Client Work"],
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "Resend",
+      "Vercel",
+    ],
+    featured: false,
+    callout: "Gated at the edge · Three layers of search exclusion · 46 photos as a walkthrough",
+    category: "design",
+    metrics: [
+      { value: "46", label: "Photos, Sequenced" },
+      { value: "3", label: "Layers Keeping It Unindexed" },
+      { value: "1", label: "File To Edit The Listing" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Gated every route in middleware, including the photo files themselves — without a valid signed cookie, an image request redirects to the gate rather than serving",
+      "Compared the password server-side in constant time so it never reaches the client bundle, with 30-day sessions and an immediate global sign-out available by rotating the signing secret",
+      "Kept the site off search three ways: noindex headers on every response, a blanket-disallow robots file, and the gate itself, which means crawlers only ever reach the password screen",
+      "Routed inquiries through a form to a domain address, with a mailto fallback, so the owner's personal email never appears on the page",
+      "Put all copy and photo ordering in a single config file — rent, dates, amenities, neighborhood text, policy, and which photo appears in which section — so a content change requires touching nothing else",
+      "Used all 46 photographs, grouped as a walkthrough of the house rather than curated down to a gallery, which answered an open question from the spec rather than deferring it",
+    ],
+    decisions: [
+      "Built to the stated bar rather than past it. The client was explicit that this is about photos and information, not a showcase, so the site is a brochure and the engineering went into access control and maintainability instead of into interaction design",
+      "Documented every place the build diverged from the spec, in the repo, with the reason for each — six changes made during the build, written down rather than silently absorbed",
+      "Wrote down the accepted trade rather than overselling the gate: anyone with the link and the password can pass both along. It keeps the page off the open web, which is what was asked for, and it is not a secrecy guarantee",
+      "Held the inquiry form disabled until the custom domain is verified, because sending from an unverified domain and falling back to a bouncing address is worse than a page that tells people to email directly — with the three places to re-enable it written into the README",
+      "Named the licensed reference typeface first in the stack with the closest free match shipped behind it, so adding the licence later changes nothing else",
+    ],
+    teamContext:
+      "Built solo for a private client, from a single discovery call. Client details are withheld here — the site is deliberately unlisted and password-gated.",
+    userResearch: [
+      "The whole flow came from how the owner actually shares the listing: she texts or emails the link with the password in the same message, prospects look, and everything after that happens over email. There is no funnel beyond that, so the site's only job is the look and the inquiry",
+      "The spec's non-goals were as informative as its goals — a 'no longer available' state was raised and declined, which is why the site has no lifecycle logic to maintain",
+    ],
+    failures: [
+      "The spec called for photos first with facts below. Built that way, the full-bleed hero obscured the text entirely, so the order was inverted to title and key details first with photos as their own section",
+      "The spec said no street address anywhere. The copy has none, but several of the photographs still show the house number and street sign. That was raised with the client rather than quietly cropped, and left in at their choice",
+    ],
+    strategy:
+      "The client wanted control and permanence, not sophistication — a page she can send, that stays up, that she isn't renting from anyone. So the build spends its complexity on the two things that actually matter for that: an access model that holds at the edge and covers the images, and a content model where the entire listing is one editable file. Everything else is deliberately plain, because a brochure that needs a developer to update is not control.",
+    strategyPoints: [
+      { label: "Gated At The Edge", text: "Middleware covers every route including the photo files. No cookie, no images." },
+      { label: "Unlisted By Construction", text: "noindex headers, a blanket robots disallow, and a gate crawlers can't get past." },
+      { label: "One File To Edit", text: "Copy, photo order, policy, and details all live in a single config module." },
+      { label: "Honest About Limits", text: "The link and password can be forwarded. That trade is documented, not glossed over." },
+    ],
+  },
+  {
+    slug: "luxury-fragrance-platform-selection",
+    title: "Platform Selection for a Luxury Fragrance House",
+    subtitle: "A No-Code Evaluation for an Invite-Only, Pre-Launch Brand",
+    description:
+      "A platform evaluation and digital strategy for a luxury fragrance house building in stealth toward a later public launch. Two gated audiences, an iterative product model with no held inventory, and a founder who is digitally fluent but doesn't code and refuses to call a developer to swap a hero image — which ruled out every custom-build option before the evaluation started.",
+    pitch:
+      "The proposal opens by playing back what I heard, because everything downstream depends on getting it right. This is a venture, not a startup — steady growth matched to capacity, no investor-driven hockey stick — so the platform should be skeletal now with room to grow without ever being torn down. Stealth for the next year and a half, word of mouth only, two audiences behind a gate. Full self-edit, end to end. Given that last constraint, every option in the proposal is a no-code platform the founder fully controls. There is no custom-build path, and saying so explicitly was the most useful part of the document.",
+    problem:
+      "A pre-launch luxury brand with gated audiences has requirements that pull against each other. It needs commerce with customer-group pricing and application-only access, brand control fine enough for a luxury aesthetic, and an editing experience a non-developer will actually use — while avoiding the outcome the founder named directly, which is a duct-taped stack that has to be peeled apart in eighteen months.",
+    tags: ["Strategy", "Platform Evaluation", "Client Work", "E-Commerce"],
+    stack: [
+      "Shopify",
+      "Webflow",
+      "BigCommerce",
+    ],
+    featured: false,
+    callout: "3 finalists · 6 platforms evaluated · No custom-build path, by design",
+    category: "design",
+    metrics: [
+      { value: "3", label: "Finalist Options" },
+      { value: "2", label: "Gated Audiences Modeled" },
+      { value: "0", label: "Custom-Build Options" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Opened with a written playback of the discovery call — venture not startup, stealth through the launch window, two gated audiences, full self-edit, no CMS-migration trauma, recurring cost sensitivity — and asked for correction before going further",
+      "Evaluated six realistic platforms and carried three forward: a commerce-first option with the strongest gating ecosystem, a brand-control option pairing a site builder with an external cart and a membership layer, and a third with native business-to-business customer groups and a page builder",
+      "Wrote the rejections with reasons rather than omitting them, including one platform already ruled out on the call and two more rejected on maintenance burden and product-line direction",
+      "Modeled both gated audiences explicitly: a hard-capped evaluation group on wholesale pricing with feedback forms, and an application-only list requiring a referrer, growing toward a soft cap at pre-launch pricing",
+      "Modeled the product structure as it actually works — a repeating rendition pattern where the same name ships in multiple versions, sold across sizes and bundles, with batch production triggered by monthly invitation responses and no held inventory",
+    ],
+    decisions: [
+      "Eliminated custom builds entirely, up front, and said why. The founder wants to swap a hero image without calling anyone; a custom build fails that test on day one no matter how well it's built, so including one as an option would have been flattering and useless",
+      "Chose to name the real bottleneck rather than the technical one. The limiting factor is the founder's time producing refined, on-brand content — not the tooling — which changes what the platform needs to be good at",
+      "Weighted the evaluation toward five-year durability over launch-day capability, because the explicit requirement was a stack that carries the brand to year three to five without a migration",
+      "Kept recurring cost as a first-class criterion, adding tools only as they earn their seat, because the business is cash-flow negative during the stealth period",
+    ],
+    teamContext:
+      "Independent consulting engagement — discovery call, written proposal, and a follow-up strategy regroup. The client is in stealth, so the brand is not named here.",
+    userResearch: [
+      "Two structured calls with the founder, with the proposal built from a playback of the first and revised against the second",
+      "The founder's background in digital strategy and digital marketing at large financial institutions meant the proposal could skip platform basics entirely and argue at the level of trade-offs, gating mechanics, and migration risk",
+    ],
+    failures: [],
+    strategy:
+      "The proposal's structure is the argument: establish what was heard, get it confirmed, then let every recommendation fall out of it. The single constraint that determines the answer is full self-edit by a non-coding founder, and once that's stated plainly, whole categories of option disappear and the remaining evaluation gets honest. Skeletal now, expandable later, and never torn down — because a rebuild in eighteen months costs more than any feature gap on day one.",
+    strategyPoints: [
+      { label: "Playback First", text: "The proposal opens by restating what was heard and asks for correction before recommending anything." },
+      { label: "One Deciding Constraint", text: "Full self-edit by a non-coding founder eliminates custom builds outright. Naming that early makes the rest of the evaluation honest." },
+      { label: "Five-Year Test", text: "Options are weighted on whether they carry the brand to year three to five, not on launch-day feature lists." },
+      { label: "The Real Bottleneck", text: "Content production, not tooling, is the limiting factor — which changes what the platform has to be good at." },
+    ],
+  },
+  {
+    slug: "fine-art-growth-strategy",
+    title: "Fine Art Growth Strategy",
+    subtitle: "A Six-Month Plan for a Painter With a Thousand Finished Works",
+    description:
+      "A growth strategy for an established plein-air painter whose constraint was never talent, reach, or supply. She had recognition, a loyal repeat-buying collector base, an audience of around a hundred thousand people, and over a thousand finished paintings sitting idle. The machinery around the art was the problem: two competing websites, a store converting far below benchmark, thousands of blog readers a year with no email capture, and most sales requiring her to be physically in the room.",
+    pitch:
+      "The honest read is that the inventory removes the ceiling. Reaching the target at a realistic blended price means selling a few hundred pieces a year — a pace the existing inventory can sustain for two to three years before counting a single new painting. So growth doesn't hinge on painting more, and it doesn't hinge on building a licensing business from scratch. It hinges on one thing: building the demand and the distribution to move the work that already exists. That reframing is the entire plan, and it turns an intimidating revenue goal into a solvable distribution problem.",
+    problem:
+      "Working artists are routinely advised to make more, post more, or license more. For an artist with a large finished inventory, all three are wrong answers — they add supply to a business whose actual constraint is channels. Meanwhile the revenue that does exist depends almost entirely on physical presence, which caps the business at the artist's calendar and concentrates it into one season.",
+    tags: ["Growth Strategy", "E-Commerce", "Client Work"],
+    stack: [],
+    featured: false,
+    callout: "4 pillars · Inventory-first · Channels, not more supply",
+    category: "design",
+    metrics: [
+      { value: "4", label: "Strategy Pillars" },
+      { value: "1,000+", label: "Finished Works To Distribute" },
+      { value: "18mo", label: "Planning Horizon" },
+    ],
+    highlights: [],
+    outcomes: [
+      "Diagnosed the constraint as distribution rather than production, and built the whole plan on moving existing inventory rather than on making or licensing more",
+      "Pillar one — fix the store so it sells: rebuild the homepage, product pages, and checkout path, consolidate two competing websites into one, and filter the bot traffic distorting the conversion numbers",
+      "Pillar two — put the existing audience to work: capture blog readers, social followers, and in-person buyers into one email list, then sell to them with scheduled studio-release drops. The fastest revenue in the plan, because the audience already exists",
+      "Pillar three — systematize what already works offline: turn event, open-studio, and word-of-mouth buyers into repeat year-round customers, and smooth a heavily seasonal revenue curve with a second release moment and quarterly online drops",
+      "Pillar four — open volume and partner channels: multiple galleries, an interior-designer and trade program, and corporate and hospitality placements, where a single hotel needing art for eighty rooms is eighty pieces already painted",
+      "Laid out a tiered price architecture — an accessible entry tier to move volume and win new collectors, the existing mid tier, and premium pricing on signature work to protect brand value — with a staged revenue path across six, twelve, and eighteen months",
+    ],
+    decisions: [
+      "Led with the arithmetic rather than the tactics, because a revenue target only becomes credible once you show the pieces-per-year it implies and that the existing inventory can cover it for years",
+      "Demoted licensing and consumer products to upside rather than making them a pillar. They're welcome, they already sell out, and the plan must not depend on standing up a new business line to hit its number",
+      "Named the bot traffic distorting the store's conversion rate before recommending any conversion work, because optimizing against a contaminated denominator produces confident nonsense",
+      "Recommended consolidating to one website even though the portfolio site refers real revenue, because split search authority and an extra step between wanting a piece and buying it cost more than the referrals are worth",
+      "Wrote the current-state section as an honest ledger of what's working and what isn't, and kept specific client financials out of anything public",
+    ],
+    teamContext:
+      "Independent consulting engagement for a working plein-air painter. Business specifics — revenue, conversion rates, and inventory economics — stay with the client; only the strategy shape is described here.",
+    userResearch: [
+      "Traffic analysis showed the artist's technique articles, not her homepage, were the single biggest source of site visitors — an audience arriving with genuine interest and no path to buy or subscribe",
+      "Buyer behavior showed a strongly repeat-purchasing collector base, which is what makes the email pillar the fastest revenue in the plan rather than a long-horizon bet",
+      "Inventory audit found that only a minority of finished works were listed for sale anywhere at all",
+    ],
+    failures: [],
+    strategy:
+      "Every plan for a working artist has to answer one question first: is the constraint supply or demand? Here it was unambiguously demand and distribution, and the plan is ordered by speed to revenue as a result — fix the store that already has traffic, activate the audience that already exists, systematize the offline sales that already happen, and only then open the slower partner and volume channels. Licensing sits on top as upside precisely so the plan doesn't depend on it.",
+    strategyPoints: [
+      { label: "Constraint Is Channels", text: "A thousand finished works means the answer is never 'paint more.' It's distribution." },
+      { label: "Fastest Money First", text: "Pillars ordered by speed to revenue: existing traffic, then existing audience, then existing offline buyers, then new channels." },
+      { label: "Tiered Pricing", text: "An accessible entry tier to win new collectors, without eroding premium pricing on signature work." },
+      { label: "Upside, Not Dependency", text: "Licensing and consumer products are welcome additions the plan deliberately does not rely on." },
+    ],
   },
 ];
 
