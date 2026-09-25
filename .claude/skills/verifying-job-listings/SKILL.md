@@ -82,6 +82,25 @@ Read the candidates and choose. If the stored title is generic, the board will h
 
 **Watch for duplicates when relinking.** 2K Games' "Sr. Technical Product Manager" resolved to "Senior Technical Product Manager, Data Science" — which was already its own row in the pipeline. That is a retire-as-superseded, not a relink; relinking would have created two rows pointing at one req.
 
+## Title Drift Has Three Outcomes, Not Two
+
+A 2026-09-14 batch produced all three in one sitting. The verdict alone does not
+tell you which — you have to pull the board and read.
+
+| What you see | What happened | What to do |
+|---|---|---|
+| **DEAD id, exact title live under a new id** | Asana's req `8113068` 404'd; the board carried "Senior Product Manager, AI Agents Experience" as `8178264`, same title, same city | **Relink** to the new id. Retiring on the 404 would have thrown away a live SF role. |
+| **LIVE id, but the title is a different job** | Drata's `cf5e1a06` returned "Senior Product Manager 2, Assurance" against a queued "Principal Product Manager, Agentic AI Platform". The board had 41 reqs, 2 of them PM, neither matching | **Retire as superseded.** The id survived; the job behind it did not. Do not relink — there is nothing to relink *to*. |
+| **LIVE id, same job, new level or wording** | Poshmark's "Lead Product Manager for Enterprise Sellers" came back as **Principal** — same req id, same team, same specialty | **Relink the title only**, keep status. Here the drift was in Jon's favour: a higher level than queued. |
+
+The distinguishing question is never "did the title change" — it is **"is this the
+same job."** Same team plus same specialty plus same req id is a retitle. A
+different function behind a live id is a dead role wearing its number.
+
+Both relinks above used a `RELINKED {date}:` stamp with the prior notes kept; the
+Drata retirement used `CLOSED — verified {date}:` and `status = passed`, naming
+the board pull so the decision is reversible.
+
 ## After Verifying
 
 - Store the working URL in the row's **`job_url` column**, never only in `notes` prose. 22 rows kept their link in notes and were invisible to the nightly re-check for months; 17 had died in the meantime.

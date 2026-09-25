@@ -8,281 +8,327 @@ description: Use when filling or submitting a job application in Jon's Chrome br
 ## Overview
 
 Filling an ATS form looks like typing into boxes. It is not. Every board in this
-family is React, and **the tool that writes a value is not always the tool that
-commits it.** A field can display your text, pass a visual check, and still
-submit empty.
+family is React, and **the thing that shows your answer is not the thing that
+submits it.**
 
-That happened twice in the session that produced this skill. Greenhouse's consent
-combobox showed `Yes` with an empty hidden input behind it. Ashby's "How did you
-find us?" showed 177 characters and the server rejected the submit as *Missing
-entry for required field*. Both would have gone out broken if the only check was
-a screenshot.
+On 2026-09-14, thirteen applications went out in one session. Across them:
 
-**Verify committed state, not rendered text.**
+- Snowflake displayed `Jon Martin` in a required name field and submitted it
+  **empty**, twice, until the text was retyped with real keystrokes.
+- Baseten's work-authorization button rendered as selected while the server
+  called the field missing — and the "fix" click *toggled the committed answer
+  off*.
+- Descript's submit was rejected over a **Country** field nobody had touched.
+- A location autocomplete pre-highlighted **Concordia, Entre Ríos, Argentina**
+  when the answer was Concord, California. Pressing Enter would have shipped it.
 
-## Before You Touch A Form
+**Verify committed state against the server, not against the screen.**
 
-1. Run the verifier on the URL. A page that loads is not a job that exists, and
-   the canonical title it returns tells you whether the req is the one you
-   queued. The executable is **`verify.ts`**, not the `verify.mjs` its own
-   SKILL.md documents:
-   ```bash
-   .claude/skills/verifying-job-listings/verify.ts "<url>"
-   ```
-2. **Claim the role.** Stedi received three applications from three agents
-   because nothing checked whether the job was already spoken for. One command,
-   and it is binding — exit 1 means another agent holds this req, or the company
-   already has an open application. **Do not open the form.** See
-   `one-application-per-company`:
-   ```bash
-   .claude/skills/one-application-per-company/apply-guard.ts claim \
-     --agent "$CLAUDE_AGENT_ID" --company "<name>" --role "<title>" --url "<url>"
-   ```
-3. Read the JD if the queue row is marked ⚠️ *JD not read*. Say plainly if Jon
-   fails a stated requirement — Stedi wanted 2+ years of healthcare RCM he does
-   not have. Flag it; do not quietly paper over it.
-4. Pull the answers from the repo. Never invent a phone number, a LinkedIn slug,
-   or a demographic answer.
+## The Sequence (never reorder)
 
-| Field | Value | Source |
-|---|---|---|
-| Name | Jon Martin | — |
-| Email | jonalexjames@gmail.com | — |
-| Phone | (650) 627-6352 | `documents/resumes/resume-*.md` header |
-| LinkedIn | https://www.linkedin.com/in/jonmartin-pm/ | confirmed by Jon 2026-08-05 |
-| Location | Concord, CA, USA | — |
-| Website | https://portfolio.jonnymartin.blog | — |
-| Work auth | Yes / US citizen | `documents/applications/screening-answers.md` |
-| Sponsorship | No | same |
-| Resume | `documents/resumes/Jon Martin - Resume (AI Builder).pdf` | queue assigns the variant |
-| Cover letter | `documents/applications/cover-letters/pdf/Jon Martin - Cover Letter ({Company}).pdf` | — |
+1. `verifying-job-listings` — is the req open? Cheapest check, run it first.
+2. `one-application-per-company` — **claim before writing a single word.**
+3. Write the letter → render → confirm the PDF → `advance --status prepared`.
+4. Fill the form in Chrome. Anything under **Never Mine To Answer** gets left
+   blank and logged, not asked mid-fill. Keep going.
+5. **Confirm with Jon before every submit.** Per-application, every time — but
+   in one batched message, not one interruption per form. See **Batch Approval**.
+6. Submit → **prove it landed** → `advance --status submitted` + update the
+   pipeline row.
 
-`src/lib/experience.ts` and `Footer.tsx` carry an **older** LinkedIn URL
-(`jon-martin-0b739316`). Do not use it.
+Skipping step 3's render check means attaching a stale PDF. Skipping step 6's
+proof means recording a submission that never happened.
 
-## Tool Selection — The Core Table
+## Coordinate Discipline (five misfires in one session)
 
-This is the part that saves tokens and prevents silent failures.
+Coordinate clicks are mandatory on Ashby. They are also the single largest
+source of silent error.
+
+- **Coordinates come from the frame's own coordinate system.** A `scale: 0.5`
+  screenshot reports `coordinate frame: 1270x780` — use *those* numbers. A
+  full-resolution screenshot needs no doubling. Doubling an already-full-res
+  coordinate put five clicks ~456px right of target.
+- **Layout shifts invalidate every coordinate you hold.** It shifts when: an
+  error banner appears or clears (~170px), a resume finishes parsing, a dropdown
+  closes, a file attaches. **Re-screenshot immediately before the click.**
+- Never carry coordinates across a scroll. Never reuse them after any of the
+  above.
+
+## Refs Go Stale Too
+
+`read_page` refs are positional, not stable. After a scroll or re-render, `ref_19`
+may point at a different control than it did a minute ago. Twice in one session a
+stale ref flipped a *correct* answer to a wrong one.
+
+- Re-read before a ref click if anything has changed since the read.
+- After any ref click on a Yes/No pair, **verify by screenshot or checkbox count.**
+
+## Tool Selection
 
 | Field type | Use | Never use |
 |---|---|---|
-| Plain `<input type=text/email/tel>` | `form_input` | — |
-| Native `<select>` | `form_input` (matches option text) | clicking through the list |
-| **React combobox** (Greenhouse "Select…", Ashby dropdown) | click → type filter → **click the option** | `form_input` — sets display text, leaves the value empty |
-| **Textarea in a React form** | click → `computer:type` | `form_input`, and the JS native-setter trick — Ashby ignores both |
-| Radio / checkbox | `computer:left_click` on the ref | `form_input` |
-| Autocomplete location | click → type → wait 2s → click the suggestion | typing alone; the free text does not commit |
-| File upload | `file_upload` with the input's ref | clicking "Attach"/"Upload" — opens a native picker you cannot see |
+| Plain `<input>` on **Greenhouse** | `form_input` | — |
+| Plain `<input>` on **Ashby** | click → `computer:type` | `form_input` — displays, doesn't commit |
+| React combobox (both boards) | click → type → **click the option row** | Enter, `form_input` |
+| Ashby Yes/No button pair | **coordinate** click, then verify | ref click; re-clicking "to be sure" |
+| Radio / checkbox | coordinate click from a fresh frame | `form_input` |
+| Textarea | click → `computer:type` | `form_input`, JS native-setter |
+| File upload | `file_upload` with the input's ref | clicking Attach (opens a native dialog) |
+| Page scroll | `javascript_tool: window.scrollBy/scrollTo` | `computer:scroll` when a textarea has focus — it eats the scroll |
 
-### The textarea rule, stated plainly
+## read_page Reports Placeholders, Not Values
 
-`form_input` writes `el.value` and fires an event, but Ashby's form state does
-not pick it up. Neither does the usual React native-setter bypass. **Both were
-tried and both failed the server-side check.** What works:
+`textbox "Type here..." [ref_8]` means the field's **placeholder** is "Type
+here…" — it says nothing about whether the field is filled. I once announced
+that a resume parser had wiped five fields; it hadn't. A JS probe showed
+`filledTextInputs=5, emptyTextInputs=0`.
+
+To read real values: `[...document.querySelectorAll('input')].filter(e=>e.value)`.
+
+## Ashby (`jobs.ashbyhq.com`)
+- Append **`/application`** to the URL to land on the form.
+- **The submit button only responds to a coordinate click.** Ref clicks report
+  success and do nothing. This cost two "failed" submits that had never fired.
+- **Yes/No pairs are backed by hidden checkboxes.** The rendering lies; the count
+  is the truth:
+  ```js
+  (()=>{const c=[...document.querySelectorAll('input[type=checkbox]')];
+    return c.filter(x=>x.checked).length+' of '+c.length})()
+  ```
+  Only **"Yes"** answers check a box. "No" leaves it unchecked. So 2 of 16 with
+  two Yes answers and a ticked consent box is correct, not a failure.
+- **Never re-click a Yes/No that already looks right.** It toggles off.
+- Success = the form is **replaced by a `status` element**:
+  ```
+  status → heading "Success" → "Your application was successfully submitted."
+  ```
+  Read it with `read_page` + `ref_id` on the tabpanel. `inputs=0`,
+  `formPresent=false`.
+- Failure = a red **"Your form needs corrections"** banner naming one field at a
+  time. It keeps everything else you entered. Fix only what it names.
+- After a resume upload the "Autofill from resume" panel re-renders and **the
+  page grows taller** — re-capture before clicking anything.
+
+## Greenhouse (`job-boards.greenhouse.io`)
+
+- `form_input` works on plain inputs here. Comboboxes still need the click-the-row
+  treatment.
+- **Country is required and easy to miss** — it rejected a submit that otherwise
+  looked complete.
+- **Autocomplete default highlights are frequently wrong.** "Concord" pre-selects
+  New Hampshire or Concordia, Argentina. *Always click the row you want.*
+- Success = URL becomes **`…/confirmation`**, "Thank you for applying", form gone.
+- `read_page` returns only elements near the viewport — scroll and re-read.
+
+## Company-Site Wrappers Are Usually iframes
+
+`brex.com/careers/…`, `databricks.com/…/job?gh_jid=…`, `asana.com/jobs/apply/…`
+render the Greenhouse form in an **iframe from `job-boards.greenhouse.io`**.
+
+- The page screenshots fine; `read_page` returns only site nav and **zero form
+  controls**. That combination means iframe.
+- If that domain is blocked in the extension, the form is unreachable from *any*
+  wrapper. Get the site-access grant; don't coordinate-click into a frame you
+  cannot read back.
+
+## Browser Environment Failures
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `Cannot access a chrome-extension:// URL of different extension` | Another extension (password manager) grabbed the surface, usually on a text-field click | Disable it for that domain. A page reload
+clears it **but wipes the form** |
+| `Permission denied for this action on this domain` | Site access not granted | `chrome://extensions` → Claude → Site access → add the domain → **reload the tab** |
+| `Couldn't determine which page this action targets` | Tab group died | `tabs_context_mcp {createIfEmpty:true}` |
+| Screenshots and JS fail, `read_page` still works | Injection blocked, a11y tree unaffected | Use `read_page` to diagnose; it survived every outage |
+
+**One application per tab, and never close a tab down to an empty group** — that
+auto-removes the group and takes sibling tabs with it. A group collapse loses a
+filled form outright (it cost a completed Descript fill once).
+
+## Never Mine To Answer
+
+Leave these blank and put them in the batch's **Open questions** column (see
+**Batch Approval**). Never answer them yourself. Every one of these came up in a
+single session.
+
+- **Demographics** — gender, race, veteran, disability. Always voluntary in
+  practice; leave blank. If a board marks them required, surface the "I don't
+  wish to answer" option rather than picking one.
+- **Legal acceptance** — arbitration agreements, privacy notices, and
+  certifications that *you personally completed this application*. Note the irony
+  of the last one and name it.
+- **Life commitments** — office days per week, start date, relocation. Yes to
+  three days at one company is not yes at another; ask each time.
+- **Money** — desired salary. The number anchors his negotiation. Bring the
+  posted band and his $280–380K target to the question.
+- **Personal data not in the repo** — zip code, pronouns. Ask; don't infer.
+- **The NDA question.** "Are you bound by any agreement… including
+  confidentiality or non-disclosure…" — Jon signed a Memorang NDA, so the literal
+  answer is **Yes**, with an explanation that it carries no non-compete and
+  restricts nothing about where he works. Don't click No because it's faster.
+- **"Why [frontier lab]"** free text — Jon writes the first draft. Refine only.
+- **Internal-transfer questions leaking onto external forms** (Plaid served "have
+  you spoken with your current manager — required"). Both answers are false for
+  an external candidate. Surface it.
+
+## Batch Approval
+
+Jon should not have to watch the console. Every application still gets his
+explicit yes — he just gives all of them at once.
+
+1. **Fill every queued application to the brink of Submit**, one tab each. Don't
+   stop to ask about a Never-Mine-To-Answer field; leave it blank, note it, move
+   to the next form.
+2. **Send one push notification** (`PushNotification`) when the batch is ready:
+   "5 applications ready for review, 3 questions."
+3. **Post one approval table**, then wait:
+
+   | # | Company — Role | Letter PDF | Open questions |
+   |---|---|---|---|
+   | 1 | Acme — Sr PM, AI | `acme-sr-pm.pdf` ✓ 1 page | Salary (band $210–260K) |
+   | 2 | … | … | none |
+
+   Answers are per row and explicit: "submit 1, 2, 4; for 1 put $240K". Silence,
+   "looks good", or "go ahead" without numbers is **not** approval for a row.
+4. **Fill the answers Jon gave → submit only the named rows → prove each one
+   landed** (see below). Rows he didn't name stay prepared, tabs open.
+5. Report once at the end: what submitted, what's still waiting.
+
+A row with any open question can't be submitted until it's answered. Nothing
+under Never Mine To Answer gets a default because the batch is waiting.
+
+## Application Limits Worth Knowing
+
+Some boards ration applications. Spend the slot deliberately.
+
+| Company | Limit |
+|---|---|
+| Plaid | 3 applications / 60 days; **12-month lock** on the same role after rejection |
+| OpenAI | 5 applications / 180 days |
+| Scale AI | 90-day wait before reconsidering the same candidate |
+
+## Proving A Submit Landed
+
+A click result of "success" means the click dispatched, not that the form went.
+
+```js
+// Ashby
+(()=>{const t=document.body.innerText;
+  const i=t.indexOf('Your form needs corrections');
+  if(i>=0) return 'BANNER: '+t.slice(i,240);
+  return 'success='+/successfully submitted|thank you for applying/i.test(t)
+    +' | inputs='+document.querySelectorAll('input,textarea').length})()
+```
+
+`inputs=0` plus a Success heading is proof. A page that still has 39 inputs is
+not submitted, whatever the click said.
+
+**Do not write a boolean probe that matches page boilerplate.** `/required/`
+matches "* indicates a required field" on every form; that false signal wasted a
+round trip.
+
+### A timed-out batch is not a failed submit
+
+Supabase's submit-and-verify batch returned *"The browser_batch tool did not
+respond in time."* The click was the **first** action in that batch — it had
+already landed, and only the verification hung. The application was in.
+
+**Never re-click Submit after a timeout.** On a req with an application cap
+(Supabase: 3 per 60 days; Plaid: 3 per 60; OpenAI: 5 per 180) a duplicate burns a
+real slot, and on any req it can double-submit under Jon's name.
+
+Instead, probe with something lighter than a screenshot — `read_page` survived
+every outage this session:
 
 ```
-computer:left_click  → the textarea ref
-computer:key         → "cmd+a"
-computer:type        → the full text
+read_page → tabpanel → status → heading "Success"
 ```
 
-If a textarea already holds text you injected another way, you can commit it
-without retyping: click into it, `cmd+ArrowDown` to the end, type a space, press
-Backspace. The real keystroke makes the handler read the whole current value.
+A `status` element where the form used to be means it went. If the tooling is too
+degraded even for that, **ask Jon what the tab shows** rather than guessing.
 
-## Per-Platform Playbooks
-
-### Greenhouse — `job-boards.greenhouse.io/{org}/jobs/{id}`
-
-- Click **Apply** first. The form may already be in the DOM — `find` will happily
-  return its "Submit application" button — but it is **hidden and unreachable
-  until Apply is clicked**. Do not conclude the form is ready just because a JS
-  query finds its fields.
-- `read_page` **only returns elements near the viewport** on this board. Scroll
-  the form into view first, then read; expect to read in 2–3 chunks as you go.
-  A whole-page `read_page` will report 3 links and hide 34 inputs.
-- `scrollIntoView()` does nothing on some boards (Sourcegraph). When a JS scroll
-  leaves `read_page` returning the same 3 header links, fall back to
-  `computer:scroll` in batches of 10 ticks.
-- Field types vary **per board, not per platform**. "How did you hear about this
-  position?" is a combobox on Webflow and a plain text input on Sourcegraph.
-  Read the dump; do not assume.
-- Fast field map without scrolling — dump ids and labels in one call:
-  ```js
-  [...document.querySelectorAll('input,select,textarea')].map((e,i)=>{
-    const l=document.querySelector(`label[for="${e.id}"]`);
-    return `${i}|${e.type||e.tagName}|${e.id}|req=${e.required?1:0}|${l?l.innerText:''}`
-  }).join('\n')
-  ```
-- Every dropdown is a combobox backed by a **hidden required sentinel input with
-  no id**. The sentinel is *removed from the DOM* once the dropdown commits a
-  real value — so the count of remaining empties is exactly your count of
-  unfilled dropdowns. Use this as a live progress meter:
-  ```js
-  (()=>{const f=document.forms[0];
-    const bad=[...f.querySelectorAll('input,select,textarea')]
-      .filter(e=>e.required&&!e.value&&e.type!=='file');
-    return `valid=${f.checkValidity()} remainingEmpty=${bad.length}`})()
-  ```
-  **Do not panic at a nonzero count mid-fill** — it counts dropdowns you have
-  not reached yet, not silent failures. Run it again after each selection and
-  watch it tick down. Only a count that fails to drop after a selection means
-  that selection did not commit.
-- Read a dropdown's options without scrolling — filter to the *visible* listbox,
-  or you get the 200-entry country/phone list instead:
-  ```js
-  [...document.querySelectorAll('[role="option"]')]
-    .filter(e=>e.getBoundingClientRect().height>0).map(e=>e.innerText.trim())
-  ```
-- Preflight before submit: `document.forms[0].checkValidity()` plus a scan for
-  empty required fields.
-- **Some boards email an 8-character code to confirm you're human before the
-  submit completes.** Stop there. See *Where To Stop*.
-
-### Ashby — `jobs.ashbyhq.com/{org}/{id}`
-
-- Append **`/application`** to the URL to land directly on the form. Skips the
-  JD page and a click.
-- No cover-letter upload. It asks free-text questions instead ("How did you find
-  us?", "What interests you in working at X?"). Write these from the matching
-  file in `cover-letters/`, condensed — do not paste the letter whole.
-- Ignore the "Autofill from resume" file input at index 0; it is not the resume
-  field.
-- Type every textarea. See the textarea rule above. This is the board that
-  taught it.
-- The page scroll can be swallowed by a focused textarea. Use
-  `javascript_tool: window.scrollBy(0,600)` rather than `computer:scroll`.
-- On failure it renders a red *"Your form needs corrections"* banner naming the
-  field, and **keeps everything else you entered** — fix only what it names and
-  resubmit. It reports one missing field at a time.
-
-### Y Combinator — `ycombinator.com/companies/{co}/jobs/{slug}`
-
-- The header says "Log in" and the **Apply to role ›** link points at a
-  Work at a Startup signup. Ignore both. Clicking the in-page **Apply to role**
-  button opens a *"Get in touch directly with the team"* modal that needs **no
-  account**.
-- The modal is a portal — `read_page` picks it up, but `window.scrollBy` scrolls
-  the page behind it, not the modal. Use refs and `scroll_to`.
-- Fields: first, last, email, LinkedIn (required), country code + phone,
-  location autocomplete, two radio pairs, resume upload, one free-text
-  "What interests you about X?".
-- Submit is labelled **Send Message**.
-- **Guarded by an hCaptcha "I am human" checkbox.** Stop there.
-
-### LinkedIn Easy Apply
-
-- Search with the Easy Apply filter: `linkedin.com/jobs/search/?keywords=...&f_AL=true&location=...&sortBy=DD`
-- List the results cheaply instead of screenshotting:
-  ```js
-  [...document.querySelectorAll('li[data-occludable-job-id]')]
-    .map(li=>li.innerText.replace(/\s*\n\s*/g,' · ').slice(0,120)).join('\n')
-  ```
-- **Judge the pool before applying.** The Easy Apply set skews to staffing firms
-  and mid-market SaaS, not seed–Series B AI/dev tools. Tell Jon when nothing fits
-  rather than submitting filler under his name.
-- It is a 3-step wizard: Contact info → Resume → optional "top choice" →
-  Review → Submit. Progress % tells you where you are.
-- Email is a native `<select>` of his verified addresses — `form_input` works.
-  It defaults to `hello@jonnymartin.blog`; he wants `jonalexjames@gmail.com`.
-- The stored resume goes stale. Check the "Uploaded on" date and re-upload the
-  current PDF via the hidden file input rather than reusing it.
-- Easy Apply sends **no cover letter**. That is the reason to prefer a real ATS
-  link when both exist.
-
-## File Uploads
-
-`file_upload` accepts absolute paths inside the project directory — both the
-resume and the cover-letter PDFs uploaded straight from
-`/Users/jonathanmartin/Desktop/Claude Projects/portfolio/...`. No copying to a
-scratch folder.
-
-Get the ref from `find` ("resume and cover letter file input elements"), not from
-a click. LinkedIn's is a *hidden* input behind an "Upload resume" label — `find`
-still returns it.
-
-Check the PDF before sending it. `resume-ai-builder.md` once carried the
-repos/migrations/edge-functions bullet Jon banned:
+## Recording The Result
 
 ```bash
-python3 -c "
-import re,zlib
-d=open('<pdf>','rb').read(); t=''
-for m in re.finditer(rb'stream\r?\n(.*?)endstream',d,re.S):
-    try: t+=zlib.decompress(m.group(1)).decode('latin1')
-    except: pass
-print('HAS_REPO_STATS:', bool(re.search(r'15\+ repos|59 migrations|19 edge', t)))"
+G=.claude/skills/one-application-per-company/apply-guard.ts
+$G advance --url "<url>" --status submitted
 ```
 
-## Speed And Token Discipline
+Then the pipeline row — **by exact row id, never a company-wide filter**:
 
-- **One tab per application.** Navigating away loses a filled form. Create tabs
-  with `tabs_create_mcp` and park each completed form on its submit button.
-- **Prefer `javascript_tool` dumps over screenshots** for reading form structure.
-  One JS call replaces four scroll-and-screenshot rounds.
-- **Batch with `browser_batch`** whenever you can predict two steps ahead — a
-  click, a type, and a screenshot belong in one call. Two things it will not
-  take: `tabs_create_mcp` (blocked), and **long multi-paragraph `type` text**,
-  which reliably fails JSON parsing. Send each essay-length `type` as its own
-  standalone `computer` call and batch the short steps around it.
-- **Screenshot to confirm, not to explore.** Take one after a dropdown opens
-  (you need option coordinates) and one before submit.
-- `javascript_tool` refuses output that looks like cookies or query strings —
-  a `JSON.stringify` of iframe `src` values trips it. Return a plain template
-  string of counts instead.
+```bash
+# WRONG: matched 10 Snowflake rows and marked 9 of them falsely applied
+curl -X PATCH "$U/rest/v1/job_pipeline_entries?company=eq.Snowflake&source=eq.ats_ingest"
 
-## Where To Stop
+# RIGHT: look up the id, confirm it's unique, patch that row
+```
 
-Fill the form completely, then stop and hand back for these — they are not
-yours to complete:
+That mistake corrupted nine rows and destroyed their prior `last_update` values,
+which are unrecoverable.
 
-- **CAPTCHA of any kind.** Artisan's hCaptcha checkbox, reCAPTCHA challenges.
-- **Emailed human-verification codes.** Webflow's Greenhouse form mails an
-  8-character code and will not submit without it. Do not go read it out of
-  Gmail — retrieving the code is completing the bot check.
-- **Demographic questions** — gender, race, transgender experience, sexual
-  orientation, age, disability, veteran status. Never answer these. They are
-  Jon's to answer, and there is nothing in the repo that could tell you the
-  answers anyway.
+Ledger dates can **cross midnight UTC mid-session** — a count that looks short by
+one is often a row filed under tomorrow, not a lost record. Check before alarming.
 
-  Usually they are optional (Webflow, Artisan, Stedi) — leave them blank and
-  move on. But **some boards mark them required** and the form will not validate
-  without them (Sourcegraph marks Gender, Race/ethnicity, and Veteran Status
-  with a red asterisk while the surrounding copy calls the survey "completely
-  voluntary"). When that happens, do not pick something to unblock yourself.
-  Each dropdown carries an **"I don't wish to answer"** option — surface that to
-  Jon and let him choose between answering, declining, and having you select the
-  decline option for him.
-- **The submit click itself, unless Jon has approved that specific
-  application.** He authorized browser automation and still wants per-application
-  say over what goes out under his name.
+## Materials
+
+- Letters: `documents/applications/cover-letters/<slug>.md`. Heading
+  `# Company — Role`, then notes **to Jon**, then `---`, then the letter.
+  Everything above the rule is dropped; a letter with no `---` is refused.
+- The PostToolUse hook **re-renders on every edit** — `render-pdfs.mjs --only <slug>`
+  does *not* force a rebuild ("0 rendered, 1 already present"). Check the PDF's
+  mtime and grep its text to confirm an edit reached it.
+- Always verify before attaching: one page, and no notes-to-Jon leaked:
+  ```bash
+  pdftotext "<pdf>" - | grep -ciE "JD verified|HONEST GAP|Resume variant|COMP"
+  ```
+
+### Resume variants
+
+| Variant | Use for |
+|---|---|
+| AI Builder | AI-native, agents, applied-AI infra, edtech |
+| PM Resume | Developer platforms, creator tools, dev experience |
+| Growth & Scale | Growth, monetization, funnels, P&L |
+| Zero to One | Founding PM, 0→1, no-playbook roles |
+
+### Standard answers
+
+| Field | Value |
+|---|---|
+| Name / Email | Jon Martin · jonalexjames@gmail.com |
+| Phone | (650) 627-6352 |
+| Location | Concord, California, United States |
+| LinkedIn | https://www.linkedin.com/in/jonmartin-pm/ |
+| Portfolio | https://portfolio.jonnymartin.blog |
+| Current company / title | Frame Story · Co-Founder & Director of Product |
+| Work auth / sponsorship | Yes / No |
+| Pronouns | he/him *(confirmed by Jon)* |
+
+`src/lib/experience.ts` and `Footer.tsx` carry an **older** LinkedIn URL. Don't use it.
 
 ## Rationalizations
 
 | Excuse | Reality |
 |---|---|
-| "Nobody else is applying to this one" | You cannot see the other sessions. Stedi got three applications that way. Claim it. |
-| "It's a different role at the same company" | Still one company, still one slot. That is precisely how Stedi got three. |
-| "The field shows my text" | Greenhouse showed `Yes` over an empty hidden input; Ashby showed 177 chars and the server said missing. |
-| "`form_input` worked on the name field" | It works on plain inputs and native selects. It does not commit React comboboxes or Ashby textareas. |
-| "I'll dispatch an input event from JS instead" | Tried on Ashby. Server still rejected it. Type the text. |
-| "`read_page` returned everything" | It returns what is near the viewport. On Greenhouse that was 3 links out of 34 inputs. |
-| "I'll click Attach and pick the file" | That opens a native dialog you cannot see and it blocks the session. |
-| "The code is just in his inbox" | Fetching a human-verification code is completing a bot check. Hand it back. |
-| "Easy Apply is fast, apply to a few" | Speed is not the goal. A bad-fit application still goes out under his name. |
-| "I'll fill both forms in one tab" | Navigating away destroys the first form. One tab each. |
-| "Screenshot after every action" | Use JS dumps for structure; screenshot for coordinates and final confirmation. |
-| "`find` sees the Submit button, so the form is open" | Greenhouse keeps the form in the DOM but hidden until Apply is clicked. |
-| "`remainingEmpty` is nonzero, something failed" | It counts dropdowns you have not filled yet. Re-run after each selection and watch it drop. |
-| "The demographics are required, so I have to pick one" | Every one of them offers "I don't wish to answer." That choice is still Jon's. |
-| "Webflow needed an email code, so this board will too" | Sourcegraph submitted with no code gate. Gates are per-board; find out by reaching the end. |
+| "The field shows my text" | Snowflake showed `Jon Martin` and submitted empty, twice. |
+| "The button looks selected" | Baseten's did; the server said missing. Count the checkboxes. |
+| "I'll re-click it to be safe" | That toggles it **off**. Did it twice. |
+| "I'll re-click it to be safe" | That toggles it **off**. Did it twice. |
+| "`emptyRequired=0`, so it's complete" | That reads `el.value`, which is the same lie. |
+| "The click returned success" | The click dispatched. The form may not have moved. |
+| "I'll reuse the coordinates from a second ago" | A banner cleared and everything moved 170px. |
+| "`read_page` says the field is 'Type here…'" | That's the placeholder. Probe `.value`. |
+| "Enter will pick the highlighted option" | It pre-highlighted Argentina. Click the row. |
+| "It's just a checkbox" | It was an arbitration agreement waiving his right to sue. |
+| "He said yes to 3 days at the last company" | Different commute, different company. Ask again. |
+| "I'll fill the iframe by coordinates" | You cannot read back what committed. Don't. |
+| "Company-wide PATCH is fine, there's one row" | There were ten. Nine went false. |
+| "The batch is waiting, I'll pick a sensible default" | Blank it and put it in the table. Jon answers it. |
+| "He said 'looks good', that covers the batch" | Only rows he names by number get submitted. |
 
 ## Related
 
-- `verifying-job-listings` — run first, always.
-- `one-application-per-company` — claim the role second, before any tailoring.
-  Also where to mark it `submitted` once Jon sends it, so the next agent sees it.
-- `documents/applications/screening-answers.md` — canonical answers to the
-  recurring questions, including the employment-gap narrative.
-- `documents/applications/{date}-queue.md` — ranked queue, resume variant per
-  role, and the apply links.
+- `verifying-job-listings` — run first, always. 
+- `one-application-per-company` — claim second, before any tailoring.
+- `show-dont-say` — run over a letter before it goes out; replace self-labels with scenes.
+- `documents/applications/screening-answers.md` — canonical recurring answers.

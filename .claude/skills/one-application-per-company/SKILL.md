@@ -81,6 +81,24 @@ A **closed** application (rejected, passed over) frees the company slot. The
 **req itself stays blocked forever** — a rejection is not an invitation to
 reapply to the same posting.
 
+### `check` returned OK for companies already applied to that day
+
+On 2026-09-14, after applications to **Mercury** and **Affirm** were recorded as
+`submitted`, `check` still reported "nothing conflicting" for a second role at
+each — despite both sitting at the default cap of 1. The applications were not
+made; the OK was treated as wrong rather than as permission.
+
+Until that is chased down in `application-guard.ts`, **`check` is a floor, not a
+ceiling.** Before claiming a second role at a company:
+
+```bash
+$G list --company "<name>"        # what does the ledger actually hold?
+```
+
+If anything there reads `claimed`, `prepared` or `submitted` and the company is a
+cap-1 tier, stop — whatever `check` said. A same-day second application to a
+small company is the Stedi failure with better tooling.
+
 ## Statuses
 
 | Status | Means | Blocks the req | Occupies a company slot |
@@ -126,6 +144,8 @@ optional when more than one agent is running.
 | "I'll note it in the queue file instead" | Queue files are per-agent. The other agent has its own. |
 | "It was rejected, so I can reapply" | A rejection frees the *company* slot, never the req. |
 | "The claim expired, so my letter is still fine" | If it expired, someone else may hold it now. Re-claim before continuing. |
+| "`check` says OK, so the slot is free" | It said OK for Mercury and Affirm hours after both were submitted, at cap 1. Run `list --company` too. |
+| "The ledger count looks short, something didn't record" | Dates roll over at midnight UTC mid-session. A 13th submission filed under tomorrow is not a lost one. |
 
 ## Red Flags — Stop And Claim
 

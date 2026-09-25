@@ -63,6 +63,7 @@ Full rules in the `one-application-per-company` skill. Do not mark a pipeline ro
 | `src/lib/posts.ts` | Blog posts — conference takeaways, AI/PM thinking |
 | `src/app/about/page.tsx` | Career narrative and testimonials |
 | `documents/` | Resumes (PDF), AI conference notes/transcripts from Berkeley |
+| `documents/plans/100-day-plan.md` | The 100-Day Plan (Sep 22–Dec 23, 2026), local copy. Notion is the source of truth |
 | `src/lib/job-search/application-guard.ts` | Canonical job keys, per-company application caps |
 | `scripts/render-pdfs.mjs` | Renders cover letter and resume PDFs from source |
 | `scripts/sync-materials.mjs` | Pushes `documents/` into the Materials tab |

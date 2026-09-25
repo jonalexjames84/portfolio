@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Brand System — Jon Martin Consulting</title>
+<style>*{box-sizing:border-box}html{color-scheme:light dark}body{margin:0}img{max-width:100%}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --paper:#FAF8F4; --paper-2:#F1EEE7; --surface:#FFFFFF;
+  --ink:#1A1A1A; --ink-2:#4F4F4E; --ink-3:#6E6C67;
+  --line:#E0DCD3; --line-2:#EDEAE3;
+  --blue:#1E4A8C; --blue-2:#2E63B4; --umber:#A8542C;
+  --display:"Bitter",Georgia,serif;
+  --body:"Public Sans","Helvetica Neue",Arial,sans-serif;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+  --gut:clamp(18px,4vw,48px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#15161A; --paper-2:#1C1E23; --surface:#232629;
+  --ink:#EFEDE8; --ink-2:#B5B3AD; --ink-3:#8E8C87;
+  --line:#2F323A; --line-2:#25282E;
+  --blue:#7BA3E4; --blue-2:#9BBBF0; --umber:#D4895F;
+}}
+:root[data-theme="dark"]{
+  --paper:#15161A; --paper-2:#1C1E23; --surface:#232629;
+  --ink:#EFEDE8; --ink-2:#B5B3AD; --ink-3:#8E8C87;
+  --line:#2F323A; --line-2:#25282E;
+  --blue:#7BA3E4; --blue-2:#9BBBF0; --umber:#D4895F;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);margin:0;line-height:1.14;text-wrap:balance;font-weight:700;letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+img{max-width:100%}
+
+.shell{max-width:1280px;margin:0 auto;padding-inline:var(--gut);display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s6)}
+@media(min-width:980px){.shell{grid-template-columns:206px minmax(0,1fr);column-gap:var(--s8);align-items:start}}
+
+/* TOC */
+.toc{padding-block:var(--s5) 0}
+@media(min-width:980px){.toc{position:sticky;top:0;max-height:100vh;overflow-y:auto;padding-block:var(--s7) var(--s6)}}
+.toc .tt{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);margin-bottom:var(--s3)}
+.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4)}
+@media(min-width:980px){.toc ol{flex-direction:column;gap:2px}}
+.toc a{font-size:14.5px;color:var(--ink-2);text-decoration:none;display:block;padding:4px 0;font-weight:500}
+.toc a:hover{color:var(--blue)}
+.toc a .num{font-family:var(--display);font-size:12px;color:var(--ink-3);margin-right:7px}
+
+main{padding-block:var(--s6) var(--s9);min-width:0}
+
+/* masthead */
+.mast{padding-block:var(--s6) var(--s7);border-bottom:2px solid var(--ink)}
+.mast .kick{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.11em;color:var(--blue);margin-bottom:var(--s4)}
+.mast h1{font-size:clamp(32px,6vw,58px);letter-spacing:-.03em}
+.mast p{margin-top:var(--s4);font-size:19px;color:var(--ink-2);max-width:58ch}
+.meta{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s6);margin-top:var(--s5)}
+.meta div{font-size:13.5px;color:var(--ink-3)}
+.meta b{display:block;color:var(--ink);font-family:var(--display);font-size:15px;font-weight:700}
+
+section{padding-block:var(--s7);border-bottom:1px solid var(--line)}
+.sh{display:flex;align-items:baseline;gap:var(--s3);margin-bottom:var(--s3)}
+.sh .n{font-family:var(--display);font-size:14px;font-weight:700;color:var(--blue)}
+section h2{font-size:clamp(24px,3.4vw,32px)}
+.lede{color:var(--ink-2);font-size:17px;max-width:66ch;margin-bottom:var(--s6)}
+h3.sub{font-size:19px;margin-top:var(--s6);margin-bottom:var(--s3)}
+h3.sub:first-of-type{margin-top:0}
+.small{font-size:14.5px;color:var(--ink-3);line-height:1.5}
+.grid{display:grid;gap:var(--s4)}
+.g2{grid-template-columns:repeat(auto-fit,minmax(248px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(186px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(148px,1fr))}
+.panel{background:var(--surface);border:1px solid var(--line);padding:var(--s5)}
+
+/* ---------- logo ---------- */
+.mark{background:var(--blue);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;letter-spacing:-.02em;flex:0 0 auto}
+.m-xl{width:96px;height:96px;font-size:38px}
+.m-l{width:56px;height:56px;font-size:22px}
+.m-m{width:40px;height:40px;font-size:16px}
+.m-s{width:24px;height:24px;font-size:10px}
+.m-xs{width:16px;height:16px;font-size:7px}
+.lock{display:flex;align-items:center;gap:14px}
+.lock .wm{font-family:var(--display);font-weight:700;font-size:25px;letter-spacing:-.028em;line-height:1.05}
+.lock.stacked{flex-direction:column;align-items:flex-start;gap:12px}
+.stage{background:var(--surface);border:1px solid var(--line);padding:var(--s6);display:flex;align-items:center;justify-content:center;min-height:168px}
+.cap{font-size:13px;color:var(--ink-3);margin-top:var(--s2);line-height:1.45}
+.stage.dark{background:var(--ink)}
+.stage.dark .wm{color:var(--paper)}
+.stage.dark .mark{background:var(--paper);color:var(--ink)}
+.stage.blue{background:var(--blue)}
+.stage.blue .wm{color:var(--paper)}
+.stage.blue .mark{background:var(--paper);color:var(--blue)}
+.stage.mono .mark{background:var(--ink);color:var(--paper)}
+
+/* clear space diagram */
+.clear{position:relative;display:inline-flex;padding:40px;outline:1px dashed var(--blue);outline-offset:-1px}
+.clear::before{content:"";position:absolute;inset:40px;outline:1px dashed var(--umber)}
+.ctick{position:absolute;font-family:var(--display);font-size:11px;color:var(--blue);font-weight:700}
+.ctick.t{top:14px;left:50%;transform:translateX(-50%)}
+.ctick.l{left:10px;top:50%;transform:translateY(-50%)}
+
+/* misuse */
+.dont{background:var(--surface);border:1px solid var(--line);padding:var(--s4);display:flex;flex-direction:column;gap:var(--s3);min-height:150px}
+.dont .box{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.dont .lbl{font-size:12.5px;font-weight:700;color:var(--umber);display:flex;gap:6px;align-items:baseline}
+.dont .lbl span{font-size:14px}
+
+/* ---------- colour ---------- */
+.sw{display:flex;flex-direction:column}
+.sw .chip{height:78px;border:1px solid var(--line)}
+.sw .nm{font-family:var(--display);font-weight:700;font-size:14.5px;margin-top:var(--s2)}
+.sw .hx{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.sw .ro{font-size:13px;color:var(--ink-2);margin-top:3px;line-height:1.4}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2)}
+th{font-family:var(--body);font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);background:var(--paper-2)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;font-weight:600}
+.badge{font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:999px;display:inline-block}
+.b-aaa{background:var(--blue);color:var(--paper)}
+.b-aa{background:var(--ink-2);color:var(--paper)}
+.b-no{background:var(--umber);color:var(--paper)}
+.ratio{display:flex;height:34px;border:1px solid var(--line);overflow:hidden}
+.ratio div{display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700}
+
+/* ---------- type ---------- */
+.spec-row{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s2);padding-block:var(--s4);border-bottom:1px solid var(--line-2)}
+@media(min-width:720px){.spec-row{grid-template-columns:minmax(0,1fr) 186px;column-gap:var(--s5);align-items:baseline}}
+.spec-row .val{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums;line-height:1.5}
+.d-l{font-family:var(--display);font-weight:700;font-size:52px;line-height:1.05;letter-spacing:-.028em}
+.d-m{font-family:var(--display);font-weight:700;font-size:38px;line-height:1.08;letter-spacing:-.025em}
+.t-h1{font-family:var(--display);font-weight:700;font-size:32px;line-height:1.12;letter-spacing:-.022em}
+.t-h2{font-family:var(--display);font-weight:700;font-size:25px;line-height:1.15;letter-spacing:-.02em}
+.t-h3{font-family:var(--display);font-weight:600;font-size:20px;line-height:1.2;letter-spacing:-.015em}
+.t-lead{font-size:18.5px;line-height:1.55;color:var(--ink-2)}
+.t-body{font-size:17px;line-height:1.6}
+.t-sm{font-size:15.5px;line-height:1.5;color:var(--ink-2)}
+.t-cap{font-size:13.5px;line-height:1.45;color:var(--ink-3)}
+.t-lab{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-3)}
+
+/* ---------- grid ---------- */
+.colgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:8px;background:var(--surface);border:1px solid var(--line);padding:var(--s3)}
+.colgrid div{height:52px;background:color-mix(in srgb,var(--blue) 15%,transparent);border-top:2px solid var(--blue)}
+.spacescale{display:flex;flex-direction:column;gap:var(--s2)}
+.spacerow{display:flex;align-items:center;gap:var(--s3)}
+.spacerow .bar{background:var(--blue);height:14px}
+.spacerow .tag{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums;min-width:118px}
+
+/* ---------- wireframes ---------- */
+.wf{background:var(--surface);border:1px solid var(--line);padding:var(--s3);display:flex;flex-direction:column;gap:6px;aspect-ratio:4/5}
+.wf .r{background:var(--line-2);border-radius:1px}
+.wf .r.ink{background:var(--ink);opacity:.82}
+.wf .r.blue{background:var(--blue)}
+.wf .r.mid{background:var(--line)}
+.wf .row{display:flex;gap:6px}
+.wf .col{display:flex;flex-direction:column;gap:5px;flex:1}
+.wf .sp{flex:1}
+.wfname{font-family:var(--display);font-weight:700;font-size:15px;margin-top:var(--s2)}
+
+/* ---------- imagery ---------- */
+.frame{background:var(--paper-2);border:1px solid var(--line);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.f45{aspect-ratio:4/5}
+.f1611{aspect-ratio:16/11}
+.f11{aspect-ratio:1/1}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.frame .ph{font-size:12.5px;color:var(--ink-3);text-align:center;padding:12px;line-height:1.5}
+.thirds{position:absolute;inset:0;pointer-events:none}
+.thirds i{position:absolute;background:var(--blue);opacity:.35}
+.thirds i.v1{left:33.33%;top:0;bottom:0;width:1px}
+.thirds i.v2{left:66.66%;top:0;bottom:0;width:1px}
+.thirds i.h1{top:33.33%;left:0;right:0;height:1px}
+.thirds i.h2{top:66.66%;left:0;right:0;height:1px}
+.subject{position:absolute;border:1.5px solid var(--umber);border-radius:2px}
+.shotlist{display:flex;flex-direction:column;gap:var(--s3)}
+.shot{display:flex;gap:var(--s3);padding-bottom:var(--s3);border-bottom:1px solid var(--line-2)}
+.shot:last-child{border-bottom:0;padding-bottom:0}
+.shot .k{font-family:var(--display);font-weight:700;font-size:13px;color:var(--blue);flex:0 0 32px;padding-top:2px}
+.shot b{font-family:var(--display);font-size:15.5px;display:block}
+.shot p{font-size:15px;color:var(--ink-2);margin-top:2px}
+
+/* ---------- icons ---------- */
+.icons{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:var(--s4)}
+.ico{display:flex;flex-direction:column;align-items:center;gap:var(--s2);padding:var(--s4) var(--s2);background:var(--surface);border:1px solid var(--line)}
+.ico svg{width:28px;height:28px;stroke:var(--ink);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.ico span{font-size:12.5px;color:var(--ink-3);text-align:center}
+
+/* ---------- components ---------- */
+.tl{font-weight:600;color:var(--blue);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.tl:hover{text-decoration-thickness:2px}
+.btn{font-family:var(--body);font-size:14.5px;font-weight:600;padding:10px 18px;border-radius:3px;border:1px solid var(--blue);background:var(--blue);color:var(--paper);cursor:pointer;display:inline-block;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn:focus-visible,.tl:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.pill{font-size:13px;font-weight:600;color:var(--blue);border:1px solid var(--blue);padding:5px 11px;border-radius:999px;display:inline-block}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3)}
+.fld input{font-family:var(--body);font-size:16px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:3px}
+.fld input:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.qb{border-left:3px solid var(--blue);padding-left:var(--s4)}
+.qb blockquote{margin:0;font-family:var(--display);font-size:19px;line-height:1.4;font-weight:500}
+.qb .att{font-size:14px;color:var(--ink-3);margin-top:var(--s2)}
+
+/* ---------- applications ---------- */
+.card{background:var(--surface);border:1px solid var(--line);aspect-ratio:1.75/1;padding:var(--s4);display:flex;flex-direction:column;justify-content:space-between}
+.card.back{background:var(--blue)}
+.card.back .wm{color:var(--paper)}
+.sig{background:var(--surface);border:1px solid var(--line);padding:var(--s4);font-size:14px;line-height:1.55}
+.sig .nm{font-family:var(--display);font-weight:700;font-size:16px}
+.slide{background:var(--surface);border:1px solid var(--line);aspect-ratio:16/9;padding:var(--s5);display:flex;flex-direction:column;justify-content:flex-end;gap:var(--s2)}
+.slide.title{background:var(--ink)}
+.slide.title *{color:var(--paper)}
+.avatarbig{width:82px;height:82px;border-radius:50%;background:var(--blue);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:31px}
+
+/* voice */
+.vt{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s3)}
+@media(min-width:680px){.vt{grid-template-columns:1fr 1fr;gap:var(--s4)}}
+.vt .yes,.vt .no{padding:var(--s4);border:1px solid var(--line);background:var(--surface)}
+.vt .yes{border-left:3px solid var(--blue)}
+.vt .no{border-left:3px solid var(--umber)}
+.vt .tag{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;margin-bottom:var(--s2)}
+.vt .yes .tag{color:var(--blue)}
+.vt .no .tag{color:var(--umber)}
+.vt p{font-size:16px;line-height:1.5}
+
+/* open */
+.olist{display:flex;flex-direction:column;gap:var(--s3)}
+.oitem{display:flex;gap:var(--s3)}
+.oitem .k{font-size:13px;font-weight:700;color:var(--umber);flex:0 0 30px;padding-top:4px}
+.oitem p{font-size:16.5px;color:var(--ink-2);line-height:1.5}
+.oitem b{color:var(--ink);font-weight:700}
+
+.pre{background:var(--ink);color:var(--paper);padding:var(--s4);overflow-x:auto;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.7}
+.foot{padding-block:var(--s6) var(--s8);color:var(--ink-3);font-size:15px;max-width:70ch}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <nav class="toc" aria-label="Contents">
+    <p class="tt">Contents</p>
+    <ol>
+      <li><a href="#logo"><span class="num">01</span>Logo</a></li>
+      <li><a href="#colour"><span class="num">02</span>Colour</a></li>
+      <li><a href="#type"><span class="num">03</span>Typography</a></li>
+      <li><a href="#grid"><span class="num">04</span>Grid &amp; spacing</a></li>
+      <li><a href="#layouts"><span class="num">05</span>Layouts</a></li>
+      <li><a href="#imagery"><span class="num">06</span>Imagery</a></li>
+      <li><a href="#icons"><span class="num">07</span>Iconography</a></li>
+      <li><a href="#components"><span class="num">08</span>Components</a></li>
+      <li><a href="#motion"><span class="num">09</span>Motion</a></li>
+      <li><a href="#voice"><span class="num">10</span>Voice &amp; tone</a></li>
+      <li><a href="#apps"><span class="num">11</span>Applications</a></li>
+      <li><a href="#tokens"><span class="num">12</span>Tokens</a></li>
+      <li><a href="#open"><span class="num">—</span>Still open</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="mast">
+      <p class="kick">Brand &amp; design system · v0.1 · September 2026</p>
+      <h1>Jon Martin Consulting</h1>
+      <p>The standards for a one-person product and web practice serving working artists. Built on Direction D, Person Led — the structure taken from thoughtbot, where the senior person is the product and the proof is named clients with real outcomes.</p>
+      <div class="meta">
+        <div><b>Jon Martin Consulting</b>Name, confirmed</div>
+        <div><b>JM</b>Monogram</div>
+        <div><b>SMB creators</b>Audience</div>
+        <div><b>Two offers</b>Self-serve · done for you</div>
+      </div>
+    </header>
+
+    <!-- 01 LOGO -->
+    <section id="logo">
+      <div class="sh"><span class="n">01</span><h2>Logo</h2></div>
+      <p class="lede">A square JM mark beside the name. The mark is the only element that survives at small sizes, which is why it carries the colour and the wordmark does not.</p>
+
+      <h3 class="sub">Lockups</h3>
+      <div class="grid g2">
+        <div><div class="stage"><span class="lock"><span class="mark m-l">JM</span><span class="wm">Jon Martin<br>Consulting</span></span></div><p class="cap"><b>Primary.</b> Default for web headers, documents, decks.</p></div>
+        <div><div class="stage"><span class="lock stacked"><span class="mark m-l">JM</span><span class="wm">Jon Martin Consulting</span></span></div><p class="cap"><b>Stacked.</b> Narrow columns, social profiles, proposal covers.</p></div>
+        <div><div class="stage"><span class="wm" style="font-family:var(--display);font-weight:700;font-size:25px;letter-spacing:-.028em">Jon Martin Consulting</span></div><p class="cap"><b>Wordmark alone.</b> Where the mark would be redundant — invoice footers, signatures.</p></div>
+        <div><div class="stage"><span class="mark m-xl">JM</span></div><p class="cap"><b>Monogram alone.</b> Avatars, favicons, stamps on client work.</p></div>
+      </div>
+
+      <h3 class="sub">Clear space &amp; minimum size</h3>
+      <div class="grid g2">
+        <div>
+          <div class="stage">
+            <span class="clear">
+              <span class="ctick t">M</span><span class="ctick l">M</span>
+              <span class="lock"><span class="mark m-m">JM</span><span class="wm" style="font-size:19px">Jon Martin Consulting</span></span>
+            </span>
+          </div>
+          <p class="cap"><b>Clear space = the height of the mark's cap "M" on all four sides.</b> Nothing enters it — no text, no rule, no image edge, no other logo.</p>
+        </div>
+        <div>
+          <div class="stage" style="gap:var(--s5);flex-wrap:wrap">
+            <div style="text-align:center"><span class="mark m-s" style="margin:0 auto">JM</span><p class="cap">24px</p></div>
+            <div style="text-align:center"><span class="mark m-xs" style="margin:0 auto">JM</span><p class="cap">16px</p></div>
+            <div style="text-align:center"><span class="lock"><span class="mark" style="width:18px;height:18px;font-size:8px">JM</span><span class="wm" style="font-size:11px">Jon Martin Consulting</span></span><p class="cap">140px lockup</p></div>
+          </div>
+          <p class="cap"><b>Minimums.</b> Mark: 16px screen, 6mm print. Full lockup: 140px screen, 32mm print. Below 140px the lockup loses the wordmark and the mark stands alone.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Colour variants</h3>
+      <div class="grid g4">
+        <div><div class="stage" style="min-height:112px"><span class="lock"><span class="mark m-m">JM</span><span class="wm" style="font-size:16px">Jon Martin<br>Consulting</span></span></div><p class="cap">Ink blue on paper — default</p></div>
+        <div><div class="stage dark" style="min-height:112px"><span class="lock"><span class="mark m-m">JM</span><span class="wm" style="font-size:16px">Jon Martin<br>Consulting</span></span></div><p class="cap">Reversed on ink</p></div>
+        <div><div class="stage blue" style="min-height:112px"><span class="lock"><span class="mark m-m">JM</span><span class="wm" style="font-size:16px">Jon Martin<br>Consulting</span></span></div><p class="cap">Reversed on blue</p></div>
+        <div><div class="stage mono" style="min-height:112px"><span class="lock"><span class="mark m-m">JM</span><span class="wm" style="font-size:16px">Jon Martin<br>Consulting</span></span></div><p class="cap">Single ink — fax, stamp, engraving</p></div>
+      </div>
+
+      <h3 class="sub">Misuse</h3>
+      <div class="grid g3">
+        <div class="dont"><div class="box"><span class="lock" style="transform:scaleX(1.5)"><span class="mark m-m">JM</span><span class="wm" style="font-size:15px">Jon Martin</span></span></div><p class="lbl"><span>✕</span> Never stretch or condense</p></div>
+        <div class="dont"><div class="box"><span class="mark m-l" style="background:#C23B7A">JM</span></div><p class="lbl"><span>✕</span> Never recolour outside the palette</p></div>
+        <div class="dont"><div class="box"><span class="mark m-l" style="transform:rotate(-14deg)">JM</span></div><p class="lbl"><span>✕</span> Never rotate or tilt</p></div>
+        <div class="dont"><div class="box"><span class="mark m-l" style="box-shadow:4px 5px 0 rgba(0,0,0,.35)">JM</span></div><p class="lbl"><span>✕</span> No shadows, bevels or glows</p></div>
+        <div class="dont"><div class="box"><span class="lock"><span class="mark m-m">JM</span><span class="wm" style="font-family:var(--body);font-weight:400;font-size:16px">Jon Martin Consulting</span></span></div><p class="lbl"><span>✕</span> Never re-typeset the wordmark</p></div>
+        <div class="dont"><div class="box" style="gap:2px"><span class="mark m-m">JM</span><span style="font-size:11px">Websites for artists — book a call today</span></div><p class="lbl"><span>✕</span> Never crowd the clear space</p></div>
+      </div>
+    </section>
+
+    <!-- 02 COLOUR -->
+    <section id="colour">
+      <div class="sh"><span class="n">02</span><h2>Colour</h2></div>
+      <p class="lede">Warm paper, near-black ink, one professional blue, one umber for attention. Four colours doing four jobs — the blue is the only saturated colour on any screen, and it is never decorative.</p>
+
+      <h3 class="sub">Core palette</h3>
+      <div class="grid g4">
+        <div class="sw"><div class="chip" style="background:#FAF8F4"></div><span class="nm">Warm Paper</span><span class="hx">#FAF8F4</span><span class="ro">Page ground. Never pure white — white reads clinical against handmade work.</span></div>
+        <div class="sw"><div class="chip" style="background:#F1EEE7"></div><span class="nm">Shade</span><span class="hx">#F1EEE7</span><span class="ro">Recessed bands, table headers, quiet separation without a border.</span></div>
+        <div class="sw"><div class="chip" style="background:#1A1A1A"></div><span class="nm">Ink</span><span class="hx">#1A1A1A</span><span class="ro">All primary text. One heavy surface per page, maximum.</span></div>
+        <div class="sw"><div class="chip" style="background:#1E4A8C"></div><span class="nm">Ink Blue</span><span class="hx">#1E4A8C</span><span class="ro">The accent. Links, the mark, focus rings, discipline pills.</span></div>
+        <div class="sw"><div class="chip" style="background:#4F4F4E"></div><span class="nm">Ink 2</span><span class="hx">#4F4F4E</span><span class="ro">Secondary text, descriptions, supporting prose.</span></div>
+        <div class="sw"><div class="chip" style="background:#6E6C67"></div><span class="nm">Ink 3</span><span class="hx">#6E6C67</span><span class="ro">Captions and labels. Darkened from #83827E, which failed AA.</span></div>
+        <div class="sw"><div class="chip" style="background:#A8542C"></div><span class="nm">Umber</span><span class="hx">#A8542C</span><span class="ro">Attention and unresolved items only. Semantic, never brand.</span></div>
+        <div class="sw"><div class="chip" style="background:#E0DCD3"></div><span class="nm">Line</span><span class="hx">#E0DCD3</span><span class="ro">Hairlines and field borders.</span></div>
+      </div>
+
+      <h3 class="sub">Contrast — measured, not assumed</h3>
+      <p class="small" style="margin-bottom:var(--s4)">Every ratio below is calculated against WCAG 2.1. Two values were changed because they failed: Ink 3 was <b>#83827E</b> at 3.63:1 on paper, which fails AA for body text, and its dark-mode counterpart failed on raised surfaces.</p>
+      <div class="tblwrap">
+        <table>
+          <thead><tr><th>Foreground</th><th>Background</th><th>Ratio</th><th>Body text</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td>Ink #1A1A1A</td><td>Paper #FAF8F4</td><td class="num">16.41</td><td><span class="badge b-aaa">AAA</span></td><td>All body copy and headings</td></tr>
+            <tr><td>Ink 2 #4F4F4E</td><td>Paper #FAF8F4</td><td class="num">7.73</td><td><span class="badge b-aaa">AAA</span></td><td>Secondary prose</td></tr>
+            <tr><td>Ink 3 #6E6C67</td><td>Paper #FAF8F4</td><td class="num">4.94</td><td><span class="badge b-aa">AA</span></td><td>Captions, labels — not long-form</td></tr>
+            <tr><td>Ink 3 #6E6C67</td><td>Shade #F1EEE7</td><td class="num">4.53</td><td><span class="badge b-aa">AA</span></td><td>Captions on shaded bands</td></tr>
+            <tr><td>Ink Blue #1E4A8C</td><td>Paper #FAF8F4</td><td class="num">8.20</td><td><span class="badge b-aaa">AAA</span></td><td>Links at any size</td></tr>
+            <tr><td>Umber #A8542C</td><td>Paper #FAF8F4</td><td class="num">4.99</td><td><span class="badge b-aa">AA</span></td><td>Warnings — never body text</td></tr>
+            <tr><td>Paper #FAF8F4</td><td>Ink Blue #1E4A8C</td><td class="num">8.20</td><td><span class="badge b-aaa">AAA</span></td><td>Reversed on the mark, buttons</td></tr>
+            <tr><td>Paper #FAF8F4</td><td>Ink #1A1A1A</td><td class="num">16.41</td><td><span class="badge b-aaa">AAA</span></td><td>Reversed on dark bands</td></tr>
+            <tr><td><s>Ink 3 #83827E</s></td><td>Paper #FAF8F4</td><td class="num">3.63</td><td><span class="badge b-no">FAILS</span></td><td>Replaced — do not use</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub">Proportion</h3>
+      <div class="ratio">
+        <div style="background:#FAF8F4;color:#1A1A1A;flex:70">70% Paper</div>
+        <div style="background:#1A1A1A;color:#FAF8F4;flex:20">20% Ink</div>
+        <div style="background:#1E4A8C;color:#FAF8F4;flex:8">8% Blue</div>
+        <div style="background:#A8542C;color:#FAF8F4;flex:2">2%</div>
+      </div>
+      <p class="cap">If the blue is over roughly a tenth of a screen it has stopped being an accent. Umber should be rare enough to be startling.</p>
+    </section>
+
+    <!-- 03 TYPE -->
+    <section id="type">
+      <div class="sh"><span class="n">03</span><h2>Typography</h2></div>
+      <p class="lede">Bitter for anything that names something; Public Sans for anything that explains it. A slab headline against a plain sans body is what makes this read as a practice rather than a publication — and it is the deliberate difference from the three serif-bodied directions.</p>
+
+      <h3 class="sub">Scale</h3>
+      <div class="spec-row"><div class="d-l">Jon Martin</div><div class="val">Display L · Bitter 700<br>52 / 54.6 · −0.028em<br>clamp(30px, 5.2vw, 52px)</div></div>
+      <div class="spec-row"><div class="d-m">You get me, not an agency</div><div class="val">Display M · Bitter 700<br>38 / 41 · −0.025em</div></div>
+      <div class="spec-row"><div class="t-h1">Selected work</div><div class="val">H1 · Bitter 700<br>32 / 35.8 · −0.022em</div></div>
+      <div class="spec-row"><div class="t-h2">Nancy Takaichi</div><div class="val">H2 · Bitter 700<br>25 / 28.75 · −0.02em</div></div>
+      <div class="spec-row"><div class="t-h3">What I do</div><div class="val">H3 · Bitter 600<br>20 / 24 · −0.015em</div></div>
+      <div class="spec-row"><div class="t-lead">Built by a fellow creative with 15 years in tech.</div><div class="val">Lead · Public Sans 400<br>18.5 / 28.7</div></div>
+      <div class="spec-row"><div class="t-body">A 30 min call to troubleshoot, plan, or improve your site. Great if you just need answers fast.</div><div class="val">Body · Public Sans 400<br>17 / 27.2 · 60–70ch measure</div></div>
+      <div class="spec-row"><div class="t-sm">Growth strategy · 4 pillars · 18 months</div><div class="val">Small · Public Sans 400<br>15.5 / 23.25</div></div>
+      <div class="spec-row"><div class="t-cap">Photograph: Nancy Takaichi, studio, 2026</div><div class="val">Caption · Public Sans 400<br>13.5 / 19.6 · Ink 3</div></div>
+      <div class="spec-row"><div class="t-lab">Start small</div><div class="val">Label · Public Sans 700<br>13 / 16.9 · 0.09em · caps</div></div>
+
+      <h3 class="sub">Rules</h3>
+      <div class="grid g2">
+        <div class="panel"><p style="font-weight:700;font-family:var(--display);margin-bottom:6px">Measure</p><p class="small">Body copy 60–70 characters. Lead paragraphs no wider than 46ch. Never justify; never hyphenate headlines.</p></div>
+        <div class="panel"><p style="font-weight:700;font-family:var(--display);margin-bottom:6px">Numerals</p><p class="small">Tabular numerals wherever figures stack — metrics, invoices, contrast tables. Proportional everywhere else.</p></div>
+        <div class="panel"><p style="font-weight:700;font-family:var(--display);margin-bottom:6px">Tracking</p><p class="small">Negative tracking increases with size. Labels are the only positive tracking in the system, at 0.09em.</p></div>
+        <div class="panel"><p style="font-weight:700;font-family:var(--display);margin-bottom:6px">No monospace</p><p class="small">Deliberately absent. Mono labels read as receipts and spec sheets — a retail tell, not a consulting one.</p></div>
+      </div>
+    </section>
+
+    <!-- 04 GRID -->
+    <section id="grid">
+      <div class="sh"><span class="n">04</span><h2>Grid &amp; spacing</h2></div>
+      <p class="lede">An 8pt base. Every margin, padding and gap in the system is a multiple of it, which is what keeps independently built pages looking related.</p>
+
+      <h3 class="sub">Spacing scale</h3>
+      <div class="spacescale">
+        <div class="spacerow"><span class="tag">--s1 · 4px</span><span class="bar" style="width:4px"></span></div>
+        <div class="spacerow"><span class="tag">--s2 · 8px</span><span class="bar" style="width:8px"></span></div>
+        <div class="spacerow"><span class="tag">--s3 · 12px</span><span class="bar" style="width:12px"></span></div>
+        <div class="spacerow"><span class="tag">--s4 · 16px</span><span class="bar" style="width:16px"></span></div>
+        <div class="spacerow"><span class="tag">--s5 · 24px</span><span class="bar" style="width:24px"></span></div>
+        <div class="spacerow"><span class="tag">--s6 · 32px</span><span class="bar" style="width:32px"></span></div>
+        <div class="spacerow"><span class="tag">--s7 · 48px</span><span class="bar" style="width:48px"></span></div>
+        <div class="spacerow"><span class="tag">--s8 · 64px</span><span class="bar" style="width:64px"></span></div>
+        <div class="spacerow"><span class="tag">--s9 · 96px</span><span class="bar" style="width:96px"></span></div>
+      </div>
+
+      <h3 class="sub">Twelve columns</h3>
+      <div class="colgrid" aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      <p class="cap">Container 1100px max, 24px gutters, side padding clamp(18px, 4vw, 48px). Breakpoints: 480 / 768 / 1024 / 1280. Below 768 everything collapses to one column — no two-column body text on a phone, ever.</p>
+    </section>
+
+    <!-- 05 LAYOUTS -->
+    <section id="layouts">
+      <div class="sh"><span class="n">05</span><h2>Layouts</h2></div>
+      <p class="lede">Six page types. The shared rule: left-aligned, hairline-separated, no cards, and text links rather than buttons except for the single booking action.</p>
+      <div class="grid g3">
+        <div>
+          <div class="wf">
+            <div class="row"><div class="r blue" style="width:14px;height:14px"></div><div class="r mid" style="flex:1;height:8px;margin-top:3px"></div></div>
+            <div class="r ink" style="height:26px;margin-top:6px"></div><div class="r ink" style="height:26px;width:70%"></div>
+            <div class="r" style="height:8px;width:80%;margin-top:4px"></div><div class="r" style="height:8px;width:62%"></div>
+            <div class="r blue" style="height:8px;width:38%;margin-top:6px"></div>
+            <div class="row" style="margin-top:8px;flex:1"><div class="col"><div class="r mid" style="flex:1"></div></div><div class="col"><div class="r" style="height:12px"></div><div class="r" style="height:7px"></div><div class="r" style="height:7px;width:70%"></div><div class="sp"></div></div></div>
+          </div>
+          <p class="wfname">Home</p><p class="cap">Portrait right, claim left, then work. One booking link.</p>
+        </div>
+        <div>
+          <div class="wf">
+            <div class="r mid" style="height:8px;width:44%"></div>
+            <div class="r ink" style="height:22px;margin-top:6px"></div><div class="r ink" style="height:22px;width:64%"></div>
+            <div class="row" style="margin-top:6px"><div class="r blue" style="height:9px;width:38px"></div><div class="r blue" style="height:9px;width:30px"></div></div>
+            <div class="r mid" style="flex:1;margin-top:8px"></div>
+            <div class="r" style="height:7px"></div><div class="r" style="height:7px"></div><div class="r" style="height:7px;width:72%"></div>
+          </div>
+          <p class="wfname">Case study</p><p class="cap">Client, outcome, pills, one full-width image, the story.</p>
+        </div>
+        <div>
+          <div class="wf">
+            <div class="r ink" style="height:20px;width:66%"></div>
+            <div class="r" style="height:7px;width:88%;margin-top:6px"></div>
+            <div class="row" style="margin-top:10px;flex:1"><div class="col"><div class="r blue" style="height:10px;width:60%"></div><div class="r" style="height:6px"></div><div class="r" style="height:6px;width:80%"></div><div class="r blue" style="height:10px;width:52%;margin-top:8px"></div><div class="r" style="height:6px"></div><div class="r" style="height:6px;width:74%"></div><div class="sp"></div></div></div>
+          </div>
+          <p class="wfname">Service detail</p><p class="cap">What it is, what you get, what it costs you in time.</p>
+        </div>
+        <div>
+          <div class="wf">
+            <div class="r mid" style="height:7px;width:32%"></div>
+            <div class="r ink" style="height:18px;margin-top:5px;width:86%"></div>
+            <div class="r" style="height:6px;width:52%;margin-top:5px"></div>
+            <div style="height:1px;background:var(--line);margin:8px 0"></div>
+            <div class="r" style="height:6px"></div><div class="r" style="height:6px"></div><div class="r" style="height:6px;width:92%"></div><div class="r" style="height:6px;width:78%"></div>
+            <div class="r blue" style="height:22px;width:4px;margin-top:8px"></div>
+            <div class="r" style="height:6px"></div><div class="r" style="height:6px;width:84%"></div><div class="sp"></div>
+          </div>
+          <p class="wfname">Article</p><p class="cap">Single column, 66ch, pull quote on the blue rule.</p>
+        </div>
+        <div>
+          <div class="wf">
+            <div class="row" style="flex:1"><div class="col" style="flex:.85"><div class="r mid" style="flex:1"></div></div><div class="col"><div class="r ink" style="height:18px"></div><div class="r" style="height:6px;margin-top:4px"></div><div class="r" style="height:6px"></div><div class="r" style="height:6px;width:76%"></div><div class="r blue" style="height:8px;width:44%;margin-top:6px"></div><div class="sp"></div></div></div>
+          </div>
+          <p class="wfname">About</p><p class="cap">The portrait does the work. First person, short.</p>
+        </div>
+        <div>
+          <div class="wf">
+            <div class="r ink" style="height:20px;width:58%"></div>
+            <div class="r" style="height:6px;width:80%;margin-top:5px"></div>
+            <div class="r mid" style="height:24px;margin-top:10px"></div>
+            <div class="r mid" style="height:24px"></div>
+            <div class="r mid" style="height:44px"></div>
+            <div class="r blue" style="height:20px;width:38%;margin-top:6px"></div>
+            <div class="sp"></div>
+          </div>
+          <p class="wfname">Contact</p><p class="cap">Three fields. Anything longer loses the booking.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 IMAGERY -->
+    <section id="imagery">
+      <div class="sh"><span class="n">06</span><h2>Imagery</h2></div>
+      <p class="lede"><b>This section is art direction, and it is mostly a specification rather than a library.</b> One usable asset exists in this repo; everything else is still to be shot. Crop ratios, framing, treatment rules and a shot list are below.</p>
+
+      <h3 class="sub">Three subjects, in priority order</h3>
+      <div class="grid g3">
+        <div>
+          <div class="frame f1611"><div class="thirds"><i class="v1"></i><i class="v2"></i><i class="h1"></i><i class="h2"></i></div><span class="subject" style="left:6%;top:12%;right:34%;bottom:12%"></span><span class="ph">The work<br>16:11</span></div>
+          <p class="cap"><b>1. The work itself.</b> The hero. Fills two-thirds of frame, weighted left or right so the headline has somewhere to sit.</p>
+        </div>
+        <div>
+          <div class="frame f45"><img src="../jonny-pottery-studio.jpg" alt="Jon crouching in a ceramics studio holding a small dog, shelves of tools and greenware behind him"></div>
+          <p class="cap"><b>2. The maker working.</b> Hands in frame, eyes usually not on camera, mid-task. <b style="color:var(--umber)">The asset shown does not meet this spec</b> — it is posed, looking at camera, holding a dog. Good for About; not the lead frame.</p>
+        </div>
+        <div>
+          <div class="frame f11"><div class="thirds"><i class="v1"></i><i class="v2"></i><i class="h1"></i><i class="h2"></i></div><span class="subject" style="left:8%;top:30%;right:8%;bottom:8%"></span><span class="ph">The workspace<br>1:1</span></div>
+          <p class="cap"><b>3. The workspace.</b> Context, texture, mess. Square for grids and avatars.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Treatment</h3>
+      <div class="vt">
+        <div class="yes">
+          <p class="tag">Do</p>
+          <p>Natural window light. Warm-neutral white balance matched to the paper. Real working mess left in frame. Hands, tools and material visible. Colour straight out of camera, lightly graded.</p>
+        </div>
+        <div class="no">
+          <p class="tag">Don't</p>
+          <p>No flash. No filters, duotones or brand-colour overlays. No crushed blacks. No stock photography of any kind. Never photograph a client's work against a background that fights its glaze or pigment.</p>
+        </div>
+      </div>
+      <p class="small" style="margin-top:var(--s4)"><b>The rule that decides close calls:</b> the client's work is always the hero. If a photograph makes Jon look more impressive than the artist, it is the wrong photograph for this brand.</p>
+
+      <h3 class="sub">Shot list</h3>
+      <div class="panel">
+        <div class="shotlist">
+          <div class="shot"><span class="k">01</span><div><b>Portrait of Jon, working</b><p>4:5, at the wheel or at the desk mid-task. Not a headshot. This is the single blocking asset — Direction D does not function without it.</p></div></div>
+          <div class="shot"><span class="k">02</span><div><b>Three client site screens</b><p>16:11, on a real device or cleanly flat. One per case study.</p></div></div>
+          <div class="shot"><span class="k">03</span><div><b>Client work in situ</b><p>Ceramics on a shelf, a painting on a wall, a bottle on a bench. Establishes who this is for faster than any headline.</p></div></div>
+          <div class="shot"><span class="k">04</span><div><b>Hands and material</b><p>1:1 texture frames for grid fill and social. Cheap to shoot, endlessly reusable.</p></div></div>
+          <div class="shot"><span class="k">05</span><div><b>Studio wide</b><p>One environmental frame for the About page.</p></div></div>
+        </div>
+      </div>
+
+      <h3 class="sub">What already exists in this repo</h3>
+      <div class="tblwrap">
+        <table>
+          <thead><tr><th>File</th><th>What it actually shows</th><th>Meets the spec?</th></tr></thead>
+          <tbody>
+            <tr><td>public/jonny-pottery-studio.jpg</td><td>Posed, crouching in the studio with a dog, eyes to camera</td><td><span class="badge b-aa">Partial — About only</span></td></tr>
+            <tr><td>public/jonny-headshot.jpg</td><td>Studio headshot</td><td><span class="badge b-no">No — direction rejects headshots as lead</span></td></tr>
+            <tr><td>public/jonny-couple.jpg, jonny-hiking.jpg, jonny-gdc.jpg</td><td>Personal and conference photography</td><td><span class="badge b-no">No — off-brand for this practice</span></td></tr>
+            <tr><td>—</td><td>Client work, client sites, hands and material</td><td><span class="badge b-no">Missing entirely</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="cap"><b>Net:</b> shot 01 is still the blocking asset. Nothing currently in the repo is a portrait of Jon working.</p>
+    </section>
+
+    <!-- 07 ICONS -->
+    <section id="icons">
+      <div class="sh"><span class="n">07</span><h2>Iconography</h2></div>
+      <p class="lede">Line only, drawn on a 24px grid with a 1.75px stroke, round caps and joins, no fills and no corner radius beyond 2px. Icons label, they never decorate — if a heading works without one, it does not get one.</p>
+      <div class="icons">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/></svg><span>Critique</span></div>
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><span>30 min call</span></div>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V7l7-3 7 3v12"/><path d="M9 19v-6h6v6"/></svg><span>Studio</span></div>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 18l5-7 4 5 3-4 4 6z"/><circle cx="8" cy="7" r="2"/></svg><span>Work</span></div>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M5 4h11l4 4v12H5z"/><path d="M15 4v5h5M9 13h6M9 17h4"/></svg><span>Proposal</span></div>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 5-7 4 4"/><path d="M3 21h18"/></svg><span>Growth</span></div>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg><span>Writing</span></div>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 6l9 6 9-6"/><rect x="3" y="5" width="18" height="14"/></svg><span>Email</span></div>
+      </div>
+      <p class="cap" style="margin-top:var(--s4)">Eight is the whole set. A growing icon library is a sign the page is explaining itself with pictures instead of words.</p>
+    </section>
+
+    <!-- 08 COMPONENTS -->
+    <section id="components">
+      <div class="sh"><span class="n">08</span><h2>Components</h2></div>
+      <p class="lede">Deliberately few. There is no card component — the reference consultancies use none, and cards were what made the earlier rounds read as eCommerce.</p>
+      <div class="grid g2">
+        <div class="panel">
+          <p class="t-lab" style="margin-bottom:var(--s3)">Links &amp; actions</p>
+          <p style="margin-bottom:var(--s3)"><a class="tl" href="#components">Read the case study →</a></p>
+          <p class="small" style="margin-bottom:var(--s4)">The default. Carries almost every action on the site.</p>
+          <p style="display:flex;gap:var(--s2);flex-wrap:wrap"><span class="btn">Book a call</span><span class="btn ghost">See the work</span></p>
+          <p class="small" style="margin-top:var(--s3)">One filled button per page, reserved for booking. Ghost is secondary and rare.</p>
+        </div>
+        <div class="panel">
+          <p class="t-lab" style="margin-bottom:var(--s3)">Discipline pills</p>
+          <p style="display:flex;gap:var(--s2);flex-wrap:wrap"><span class="pill">Growth Strategy</span><span class="pill">E-commerce</span><span class="pill">Pricing</span></p>
+          <p class="small" style="margin-top:var(--s3)">Outline only, never filled. They are a promise about what you take on, so the list stays short and true.</p>
+        </div>
+        <div class="panel">
+          <p class="t-lab" style="margin-bottom:var(--s3)">Form field</p>
+          <div class="fld"><label for="ex-name">Your name</label><input id="ex-name" type="text" value="Nancy Takaichi"></div>
+          <p class="small" style="margin-top:var(--s3)">Label above, always visible. No placeholder-only fields — they fail for everyone who stops to think.</p>
+        </div>
+        <div class="panel">
+          <p class="t-lab" style="margin-bottom:var(--s3)">Quote</p>
+          <div class="qb"><blockquote>He told me the thing I didn't want to hear in the first twenty minutes.</blockquote><p class="att">Attribution required — name, role, permission</p></div>
+          <p class="small" style="margin-top:var(--s3)">A quote without attribution never ships.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 MOTION -->
+    <section id="motion">
+      <div class="sh"><span class="n">09</span><h2>Motion</h2></div>
+      <p class="lede">Motion confirms an action happened. It never introduces content — nothing on a page waits for a scroll to become visible.</p>
+      <div class="tblwrap">
+        <table>
+          <thead><tr><th>Token</th><th>Duration</th><th>Easing</th><th>Used for</th></tr></thead>
+          <tbody>
+            <tr><td>--motion-micro</td><td class="num">120ms</td><td>cubic-bezier(.2,.6,.2,1)</td><td>Hover, focus, link underline weight</td></tr>
+            <tr><td>--motion-base</td><td class="num">200ms</td><td>cubic-bezier(.2,.6,.2,1)</td><td>Disclosure, field states, menus</td></tr>
+            <tr><td>--motion-enter</td><td class="num">320ms</td><td>cubic-bezier(.16,.8,.3,1)</td><td>Page-level transitions only</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top:var(--s4)"><b>Required:</b> every transition sits behind <code>@media (prefers-reduced-motion: reduce)</code>. No parallax, no scroll-jacking, no counters that tick up — a number that animates is a number you are performing rather than reporting.</p>
+    </section>
+
+    <!-- 10 VOICE -->
+    <section id="voice">
+      <div class="sh"><span class="n">10</span><h2>Voice &amp; tone</h2></div>
+      <p class="lede">First person, direct, slightly blunt. You are a working maker who also builds software — the credibility comes from the biography, so the copy never has to claim warmth.</p>
+      <h3 class="sub">Four rules</h3>
+      <div class="grid g2">
+        <div class="panel"><p style="font-family:var(--display);font-weight:700;margin-bottom:5px">Say the hard thing early</p><p class="small">The proposal that names the real constraint in the first paragraph is the one that wins. Lead with it.</p></div>
+        <div class="panel"><p style="font-family:var(--display);font-weight:700;margin-bottom:5px">Nouns over adjectives</p><p class="small">"A thousand finished paintings" beats "an extensive body of work" every time.</p></div>
+        <div class="panel"><p style="font-family:var(--display);font-weight:700;margin-bottom:5px">Never announce the virtue</p><p class="small">Show that you serve people who have nobody. Saying it out loud kills it on contact.</p></div>
+        <div class="panel"><p style="font-family:var(--display);font-weight:700;margin-bottom:5px">Quote the client</p><p class="small">Their question, in their words, is better than any headline you could write for them.</p></div>
+      </div>
+      <h3 class="sub">In practice</h3>
+      <div class="vt">
+        <div class="yes"><p class="tag">Write this</p><p>“Most artists I meet don't have a website problem. They have a hundred finished pieces and no way for anyone to find them.”</p></div>
+        <div class="no"><p class="tag">Not this</p><p>“Let's tell your story and elevate your brand for the modern creative entrepreneur.”</p></div>
+        <div class="yes"><p class="tag">Write this</p><p>“Thirty minutes on a call. You'll leave with answers you can act on the same day.”</p></div>
+        <div class="no"><p class="tag">Not this</p><p>“Our discovery process is designed to unlock your unique potential.”</p></div>
+      </div>
+    </section>
+
+    <!-- 11 APPLICATIONS -->
+    <section id="apps">
+      <div class="sh"><span class="n">11</span><h2>Applications</h2></div>
+      <p class="lede">Where the system actually gets used. Every one of these is a real artefact you will need in the first month of trading.</p>
+      <div class="grid g2">
+        <div>
+          <div class="card">
+            <span class="lock"><span class="mark m-m">JM</span><span class="wm" style="font-size:15px">Jon Martin<br>Consulting</span></span>
+            <div><p style="font-size:13px;font-weight:600">Jon Martin</p><p class="small" style="font-size:12.5px">jonalexjames@gmail.com · San Francisco</p></div>
+          </div>
+          <p class="cap">Business card, front. 85 × 49mm.</p>
+        </div>
+        <div>
+          <div class="card back"><div style="flex:1;display:flex;align-items:center;justify-content:center"><span class="mark m-xl" style="background:var(--paper);color:var(--blue)">JM</span></div></div>
+          <p class="cap">Business card, reverse. Mark reversed on Ink Blue.</p>
+        </div>
+        <div>
+          <div class="sig">
+            <p class="nm">Jon Martin</p>
+            <p style="color:var(--ink-2)">Jon Martin Consulting</p>
+            <p><a class="tl" href="#apps">jonalexjames@gmail.com</a></p>
+            <p style="color:var(--ink-3);font-size:13px;margin-top:6px">Websites and growth for working artists</p>
+          </div>
+          <p class="cap">Email signature. Text only — no image, so it survives every client.</p>
+        </div>
+        <div>
+          <div class="slide title">
+            <span class="mark m-m" style="background:var(--paper);color:var(--blue)">JM</span>
+            <p style="font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em">Growth strategy</p>
+            <p style="font-size:14px;color:#B5B3AD">Prepared for Nancy Takaichi · September 2026</p>
+          </div>
+          <p class="cap">Proposal cover and deck title slide.</p>
+        </div>
+        <div>
+          <div class="slide">
+            <p class="t-lab">Pillar 02</p>
+            <p style="font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.02em">Put the existing audience to work</p>
+            <p class="small">The fastest revenue in the plan, because the audience already exists.</p>
+          </div>
+          <p class="cap">Deck content slide. Label, claim, one line of support.</p>
+        </div>
+        <div>
+          <div class="panel" style="padding:var(--s4)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s3);border-bottom:2px solid var(--ink);padding-bottom:var(--s3)">
+              <span class="lock"><span class="mark m-s">JM</span><span class="wm" style="font-size:14px">Jon Martin Consulting</span></span>
+              <div style="text-align:right"><p style="font-family:var(--display);font-weight:700;font-size:15px">Invoice 0014</p><p class="small" style="font-size:12.5px">Due 30 Sept 2026</p></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding-top:var(--s3);font-size:14px"><span>Site critique</span><span style="font-variant-numeric:tabular-nums;font-weight:600">—</span></div>
+          </div>
+          <p class="cap">Invoice header. Tabular numerals; amount left blank because pricing is unset.</p>
+        </div>
+        <div>
+          <div class="panel" style="display:flex;align-items:center;gap:var(--s4)">
+            <span class="avatarbig">JM</span>
+            <div><p style="font-family:var(--display);font-weight:700;font-size:16px">Jon Martin Consulting</p><p class="small">Square avatar — the mark, never a cropped portrait</p></div>
+          </div>
+          <p class="cap">Social avatar. The monogram survives at 32px; a cropped face does not.</p>
+        </div>
+        <div>
+          <div class="panel" style="background:var(--ink);border-color:var(--ink);min-height:104px;display:flex;flex-direction:column;justify-content:center">
+            <p style="font-family:var(--display);font-weight:700;font-size:19px;color:var(--paper);letter-spacing:-.02em">You get me. Not an agency.</p>
+            <p style="font-size:13.5px;color:#B5B3AD;margin-top:4px">Jon Martin Consulting</p>
+          </div>
+          <p class="cap">Social banner. One claim, reversed on Ink.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 TOKENS -->
+    <section id="tokens">
+      <div class="sh"><span class="n">12</span><h2>Tokens</h2></div>
+      <p class="lede">Copy this into the build. These are the exact values every example on this page is drawn from — including the two corrected for contrast.</p>
+      <div class="pre">:root{
+  --paper:#FAF8F4;  --paper-2:#F1EEE7; --surface:#FFFFFF;
+  --ink:#1A1A1A;    --ink-2:#4F4F4E;   --ink-3:#6E6C67;
+  --line:#E0DCD3;   --line-2:#EDEAE3;
+  --blue:#1E4A8C;   --blue-2:#2E63B4;  --umber:#A8542C;
+
+  --display:"Bitter",Georgia,serif;
+  --body:"Public Sans","Helvetica Neue",Arial,sans-serif;
+
+  --s1:4px; --s2:8px;  --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+
+  --container:1100px; --gutter:24px;
+  --motion-micro:120ms; --motion-base:200ms; --motion-enter:320ms;
+  --ease:cubic-bezier(.2,.6,.2,1);
+}
+/* dark */
+--paper:#15161A; --paper-2:#1C1E23; --surface:#232629;
+--ink:#EFEDE8;   --ink-2:#B5B3AD;   --ink-3:#8E8C87;
+--line:#2F323A;  --line-2:#25282E;
+--blue:#7BA3E4;  --blue-2:#9BBBF0;  --umber:#D4895F;</div>
+    </section>
+
+    <!-- OPEN -->
+    <section id="open" style="border-bottom:0">
+      <div class="sh"><span class="n">—</span><h2>Still open</h2></div>
+      <p class="lede">Named, not filled. A design system that hides its gaps is worse than one that has them.</p>
+      <div class="olist">
+        <div class="oitem"><span class="k">Q1</span><p><b>There is no photography.</b> Section 06 is a specification and a shot list, not a library. The portrait is the blocking asset — Direction D does not function without it.</p></div>
+        <div class="oitem"><span class="k">Q2</span><p><b>The logo is set in a licensed web font.</b> Bitter at 700 is a proposal for proportion. A real wordmark should be drawn and outlined, so it stops depending on a font load.</p></div>
+        <div class="oitem"><span class="k">Q3</span><p><b>Domain still unchecked.</b> Everything here assumes the name is available; it has never been tested.</p></div>
+        <div class="oitem"><span class="k">Q4</span><p><b>No pricing exists,</b> so the invoice and the self-serve tier both have blanks. A self-serve offer usually needs a published number to be self-serve at all.</p></div>
+        <div class="oitem"><span class="k">Q5</span><p><b>No testimonial is attributed.</b> Every reference consultancy names the person. One of yours is permanently blocked by a stealth client.</p></div>
+        <div class="oitem"><span class="k">Q6</span><p><b>No success metric has been set for the rebrand</b> — still true, now across a whole design system. There is nothing to judge this against in six months.</p></div>
+        <div class="oitem"><span class="k">Q7</span><p><b>Print colour is unspecified.</b> The hex values have no CMYK or Pantone equivalents, which the business card and any printed proposal will need.</p></div>
+      </div>
+    </section>
+
+    <p class="foot">Jon Martin Consulting — brand and design system v0.1. Front-end prototype, no backend. Contrast ratios on this page were calculated, not estimated. Approvals are recorded per section and survive the session.</p>
+  </main>
+</div>
+
+
+</body>
+</html>
