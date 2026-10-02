@@ -16,6 +16,18 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#39;");
 }
 
+// Runs on already-escaped text. Only site-relative and http(s) hrefs become links.
+function linkify(html: string): string {
+  return html.replace(
+    /\[([^\]]+)\]\((\/[^)\s]*|https?:\/\/[^)\s]+)\)/g,
+    (_, text, href) => {
+      const external = href.startsWith("http");
+      const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : "";
+      return `<a href="${href}"${attrs} class="text-violet-600 underline underline-offset-2 hover:text-violet-500 dark:text-violet-400">${text}</a>`;
+    }
+  );
+}
+
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }
@@ -154,7 +166,7 @@ function renderBlock(block: string, index: number) {
               <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-violet-500 to-purple-500" />
               <span
                 dangerouslySetInnerHTML={{
-                  __html: escapeHtml(item.slice(2)).replace(
+                  __html: linkify(escapeHtml(item.slice(2))).replace(
                     /\*\*(.+?)\*\*/g,
                     '<strong class="text-zinc-900 dark:text-zinc-100">$1</strong>'
                   ),
@@ -168,7 +180,7 @@ function renderBlock(block: string, index: number) {
   }
 
   // Bold text and inline formatting
-  const formatted = escapeHtml(block)
+  const formatted = linkify(escapeHtml(block))
     .replace(
       /\*\*(\d+\..+?)\*\*/g,
       '<strong class="text-zinc-900 dark:text-zinc-100">$1</strong>'
