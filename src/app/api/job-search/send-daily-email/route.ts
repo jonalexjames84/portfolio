@@ -9,6 +9,7 @@ import {
   metricsSection,
   signalsSection,
   healthSection,
+  marketRadarSection,
   checkAuth,
   EMAIL_FROM,
   EMAIL_TO,
@@ -23,6 +24,7 @@ import { computeSignals } from "@/lib/job-search/signals";
 import { localDateStr } from "@/lib/job-search/dates";
 import { findHealthIssues } from "@/lib/job-search/run-log";
 import { loadLastRuns, withRunLog } from "@/lib/job-search/run-log-db";
+import { loadMarketBrief } from "@/lib/job-search/market-brief-db";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -263,9 +265,15 @@ async function run(request: NextRequest) {
   const healthIssues = findHealthIssues(await loadLastRuns(), new Date());
   counts.healthIssues = healthIssues.length;
 
+  // Market Radar leads the brief. A failure here must not cost Jon the rest of
+  // the email; the collectors' own run log surfaces it in the health section.
+  const market = await loadMarketBrief().catch(() => null);
+  counts.marketActions = market?.brief.actions.length ?? 0;
+
   // Compose body
   const body =
     healthSection(healthIssues) +
+    marketRadarSection(market?.brief ?? null) +
     newJobsSection(newJobs, backlogJobs) +
     appliedSection(appliedRoles, FOLLOW_UP_AFTER_DAYS) +
     weekViewSection(days) +

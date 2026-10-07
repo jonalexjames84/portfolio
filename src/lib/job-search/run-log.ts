@@ -35,6 +35,8 @@ export const JOB_STALE_HOURS: Record<string, number> = {
   "score-new-jobs": 36,
   "rollup-metrics": 36,
   "send-daily-email": 36,
+  "collect-market": 36,
+  "collect-filings": 36,
   "generate-weekly-plan": 24 * 8,
   "send-weekly-review": 24 * 8,
   // Add a job here only once it is actually running (a route, a vercel.json

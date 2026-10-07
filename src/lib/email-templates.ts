@@ -7,6 +7,7 @@ import {
   type ChannelReport,
 } from "@/lib/job-search/channel-attribution";
 import type { HealthIssue } from "./job-search/run-log";
+import type { MarketBrief } from "./job-search/market-brief";
 
 const DASHBOARD_URL = "https://portfolio.jonnymartin.blog/dashboard/job-search";
 const HUB_URL = "https://portfolio.jonnymartin.blog/job-search";
@@ -518,5 +519,65 @@ export function healthSection(issues: HealthIssue[]): string {
         ⚠ ${issues.length} job${issues.length === 1 ? "" : "s"} need attention
       </div>
       <table style="width:100%;border-collapse:collapse;">${rows}</table>
+    </div>`;
+}
+
+/**
+ * Market Radar: four snapshot lines, up to five actions, three companies to
+ * watch. Leads the daily email. Design: the Market Radar artifact, version 6.
+ * Renders nothing when there's no fresh snapshot, so a failed collector never
+ * blocks the rest of the brief (the health section reports the failure).
+ */
+export function marketRadarSection(brief: MarketBrief | null): string {
+  if (!brief) return "";
+
+  const tile = (t: MarketBrief["tiles"][number]) => `
+    <td style="width:50%;padding:10px 12px;border:1px solid #e5e7eb;border-radius:8px;vertical-align:top;background:#ffffff;">
+      <div style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6b7280;font-weight:600;">${escapeHtml(t.label)}</div>
+      <div style="font-size:17px;font-weight:700;color:#111827;margin-top:2px;">${escapeHtml(t.value)}</div>
+      <div style="font-size:12px;color:#4b5563;margin-top:2px;">${escapeHtml(t.detail)}</div>
+    </td>`;
+  const [a, b, c, d] = brief.tiles;
+  const tiles = `
+    <table style="width:100%;border-collapse:separate;border-spacing:6px;margin:0 -6px 12px;">
+      <tr>${tile(a)}${tile(b)}</tr>
+      <tr>${tile(c)}${tile(d)}</tr>
+    </table>`;
+
+  const actions = brief.actions.length
+    ? brief.actions
+        .map(
+          (x, i) => `
+      <tr>
+        <td style="padding:8px 8px 8px 0;vertical-align:top;font-size:13px;color:#2563eb;font-weight:600;width:18px;">${i + 1}</td>
+        <td style="padding:8px 0;vertical-align:top;">
+          <div style="font-size:14px;font-weight:600;color:#111827;">${escapeHtml(x.what)}</div>
+          <div style="font-size:12.5px;color:#4b5563;margin-top:2px;">${escapeHtml(x.why)}</div>
+        </td>
+        <td style="padding:8px 0 8px 10px;vertical-align:middle;text-align:right;white-space:nowrap;">
+          <a href="${escapeHtml(x.url)}" style="font-size:12.5px;font-weight:600;color:#ffffff;background:#111827;padding:6px 10px;border-radius:6px;text-decoration:none;">${escapeHtml(x.linkLabel)} ↗</a>
+        </td>
+      </tr>`,
+        )
+        .join("")
+    : `<tr><td style="font-size:13px;color:#6b7280;padding:6px 0;">Nothing to act on today.</td></tr>`;
+
+  const watch = brief.watch
+    .map(
+      (w) => `
+      <tr>
+        <td style="padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:13px;"><a href="${escapeHtml(w.url)}" style="color:#111827;text-decoration:none;font-weight:600;">${escapeHtml(w.name)}</a></td>
+        <td style="padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:12.5px;color:#6b7280;text-align:right;">${escapeHtml(w.reason)}</td>
+      </tr>`,
+    )
+    .join("");
+
+  return `
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin-bottom:16px;">
+      <h2 style="font-size:15px;font-weight:700;color:#111827;margin:0 0 10px;">📡 Market Radar</h2>
+      ${tiles}
+      <div style="font-size:13px;font-weight:700;color:#111827;margin:4px 0 2px;">Do today</div>
+      <table style="width:100%;border-collapse:collapse;">${actions}</table>
+      ${watch ? `<div style="font-size:13px;font-weight:700;color:#111827;margin:12px 0 2px;">Watch</div><table style="width:100%;border-collapse:collapse;">${watch}</table>` : ""}
     </div>`;
 }

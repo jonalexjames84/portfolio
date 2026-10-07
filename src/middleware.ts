@@ -34,8 +34,15 @@ function prune(now: number) {
   }
 }
 
+/** market.jonnymartin.blog serves the public PM Job Market page at its root. */
+const MARKET_HOST_PREFIX = "market.";
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname === "/" && request.headers.get("host")?.startsWith(MARKET_HOST_PREFIX)) {
+    return NextResponse.rewrite(new URL("/market-report", request.url));
+  }
 
   // Job search auth gate — dashboard page and API GET endpoints
   // API POST/writes use Bearer token auth separately (for the scheduled agent)
@@ -93,5 +100,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/dashboard/posthog", "/api/resume", "/dashboard/job-search/:path*", "/api/job-search/:path*", "/job-search/:path*"],
+  matcher: ["/", "/api/dashboard/posthog", "/api/resume", "/dashboard/job-search/:path*", "/api/job-search/:path*", "/job-search/:path*"],
 };

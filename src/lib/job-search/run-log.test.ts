@@ -126,6 +126,8 @@ describe("findHealthIssues", () => {
 
   it("covers every scheduled job in JOB_STALE_HOURS", () => {
     expect(Object.keys(JOB_STALE_HOURS).sort()).toEqual([
+      "collect-filings",
+      "collect-market",
       "generate-weekly-plan",
       "ingest-jobs",
       "recheck-listings",
