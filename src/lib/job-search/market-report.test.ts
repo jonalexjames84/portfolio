@@ -30,11 +30,22 @@ describe("buildMarketReport", () => {
     expect(r).toMatchObject({ thisWeek: 2, lastWeek: 1, companiesThisWeek: 1, hiringCount: 2, raiseCount: 1, raiseSum: 3.1e9, breakoutCount: 1, breakoutGrossing: 1 });
     expect(r.hiring[0]).toMatchObject({ company: "Stripe", roles: 3, newestTitle: "Product Manager, Ecosystem", newestDays: 1 });
     expect(r.sectors).toEqual([["Tech", 3], ["Emerging", 1]]);
-    expect(r.breakouts[0]).toMatchObject({ name: "Block Out!", rank: 2, chart: "Top free · games" });
+    expect(r.studios).toEqual([]);
   });
 
   it("lists companies whose only open PM roles are leadership roles", () => {
     expect(buildMarketReport(input()).leaders.map((l) => l.company)).toEqual(["Lambda"]);
+  });
+});
+
+describe("studios", () => {
+  it("links each studio to its job board, or a careers search when none was found", () => {
+    const r = buildMarketReport({ ...input(), studios: [
+      { key: "iron-gate", name: "Iron Gate AB", score: 3, titles: [{ name: "Valheim", platform: "PC", signal: "players +625% in 3 months", url: "u", score: 3 }], board: { atsType: "greenhouse", token: "irongate", careersUrl: "https://job-boards.greenhouse.io/irongate", totalOpen: 12, productOpen: 2 } },
+      { key: "grand", name: "Grand Games A.Ş.", score: 2, titles: [{ name: "Block Out!", platform: "Mobile", signal: "#2 free, out Oct 31", url: "u", score: 2 }], board: null },
+    ] });
+    expect(r.studios[0]).toEqual({ name: "Iron Gate AB", titles: "Valheim (PC, players +625% in 3 months)", url: "https://job-boards.greenhouse.io/irongate", jobs: "12 open · 2 PM/producer" });
+    expect(r.studios[1]).toMatchObject({ jobs: "no job board found · search", url: "https://www.google.com/search?q=Grand%20Games%20A.%C5%9E.%20careers" });
   });
 });
 

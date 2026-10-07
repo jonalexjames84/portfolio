@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { buildMarketReport, renderMarketReport, renderMarketReportUnavailable } from "@/lib/job-search/market-report";
+import type { Studio } from "@/lib/job-search/game-studios";
 import { isTechIndustry, type BoardSummary, type ChartApp, type FormDFiling } from "@/lib/job-search/market-sources";
 
 /**
@@ -19,7 +20,7 @@ export async function GET() {
   const now = new Date();
   const { data: snap } = await supabase
     .from("job_market_snapshots")
-    .select("snapshot_date, boards, apps")
+    .select("snapshot_date, boards, apps, studios")
     .order("snapshot_date", { ascending: false })
     .limit(1)
     .maybeSingle();
@@ -48,6 +49,7 @@ export async function GET() {
     asOf: snap.snapshot_date,
     boards: snap.boards as BoardSummary[],
     apps: snap.apps as ChartApp[],
+    studios: snap.studios as Studio[] | null,
     filings,
     now,
   });

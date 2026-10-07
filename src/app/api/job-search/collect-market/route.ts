@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { checkAuth } from "@/lib/email-templates";
 import { mapPool, type AtsType } from "@/lib/job-search/ats";
-import { fetchAllPostings, fetchAppCharts, summarizeBoard, type BoardSummary } from "@/lib/job-search/market-sources";
+import { fetchAllPostings, fetchAppCharts, fetchSteamGames, probeStudioBoard, readStudioBoard, summarizeBoard, type BoardSummary } from "@/lib/job-search/market-sources";
+import { groupGameStudios } from "@/lib/job-search/game-studios";
+import { normalizeCompany } from "@/lib/job-search/application-guard";
 import { localDateStr } from "@/lib/job-search/dates";
 import { withRunLog } from "@/lib/job-search/run-log-db";
 
@@ -45,7 +47,17 @@ async function run(request: NextRequest) {
 
     const apps = await fetchAppCharts();
 
-    const row = { snapshot_date: localDateStr(now), taken_at: now.toISOString(), boards, apps, board_errors: errors };
+    // Game studios: group by company, then find each one's job board. A tracked
+    // company uses its known token; anyone else is looked up by name.
+    const steam = await fetchSteamGames();
+    const known = new Map((companies || []).map((c) => [normalizeCompany(c.name), c]));
+    const studios = await mapPool(groupGameStudios({ apps, steam, now }), 4, async (s) => {
+      const k = known.get(s.key);
+      const board = k ? await readStudioBoard(k.ats_type as AtsType, k.ats_token as string) : await probeStudioBoard(s.key.replace(/-/g, ""));
+      return { ...s, board };
+    });
+
+    const row = { snapshot_date: localDateStr(now), taken_at: now.toISOString(), boards, apps, studios, board_errors: errors };
     const { error: upsertErr } = await supabase.from("job_market_snapshots").upsert(row);
     if (upsertErr) return NextResponse.json({ error: upsertErr.message }, { status: 500 });
 
@@ -53,6 +65,9 @@ async function run(request: NextRequest) {
     counts.boardErrors = errors.length;
     counts.pmRoles = boards.reduce((s, b) => s + b.pmRoles.length, 0);
     counts.apps = apps.length;
-    return NextResponse.json({ snapshot: row.snapshot_date, boards: boards.length, boardErrors: errors, apps: apps.length });
+    counts.steamGames = steam.length;
+    counts.studios = studios.length;
+    counts.studiosWithBoards = studios.filter((s) => s.board).length;
+    return NextResponse.json({ snapshot: row.snapshot_date, boards: boards.length, boardErrors: errors, apps: apps.length, steamGames: steam.length, studios: studios.length });
   });
 }

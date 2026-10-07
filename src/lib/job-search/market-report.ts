@@ -10,6 +10,7 @@
  */
 
 import { isProductLeaderTitle, type BoardSummary, type ChartApp, type FormDFiling } from "./market-sources";
+import type { Studio } from "./game-studios";
 
 const DAY_MS = 86_400_000;
 
@@ -24,14 +25,14 @@ export interface MarketReport {
   raises: { company: string; amount: number; filedOn: string; city: string | null; state: string | null; url: string }[];
   raiseCount: number;
   raiseSum: number;
-  breakouts: { name: string; developer: string; url: string; releasedOn: string; rank: number; chart: string }[];
+  studios: { name: string; titles: string; url: string; jobs: string }[];
   breakoutCount: number;
   breakoutGrossing: number;
   sectors: [string, number][];
   leaders: { company: string; title: string; url: string; days: number }[];
 }
 
-export function buildMarketReport(input: { asOf: string; boards: BoardSummary[]; apps: ChartApp[]; filings: FormDFiling[]; now: Date }): MarketReport {
+export function buildMarketReport(input: { asOf: string; boards: BoardSummary[]; apps: ChartApp[]; filings: FormDFiling[]; studios?: Studio[] | null; now: Date }): MarketReport {
   const { boards, apps, filings, now } = input;
   const age = (iso: string) => Math.floor((now.getTime() - Date.parse(iso)) / DAY_MS);
 
@@ -49,10 +50,7 @@ export function buildMarketReport(input: { asOf: string; boards: BoardSummary[];
   const raises = [...largest.values()].sort((a, b) => (b.amountSold ?? 0) - (a.amountSold ?? 0));
 
   const grossing = (a: ChartApp) => Object.keys(a.ranks).some((k) => k.startsWith("Top grossing"));
-  const best = (a: ChartApp) => Object.entries(a.ranks).sort((x, y) => x[1] - y[1])[0];
-  const breakouts = apps
-    .filter((a) => a.releasedOn && age(a.releasedOn) <= 365)
-    .sort((a, b) => Number(grossing(b)) - Number(grossing(a)) || best(a)[1] - best(b)[1]);
+  const breakouts = apps.filter((a) => a.releasedOn && age(a.releasedOn) <= 365);
 
   const sectors = new Map<string, number>();
   for (const b of hiringBoards) sectors.set(b.industry || "Other", (sectors.get(b.industry || "Other") ?? 0) + b.pmRoles.length);
@@ -68,7 +66,12 @@ export function buildMarketReport(input: { asOf: string; boards: BoardSummary[];
     raises: raises.slice(0, 10).map((f) => ({ company: f.company, amount: f.amountSold ?? 0, filedOn: f.filedOn, city: f.city, state: f.state, url: f.filingUrl })),
     raiseCount: raises.length,
     raiseSum: raises.reduce((s, f) => s + (f.amountSold ?? 0), 0),
-    breakouts: breakouts.slice(0, 10).map((a) => { const [chart, rank] = best(a); return { name: a.name, developer: a.developer, url: a.url, releasedOn: a.releasedOn!, rank, chart }; }),
+    studios: (input.studios ?? []).slice(0, 12).map((s) => ({
+      name: s.name,
+      titles: s.titles.slice(0, 2).map((t) => `${t.name} (${t.platform}, ${t.signal})`).join(" · ") + (s.titles.length > 2 ? ` · +${s.titles.length - 2} more` : ""),
+      url: s.board?.careersUrl ?? s.website ?? `https://www.google.com/search?q=${encodeURIComponent(`${s.name} careers`)}`,
+      jobs: s.board ? `${s.board.totalOpen} open · ${s.board.productOpen} PM/producer` : s.website ? "no job board found · website" : "no job board found · search",
+    })),
     breakoutCount: breakouts.length,
     breakoutGrossing: breakouts.filter(grossing).length,
     sectors: [...sectors.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8),
@@ -108,13 +111,13 @@ export function renderMarketReport(r: MarketReport): string {
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PM Job Market</title>
-<meta name="description" content="Where product manager hiring is happening this week, who just raised money, and which new apps are breaking out. Updated every morning from public data.">
+<meta name="description" content="Where product manager hiring is happening this week, who just raised money, and which game studios have momentum. Updated every morning from public data.">
 <style>${CSS}</style>
 </head><body><div class="wrap">
   <header>
     <div class="eyebrow">Week of ${MONTHS[asOf.getUTCMonth()]} ${asOf.getUTCDate()}, ${asOf.getUTCFullYear()}</div>
     <h1>PM Job Market</h1>
-    <p class="lede">Where product manager hiring is happening this week, who just raised money, and which new apps are breaking out. Updated every morning from public data.</p>
+    <p class="lede">Where product manager hiring is happening this week, who just raised money, and which game studios have momentum. Updated every morning from public data.</p>
   </header>
   <section class="tiles" aria-label="This week">${tiles.map((t) => `<div class="tile"><span class="v">${t.v}</span><span class="s">${t.s}</span><span class="d">${t.d}</span></div>`).join("")}</section>
   <section class="grid">
@@ -122,15 +125,15 @@ export function renderMarketReport(r: MarketReport): string {
       <ol class="rank">${r.hiring.map((h) => row(h.newestUrl, h.company, `Newest: ${h.newestTitle} · ${ago(h.newestDays)}`, `${h.roles} roles`)).join("")}</ol></div>
     <div class="card"><h2>Just raised</h2><p class="sub">Largest tech rounds reported to the SEC in the last 30 days. A PM hire usually follows within a few months.</p>
       <ol class="rank">${r.raises.map((f) => row(f.url, f.company, `${titleCase(f.city || "")}${f.state ? ", " + f.state : ""} · filed ${day(f.filedOn)}`, money(f.amount))).join("")}</ol></div>
-    <div class="card"><h2>Breaking out on mobile</h2><p class="sub">Apps under a year old already in a US App Store top-100 chart. Top grossing first.</p>
-      <ol class="rank">${r.breakouts.map((a) => row(a.url, a.name, `${a.developer} · out ${day(a.releasedOn)}`, `#${a.rank} ${a.chart.replace("Top ", "").replace(" · ", " ")}`)).join("")}</ol></div>
     <div class="card"><h2>PM roles by sector</h2><p class="sub">Last 30 days.</p>
-      <div class="bars">${r.sectors.map(([k, v]) => `<div class="bar"><span>${esc(k)}</span><span class="track"><span class="fill" style="width:${((v / max) * 100).toFixed(1)}%"></span></span><span class="num">${v}</span></div>`).join("")}</div>
-      <h2 class="mt">Hiring a product leader first</h2><p class="sub">Only a Head, Director or VP of Product is open. The team usually follows.</p>
+      <div class="bars">${r.sectors.map(([k, v]) => `<div class="bar"><span>${esc(k)}</span><span class="track"><span class="fill" style="width:${((v / max) * 100).toFixed(1)}%"></span></span><span class="num">${v}</span></div>`).join("")}</div></div>
+    <div class="card"><h2>Hiring a product leader first</h2><p class="sub">Only a Head, Director or VP of Product is open. The team usually follows.</p>
       <ol class="rank">${r.leaders.length ? r.leaders.map((l) => row(l.url, l.company, l.title, ago(l.days))).join("") : `<li class="none">None this month.</li>`}</ol></div>
+    <div class="card wide"><h2>Game studios with momentum</h2><p class="sub">Studios with a new mobile game in the US App Store charts or a Steam game gaining players. Links go to their open jobs where a public job board exists.</p>
+      <ol class="rank">${r.studios.length ? r.studios.map((s) => row(s.url, s.name, s.titles, s.jobs)).join("") : `<li class="none">No studio data yet.</li>`}</ol></div>
   </section>
   <footer>
-    <div><b>Sources.</b> Job postings from ${r.boardCount} company career boards (Greenhouse, Ashby, Lever), counted by first-published date. Funding from SEC Form D filings by operating companies in technology industries. Apps from Apple’s US top-100 free and top-grossing charts.</div>
+    <div><b>Sources.</b> Job postings from ${r.boardCount} company career boards (Greenhouse, Ashby, Lever), counted by first-published date. Funding from SEC Form D filings by operating companies in technology industries. Apps and games from Apple’s US top-100 free and top-grossing charts; PC player counts from SteamSpy and SteamCharts.</div>
     <div><b>Limits.</b> Career boards only show open roles, so filled roles drop out. Roles are matched by job title. Form D amounts are what each company reported as sold.</div>
   </footer>
 </div></body></html>`;
@@ -165,6 +168,7 @@ ol.rank a:hover .n{color:var(--accent)}ol.rank a:focus-visible{outline:2px solid
 .m{grid-column:2;font-size:12.5px;color:var(--ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .val{font-family:var(--font-data);font-size:12.5px;text-align:right;white-space:nowrap;grid-row:1;grid-column:3}
 .none{padding:8px 0;color:var(--muted)}
+.wide{grid-column:1/-1}.wide .m{white-space:normal}
 .bars{display:grid;gap:6px}.bar{display:grid;grid-template-columns:9.5rem minmax(0,1fr) 2.5rem;gap:10px;align-items:center;font-size:12.5px}
 .track{height:10px;background:var(--grid);border-radius:0 4px 4px 0}.fill{display:block;height:10px;background:var(--accent);border-radius:0 4px 4px 0}.num{font-family:var(--font-data);text-align:right}
 footer{font-size:12.5px;color:var(--muted);display:grid;gap:6px;max-width:80ch}

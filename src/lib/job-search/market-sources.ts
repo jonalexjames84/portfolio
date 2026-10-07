@@ -268,3 +268,84 @@ export async function fetchAppCharts(): Promise<ChartApp[]> {
   }
   return [...apps.values()];
 }
+
+// ---------------------------------------------------------------------------
+// Steam
+// ---------------------------------------------------------------------------
+
+export interface SteamGame {
+  appid: number;
+  name: string;
+  developer: string;
+  publisher: string;
+  /** Average concurrent players, last 30 days. */
+  players: number;
+  /** Average concurrent players three months earlier. */
+  playersThen: number | null;
+}
+
+/** Monthly rows from a SteamCharts app page: [label, average players], newest first. */
+export function parseSteamCharts(html: string): [string, number][] {
+  return [...html.matchAll(/<td class="month-cell left[^"]*">\s*([^<]+?)\s*<\/td>\s*<td class="right num-f[^"]*">([\d.]+)<\/td>/g)].map((m) => [m[1], Number(m[2])]);
+}
+
+/** The 100 most-played Steam games of the last two weeks, with player counts now vs three months ago. */
+export async function fetchSteamGames(): Promise<SteamGame[]> {
+  const res = await fetchWith("https://steamspy.com/api.php?request=top100in2weeks");
+  const top = (await res?.json().catch(() => null)) as Record<string, { appid: number; name: string; developer: string; publisher: string }> | null;
+  if (!top) return [];
+  const out: SteamGame[] = [];
+  for (const g of Object.values(top)) {
+    const page = await fetchWith(`https://steamcharts.com/app/${g.appid}`, { "User-Agent": "Mozilla/5.0 (PM Market Radar research)" });
+    await sleep(300);
+    const rows = page ? parseSteamCharts(await page.text()) : [];
+    if (!rows.length) continue;
+    out.push({ appid: g.appid, name: g.name, developer: g.developer, publisher: g.publisher, players: Math.round(rows[0][1]), playersThen: rows[3] ? Math.round(rows[3][1]) : null });
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// Studio job boards
+// ---------------------------------------------------------------------------
+
+export interface StudioBoard {
+  atsType: AtsType;
+  token: string;
+  careersUrl: string;
+  totalOpen: number;
+  /** Product manager and producer roles. */
+  productOpen: number;
+}
+
+const CAREERS_URL: Record<AtsType, (t: string) => string> = {
+  greenhouse: (t) => `https://job-boards.greenhouse.io/${t}`,
+  ashby: (t) => `https://jobs.ashbyhq.com/${t}`,
+  lever: (t) => `https://jobs.lever.co/${t}`,
+};
+
+export function isProductOrProducerTitle(title: string): boolean {
+  return isPmTitle(title) || /\bproducer\b|development director|game director/i.test(title);
+}
+
+/** Open-role counts for a board token already known to belong to the studio. */
+export async function readStudioBoard(atsType: AtsType, token: string): Promise<StudioBoard | null> {
+  const postings = await fetchAllPostings(atsType, token);
+  if (!postings || !postings.length) return null;
+  return { atsType, token, careersUrl: CAREERS_URL[atsType](token), totalOpen: postings.length, productOpen: postings.filter((p) => isProductOrProducerTitle(p.title)).length };
+}
+
+/**
+ * Looks for a public job board under the studio's own name. Board tokens are
+ * often not the company name (Zynga is `zyngacareers`), so a miss means "not
+ * found", not "not hiring". Short names are skipped: a five-letter-or-less
+ * slug is too likely to be some other company's board.
+ */
+export async function probeStudioBoard(slug: string): Promise<StudioBoard | null> {
+  if (slug.length < 6) return null;
+  for (const atsType of ["greenhouse", "ashby", "lever"] as AtsType[]) {
+    const board = await readStudioBoard(atsType, slug);
+    if (board) return board;
+  }
+  return null;
+}
