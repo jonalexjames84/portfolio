@@ -9,7 +9,7 @@ import {
   upcomingFriday,
   weekNumberForFriday,
 } from "@/lib/job-search/quest-sheet";
-import { findWeekRow, readPlanBlocks } from "@/lib/job-search/notion-plan";
+import { findWeekRow, FRIDAY_SEVEN_APP_URL, readPlanBlocks } from "@/lib/job-search/notion-plan";
 import { withRunLog } from "@/lib/job-search/run-log-db";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -49,7 +49,7 @@ async function run(request: NextRequest) {
       friday,
       days,
       rowUrl: row?.url ?? null,
-      lastWeek: lastRow ? { numbers: lastRow.numbers, rowUrl: lastRow.url } : null,
+      lastWeek: lastRow ? { numbers: lastRow.numbers, rowUrl: FRIDAY_SEVEN_APP_URL } : null,
     });
 
     const { error } = await resend.emails.send({ from: EMAIL_FROM, to: EMAIL_TO, subject, html });

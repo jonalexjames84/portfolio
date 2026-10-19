@@ -10,7 +10,7 @@ import {
   renderReminderEmail,
   weekNumberForFriday,
 } from "@/lib/job-search/quest-sheet";
-import { findWeekRow } from "@/lib/job-search/notion-plan";
+import { findWeekRow, FRIDAY_SEVEN_APP_URL } from "@/lib/job-search/notion-plan";
 import { withRunLog } from "@/lib/job-search/run-log-db";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -23,8 +23,8 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * Fri 5pm, Sat 10am and Sun 10am PT: if the week's Friday Seven row in Notion
- * is missing any of its job-search numbers, send a reminder. Silent once it's
+ * Fri 5pm, Sat 10am and Sun 10am PT: if the week's Friday Seven (hundred-days
+ * plan_weeks) is missing any of its job-search numbers, send a reminder. Silent once it's
  * filled in. A week still empty after Sunday is flagged at the top of the
  * Sunday quest sheet instead.
  */
@@ -52,7 +52,7 @@ async function run(request: NextRequest) {
     const { subject, html } = renderReminderEmail({
       week,
       numbers: row.numbers,
-      rowUrl: row.url,
+      rowUrl: FRIDAY_SEVEN_APP_URL,
       attempt: reminderOrdinal(today),
     });
     const { error } = await resend.emails.send({ from: EMAIL_FROM, to: EMAIL_TO, subject, html });

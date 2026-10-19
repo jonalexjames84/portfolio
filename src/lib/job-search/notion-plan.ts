@@ -1,18 +1,23 @@
 /**
- * Read the 100-Day Plan's Friday Seven rows from Notion.
+ * Read the 100-Day Plan's Friday Seven.
  *
- * Needs NOTION_API_KEY: an internal integration that the "100-Day Plan: Run the
- * Machine" page is shared with (the Friday Seven database inherits it).
+ * Since Oct 19, 2026 the weekly numbers live in the hundred-days app (Supabase
+ * `plan_weeks`, same red-ox-mobile project). Each week's day plan, the quests,
+ * still lives on that week's Notion Friday Seven row page, so the row lookup
+ * stays. Needs NOTION_API_KEY: an internal integration that the "100-Day Plan:
+ * Run the Machine" page is shared with (the Friday Seven database inherits it).
  */
 
+import { supabase } from "@/lib/supabase";
 import {
-  FRIDAY_SEVEN_FIELDS,
   rowMatchesWeek,
   type FridaySevenNumbers,
   type PlanBlock,
 } from "./quest-sheet";
 
 export const FRIDAY_SEVEN_DB = "c9bf162e393444f08b14c408e23d915b";
+/** Where the Friday Seven numbers get entered now. */
+export { FRIDAY_SEVEN_APP_URL } from "./plan-links";
 const NOTION_VERSION = "2022-06-28";
 
 export interface WeekRow {
@@ -56,11 +61,7 @@ export async function findWeekRow(week: number): Promise<WeekRow | null> {
     const titleProp = Object.values(page.properties).find((p) => p.type === "title");
     const title = plain(titleProp?.title);
     if (!rowMatchesWeek(title, week)) continue;
-    const numbers: FridaySevenNumbers = {};
-    for (const f of [...FRIDAY_SEVEN_FIELDS, "Listed", "Sold"] as const) {
-      numbers[f] = page.properties[f]?.number ?? null;
-    }
-    return { id: page.id, url: page.url, title, numbers };
+    return { id: page.id, url: page.url, title, numbers: await weekNumbers(week) };
   }
   return null;
 }
@@ -88,4 +89,22 @@ export async function readPlanBlocks(pageId: string): Promise<PlanBlock[]> {
     cursor = res.has_more ? res.next_cursor ?? undefined : undefined;
   } while (cursor);
   return blocks;
+}
+
+/** The week's numbers from hundred-days. A missing row reads as all blank, never zero. */
+async function weekNumbers(week: number): Promise<FridaySevenNumbers> {
+  const { data, error } = await supabase
+    .from("plan_weeks")
+    .select("applications, outreach, conversations, screens, listed, sold")
+    .eq("week", week)
+    .maybeSingle();
+  if (error) throw new Error(`plan_weeks week ${week}: ${error.message}`);
+  return {
+    Applications: data?.applications ?? null,
+    Outreach: data?.outreach ?? null,
+    Conversations: data?.conversations ?? null,
+    Screens: data?.screens ?? null,
+    Listed: data?.listed ?? null,
+    Sold: data?.sold ?? null,
+  };
 }
