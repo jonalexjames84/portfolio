@@ -145,6 +145,17 @@ export function classifyListing(input: LivenessInput): LivenessVerdict {
     return { liveness: "unknown", reason: `HTTP ${httpStatus} — could not verify` };
   }
 
+  // PeopleSoft (UC, state agencies) bounces a cookieless request to a login
+  // page. The same URL renders the open posting once a session cookie is set,
+  // so a login redirect says nothing about the req. Seven live UC roles read
+  // as DEAD on 2026-10-19 before this check.
+  if (finalUrl && /[?&]cmd=login\b|\/login\b|\/signin\b/i.test(finalUrl)) {
+    return {
+      liveness: "unknown",
+      reason: `redirected to a login page (${finalUrl}) — could not verify`,
+    };
+  }
+
   if (looksLikeBoardIndex(originalUrl, finalUrl)) {
     return {
       liveness: "dead",
@@ -197,6 +208,23 @@ export interface ListingCheck extends LivenessVerdict {
   via: AtsRoute["kind"];
 }
 
+/**
+ * Employer careers hosts whose name is not their Greenhouse board. Guessing from
+ * the subdomain gave "datadoghq", "pinterestcareers", "toasttab" and friends,
+ * each of which 404s — and the nightly recheck retired 42 live reqs on those
+ * 404s between 2026-08-06 and 2026-10-07 before this map existed.
+ */
+const GREENHOUSE_HOST_BOARDS: Record<string, string> = {
+  "careers.datadoghq.com": "datadog",
+  "www.pinterestcareers.com": "pinterest",
+  "www.bill.com": "billcom",
+  "jobs.elastic.co": "elastic",
+  "careers.onepeloton.com": "peloton",
+  "careers.toasttab.com": "toast",
+  "jobs.dropbox.com": "dropbox",
+  "abnormal.ai": "abnormalsecurity",
+};
+
 /** Map a posting URL to the API that actually knows whether it is open. */
 export function routeListing(url: string): AtsRoute {
   let u: URL;
@@ -222,8 +250,15 @@ export function routeListing(url: string): AtsRoute {
   const ghJid = u.searchParams.get("gh_jid");
   if (ghJid) {
     // careers.roblox.com/jobs/123?gh_jid=123 — the employer's own site fronting
-    // a Greenhouse board. The subdomain is the board name often enough to try.
-    const board = host.split(".").filter((s) => s !== "www" && s !== "careers")[0];
+    // a Greenhouse board. The subdomain is the board name often enough to try;
+    // the hosts where it is not are pinned below.
+    // CareerPuck hosts many employers and carries the board in the path:
+    // app.careerpuck.com/job-board/lyft/job/123?gh_jid=123.
+    const puck = host === "app.careerpuck.com" ? path.match(/^\/job-board\/([\w-]+)\//) : null;
+    const board =
+      puck?.[1] ??
+      GREENHOUSE_HOST_BOARDS[host] ??
+      host.split(".").filter((s) => s !== "www" && s !== "careers")[0];
     if (board) return { kind: "greenhouse", board, id: ghJid };
   }
   if (host.endsWith("ashbyhq.com") && (m = path.match(/^\/([^/]+)\/([0-9a-f-]{36})/i))) {
@@ -295,6 +330,16 @@ export async function checkListing(url: string, fetchImpl: FetchLike = fetch): P
           );
           const jobs = asRecord(all.body)?.jobs;
           const n = Array.isArray(jobs) ? jobs.length : 0;
+          // An empty or missing board means the board name was wrong (guessed
+          // from an employer domain) or the company left Greenhouse. Either
+          // way the 404 is not evidence about this req.
+          if (n === 0) {
+            return {
+              ...base,
+              liveness: "unknown",
+              reason: `req ${route.id} 404s, but the ${route.board} board has no open reqs — likely the wrong board name; check by hand`,
+            };
+          }
           return {
             ...base,
             liveness: "dead",

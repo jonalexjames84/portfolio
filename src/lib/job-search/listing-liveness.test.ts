@@ -80,6 +80,18 @@ describe("classifyListing", () => {
     expect(classifyListing(input({ body: "   " })).liveness).toBe("unknown");
   });
 
+  it("returns unknown, not dead, on a PeopleSoft login bounce", () => {
+    const v = classifyListing(
+      input({
+        originalUrl:
+          "https://careerspub.universityofcalifornia.edu/psc/ucop/EMPLOYEE/HRMS/c/HRS_HRAM_FL.HRS_CG_SEARCH_FL.GBL?Page=HRS_APP_JBPST_FL&JobOpeningId=87510",
+        finalUrl:
+          "https://careerspub.universityofcalifornia.edu/psc/ucop/?cmd=login&errorPg=ckreq&languageCd=ENG",
+      })
+    );
+    expect(v.liveness).toBe("unknown");
+  });
+
   it("does not treat a deeper or equal-depth redirect as dead", () => {
     expect(
       classifyListing(
@@ -233,6 +245,20 @@ describe("routeListing", () => {
     });
   });
 
+  it("uses the real board for employer hosts whose subdomain is not the board", () => {
+    expect(routeListing("https://careers.datadoghq.com/detail/8282504/?gh_jid=8282504")).toEqual({
+      kind: "greenhouse",
+      board: "datadog",
+      id: "8282504",
+    });
+    expect(routeListing("https://www.pinterestcareers.com/jobs/?gh_jid=7770970")).toMatchObject({
+      board: "pinterest",
+    });
+    expect(
+      routeListing("https://app.careerpuck.com/job-board/lyft/job/8821337002?gh_jid=8821337002")
+    ).toMatchObject({ board: "lyft", id: "8821337002" });
+  });
+
   it("does not throw on an unparseable URL", () => {
     expect(routeListing("not a url").kind).toBe("generic");
   });
@@ -267,6 +293,22 @@ describe("checkListing", () => {
     expect(v.liveness).toBe("dead");
     expect(v.reason).toContain("16 other reqs open");
     expect(v.reason).toContain("re-post");
+  });
+
+  // Regression: Pinterest, Datadog, Bill. careers.datadoghq.com?gh_jid= yields
+  // board "datadoghq", but the board is "datadog". The guessed board has no
+  // reqs at all, so its 404 says nothing about the req — three live roles were
+  // reported DEAD on 2026-10-19.
+  it("reports unknown, not dead, when the board itself has no reqs", async () => {
+    const v = await checkListing(
+      "https://careers.acmecorp.com/detail/8282504/?gh_jid=8282504",
+      stub({
+        "/jobs/8282504": res("", { status: 404 }),
+        "/boards/acmecorp/jobs": res("", { status: 404 }),
+      })
+    );
+    expect(v.liveness).toBe("unknown");
+    expect(v.reason).toContain("acmecorp");
   });
 
   // Regression: ZoomInfo. A 403 is bot-blocking, not closure.
