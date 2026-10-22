@@ -98,7 +98,7 @@ export const projects: Project[] = [
     description:
       "Four white-label learning apps, built for global testing and credentialing organizations, all targeting launch inside the same nine-week window — against one shared QA owner and an engineering bench split across every project. I owned launch readiness across the portfolio: the frameworks that decided what got built, the dashboards that made delivery state legible, and the analysis that identified what was actually blocking us.",
     pitch:
-      "When four launches converge on one date and no project has dedicated capacity, the real work isn't tracking status. It's deciding what not to do, out loud, and being right often enough that people trust the call. I authored two frameworks for that: a Launch Gate that resolves any single piece of work in four questions, and a WSJF-light stack rank for allocating the next free engineer. Then I built the reporting surfaces that showed whether the calls were working.",
+      "When four launches converge on one date and no project has dedicated capacity, the real work isn't tracking status. It's deciding what not to do, out loud, and being right often enough that people trust the call. I authored two frameworks for that: a Launch Gate that resolves any single piece of work in four questions, and one ranked list of open projects by value and urgency for allocating the next free engineer. Then I built the reporting surfaces that showed whether the calls were working.",
     problem:
       "Four customer programs, each proving a different layer of the platform to a different marquee partner, all with binding or near-binding dates in the same window. The bottleneck wasn't any individual project's backlog. It was that the same handful of people appeared on all four critical paths simultaneously, and no surface in the company made that visible until a date was already at risk.",
     tags: ["Program Management", "Prioritization", "Launch Readiness", "Edtech"],
@@ -114,19 +114,18 @@ export const projects: Project[] = [
     category: "software",
     metrics: [
       { value: "4", label: "Concurrent Launches" },
-      { value: "8M+", label: "Annual Test-Takers" },
       { value: "9wk", label: "Convergent Window" },
     ],
     highlights: [],
     outcomes: [
       "Authored the Launch Gate, a four-question decision rule that resolves any ticket, request, or 'should I do this' by stopping at the first yes — signed and date-binding beats strategic and unsigned, every time, until the contract closes",
-      "Built a WSJF-light stack rank for allocating the next free engineer across the portfolio, using open-issue count as an effort proxy and flagging that proxy as a data gap rather than hiding it",
+      "Built one ranked list of open projects by value and urgency for allocating the next free engineer across the portfolio, using open-issue count as an effort proxy and flagging that proxy as a data gap rather than hiding it",
       "Shipped a QA/UAT program dashboard: a portfolio overview with a health pill and top risk per launch, drilling into a client-facing swim-lane board that showed partners what was in our inbox, in flight, and resolved",
       "Ran the capacity analysis that identified the actual constraint — one QA owner carrying the sign-off pass on three launches inside the same nine-day window, plus two engineers split across two-plus projects each — and reframed the conversation from per-project status to shared-bench sequencing",
       "Consolidated cross-project delivery hygiene into batch fixes after finding the same three gaps repeating on every launch, so nine separate to-dos collapsed into three",
     ],
     decisions: [
-      "Published the WSJF ranking with an explicit warning that it was wrong in one specific way: the formula rewards 'cheapest to finish,' which floated a nearly-done project above the flagship launch with the nearest binding date. Naming the flaw made the framework usable; hiding it would have made it a liability the first time someone followed it off a cliff",
+      "Published the ranking with an explicit warning that it was wrong in one specific way: the formula rewards 'cheapest to finish,' which floated a nearly-done project above the flagship launch with the nearest binding date. Naming the flaw made the framework usable; hiding it would have made it a liability the first time someone followed it off a cliff",
       "Overrode the ranking with the Launch Gate where a date was genuinely immovable, and said so in writing. A prioritization framework that can't be overridden by judgment is a bureaucracy, not a tool",
       "Designed the QA dashboard to read from agent-refreshed snapshot files rather than a live API. Snapshots meant a partner-facing board could never surface a half-written ticket, and refreshing was a deliberate act with a human in the loop",
       "Kept the dashboard local-only and declined to deploy it, because the same view that made delivery legible internally also aggregated information that should not sit behind a shareable URL",
@@ -147,7 +146,7 @@ export const projects: Project[] = [
       "A portfolio of launches converging on one window is not four projects. It's one capacity problem wearing four costumes. The frameworks existed to make tradeoffs decidable in the moment rather than escalated, and the dashboards existed to make the shared constraint visible before it became a missed date. Both were built so that the person who disagreed with a call could see exactly what reasoning produced it.",
     strategyPoints: [
       { label: "Launch Gate", text: "Four questions, stop at the first yes. Signed and date-binding beats strategic and unsigned until the contract closes." },
-      { label: "WSJF-Light", text: "A stack rank for the next free engineer, published with its own known flaw stated up front." },
+      { label: "Value & Urgency Ranking", text: "One ranked list for the next free engineer, published with its own known flaw stated up front." },
       { label: "Legible Delivery", text: "A program overview drilling into per-launch swim lanes, built so a partner could read it without translation." },
       { label: "Find the Real Constraint", text: "Per-project views hid the shared bench. Portfolio-level analysis found the one person on three critical paths." },
     ],
@@ -673,7 +672,7 @@ export const projects: Project[] = [
       "Chose Next.js + Vercel for fast iteration and instant deployments, letting me ship updates same-day based on signup funnel data",
     ],
     teamContext:
-      "Built the entire web platform solo as Co-Founder & Director of Product at Frame Story. The 10+ person game development team focuses on the title itself while I own the GTM tooling, web presence, and audience-building infrastructure.",
+      "Built the entire web platform solo as Advisor at Cluck Game LLC. The 10+ person game development team focuses on the title itself while I own the GTM tooling, web presence, and audience-building infrastructure.",
     userResearch: [
       "Steam Next Fest demo strategy informed by indie dev community research: wishlists convert at 5-15%, making owned email lists a critical complement to Steam's discovery",
       "Beta signup flow optimized through funnel analysis — reduced form friction after seeing drop-off data in PostHog",

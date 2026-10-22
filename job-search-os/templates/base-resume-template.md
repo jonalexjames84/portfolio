@@ -26,7 +26,7 @@ Technical PM who builds on the tools he manages — ships production apps daily 
 
 ### Experience
 
-#### Co-Founder & Director of Product | Frame Story | Feb 2025 - Present
+#### Advisor | Cluck Game LLC | Feb 2025 - Present
 Co-founded a collaborative game studio with 10+ person team, building toward Steam release.
 
 - [STRATEGY] Built 5-year financial model and investor materials with $3M cap SAFE and 1-to-12 title portfolio strategy

@@ -17,7 +17,7 @@ export const career: Role[] = [
     context: "Right hand to the founder at an AI edtech infrastructure company building the platform that testing and credentialing organizations run their learning products on. Owned delivery across four concurrent white-label app launches, and built the AI tooling the program ran on.",
     highlights: [
       "Drove launch readiness for 4 concurrent white-label learning apps built for global testing and credentialing organizations, all landing inside the same 9-week window",
-      "Authored the prioritization frameworks the team ran on: a 4-question Launch Gate for individual work and a WSJF-light stack rank for allocating the next free engineer",
+      "Authored the prioritization frameworks the team ran on: a four-question test for any single request and one ranked list of open projects by value and urgency that decided where the next free engineer went",
       "Built a 51-skill Claude Code operating system plus nightly automation that turned scattered ticket, doc, and channel state into a single morning read",
       "Shipped clickable prototypes as living specs, replacing written handoffs on UAT flows, client onboarding, and CMS work",
       "Defined the learner curriculum model (diagnostic → study pack → practice test) applied across every program, including the formative/summative split that shaped the app architecture",
@@ -25,19 +25,17 @@ export const career: Role[] = [
     tags: ["AI Edtech", "Agentic Systems", "Multi-Tenant Launches", "Eval-Driven Dev"],
   },
   {
-    company: "Frame Story",
-    title: "Co-Founder & Director of Product",
+    company: "Cluck Game LLC",
+    title: "Advisor",
     period: "Feb 2025 – Present",
     startYear: 2025,
-    context: "Co-founded a collaborative game studio modeled after Finji and Raw Fury. Small creative pods own their IP and earn 70% of net revenue; the studio centralizes ops, legal, finance, and publishing so creators focus on making great games.",
+    context: "Indie game studio building Cluck, a 3D platformer headed to Steam, with a 10+ person team.",
     highlights: [
-      "Led business formation end-to-end: LLC, banking, payments, contributor agreements, IP assignment",
-      "Built 5-year financial model and investor materials: $3M cap SAFE, 1-to-12 title portfolio strategy",
-      "Designed phased GTM for Cluck: Steam Next Fest, indie festivals, creator partnerships, Kickstarter",
-      "Executing $100K pre-seed raise via SAFEs, grants (Epic MegaGrant, Wings Fund), and crowdfunding",
-      "Leading product on Cluck (3D platformer) with 10+ person team through milestone-driven Steam release",
+      "Ran go-to-market, roadmap and launch planning for Cluck with a 10+ person team",
+      "Built the studio's 5-year financial model and investor materials",
+      "Designed the phased go-to-market: Steam Next Fest, indie festivals, creator partnerships, Kickstarter",
     ],
-    tags: ["Game Studio", "Co-Founder", "GTM Strategy", "Fundraising", "Financial Modeling"],
+    tags: ["Game Studio", "Advisor", "GTM Strategy", "Launch Planning", "Financial Modeling"],
   },
   {
     company: "Pottery Friends",
@@ -72,7 +70,7 @@ export const career: Role[] = [
     title: "Senior PM",
     period: "Apr 2024 – Nov 2024",
     startYear: 2024,
-    context: "Owned the full product stack: marketplace, quest engagement system, developer platform, and a new chain launch from scratch.",
+    context: "Owned the full product stack for a decentralized Steam: marketplace, quest engagement system, developer platform, and a new chain launch from scratch.",
     highlights: [
       "Launched Quest v2 and Verified Actions, increasing user engagement by 30% and reducing data integration time by 40%",
       "Defined 2024 roadmap; improved team delivery velocity by 25%",
@@ -89,8 +87,7 @@ export const career: Role[] = [
     context: "Wanted to build at the intersection of gaming and digital marketplaces, focusing on platform-level services that power multiple titles.",
     highlights: [
       "Shipped a cross-title game services platform that unified engagement and monetization. Player retention up 20%, revenue up 15%",
-      "Led a cross-functional team to deliver digital asset marketplace on time and under budget, opening a new revenue stream across multiple titles",
-      "Defined the game services roadmap by identifying gaps competitors missed: live ops tooling, unified player identity, and cross-title progression",
+      "Delivered the in-game marketplace, piloted in NFL Rivals: cut the storefront to five algorithmically recommended cards, tested with 10% of players, and lifted revenue 20%",
     ],
     tags: ["Game Services", "Digital Marketplace", "Live Ops"],
   },
@@ -101,6 +98,7 @@ export const career: Role[] = [
     startYear: 2021,
     context: "First PM hire at an 85-person startup. No product infrastructure, celebrity partnerships to manage, everything to prove.",
     highlights: [
+      "First PM hire; set up the product function and supervised two product managers for a year",
       "Built the Creator Ecosystem from concept to launch with partners like Gucci and GIPHY",
       "Launched e-commerce storefront generating $100K in weekly sales; shipped mobile app with GIPHY integration, scaling to 3K early users",
       "Defined GTM strategy that grew alpha community to 1K users",
@@ -197,7 +195,6 @@ export const metrics = [
   { value: "15+", label: "Years Shipping Products" },
   { value: "10M+", label: "Installs/Week Launched" },
   { value: "$50M", label: "Revenue Driven" },
-  { value: "8M+", label: "Annual Test-Takers Reached" },
   { value: "6M", label: "Users Reached" },
   { value: "1M+", label: "DAU at Scale" },
 ];

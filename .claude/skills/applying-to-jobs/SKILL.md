@@ -300,7 +300,7 @@ one is often a row filed under tomorrow, not a lost record. Check before alarmin
 | Location | Concord, California, United States |
 | LinkedIn | https://www.linkedin.com/in/jonmartin-pm/ |
 | Portfolio | https://portfolio.jonnymartin.blog |
-| Current company / title | Frame Story · Co-Founder & Director of Product |
+| Current company / title | Cluck Game LLC · Advisor |
 | Work auth / sponsorship | Yes / No |
 | Pronouns | he/him *(confirmed by Jon)* |
 

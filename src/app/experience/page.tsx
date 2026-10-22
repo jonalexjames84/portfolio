@@ -46,7 +46,7 @@ const skillGradients = [
 ];
 
 // Key roles to expand by default: the 5 that carry the most weight
-const keyRoleCompanies = new Set(["Frame Story", "Indie Builder", "Genies", "AAA", "Jam City", "Zynga"]);
+const keyRoleCompanies = new Set(["Cluck Game LLC", "Indie Builder", "Genies", "AAA", "Jam City", "Zynga"]);
 
 function TimelineRole({
   role,
@@ -355,11 +355,9 @@ export default function ExperiencePage() {
           </div>
           <p className="mb-4 text-zinc-600 dark:text-zinc-400">
             After my role ended in November 2024, I went all-in on building.
-            Co-founded Frame Story (a collaborative game studio with a full
-            business plan, financial model, and fundraising strategy), shipped
-            Pottery Friends to 150 beta members, and built two more products
-            from scratch. 15+ repos, 59 database migrations, full-stack
-            TypeScript.
+            Advised Cluck Game LLC on go-to-market and launch planning for its
+            first title, shipped Pottery Friends to 150 beta members, and built
+            two more products from scratch.
           </p>
           <Link
             href="/work"

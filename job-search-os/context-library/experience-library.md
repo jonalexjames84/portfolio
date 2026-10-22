@@ -10,11 +10,10 @@ Jon Martin
 2700 Waltrip Lane, Concord, CA 94518
 (650) 627-6352 | jonalexjames@gmail.com
 
-**Co-Founder & Director of Product** — Frame Story (Feb 2025 – Present)
+**Advisor** — Cluck Game LLC (Feb 2025 – Present)
 - Led business formation end-to-end: LLC, banking, payments, contributor agreements, IP assignment
 - Built 5-year financial model and investor materials: $3M cap SAFE, 1-to-12 title portfolio strategy
 - Designed phased GTM for Cluck: Steam Next Fest, indie festivals, creator partnerships, Kickstarter
-- Executing $100K pre-seed raise via SAFEs, grants (Epic MegaGrant, Wings Fund), and crowdfunding
 - Leading product on Cluck (3D platformer) with 10+ person team through milestone-driven Steam release
 
 **Founder / PM / Dev** — Pottery Friends (Feb 2025 – Present)
@@ -38,7 +37,6 @@ Jon Martin
 **Senior Technical PM** — Mythical Games (May 2022 – Dec 2023)
 - Shipped a cross-title game services platform that unified engagement and monetization. Player retention up 20%, revenue up 15%
 - Led a cross-functional team to deliver digital asset marketplace on time and under budget, opening a new revenue stream across multiple titles
-- Defined the game services roadmap by identifying gaps competitors missed: live ops tooling, unified player identity, and cross-title progression
 
 **Founding Product Manager** — Genies (Feb 2021 – May 2022)
 - Built the Creator Ecosystem from concept to launch with partners like Gucci and GIPHY
@@ -114,11 +112,10 @@ Interests: Pottery, trail running, rock climbing, home brewing, urban farming.
 - First PM hire at Genies (85-person startup): no product infrastructure, built Creator Ecosystem from concept to launch
 - Led cross-functional team at Mythical Games to deliver marketplace on time and under budget
 - Only PM reporting directly to executive leadership at AAA; weekly C-Suite and VP presentations
-- Leading product on Cluck (3D platformer) with 10+ person team at Frame Story
-- Co-founded Frame Story: LLC formation, banking, payments, contributor agreements, IP assignment
+- Ran go-to-market, roadmap and launch planning for Cluck (3D platformer) with a 10+ person team at Cluck Game LLC
 
 ### Strategy / Vision
-- Built 5-year financial model and investor materials at Frame Story: $3M cap SAFE, 1-to-12 title portfolio strategy
+- Built 5-year financial model and investor materials at Cluck Game LLC: $3M cap SAFE, 1-to-12 title portfolio strategy
 - Designed phased GTM for Cluck: Steam Next Fest, indie festivals, creator partnerships, Kickstarter
 - Defined AI product strategy for Swob: reframed founder assumptions as targeted automations, cutting months of misallocated engineering
 - Defined 2024 roadmap at Treasure DAO; improved team delivery velocity by 25%
@@ -127,7 +124,7 @@ Interests: Pottery, trail running, rock climbing, home brewing, urban farming.
 - Led pre-production product definition for VR game at SUPERLABS (acquired by Zynga)
 
 ### Domain Expertise
-- **Gaming (15+ years):** Zynga, Jam City, Bandai Namco, Big Fish, Flow State, SUPERLABS, Mythical Games, Treasure DAO, Frame Story. Live ops, monetization, engagement systems, marketplace design
+- **Gaming (15+ years):** Zynga, Jam City, Bandai Namco, Big Fish, Flow State, SUPERLABS, Mythical Games, Treasure DAO, Cluck Game LLC. Live ops, monetization, engagement systems, marketplace design
 - **AI/ML (active builder):** Ships production software with Claude Code daily. Built mobile app, prototypes, portfolio site, analytics dashboards using AI-assisted development. Wrote about AI agent management after Berkeley AI Conference
 - **Consumer products:** 6M-member mobile app at AAA, 150-member beta at Pottery Friends, 3K early users at Genies
 - **Developer platforms:** Developer portal and testnet at Treasure DAO, game services platform at Mythical Games
@@ -137,7 +134,6 @@ Interests: Pottery, trail running, rock climbing, home brewing, urban farming.
 ### Other Notable
 - Blog post "Managing Agents Is the New Management" — synthesized Berkeley AI Conference insights on PM skills transferring to AI agent management
 - Attended Berkeley ProductCon 2026 AI Conference
-- Executing $100K pre-seed raise via SAFEs, grants, and crowdfunding at Frame Story
 - Prioritized by killing scope ruthlessly at Pottery Friends: cut marketplace, pivoted home screen based on data, reduced 40 onboarding quests to 8
 
 ## Story Bank

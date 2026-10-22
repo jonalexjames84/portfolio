@@ -279,7 +279,7 @@ export const workflows: WorkflowData[] = [
     ],
     outputTools: ["Next.js", "TypeScript", "Vercel"],
     example:
-      "Frame Story — game studio prototypes and pitch materials built to secure funding and align the team.",
+      "Cluck — game studio prototypes and pitch materials built to secure funding and align the team.",
   },
 ];
 

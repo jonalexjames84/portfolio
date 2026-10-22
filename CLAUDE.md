@@ -2,7 +2,7 @@
 
 ## Who Is Jon
 
-Jon Martin is a Senior Product Manager with 15+ years shipping products at Zynga, Jam City, Bandai Namco, Big Fish Games, AAA, Genies, Mythical Games, and Treasure DAO. He was laid off in November 2024, then co-founded Frame Story (a collaborative game studio) and built Pottery Friends (a craft studio community app) solo using AI-native development with Claude Code.
+Jon Martin is a Senior Product Manager with 15+ years shipping products at Zynga, Jam City, Bandai Namco, Big Fish Games, AAA, Genies, Mythical Games, and Treasure DAO. He was laid off in November 2024, then advised Cluck Game LLC (an indie game studio) on go-to-market and launch and built Pottery Friends (a craft studio community app) solo using AI-native development with Claude Code.
 
 From May to July 2026 he was **Founding Technical Product Manager at Memorang**, an AI edtech infrastructure company, reporting directly to the founder. He owned launch readiness across four concurrent white-label learning apps, authored the prioritization frameworks the team ran on, and built a 51-skill Claude Code operating system plus nightly automation that ran his own job. He is searching again as of August 2026.
 
@@ -113,8 +113,8 @@ Two things worth knowing before you touch it:
 - **15+ years** shipping products across gaming, consumer tech, enterprise, edtech, and web3
 - **AI-native builder**: Built Pottery Friends (150 beta users), this portfolio, and multiple projects solo using Claude Code
 - **AI-native operator**: At Memorang, built 51 Claude Code skills, a 94-file context memory layer, nightly status automation, and a quality gate that graded every agent write before it landed
-- **Founder experience**: Co-founded Frame Story, built financial models, raised funding via SAFEs
-- **Metrics-driven**: $50M product revenue, 10M+ installs, 6M users, 8M+ annual test-takers reached
+- **Game launch experience**: Advisor to Cluck Game LLC: go-to-market, launch planning, 5-year financial model
+- **Metrics-driven**: $50M product revenue, 10M+ installs, 6M users
 - **Technical PM**: Codes in React/Next.js/TypeScript, runs PostHog analytics, ships without engineering support
 
 ## Tone When Writing For Jon
