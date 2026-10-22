@@ -376,7 +376,18 @@ async function renderResumes(page, pending) {
     // These documents carry their own @page margins, tuned to fit one page.
     // Overriding them with a uniform margin is what pushed a few lines onto a
     // second page.
-    const { scale, buffer } = await fitScale(page);
+    //
+    // A document can opt out of the one-page nudge with
+    // <meta name="render-fit" content="none">. The federal resume needs this:
+    // USAJobs allows two pages but rejects a resume shrunk below 10pt, so it
+    // must print at exactly 100%.
+    const fixed = await page
+      .$eval('meta[name="render-fit"]', (el) => el.getAttribute("content"))
+      .catch(() => null);
+    const { scale, buffer } =
+      fixed === "none"
+        ? { scale: 1, buffer: await page.pdf({ format: "Letter", printBackground: true, preferCSSPageSize: true }) }
+        : await fitScale(page);
     await writeFile(outPath, buffer);
     written.push(scale < 1 ? `${base}.pdf (scaled ${Math.round(scale * 100)}%)` : `${base}.pdf`);
   }

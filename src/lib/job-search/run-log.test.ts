@@ -134,7 +134,6 @@ describe("findHealthIssues", () => {
       "rollup-metrics",
       "score-new-jobs",
       "send-daily-email",
-      "send-weekly-review",
     ]);
   });
 });

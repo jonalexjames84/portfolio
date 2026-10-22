@@ -34,11 +34,12 @@ export const JOB_STALE_HOURS: Record<string, number> = {
   "recheck-listings": 36,
   "score-new-jobs": 36,
   "rollup-metrics": 36,
-  "send-daily-email": 36,
+  // Weekdays only, and it checks health before its own run closes, so on a
+  // Monday the newest ok run it can see is Friday's, ~72h back.
+  "send-daily-email": 84,
   "collect-market": 36,
   "collect-filings": 36,
   "generate-weekly-plan": 24 * 8,
-  "send-weekly-review": 24 * 8,
   // Add a job here only once it is actually running (a route, a vercel.json
   // cron entry, or a script calling recordRun). A monitor for a job that
   // doesn't exist yet can never clear, and findHealthIssues below will flag
