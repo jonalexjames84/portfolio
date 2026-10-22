@@ -185,6 +185,8 @@ export interface QuestSheetEmailInput {
   rowUrl: string | null;
   /** Last week's Friday Seven, to show the score and nag if it's still empty. */
   lastWeek: { numbers: FridaySevenNumbers; rowUrl: string | null } | null;
+  /** The channel funnel section, already rendered (channel-funnel.ts). Sits under the boss panel. */
+  channelsHtml?: string;
 }
 
 function pips(total: number, on: number, floor: number): string {
@@ -210,13 +212,16 @@ function passTrack(tiers: number, done: number): string {
     <div style="font:11px ${BODY};color:${C.muted};margin-top:4px"><b style="color:${C.gold}">★ ${half}</b> Halfway &nbsp; <b style="color:${C.gold}">★ ${tiers}</b> Full clear</div>`;
 }
 
-function questRow(q: Quest): string {
+function questRow(q: Quest, href: string | null): string {
   const box = q.done
     ? `<td style="width:16px;height:16px;background:${C.done};border:1.6px solid ${C.done};color:#fff;font:700 11px ${BODY};text-align:center">✓</td>`
     : `<td style="width:16px;height:16px;border:1.6px ${q.optional ? "dashed" : "solid"} ${C.ink}"></td>`;
-  const title = q.done
+  const label = q.done
     ? `<s style="color:${C.muted}">${esc(q.title)}</s>`
     : esc(q.title);
+  const title = href
+    ? `<a href="${esc(href)}" style="color:inherit;text-decoration:none">${label}</a>`
+    : label;
   const note = [q.note, q.optional ? "optional" : ""].filter(Boolean).join(" · ");
   return `<tr><td style="padding:5px 0;vertical-align:top;width:24px">
       <table role="presentation" cellpadding="0" cellspacing="0"><tr>${box}</tr></table></td>
@@ -264,13 +269,22 @@ export function phaseFor(week: number): string {
 }
 
 export function renderQuestSheetEmail(input: QuestSheetEmailInput): { subject: string; html: string } {
-  const { week, friday, days, rowUrl, lastWeek } = input;
+  const { week, friday, days, rowUrl, lastWeek, channelsHtml } = input;
   const s = summarize(days);
   const { first, last } = planDayRange(friday);
   const monday = addDays(friday, -4);
   const sub = `${shortDate(monday)} – ${shortDate(friday)} · Days ${first}–${last} of ${PLAN_TOTAL_DAYS}`;
 
   const parts: string[] = [];
+
+  if (rowUrl) {
+    parts.push(card(
+      `${h3("Your week " + week + " form")}
+       <p style="margin:0 0 10px;font:14px ${BODY}">This email is a snapshot. Tick quests and enter the Friday Seven numbers in Notion.</p>
+       ${button(rowUrl, `Fill in week ${week}`)}`,
+      { border: `2.5px solid ${C.ink}` },
+    ));
+  }
 
   if (lastWeek && !isFilledOut(lastWeek.numbers)) {
     parts.push(card(
@@ -299,7 +313,7 @@ export function renderQuestSheetEmail(input: QuestSheetEmailInput): { subject: s
       parts.push(card(
         `<div style="font:600 11px ${MONO};letter-spacing:.08em;text-transform:uppercase;color:${C.muted};margin-bottom:2px">${esc(d.day)}</div>
          ${h3(d.when || d.day)}
-         <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${d.quests.map(questRow).join("")}</table>`,
+         <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${d.quests.map((q) => questRow(q, rowUrl)).join("")}</table>`,
         { border: `1px solid ${C.rule}` },
       ));
     }
@@ -316,11 +330,13 @@ export function renderQuestSheetEmail(input: QuestSheetEmailInput): { subject: s
   parts.push(card(
     `${h3("Boss: the Friday Seven · Fri 4:30")}
      <p style="margin:0 0 10px;font:14px ${BODY}">Five minutes. Applications, outreach, conversations, screens, listed, sold, and one sentence on what moved. Reminders start Friday at 5pm and stop as soon as the numbers are in.</p>
-     ${rowUrl ? button(rowUrl, `Open week ${week} in Notion`) : ""}`,
+     ${rowUrl ? button(rowUrl, `Fill in the Friday Seven`) : ""}`,
     { border: `2.5px solid ${C.ink}` },
   ));
 
-  parts.push(`<div style="font:11px ${MONO};color:${C.muted};text-align:center">Tick quests in Notion and the next email shows them crossed off. Notion is the source of truth.</div>`);
+  if (channelsHtml) parts.push(channelsHtml);
+
+  parts.push(`<div style="font:11px ${MONO};color:${C.muted};text-align:center">Tap any quest to open the form. Tick quests in Notion and the next email shows them crossed off. Notion is the source of truth.</div>`);
 
   const subject = days.length === 0
     ? `Week ${week} quest sheet: nothing planned yet`

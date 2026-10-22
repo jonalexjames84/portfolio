@@ -11,6 +11,8 @@ import {
 } from "@/lib/job-search/quest-sheet";
 import { findWeekRow, FRIDAY_SEVEN_APP_URL, readPlanBlocks } from "@/lib/job-search/notion-plan";
 import { withRunLog } from "@/lib/job-search/run-log-db";
+import { renderChannelSection } from "@/lib/job-search/channel-funnel";
+import { readChannelSection } from "@/lib/job-search/channel-funnel-db";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -44,12 +46,22 @@ async function run(request: NextRequest) {
     ]);
     const days = row ? parsePlan(await readPlanBlocks(row.id)) : [];
 
+    // The channel section is extra. If its read fails, the quest sheet still goes out without it.
+    const channelsHtml = await readChannelSection()
+      .then(renderChannelSection)
+      .catch((e) => {
+        console.error("[quest-sheet] channel funnel skipped", e);
+        counts.channelErrors = 1;
+        return undefined;
+      });
+
     const { subject, html } = renderQuestSheetEmail({
       week,
       friday,
       days,
       rowUrl: row?.url ?? null,
       lastWeek: lastRow ? { numbers: lastRow.numbers, rowUrl: FRIDAY_SEVEN_APP_URL } : null,
+      channelsHtml,
     });
 
     const { error } = await resend.emails.send({ from: EMAIL_FROM, to: EMAIL_TO, subject, html });

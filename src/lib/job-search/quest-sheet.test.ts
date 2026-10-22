@@ -117,6 +117,17 @@ describe("emails", () => {
     expect(html).not.toContain("not a quest");
   });
 
+  it("links the week's form above the quests, and from each quest", () => {
+    const { html } = renderQuestSheetEmail({
+      week: 3, friday: "2026-10-09", days: parsePlan(WEEK3), rowUrl: "https://notion.so/x", lastWeek: null,
+    });
+    const firstLink = html.indexOf('href="https://notion.so/x"');
+    expect(firstLink).toBeGreaterThan(-1);
+    expect(firstLink).toBeLessThan(html.indexOf("Weekly pass"));
+    const links = html.split('href="https://notion.so/x"').length - 1;
+    expect(links).toBe(parsePlan(WEEK3).flatMap((d) => d.quests).length + 2);
+  });
+
   it("says so when the week has no plan", () => {
     const { subject, html } = renderQuestSheetEmail({ week: 4, friday: "2026-10-16", days: [], rowUrl: null, lastWeek: null });
     expect(subject).toBe("Week 4 quest sheet: nothing planned yet");
